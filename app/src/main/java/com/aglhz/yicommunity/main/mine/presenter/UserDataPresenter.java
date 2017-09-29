@@ -10,8 +10,8 @@ import com.aglhz.yicommunity.common.luban.Luban;
 import com.aglhz.yicommunity.main.mine.contract.UserDataContract;
 import com.aglhz.yicommunity.main.mine.model.UserDataModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**

@@ -6,14 +6,16 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
+import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
 import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import rx.Observable;
+import rx.Single;
+
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -26,7 +28,7 @@ public interface HomeContract {
     interface View extends BaseContract.View {
         void responseBanners(List<BannerBean.DataBean.AdvsBean> banners);
 
-        void responseHomeNotices(List<String> notices);
+        void responseHomeNotices(List<NoticeBean.DataBean.NoticeListBean> notices);
 
         void responseOpenDoor();
 
@@ -62,7 +64,7 @@ public interface HomeContract {
     interface Model extends BaseContract.Model {
         Observable<BannerBean> requestBanners(Params params);
 
-        Single<List<String>> requestHomeNotices(Params params);
+        Observable<NoticeBean> requestHomeNotices(Params params);
 
         Observable<BaseBean> requestOpenDoor(Params params);
 

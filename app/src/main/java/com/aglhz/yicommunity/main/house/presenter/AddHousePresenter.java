@@ -8,8 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.house.contract.AddHouseContract;
 import com.aglhz.yicommunity.main.house.model.AddHouseModel;
 
+import rx.android.schedulers.AndroidSchedulers;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Author：leguang on 2016/10/9 0009 10:35

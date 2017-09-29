@@ -7,8 +7,8 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.picker.contract.ParkPickerContract;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/23 0023 15:02.

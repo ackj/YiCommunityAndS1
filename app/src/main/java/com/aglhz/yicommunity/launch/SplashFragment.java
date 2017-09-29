@@ -29,11 +29,11 @@ import com.sipphone.sdk.access.WebReponse;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2016/10/9 0009 15:49
@@ -114,6 +114,7 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
     }
 
     private void checkSip() {
+
         DoorManager.getInstance()
                 .initWebUserApi(UserHelper.sip, new DoorManager.AccessCallBack() {
 

@@ -11,8 +11,9 @@ import com.aglhz.yicommunity.main.publish.contract.PublishContract;
 import com.aglhz.yicommunity.main.publish.view.RepairFragment;
 import com.aglhz.yicommunity.main.publish.model.RepairModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/9 0009 10:36.
@@ -47,9 +48,9 @@ public class RepairPresenter extends BasePresenter<PublishContract.View, Publish
     public void requestMyhouse(Params params) {
         mRxManager.add(((RepairModel) mModel).requestHouses(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(beanList -> {
+                .subscribe(bean -> {
                     if (isViewAttached ()){
-                        ((RepairFragment) getView()).responseMyHouse(beanList);
+                        ((RepairFragment) getView()).responseMyHouse(bean.getData().getAuthBuildings());
                     }
                 }, this::error));
     }

@@ -1,0 +1,270 @@
+package com.aglhz.s1.security.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.log.ALog;
+import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.s1.common.DefenseLineLevel;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.common.clip.ClipActivity;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.SubDeviceDetBean;
+import com.aglhz.s1.event.EventRefreshSecurity;
+import com.aglhz.s1.security.contract.DetectorPropertyContract;
+import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
+import com.aglhz.yicommunity.R;
+import com.bilibili.boxing.Boxing;
+import com.bilibili.boxing.model.config.BoxingConfig;
+import com.bilibili.boxing.model.entity.BaseMedia;
+import com.bilibili.boxing_impl.ui.BoxingActivity;
+import com.bumptech.glide.Glide;
+import com.dd.CircularProgressButton;
+import com.kyleduo.switchbutton.SwitchButton;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+
+/**
+ * Author: 2017/5/2 0002.
+ * Email:liujia95me@126.com
+ */
+public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContract.Presenter> implements DetectorPropertyContract.View {
+    public static final String TAG = DetectorPropertyFragment.class.getSimpleName();
+    private final static int RESULT_LOAD_IMAGE = 0x100;
+    private final static int RESULT_IMAGE_COMPLETE = 0x101;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.cpb_delete_fragment_detector_property)
+    CircularProgressButton cpbDelete;
+    @BindView(R.id.et_name)
+    EditText etName;
+    @BindView(R.id.tv_line_of_defense)
+    TextView tvLineOfDefense;
+    @BindView(R.id.iv_icon)
+    ImageView ivIcon;
+    @BindView(R.id.sb_detection_door_window)
+    SwitchButton sbDetectionDoorWindow;
+    @BindView(R.id.sb_alarm_delay)
+    SwitchButton sbAlarmDelay;
+    private String[] lineOfDefenseArr = {"第一防线", "第二防线", "24小时防线"};
+    private String defenseLevel = DefenseLineLevel.DLL_FIRST;
+    Params params = Params.getInstance();
+    Unbinder unbinder;
+    private SecurityBean.DataBean.SubDevicesBean deviceBean;
+
+    public static DetectorPropertyFragment newInstance(SecurityBean.DataBean.SubDevicesBean bean) {
+        DetectorPropertyFragment fragment = new DetectorPropertyFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("bean", bean);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @NonNull
+    @Override
+    protected DetectorPropertyContract.Presenter createPresenter() {
+        return new DetectorPropertyPresenter(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_detector_property, container, false);
+        deviceBean = (SecurityBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
+        unbinder = ButterKnife.bind(this, view);
+        return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initToolbar();
+        initData();
+        initListener();
+    }
+
+    private void initListener() {
+        sbAlarmDelay.setOnCheckedChangeListener((buttonView, isChecked) ->
+                params.alarmDelay = isChecked ? 1 : 0);
+    }
+
+    private void initToolbar() {
+        initStateBar(toolbar);
+        toolbarTitle.setText("探测器属性");
+        toolbarMenu.setText("确定");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+    }
+
+    private void initData() {
+        if (deviceBean != null) {
+            params.category = deviceBean.getCategory();
+            params.index = deviceBean.getIndex();
+            mPresenter.requestSubDeviceDet(params);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ALog.d(TAG, "onActivityResult:" + requestCode + " --- :" + resultCode);
+        if (resultCode == RESULT_OK && requestCode == RESULT_LOAD_IMAGE) {
+            ArrayList<BaseMedia> medias = Boxing.getResult(data);
+            if (medias.size() > 0) {
+                File file = new File(medias.get(0).getPath());
+                Intent intent = new Intent(_mActivity, ClipActivity.class);
+                intent.putExtra("path", file.getPath());
+                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
+            }
+        } else if (resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE) {
+            String path = data.getStringExtra("path");
+            ALog.e(TAG, "path------>" + path);
+            params.file = new File(path);
+            Glide.with(_mActivity)
+                    .load(params.file)
+                    .into(ivIcon);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.cpb_delete_fragment_detector_property,
+            R.id.toolbar_menu,
+            R.id.ll_defenseLevel,
+            R.id.ll_change_icon})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_change_icon:
+                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG); // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
+                config.needCamera(R.drawable.ic_boxing_camera_white) // 支持gif，相机，设置最大选图数
+                        .withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image); // 设置默认图片占位图，默认无
+                Boxing.of(config).withIntent(_mActivity, BoxingActivity.class).start(this, RESULT_LOAD_IMAGE);
+                break;
+            case R.id.cpb_delete_fragment_detector_property:
+                cpbDelete.setIndeterminateProgressMode(true);
+                if (deviceBean == null) {
+                    DialogHelper.warningSnackbar(getView(), "删除失败");
+                    return;
+                }
+                params.index = deviceBean.getIndex();
+                cpbDelete.setProgress(50);
+                mPresenter.requestDelsensor(params);
+                break;
+            case R.id.toolbar_menu:
+                params.index = deviceBean.getIndex();
+                params.name = etName.getText().toString().trim();
+                if (TextUtils.isEmpty(params.name)) {
+                    DialogHelper.warningSnackbar(getView(), "名称不能为空");
+                    return;
+                }
+                params.defenseLevel = defenseLevel;
+                mPresenter.requestModsensor(params);
+                break;
+            case R.id.ll_defenseLevel:
+                new AlertDialog.Builder(_mActivity)
+                        .setItems(lineOfDefenseArr, (dialog, which) -> {
+                            switch (which) {
+                                case 0:
+                                    defenseLevel = DefenseLineLevel.DLL_FIRST;
+                                    break;
+                                case 1:
+                                    defenseLevel = DefenseLineLevel.DLL_SECOND;
+                                    break;
+                                case 2:
+                                    defenseLevel = DefenseLineLevel.DLL_24HOUR;
+                                    break;
+                            }
+                            tvLineOfDefense.setText(getLineOfDefenseStr(defenseLevel));
+                        }).show();
+                break;
+        }
+
+    }
+
+    @Override
+    public void start(Object response) {
+
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        cpbDelete.setProgress(0);
+        DialogHelper.warningSnackbar(getView(), errorMessage);
+    }
+
+    @Override
+    public void responseNodifSuccess(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), "修改成功");
+    }
+
+    @Override
+    public void responseDelSuccess(BaseBean baseBean) {
+        cpbDelete.setProgress(100);
+        EventBus.getDefault().post(new EventRefreshSecurity());
+        DialogHelper.successSnackbar(getView(), "删除成功");
+        pop();
+    }
+
+    @Override
+    public void responseSubDeviceDet(SubDeviceDetBean bean) {
+        tvLineOfDefense.setText(getLineOfDefenseStr(bean.getData().getDefenseLevel()));
+        defenseLevel = bean.getData().getDefenseLevel();
+        etName.setText(bean.getData().getName());
+        Glide.with(_mActivity)
+                .load(bean.getData().getIcon())
+                .error(R.mipmap.ic_logo)
+                .into(ivIcon);
+        sbAlarmDelay.setChecked(bean.getData().getAlarmDelay() == 1);
+        params.alarmDelay = bean.getData().getAlarmDelay();
+    }
+
+    @Override
+    public void responseModsensor(BaseBean bean) {
+        params.file = null;
+        DialogHelper.successSnackbar(getView(), "修改成功");
+        pop();
+    }
+
+    private String getLineOfDefenseStr(String english) {
+        switch (english) {
+            case DefenseLineLevel.DLL_SECOND:
+                return "第二防线";
+            case DefenseLineLevel.DLL_FIRST:
+                return "第一防线";
+            case DefenseLineLevel.DLL_24HOUR:
+                return "24小时防线";
+            default:
+                return "";
+        }
+    }
+}

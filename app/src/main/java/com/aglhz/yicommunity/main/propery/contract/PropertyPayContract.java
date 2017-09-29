@@ -7,8 +7,8 @@ import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.entity.bean.WxPayBean;
 import com.aglhz.yicommunity.common.Params;
 
-import io.reactivex.Observable;
 import okhttp3.ResponseBody;
+import rx.Observable;
 
 /**
  * Author: LiuJia on 2017/5/7 0007 21:40.

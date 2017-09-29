@@ -11,7 +11,9 @@ import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import java.io.IOException;
+
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/5/7 0007 21:41.
@@ -102,6 +104,8 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
                             getView().error(jsonOther.optString("message"));
                         }
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }, this::error));

@@ -12,14 +12,13 @@ import com.aglhz.yicommunity.entity.bean.HouseInfoBean;
 import com.aglhz.yicommunity.entity.bean.IconBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.main.steward.contract.StewardContract;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -47,17 +46,26 @@ public class StewardModel extends BaseModel implements StewardContract.Model {
     }
 
     @Override
-    public Single<List<IconBean>> requestHouses(Params params) {
+    public Observable<MyHousesBean> requestHouses(Params params) {
         ALog.e("requestHouses::" + params.token);
         ALog.e("requestHouses::" + params.cmnt_c);
         return HttpHelper.getService(ApiService.class)
                 .requestMyhouses(ApiService.requestMyhouses, params.token, params.cmnt_c)
-                .map(myHousesBean -> myHousesBean.getData().getAuthBuildings())
-                .flatMap(Flowable::fromIterable)
-                .map(bean -> new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid()))
-                .toList()
                 .subscribeOn(Schedulers.io());
     }
+//
+//    @Override
+//    public Single<List<IconBean>> requestHouses(Params params) {
+//        ALog.e("requestHouses::" + params.token);
+//        ALog.e("requestHouses::" + params.cmnt_c);
+//        return HttpHelper.getService(ApiService.class)
+//                .requestMyhouses(ApiService.requestMyhouses, params.token, params.cmnt_c)
+//                .map(myHousesBean -> myHousesBean.getData().getAuthBuildings())
+//                .flatMap(Flowable::fromIterable)
+//                .map(bean -> new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid(),bean.getRoomDir()))
+//                .toList()
+//                .subscribeOn(Schedulers.io());
+//    }
 
     @Override
     public Observable<DoorListBean> requestDoors(Params params) {

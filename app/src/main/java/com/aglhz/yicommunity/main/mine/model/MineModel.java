@@ -10,9 +10,9 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.mine.contract.MineContract;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -35,29 +35,22 @@ public class MineModel extends BaseModel implements MineContract.Model {
 
     @Override
     public Observable<String> requestCache() {
-        return Observable.create((ObservableOnSubscribe<String>) e -> {
-                    try {
-                        e.onNext(CacheManager.getTotalCacheSize(App.mContext));
-                    } catch (Exception ex) {
-                        e.onError(ex);
-                    }
-                    e.onComplete();
-                }
-        ).subscribeOn(Schedulers.computation());
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(CacheManager.getTotalCacheSize(App.mContext));
+            }
+        }).subscribeOn(Schedulers.computation());
     }
 
     @Override
     public Observable<String> requestClearCache() {
-        return Observable.create((ObservableOnSubscribe<String>) e -> {
-                    CacheManager.clearAllCache(App.mContext);
-                    try {
-                        e.onNext(CacheManager.getTotalCacheSize(App.mContext));
-                    } catch (Exception ex) {
-                        e.onError(ex);
-                    }
-                    e.onComplete();
-                }
-        ).subscribeOn(Schedulers.computation());
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(CacheManager.getTotalCacheSize(App.mContext));
+            }
+        }).subscribeOn(Schedulers.computation());
     }
 
     @Override

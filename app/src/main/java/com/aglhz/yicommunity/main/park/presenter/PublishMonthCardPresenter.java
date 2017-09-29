@@ -12,7 +12,11 @@ import com.aglhz.yicommunity.main.park.model.PublishMonthCardModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Author: LiuJia on 2017/5/23 0023 16:28.
@@ -102,7 +106,6 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
         mRxManager.add(mModel.requestCarCardOrder(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responseBody -> {
-
                     JSONObject jsonObject;
                     try {
                         jsonObject = new JSONObject(responseBody.string());
@@ -124,6 +127,8 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
                             getView().error(jsonOther.optString("message"));
                         }
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }, this::error));

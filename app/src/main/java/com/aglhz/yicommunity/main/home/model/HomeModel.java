@@ -18,10 +18,9 @@ import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.Single;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -45,19 +44,11 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Single<List<String>> requestHomeNotices(Params params) {
+    public Observable<NoticeBean> requestHomeNotices(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestHomeNotices(ApiService.requestHomeNotices, params.token, params.cmnt_c, params.topnum)
-                .map(noticeBean -> {
-                    if (noticeBean.getOther().getCode() != 200) {
-                        return new ArrayList<NoticeBean.DataBean.NoticeListBean>();
-                    }
-                    return noticeBean.getData().getNoticeList();
-                })
-                .flatMap(Flowable::fromIterable)
-                .map(NoticeBean.DataBean.NoticeListBean::getTitle)
-                .toList()
                 .subscribeOn(Schedulers.io());
+
     }
 
     @Override

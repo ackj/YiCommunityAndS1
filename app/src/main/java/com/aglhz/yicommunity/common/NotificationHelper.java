@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import com.aglhz.abase.log.ALog;
@@ -15,9 +16,9 @@ import com.umeng.message.entity.UMessage;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
+
+import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by leguang on 2017/9/18 0018.
@@ -46,13 +47,12 @@ public class NotificationHelper {
         notification.flags |= Notification.FLAG_INSISTENT;
 
         Observable.timer(15, TimeUnit.SECONDS)
-                .subscribe(new Consumer<Long>() {
+                .subscribe(new Action1<Long>() {
                     @Override
-                    public void accept(@NonNull Long aLong) throws Exception {
+                    public void call(Long aLong) {
                         NotificationManager manager = (NotificationManager) App.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         notification.flags = Notification.DEFAULT_SOUND;
                         manager.notify(NotificationHelper.CALL_IN, notification);
-//                        cancel();
                     }
                 });
         return notification;

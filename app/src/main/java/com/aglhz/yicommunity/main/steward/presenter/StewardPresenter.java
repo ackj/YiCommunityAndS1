@@ -3,14 +3,13 @@ package com.aglhz.yicommunity.main.steward.presenter;
 import android.support.annotation.NonNull;
 
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
-import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.entity.bean.IconBean;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.steward.contract.StewardContract;
 import com.aglhz.yicommunity.main.steward.model.StewardModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author：leguang on 2016/10/9 0009 10:35
@@ -36,10 +35,12 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
     public void start(Object request) {
         mRxManager.add(mModel.requestHouses((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(iconBeanList -> {
-                    iconBeanList.add(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
-                    getView().responseHouses(iconBeanList);
-
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseHouses(bean.getData().getAuthBuildings());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
                 }, this::error)
         );
     }

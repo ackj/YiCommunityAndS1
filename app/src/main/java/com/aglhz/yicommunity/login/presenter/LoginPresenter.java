@@ -15,7 +15,8 @@ import com.sipphone.sdk.access.WebReponse;
 
 import org.greenrobot.eventbus.EventBus;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -47,6 +48,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
                         //保存用户信息
                         UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());
+
                         Params.token = UserHelper.token;//必须赋值一次。
                         //注册友盟
                         mModel.requestUMeng(params.user);

@@ -28,15 +28,15 @@ import com.umeng.message.entity.UMessage;
 
 import org.greenrobot.eventbus.EventBus;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
  * Author：leguang on 2016/10/9 0009 15:49
  * Email：langmanleguang@qq.com
  */
-public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
+public class App extends com.aglhz.s1.App implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
 
     @Override

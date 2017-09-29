@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,8 @@ import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.s1.main.smarthome.SmartHomeFragment;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.DoorManager;
 import com.aglhz.yicommunity.common.Params;
@@ -29,6 +30,7 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.DoorListBean;
 import com.aglhz.yicommunity.entity.bean.HouseInfoBean;
 import com.aglhz.yicommunity.entity.bean.IconBean;
+import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.event.EventCommunity;
 import com.aglhz.yicommunity.login.LoginActivity;
 import com.aglhz.yicommunity.main.door.DoorActivity;
@@ -41,7 +43,6 @@ import com.aglhz.yicommunity.main.smarthome.view.GoodsCategoryFragment;
 import com.aglhz.yicommunity.main.steward.contract.StewardContract;
 import com.aglhz.yicommunity.main.steward.presenter.StewardPresenter;
 import com.aglhz.yicommunity.qrcode.ScanQRCodeActivity;
-import com.aglhz.yicommunity.web.WebActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -89,7 +90,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     private StewardRVAdapter smartDoorAdapter;
     private StewardRVAdapter smartParkAdapter;
     private StewardRVAdapter propertyServiceAdapter;
-    private List<IconBean> listMyhouses;
+    private List<IconBean> listIcons;
     private Params params = Params.getInstance();
     private final static int SELECT_COMMUNIT = 100;   //选择社区
     private Unbinder unbinder;
@@ -131,9 +132,9 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
             }
         });
         rvMyHouse.setAdapter(myHouseAdapter = new StewardRVAdapter());
-        listMyhouses = new ArrayList<IconBean>();
-        listMyhouses.add(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
-        myHouseAdapter.setNewData(listMyhouses);
+        listIcons = new ArrayList<>();
+        listIcons.add(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
+        myHouseAdapter.setNewData(listIcons);
         //智能家居卡片
         rvSmartHome.setLayoutManager(new GridLayoutManager(_mActivity, 3) {
             @Override
@@ -143,9 +144,9 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
         });
         rvSmartHome.setAdapter(smartHomeAdapter = new StewardRVAdapter());
         List<IconBean> listSmartHome = new ArrayList<IconBean>();
-        listSmartHome.add(new IconBean(R.drawable.ic_smart_device_blue_140px, "智能设备", ""));
+//        listSmartHome.add(new IconBean(R.drawable.ic_smart_device_blue_140px, "智能设备", ""));
         listSmartHome.add(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
-        listSmartHome.add(new IconBean(R.drawable.ic_add_smart_blue_140px, "添加主机", ""));
+//        listSmartHome.add(new IconBean(R.drawable.ic_add_smart_blue_140px, "添加主机", ""));
         smartHomeAdapter.setNewData(listSmartHome);
 
         //智慧门禁卡片
@@ -201,24 +202,32 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
         myHouseAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (position == adapter.getData().size() - 1) {
                 //点击的最后一个item，此时应该跳转到添加房屋界面。
-                go2House(Constants.ADD_HOUSE, listMyhouses.get(position).title, "");
+                go2House(Constants.ADD_HOUSE, listIcons.get(position).title, "");
             } else {
-                go2House(Constants.HOUSE_RIGHTS, listMyhouses.get(position).title, listMyhouses.get(position).fid);
+                go2House(Constants.HOUSE_RIGHTS, listIcons.get(position).title, listIcons.get(position).fid);
             }
         });
 
         //设置智能家居卡片点击事件。
         smartHomeAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (position) {
-                case 0:
-                    go2SmartDevice();
-                    break;
-                case 1:
-                    go2DeviceStore();
-                    break;
-                case 2:
-                    go2AddDevice();
-                    break;
+//            switch (position) {
+//                case 0:
+//                    go2SmartDevice();
+//                    break;
+//                case 1:
+//                    go2DeviceStore();
+//                    break;
+//                case 2:
+//                    go2AddDevice();
+//                    break;
+//            }
+            IconBean bean = smartHomeAdapter.getItem(position);
+            if (position == adapter.getData().size() - 1) {
+                //点击的最后一个item，此时应该跳转到添加房屋界面。
+                go2DeviceStore();
+            } else {
+//                go2SmartDevice();
+                _mActivity.start(SmartHomeFragment.newInstance(bean.roomDir));
             }
         });
 
@@ -324,10 +333,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     }
 
     private void go2SmartDevice() {
-        Intent intent = new Intent(_mActivity, WebActivity.class);
-        intent.putExtra(Constants.KEY_TITLE, "智能设备");
-        intent.putExtra(Constants.KEY_LINK, ApiService.SMART_DEVICE);
-        startActivity(intent);
+        _mActivity.start(SmartHomeFragment.newInstance());
     }
 
     @Override
@@ -387,11 +393,24 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     }
 
     @Override
-    public void responseHouses(List<IconBean> listIcons) {
+    public void responseHouses(List<MyHousesBean.DataBean.AuthBuildingsBean> data) {
         ptrFrameLayout.refreshComplete();
-        listMyhouses.clear();
-        listMyhouses = listIcons;
+        listIcons.clear();
+        for (int i = 0; i < data.size(); i++) {
+            MyHousesBean.DataBean.AuthBuildingsBean bean = data.get(i);
+            listIcons.add(new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid(), bean.getRoomDir()));
+        }
         myHouseAdapter.setNewData(listIcons);
+
+        ArrayList<IconBean> iconBeans = new ArrayList<>();
+        for (int i = 0; i < listIcons.size(); i++) {
+            IconBean bean = listIcons.get(i);
+            iconBeans.add(new IconBean(R.drawable.ic_myhouse_blue_140px,
+                    bean.title, bean.fid, bean.roomDir));
+        }
+        smartHomeAdapter.setNewData(iconBeans);
+        myHouseAdapter.addData(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
+        smartHomeAdapter.addData(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
     }
 
     @Override
@@ -480,7 +499,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
                     HouseInfoBean.DataBean bean = datas.get(position);
-                    _mActivity.start(FamilyPhoneFragment.newInstance(bean.getRoomDir(),bean.getFamilyNumber()));
+                    _mActivity.start(FamilyPhoneFragment.newInstance(bean.getRoomDir(), bean.getFamilyNumber()));
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)

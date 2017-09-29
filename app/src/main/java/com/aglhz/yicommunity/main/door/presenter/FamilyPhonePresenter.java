@@ -7,7 +7,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.door.contract.FamilyPhoneContract;
 import com.aglhz.yicommunity.main.door.model.FamilyPhoneModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/9/15 0015 11:18.
@@ -37,6 +38,6 @@ public class FamilyPhonePresenter extends BasePresenter<FamilyPhoneContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start("")));
+                }, this::error/*, this::complete, disposable -> start("")*/));
     }
 }

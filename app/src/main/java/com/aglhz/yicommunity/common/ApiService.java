@@ -50,8 +50,6 @@ import com.aglhz.yicommunity.entity.bean.UserDataBean;
 
 import java.util.Map;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -62,6 +60,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
+import rx.Observable;
 
 /**
  * Created by leguang on 2017/4/16 0016.
@@ -454,14 +453,15 @@ public interface ApiService {
     String requestMyhouses = BASE_PROPERTY + "/client/info/my-house-list";
 
     //查询用户名下某小区的房屋
+    @FormUrlEncoded
     @POST
-    Flowable<MyHousesBean> requestMyhouses(@Url String url,
-                                           @Query("token") String token,
-                                           @Query("cmnt_c") String cmnt_c);
+    Observable<MyHousesBean> requestMyhouses(@Url String url,
+                                           @Field("token") String token,
+                                           @Field("cmnt_c") String cmnt_c);
 
     //查询用户名下所有的房屋
     @POST
-    Flowable<MyHousesBean> requestMyhouses(@Url String url,
+    Observable<MyHousesBean> requestMyhouses(@Url String url,
                                            @Query("token") String token);
 
     //对自己设置权限
@@ -580,7 +580,7 @@ public interface ApiService {
     String requestHomeNotices = BASE_PROPERTY + "/client/info/noticeTop";
 
     @POST
-    Flowable<NoticeBean> requestHomeNotices(@Url String url,
+    Observable<NoticeBean> requestHomeNotices(@Url String url,
                                             @Query("token") String token,
                                             @Query("cmnt_c") String cmnt_c,
                                             @Query("topnum") int topnum);

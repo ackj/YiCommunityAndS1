@@ -28,6 +28,7 @@ import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.HomeBean;
+import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.ServiceBean;
 import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
@@ -300,11 +301,11 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     }
 
     @Override
-    public void responseHomeNotices(List<String> notices) {
+    public void responseHomeNotices(List<NoticeBean.DataBean.NoticeListBean> notices) {
         ALog.e(TAG, "responseHomeNotices:" + notices.size());
         ptrFrameLayout.refreshComplete();
         if (notices.size() > 0) {
-            adapter.getData().get(1).notice = notices.get(0);
+            adapter.getData().get(1).notice = notices.get(0).getTitle();
             adapter.notifyItemChanged(1);
         } else {
             adapter.getData().get(1).notice = normalNotice;

@@ -7,7 +7,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.propery.contract.NoticeListContract;
 import com.aglhz.yicommunity.main.propery.model.NoticeListModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/5/9 0009 22:34.

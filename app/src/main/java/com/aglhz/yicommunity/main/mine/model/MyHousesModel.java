@@ -8,9 +8,9 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.mine.contract.MyHousesContract;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/17 0017 16:05.
@@ -26,7 +26,7 @@ public class MyHousesModel extends BaseModel implements MyHousesContract.Model {
     }
 
     @Override
-    public Flowable<MyHousesBean> requsetMyHouse(Params params) {
+    public Observable<MyHousesBean> requsetMyHouse(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestMyhouses(ApiService.requestMyhouses,
                         params.token)

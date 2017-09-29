@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:lines="2"
-        android:paddingTop="5dp"
+        android:padding="8dp"
         android:text="智能家居"
         android:textColor="@color/base_black"
         android:textSize="12sp" />

@@ -21,8 +21,8 @@ import java.util.List;
 
 import cn.itsite.adialog.dialog.LoadingDialog;
 import cn.itsite.multiselector.MultiSelectorDialog;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**

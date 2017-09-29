@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="探测器名称" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:text="门磁"
+            android:textSize="15sp"
+            android:background="@null"
+            android:textColor="@color/base_black"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout
+        android:id="@+id/ll_change_icon"
+        style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="更改图片" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_equipment_ceilinginfrared_180px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right_30px" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/ll_defenseLevel"
+        style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="防线" />
+
+
+        <TextView
+            android:id="@+id/tv_line_of_defense"
+            style="@style/TextViewBaseBlackStyle"
+            android:layout_marginRight="10dp"
+            android:drawableRight="@drawable/ic_arrow_right_30px"
+            android:text="第一防线" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="报警延时" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/sb_alarm_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:kswTintColor="@color/green" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout
+        android:visibility="gone"
+        style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="检测门窗" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/sb_detection_door_window"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:kswTintColor="@color/green" />
+    </LinearLayout>
+
+    <!--<View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout style="@style/LinearLayoutItemStyle">
+
+        <TextView
+            style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
+            android:layout_marginLeft="10dp"
+            android:text="是否开启" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:kswTintColor="@color/green" />
+    </LinearLayout>-->
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/cpb_delete_fragment_detector_property"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        app:cpb_cornerRadius="50dp"
+        app:cpb_textComplete="删除成功"
+        app:cpb_textError="出错了"
+        app:cpb_textIdle="删除探测器"
+        app:cpb_textProgress="加载中" />
+
+</LinearLayout>
