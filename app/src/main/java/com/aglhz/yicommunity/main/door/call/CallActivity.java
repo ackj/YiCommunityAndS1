@@ -18,7 +18,6 @@ import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.yicommunity.common.NotificationHelper;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.sipphone.sdk.BluetoothManager;
 import com.sipphone.sdk.SipCoreManager;
@@ -57,7 +56,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         setContentView(R.layout.activity_call);
-        NotificationHelper.cancel();
+//        NoticeHelper.cancel();
         if (!BluetoothManager.getInstance().isBluetoothHeadsetAvailable()) {    // true
             BluetoothManager.getInstance().initBluetooth();
         }
@@ -72,9 +71,11 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
             public void callState(LinphoneCore lc, LinphoneCall call, State state, String message) {
 //                ToastUtils.showToast(App.mContext, "state-->" + state + "-----" + "message-->" + message);
                 ALog.e("state-->" + state + "-----" + "message-->" + message);
-                if (SipCoreManager.getLc().getCallsNb() == 0) {
-                    finish();
-                }
+//                if (SipCoreManager.getLc().getCallsNb() == 0) {
+//                    ALog.e("SipCoreManager.getLc().getCallsNb()-->" + SipCoreManager.getLc().getCallsNb());
+//
+//                    finish();
+//                }
 
                 if (state == State.CallEnd || state == State.Error || state == State.CallReleased) {
                     finish();
@@ -162,7 +163,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.accept_call:
-                NotificationHelper.cancel();
+//                NoticeHelper.cancel();
                 accept();
                 break;
             case R.id.video:
@@ -214,7 +215,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
         ToastUtils.showToast(App.mContext, "通话已结束！");
 
         super.onDestroy();
-        NotificationHelper.cancel();
+//        NoticeHelper.cancel();
 
         hangUp();
 

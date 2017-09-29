@@ -72,7 +72,6 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                         @Override
                         public void displayImage(Context context, Object path, ImageView imageView) {
                             BannerBean.DataBean.AdvsBean bean = (BannerBean.DataBean.AdvsBean) path;
-                            ALog.e("bean.getCover()-->" + bean.getCover());
                             Glide.with(context).
                                     load(bean.getCover())
                                     .error(R.drawable.bg_normal_banner_red_1200_600)

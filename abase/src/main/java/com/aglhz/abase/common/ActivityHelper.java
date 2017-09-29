@@ -16,7 +16,7 @@ public class ActivityHelper {
 
     private ActivityHelper() {
         if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+            activityStack = new Stack<>();
         }
     }
 
