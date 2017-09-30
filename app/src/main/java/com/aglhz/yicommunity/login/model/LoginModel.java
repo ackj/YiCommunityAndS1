@@ -1,22 +1,16 @@
 package com.aglhz.yicommunity.login.model;
 
-import android.app.Notification;
-import android.content.Context;
-import android.widget.Toast;
-
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.SipBean;
 import com.aglhz.yicommunity.entity.bean.UserBean;
 import com.aglhz.yicommunity.login.contract.LoginContract;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
@@ -42,8 +36,8 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override
-    public void requestUMeng(String alias) {
+//    @Override
+//    public void requestUMeng(String alias) {
 //        PushAgent mPushAgent = PushAgent.getInstance(App.mContext);
 //        mPushAgent.addExclusiveAlias(alias, "userType", new UTrack.ICallBack() {
 //            @Override
@@ -108,5 +102,12 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
 //            }
 //        };
 //        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+//    }
+
+    @Override
+    public void requestUMeng(String alias) {
+        ALog.e("requestUMengrequestUMeng");
+        App.mApp.initCloudChannel(App.mApp);
     }
+
 }
