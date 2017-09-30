@@ -8,7 +8,7 @@ android {
             keyAlias 'agl'
             keyPassword 'aglandroid'
             storeFile file('D:/Android/Workspace/gckj/agl.keystore')
-            storePassword 'aglandroid'
+            storePassword 'aglandroid' 
         }
         release {
             keyAlias 'agl'
