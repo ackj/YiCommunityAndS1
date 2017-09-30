@@ -2,7 +2,6 @@ package com.aglhz.s1.main.smarthome;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.entity.bean.CameraBean;
@@ -10,7 +9,6 @@ import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.s1.entity.bean.SmartHomeBean;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 
@@ -20,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
  */
 
 public class SmartHomeListAdapter extends BaseRecyclerViewAdapter<SmartHomeBean, BaseViewHolder> {
+    public static final String TAG = SmartHomeListAdapter.class.getSimpleName();
 
     public SmartHomeListAdapter() {
         super(R.layout.s1_item_smart_home);
@@ -30,44 +29,30 @@ public class SmartHomeListAdapter extends BaseRecyclerViewAdapter<SmartHomeBean,
         RecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(App.mContext, 3));
         if (item.type == SmartHomeBean.TYPE_EQUIPMENT) {
-            helper.setText(R.id.tv_title,"智能中控");
+            helper.setText(R.id.tv_title, "智能中控");
             SmartHomeEquipementAdapter adapter = new SmartHomeEquipementAdapter();
             recyclerView.setAdapter(adapter);
 
             adapter.setNewData(item.equipmentList);
-            adapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                    equipmentClickListener.click(adapter, item.equipmentList.get(position), position);
-                }
-            });
+            adapter.setOnItemClickListener((adapter1, view, position) ->
+                    equipmentClickListener.click(adapter, item.equipmentList.get(position), position));
 
-            adapter.setOnItemLongClickListener(new OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(BaseQuickAdapter adapter1, View view, int position) {
-                    equipmentClickListener.longClick(adapter, item.equipmentList.get(position), position);
-                    return false;
-                }
+            adapter.setOnItemLongClickListener((adapter1, view, position) -> {
+                equipmentClickListener.longClick(adapter, item.equipmentList.get(position), position);
+                return false;
             });
-        } else if(item.type == SmartHomeBean.TYPE_CAMERA){
-            helper.setText(R.id.tv_title,"智能监控");
+        } else if (item.type == SmartHomeBean.TYPE_CAMERA) {
+            helper.setText(R.id.tv_title, "智能监控");
             SmartHomeCameraAdapter adapter = new SmartHomeCameraAdapter();
             recyclerView.setAdapter(adapter);
 
             adapter.setNewData(item.cameraList);
-            adapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                    cameraClickListener.click(adapter, item.cameraList.get(position), position);
-                }
-            });
+            adapter.setOnItemClickListener((adapter1, view, position) ->
+                    cameraClickListener.click(adapter, item.cameraList.get(position), position));
 
-            adapter.setOnItemLongClickListener(new OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(BaseQuickAdapter adapter1, View view, int position) {
-                    cameraClickListener.longClick(adapter, item.cameraList.get(position), position);
-                    return false;
-                }
+            adapter.setOnItemLongClickListener((adapter1, view, position) -> {
+                cameraClickListener.longClick(adapter, item.cameraList.get(position), position);
+                return false;
             });
         }
 

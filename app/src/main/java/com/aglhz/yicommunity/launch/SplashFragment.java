@@ -217,13 +217,11 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
 
                     @Override
                     public void onPreAccessToken() {
-                        ALog.e("1111onPreAccess");
                         go2Main();
                     }
 
                     @Override
                     public void onPostAccessToken(WebReponse webReponse) {
-                        ALog.e("1111onPostAccess");
                         go2Main();
                     }
                 });

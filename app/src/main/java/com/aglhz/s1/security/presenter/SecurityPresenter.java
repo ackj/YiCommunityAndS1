@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.model.SecurityModel;
 
@@ -44,56 +46,108 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
 
     @Override
     public void requestGateways(Params params) {
+//        mRxManager.add(mModel.requestGateways(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(gatewaysBean -> {
+//                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                        getView().responseGateways(gatewaysBean);
+//                    } else {
+//                        getView().error(gatewaysBean.getOther().getMessage());
+//                    }
+//                }, this::error/*, this::complete, disposable -> start(null)*/));
+
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(gatewaysBean -> {
-                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseGateways(gatewaysBean);
-                    } else {
-                        getView().error(gatewaysBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<GatewaysBean>() {
+                    @Override
+                    public void _onNext(GatewaysBean gatewaysBean) {
+                        if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseGateways(gatewaysBean);
+                        } else {
+                            getView().error(gatewaysBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/));
+                }));
     }
 
     @Override
     public void requestSwichGateway(Params params) {
+//        mRxManager.add(mModel.requestSwichGateway(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(baseBean -> {
+//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                        getView().responseSwichGateway(baseBean);
+//                    } else {
+//                        getView().error(baseBean.getOther().getMessage());
+//                    }
+//                }, this::error/*, this::complete, disposable -> start(null)*/)
+//        );
+
         mRxManager.add(mModel.requestSwichGateway(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseSwichGateway(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseSwichGateway(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/)
-        );
+                }));
     }
 
     @Override
     public void requestSwichState(Params params) {
+//        mRxManager.add(mModel.requestSwichState(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(baseBean -> {
+//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                        getView().responseSwichState(baseBean);
+//                    } else {
+//                        getView().error(baseBean.getOther().getMessage());
+//                    }
+//                }, this::error/*, this::complete, disposable -> start(null)*/)
+//        );
+
         mRxManager.add(mModel.requestSwichState(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseSwichState(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseSwichState(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/)
-        );
+                }));
     }
 
     @Override
     public void requestLeaveMassge(Params params) {
+//        mRxManager.add(mModel.requestLeaveMassge(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(baseBean -> {
+//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                        getView().responseSwichState(baseBean);
+//                    } else {
+//                        getView().error(baseBean.getOther().getMessage());
+//                    }
+//                }, this::error/*, this::complete, disposable -> start(null)*/)
+//        );
+
         mRxManager.add(mModel.requestLeaveMassge(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseSwichState(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseSwichState(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/)
-        );
+                }));
     }
 }
