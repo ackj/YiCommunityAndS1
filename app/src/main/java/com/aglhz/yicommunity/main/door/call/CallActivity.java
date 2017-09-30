@@ -71,11 +71,11 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
             public void callState(LinphoneCore lc, LinphoneCall call, State state, String message) {
 //                ToastUtils.showToast(App.mContext, "state-->" + state + "-----" + "message-->" + message);
                 ALog.e("state-->" + state + "-----" + "message-->" + message);
-//                if (SipCoreManager.getLc().getCallsNb() == 0) {
-//                    ALog.e("SipCoreManager.getLc().getCallsNb()-->" + SipCoreManager.getLc().getCallsNb());
-//
-//                    finish();
-//                }
+                if (SipCoreManager.getLc().getCallsNb() == 0) {
+                    ALog.e("SipCoreManager.getLc().getCallsNb()-->" + SipCoreManager.getLc().getCallsNb());
+
+                    finish();
+                }
 
                 if (state == State.CallEnd || state == State.Error || state == State.CallReleased) {
                     finish();

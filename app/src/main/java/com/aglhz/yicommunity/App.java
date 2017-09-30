@@ -94,7 +94,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
      *
      * @param mContext
      */
-    private void initCloudChannel(Context mContext) {
+    public void initCloudChannel(Context mContext) {
         PushServiceFactory.init(mContext);
         final CloudPushService pushService = PushServiceFactory.getCloudPushService();
         pushService.register(mContext, new CommonCallback() {

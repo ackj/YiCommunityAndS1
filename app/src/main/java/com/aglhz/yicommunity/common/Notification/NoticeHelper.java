@@ -56,13 +56,13 @@ public class NoticeHelper {
     public static final String ALARM_RED = "alarm_red";// 红外报警
     public static final String ALARM_DOOR = "alarm_door";// 门磁报警
 
-    public static void notification(Context context, String message) {
+    public static void notification(Context mContext, String message) {
         ALog.e("RingtoneManager-->" + getDefaultUri(RingtoneManager.TYPE_ALARM).toString());
         Notice notice = new Gson().fromJson(message, Notice.class);
         long when = TextUtils.isEmpty(notice.getWhen()) ? System.currentTimeMillis() : Long.parseLong(notice.getWhen());
-        Uri uriSound = RingtoneManager.getDefaultUri(TextUtils.isEmpty(notice.getSound()) ? RingtoneManager.TYPE_NOTIFICATION : Integer.parseInt(notice.getSound()));
+        Uri uriSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         int priority = TextUtils.isDigitsOnly(notice.getPriority()) ? NotificationCompat.PRIORITY_MAX : Integer.parseInt(notice.getPriority());
-        PendingIntent pendingIntent = contentIntent(context, notice.getType());
+        PendingIntent pendingIntent = contentIntent(mContext, notice.getType());
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(App.mContext)
                 .setContentTitle(notice.getTitle())
@@ -81,26 +81,10 @@ public class NoticeHelper {
 
         Notification notification = builder.build();
 
-//        if (ActivityHelper.getInstance().isEmpty() && notice.getType().equals("电话")) {
-//
-//            notification.flags |= Notification.FLAG_INSISTENT;
-//
-//            Observable.timer(20, TimeUnit.SECONDS)
-//                    .subscribe(aLong -> {
-//                        NotificationManager manager = (NotificationManager) App.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-////                        cancel(message.hashCode());
-//                        notification.flags = Notification.DEFAULT_SOUND;
-//                        notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//                        manager.notify(message.hashCode(), notification);
-//
-//                    });
-//        } else if (notice.getType().equals("电话")) {
-//            notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        }
-
-        if (notice.getType().equals("电话")) {
+        if (notice.getType().equals(SMART_DOOR_CALL_PUSH)) {
             if (ActivityHelper.getInstance().isEmpty()) {
                 notification.flags |= Notification.FLAG_INSISTENT;
+                notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 Observable.timer(20, TimeUnit.SECONDS)
                         .subscribe(aLong -> {
                             NotificationManager manager = (NotificationManager) App.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -125,11 +109,11 @@ public class NoticeHelper {
     /**
      * 准备为后来的不同类型推送，进入不同页面的路由做准备。
      *
-     * @param context
+     * @param mContext
      * @param type
      * @return
      */
-    private static PendingIntent contentIntent(Context context, String type) {
+    private static PendingIntent contentIntent(Context mContext, String type) {
 //        Intent intent = new Intent();
 
         switch (type) {
@@ -148,9 +132,9 @@ public class NoticeHelper {
                 break;
         }
 
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static void openUrl(Context context, String url) {

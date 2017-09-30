@@ -37,18 +37,21 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
 
     @Override
     public void start(Object request) {
-        ALog.e("1111startstart");
 
         Params params = (Params) request;
         mRxManager.add(mModel.requestLogin((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userBean -> {
                     if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        ALog.e("UserHelper.sip-->" + UserHelper.sip);
+
                         //保存用户信息
                         UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());
                         Params.token = UserHelper.token;//必须赋值一次。
                         //注册友盟
+//                        mModel.requestUMeng(params.user);
+                        //注册阿里云。
                         mModel.requestUMeng(params.user);
                         //注册Sip到全视通服务器
                         requestSip(Params.getInstance());
