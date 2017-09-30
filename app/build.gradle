@@ -45,7 +45,10 @@ android {
 
             ndk {
 //                abiFilters "armeabi", "armeabi-v7a", "x86"
-                abiFilters "armeabi"
+//                abiFilters "armeabi"
+//                abiFilters "armeabi-v7a"
+                abiFilters "armeabi", "armeabi-v7a"
+
             }
 //            //可调试
 //            debuggable true

@@ -8,7 +8,7 @@ import com.aglhz.yicommunity.BuildConfig;
  * Author：leguang on 2016/10/9 0009 15:49
  * Email：langmanleguang@qq.com
  */
-public class Constants extends BaseConstants{
+public class Constants extends BaseConstants {
     private final String TAG = Constants.class.getSimpleName();
     public static final String PRESS_AGAIN = "再按一次退出";
     public static final int PAGE_SIZE = 20;
@@ -131,9 +131,9 @@ public class Constants extends BaseConstants{
             //调试可以改这里的地址。
             BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
             BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
-//            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
+            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
 //            BASE_PROPERTY = "http://192.168.7.102:8080/sub_property_ysq";   //物业
-            BASE_PROPERTY = "http://119.23.129.133:8090/sub_property_ysq";   //物业
+//            BASE_PROPERTY = "http://119.23.129.133:8090/sub_property_ysq";   //物业
 
             //给成都电信测试。
 //            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户

@@ -16,7 +16,6 @@ import org.linphone.core.LinphoneCore;
 import org.linphone.core.LinphoneCoreException;
 import org.linphone.core.LinphoneCoreListenerBase;
 
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -32,18 +31,18 @@ import static android.content.Intent.ACTION_MAIN;
 
 public class DoorManager {
     public static final String TAG = DoorManager.class.getSimpleName();
-    //    private static final String URL = "http://member.planidea.cn";
+    private static final String URL = "http://member.planidea.cn";
     //给成都电信测试。
-    private static final String URL = "http://mem.planidea.cn";
+//    private static final String URL = "http://mem.planidea.cn";
     private static DoorManager mDoorManager;
     private WebUserApi mWebUserApi;
     private LinphoneCallBack mListener;
 
 
     public static class Device {
-        //        public final static String UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";
+        public final static String UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";
         //给成都电信测试。
-        public final static String UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
+//        public final static String UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
 
         public final static String UserName = "da";
         public final static String tenantCode = "T0001";
@@ -68,6 +67,8 @@ public class DoorManager {
     public DoorManager startService() {
         ALog.e(TAG, "startService");
 
+        //全视通的要求最好在启动服务之前再停一遍。
+        exit();
         App.mContext.startService(new Intent(ACTION_MAIN)
                 .setClass(App.mContext, SipService.class));
 
@@ -122,14 +123,14 @@ public class DoorManager {
         if (lc != null) {
             lc.addListener(mListener);
 
-//            try {
-//                // 这里总是报空指针，干脆让这个代码运行多次注册，同时捕获异常。
-//                SipCorePreferences.instance().setAccountOutboundProxyEnabled(0, true);
-//                ALog.e(TAG, "成功注册代理服务器…………………………………………");
-//            } catch (Exception e) {
-//                ALog.e(TAG, "异常出错了");
-//                e.printStackTrace();
-//            }
+            try {
+                // 这里总是报空指针，干脆让这个代码运行多次注册，同时捕获异常。
+                SipCorePreferences.instance().setAccountOutboundProxyEnabled(0, true);
+                ALog.e(TAG, "成功注册代理服务器…………………………………………");
+            } catch (Exception e) {
+                ALog.e(TAG, "异常出错了");
+                e.printStackTrace();
+            }
         }
         return this;
     }
