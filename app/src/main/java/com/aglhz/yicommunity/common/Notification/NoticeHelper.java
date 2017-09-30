@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
-
 import rx.Observable;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -51,6 +50,7 @@ public class NoticeHelper {
 
     //智能家居推送类型如下：
     public static final String SENSOR_LEARN = "sensor_learn";// 传感器学习
+    public static final String DEVICE_LEARN = "device_learn";//设备学习
     public static final String GW_ALARM_GAS = "gw_alarm_gas";// 燃气报警
     public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_status";// 主机布防状态变更
     public static final String GW_ALARM_SOS = "gw_alarm_sos";// sos报警

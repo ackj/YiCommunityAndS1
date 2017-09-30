@@ -11,12 +11,16 @@ import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.aglhz.abase.log.ALog;
+import com.aglhz.s1.event.EventLearnSensor;
+import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Notification.NoticeHelper;
 import com.aglhz.yicommunity.login.LoginActivity;
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -110,4 +114,29 @@ public class NotificationReceiver extends MessageReceiver {
 //        deleteIntent.putExtra("message key", message);//将message放入intent中，方便通知自建通知的点击事件
 //        return PendingIntent.getService(context, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 //    }
+
+    /**
+     * 依靠推送来刷新界面。
+     *
+     * @param type 友盟推送的json。
+     */
+    private void handleMessage(String type) {
+        switch (type) {
+            case NoticeHelper.SENSOR_LEARN:
+                EventBus.getDefault().post(new EventLearnSensor());
+            case NoticeHelper.GW_NOTIFIY_DEFENSE_ST:
+                EventBus.getDefault().post(new EventRefreshSecurity());
+                break;
+            case NoticeHelper.DEVICE_LEARN:
+                break;
+            case NoticeHelper.GW_ALARM_GAS:
+                break;
+            case NoticeHelper.GW_ALARM_SOS:
+                break;
+            case NoticeHelper.ALARM_RED:
+                break;
+            case NoticeHelper.ALARM_DOOR:
+                break;
+        }
+    }
 }
