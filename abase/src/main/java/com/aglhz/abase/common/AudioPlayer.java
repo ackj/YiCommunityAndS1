@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 import com.aglhz.abase.R;
-import com.aglhz.abase.log.ALog;
 
 
 /**
@@ -53,26 +52,21 @@ public class AudioPlayer {
      */
 
     public void play(int soundID) {
-        if (mSoundPool == null) {
-            throw new Error("Please initialize first!");
+        if (mSoundPool != null) {
+            streamID = mSoundPool.play(soundID, 1, 1, 0, 0, 1);
         }
-        streamID = mSoundPool.play(soundID, 1, 1, 0, 0, 1);
     }
 
     public void play(int soundID, float leftVolume, float rightVolume, int priority, int loop, float rate) {
-        if (mSoundPool == null) {
-            throw new Error("Please initialize first!");
+        if (mSoundPool != null) {
+            streamID = mSoundPool.play(soundID, leftVolume, rightVolume, priority, loop, rate);
         }
-        streamID = mSoundPool.play(soundID, leftVolume, rightVolume, priority, loop, rate);
     }
 
     public void stop() {
-        if (mSoundPool == null) {
-            throw new Error("Please initialize first!");
+        if (mSoundPool != null) {
+            mSoundPool.stop(streamID);
         }
-
-        ALog.e("streamID-->" + streamID);
-        mSoundPool.stop(streamID);
     }
 
     public void clear() {

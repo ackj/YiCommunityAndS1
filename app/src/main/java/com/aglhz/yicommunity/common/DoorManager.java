@@ -121,14 +121,14 @@ public class DoorManager {
         if (lc != null) {
             lc.addListener(mListener);
 
-            try {
-                // 这里总是报空指针，干脆让这个代码运行多次注册，同时捕获异常。
-                SipCorePreferences.instance().setAccountOutboundProxyEnabled(0, true);
-                ALog.e(TAG, "成功注册代理服务器…………………………………………");
-            } catch (Exception e) {
-                ALog.e(TAG, "异常出错了");
-                e.printStackTrace();
-            }
+//            try {
+//                // 这里总是报空指针，干脆让这个代码运行多次注册，同时捕获异常。
+//                SipCorePreferences.instance().setAccountOutboundProxyEnabled(0, true);
+//                ALog.e(TAG, "成功注册代理服务器…………………………………………");
+//            } catch (Exception e) {
+//                ALog.e(TAG, "异常出错了");
+//                e.printStackTrace();
+//            }
         }
         return this;
     }
