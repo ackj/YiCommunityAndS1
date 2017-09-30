@@ -296,13 +296,14 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     //跳转到停车模块。
     private void go2Park(int position) {
         if (position == 2) {
-            new AlertDialog.Builder(_mActivity)
-                    .setTitle("提示")
-                    .setMessage("当前小区未开通此服务!")
-                    .setCancelable(false)
-                    .setNegativeButton("确定", (dialog, which) -> {
-                        go2ParkActivity(position);
-                    }).show();
+//            new AlertDialog.Builder(_mActivity)
+//                    .setTitle("提示")
+//                    .setMessage("当前小区未开通此服务!")
+//                    .setCancelable(false)
+//                    .setNegativeButton("确定", (dialog, which) -> {
+//
+//                    }).show();
+            go2ParkActivity(position);
         } else {
             go2ParkActivity(position);
         }
