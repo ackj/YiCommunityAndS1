@@ -1,5 +1,6 @@
 package cn.itsite.apush;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 
 public class PopupPushActivity extends AndroidPopupActivity {
-    static final String TAG = "PopupPushActivity";
+    public static final String TAG = PopupPushActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class PopupPushActivity extends AndroidPopupActivity {
     }
 
     /**
-     * 实现通知打开回调方法，获取通知相关信息
+     * 实现通知打开回调方法，获取通知相关信息。
      *
      * @param title   标题
      * @param summary 内容
@@ -29,6 +30,12 @@ public class PopupPushActivity extends AndroidPopupActivity {
      */
     @Override
     protected void onSysNoticeOpened(String title, String summary, Map<String, String> extMap) {
-        Log.d("onSysNoticeOpened", " title: " + title + ", content: " + summary + ", extMap: " + extMap);
+        Log.d(TAG, "onSysNoticeOpened--> title: " + title + ", content: " + summary + ", extMap: " + extMap);
+        Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        if (intent == null) {
+            Log.e(TAG, "cannot find app:" + getPackageName());
+        } else {
+            startActivity(intent);
+        }
     }
 }
