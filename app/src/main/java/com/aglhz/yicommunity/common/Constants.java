@@ -4,6 +4,8 @@ package com.aglhz.yicommunity.common;
 import com.aglhz.abase.common.BaseConstants;
 import com.aglhz.yicommunity.BuildConfig;
 
+import static com.zhy.http.okhttp.OkHttpUtils.METHOD.HEAD;
+
 /**
  * Author：leguang on 2016/10/9 0009 15:49
  * Email：langmanleguang@qq.com

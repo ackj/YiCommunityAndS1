@@ -128,11 +128,11 @@ public class CarCardFragment extends BaseFragment<CarCardContract.Presenter> imp
                         //-------------- 审核通过 -------------
                         if ("月租卡".equals(bean.getCardType())) {
                             //-------------- 月租卡 -------------
-                            if (bean.getNeedToPayType() > 1) {
+//                            if (bean.getNeedToPayType() > 1) {
                                 start(PublishMonthCardFragment.newInstance(PublishMonthCardFragment.TYPE_RECHARGE, bean.getFid()));
-                            } else {
-                                start(PublishMonthCardFragment.newInstance(PublishMonthCardFragment.TYPE_FIRST_PAY, bean.getFid()));
-                            }
+//                            } else {
+//                                start(PublishMonthCardFragment.newInstance(PublishMonthCardFragment.TYPE_FIRST_PAY, bean.getFid()));
+//                            }
                         } else {
                             //-------------- 业主卡 -------------
                             startForResult(PublishOwnerCardFragment.newInstance(bean), 200);
