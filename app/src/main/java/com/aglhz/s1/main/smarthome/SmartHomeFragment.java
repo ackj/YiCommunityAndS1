@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,9 +54,7 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
  */
 
 public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter> implements SmartHomeContract.View {
-
     private static final String TAG = SmartHomeFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -64,17 +63,13 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     private Unbinder unbinder;
     private SmartHomeListAdapter adapter;
     private EquipmentBean.DataBean.DataListBean addEquipmentBean;//添加的item
     private CameraBean.DataBean addCameraBean;
-
     private String[] addSelectedArr = {"新设备配置网络", "添加已联网设备"};
     private String[] cameraSelectedArr = {"设置", "删除"};
-
-    Params params = Params.getInstance();
-
+    private Params params = Params.getInstance();
     public List<EquipmentBean.DataBean.DataListBean> equipmentList = new ArrayList<>();
     public List<CameraBean.DataBean> cameraList = new ArrayList<>();
 
@@ -139,7 +134,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new SmartHomeListAdapter();
         recyclerView.setAdapter(adapter);
-        recyclerView.setBackgroundColor(_mActivity.getResources().getColor(R.color.material_grey_300));
+        ptrFrameLayout.setBackgroundColor(ContextCompat.getColor(App.mApp, R.color.material_grey_300));
 
         addEquipmentBean = new EquipmentBean.DataBean.DataListBean();
         addEquipmentBean.setDeviceName("添加中控");
