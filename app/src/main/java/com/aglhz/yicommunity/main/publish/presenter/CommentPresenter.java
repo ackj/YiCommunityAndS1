@@ -8,7 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.publish.contract.CommentContract;
 import com.aglhz.yicommunity.main.publish.model.CommentModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/11 0011 16:46.

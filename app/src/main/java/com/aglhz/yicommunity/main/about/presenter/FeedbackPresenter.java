@@ -7,7 +7,7 @@ import com.aglhz.yicommunity.main.about.contract.FeedbackContract;
 import com.aglhz.yicommunity.main.about.model.FeedbackModel;
 import com.aglhz.yicommunity.common.Params;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**

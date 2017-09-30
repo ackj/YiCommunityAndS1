@@ -8,7 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.contract.PublishOwnerCardContract;
 import com.aglhz.yicommunity.main.park.model.PublishOwnerCardModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/24 0024 10:44.

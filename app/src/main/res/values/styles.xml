@@ -252,4 +252,124 @@
         <item name="android:minHeight">13dp</item>
         <item name="android:maxHeight">13dp</item>
     </style>
+
+    <!--todo(高亮) ssssssssssssssssssssssss 以下是S1的内容 sssssssssssssssssssssssssssss-->
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="AppTheme.LaunchTheme">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:navigationBarColor">@color/base_color</item>
+        <item name="android:windowAnimationStyle">@style/NoAnimationTheme</item>
+    </style>
+
+    <style name="AppTheme.Transparent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@style/NoAnimationTheme</item>
+    </style>
+
+    <!--通用-->
+    <style name="NormalLineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/base_line</item>
+    </style>
+
+    <!---->
+    <style name="LinearLayoutItemStyle">
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="TextViewBaseBlackStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/base_black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextViewBaseColorWidthZeroWeightOneStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/base_black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+
+    <!--[更多]下的可复用Style-->
+    <style name="MoreItem_LineStyle">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">75dp</item>
+        <item name="android:background">@color/base_line</item>
+    </style>
+
+    <style name="MoreItem_TitleStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/base_black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="MoreItem_LinearLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!--[联动编辑]下的可复用Style-->
+    <style name="LinkageEditItem_LinearLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="LinkageEditItem_TitleStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/base_black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="LinkageEditItem_SelectTextStyle">
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_width">115dp</item>
+        <item name="android:background">@drawable/shape_stroke_blue</item>
+        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!--录音弹框-->
+    <style name="recordbutton_alert_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景透明 -->
+        <!-- <item name="android:backgroundDimEnabled">false</item> -->
+        <!-- 模糊 -->
+    </style>
 </resources>

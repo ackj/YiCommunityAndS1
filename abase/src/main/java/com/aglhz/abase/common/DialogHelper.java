@@ -7,6 +7,8 @@ import android.view.View;
 import com.trycatch.mysnackbar.Prompt;
 import com.trycatch.mysnackbar.TSnackbar;
 
+import cn.itsite.adialog.dialog.LoadingDialog;
+
 /**
  * Author：leguang on 2016/11/11 0011 18:50
  * Email：langmanleguang@qq.com
@@ -38,5 +40,9 @@ public class DialogHelper {
         TSnackbar.make(view, text, TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
                 .setPromptThemBackground(Prompt.WARNING)
                 .show();
+    }
+
+    public static Dialog loading(Activity activity) {
+        return new LoadingDialog(activity);
     }
 }

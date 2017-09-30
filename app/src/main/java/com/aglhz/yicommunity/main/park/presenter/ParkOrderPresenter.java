@@ -8,7 +8,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.contract.ParkOrderContract;
 import com.aglhz.yicommunity.main.park.model.ParkOrderModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/6/1 0001 09:28.

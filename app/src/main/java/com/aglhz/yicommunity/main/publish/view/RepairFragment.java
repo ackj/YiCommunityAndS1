@@ -27,6 +27,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.IconBean;
+import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.entity.bean.RepairTypesBean;
 import com.aglhz.yicommunity.event.EventCommunity;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
@@ -278,21 +279,21 @@ public class RepairFragment extends BaseFragment<PublishContract.Presenter> impl
     /**
      * 响应请求房屋列表
      *
-     * @param iconBeans
+     * @param
      */
-    public void responseMyHouse(List<IconBean> iconBeans) {
+    public void responseMyHouse(List<MyHousesBean.DataBean.AuthBuildingsBean> datas) {
         dismissLoading();
-        String[] houseTitles = new String[iconBeans.size()];
-        for (int i = 0; i < iconBeans.size(); i++) {
-            houseTitles[i] = iconBeans.get(i).title;
+        String[] houseTitles = new String[datas.size()];
+        for (int i = 0; i < datas.size(); i++) {
+            houseTitles[i] = datas.get(i).getAddress();
         }
 
         new AlertDialog.Builder(_mActivity)
                 .setTitle("请选择")
                 .setItems(houseTitles, (dialog, which) -> {
                     //网络访问
-                    tvHouseName.setText(iconBeans.get(which).title);
-                    params.ofid = iconBeans.get(which).fid;
+                    tvHouseName.setText(datas.get(which).getAddress());
+                    params.ofid = datas.get(which).getFid();
                 })
                 .setPositiveButton("取消", null)
                 .show();

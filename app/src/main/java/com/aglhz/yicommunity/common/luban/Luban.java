@@ -16,10 +16,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.Single;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import static com.aglhz.yicommunity.common.luban.Preconditions.checkNotNull;
 
@@ -164,11 +165,22 @@ public class Luban {
         } else return Observable.empty();
     }
 
-    public Single<List<File>> asList() {
+    public Observable<List<File>> asList() {
         if (gear == FIRST_GEAR) {
-            return Observable.fromIterable(mFileList).concatMap(file -> Observable.just(file).map(file12 -> firstCompress(file12))).toList();
+            return Observable.from(mFileList)
+                    .map(file12 -> firstCompress(file12))
+                    .toList();
+//            return Observable.fromIterable(mFileList)
+//                    .concatMap(file ->
+//                            Observable.just(file)
+//                                    .map(file12 -> firstCompress(file12)))
+//                    .toList();
         } else if (gear == THIRD_GEAR) {
-            return Observable.fromIterable(mFileList).concatMap(file -> Observable.just(file).map(file1 -> thirdCompress(file1))).toList();
+            return Observable.from(mFileList)
+                    .map(file -> thirdCompress(file))
+                    .toList();
+//           return Observable.fromIterable(mFileList).concatMap(
+//            file -> Observable.just(file).map(file1 -> thirdCompress(file1))).toList();
         } else
             return null;
     }

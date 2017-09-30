@@ -9,9 +9,9 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CommentListBean;
 import com.aglhz.yicommunity.main.publish.contract.CommentContract;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/11 0011 16:36.

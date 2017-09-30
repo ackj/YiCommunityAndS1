@@ -5,7 +5,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.HouseRightsBean;
 
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

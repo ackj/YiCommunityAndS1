@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.widget.statemanager.StateManager;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.abase.common.DialogHelper;
@@ -33,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.statemanager.StateManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**

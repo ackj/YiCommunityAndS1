@@ -8,7 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.door.contract.QuickOpenDoorContract;
 import com.aglhz.yicommunity.main.door.model.QuickOpenDoorModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author：leguang on 2016/10/9 0009 10:35

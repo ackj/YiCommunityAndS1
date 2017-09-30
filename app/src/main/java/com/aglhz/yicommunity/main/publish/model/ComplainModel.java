@@ -11,11 +11,11 @@ import com.aglhz.yicommunity.main.publish.contract.PublishContract;
 
 import java.io.File;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

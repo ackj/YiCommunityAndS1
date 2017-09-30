@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.DateUtils;
-import com.aglhz.abase.widget.statemanager.StateManager;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
 import com.aglhz.abase.common.DialogHelper;
@@ -31,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Created by Administrator on 2017/4/19 9:35.

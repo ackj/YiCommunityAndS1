@@ -36,10 +36,10 @@ public class ParkOrderFragment extends BaseFragment<ParkOrderContract.Presenter>
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tv_bill_code)
-    TextView tvBillCode;
-    @BindView(R.id.tv_create_time)
-    TextView tvCreateTime;
+//    @BindView(R.id.tv_bill_code)
+//    TextView tvBillCode;
+//    @BindView(R.id.tv_create_time)
+//    TextView tvCreateTime;
     @BindView(R.id.tv_car_num)
     TextView tvCarNum;
     @BindView(R.id.tv_in_time)
@@ -138,8 +138,8 @@ public class ParkOrderFragment extends BaseFragment<ParkOrderContract.Presenter>
      */
     @Override
     public void responseParkOrder(ParkOrderBean.DataBean bean) {
-        tvBillCode.setText(bean.getBillCode());
-        tvCreateTime.setText(bean.getCreateTime());
+//        tvBillCode.setText(bean.getBillCode());
+//        tvCreateTime.setText(bean.getCreateTime());
         tvCarNum.setText(bean.getCarNo());
         tvInTime.setText(bean.getInTime());
         tvOutTime.setText(bean.getOutTime());

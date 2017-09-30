@@ -18,7 +18,6 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.abase.utils.DensityUtils;
 import com.aglhz.abase.utils.ScreenUtils;
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.json.JSONException;
 
@@ -32,6 +31,7 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
+import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Author：leguang on 2016/10/9 0009 15:49

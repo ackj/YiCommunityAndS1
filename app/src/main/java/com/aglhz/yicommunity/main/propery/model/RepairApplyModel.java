@@ -6,9 +6,8 @@ import com.aglhz.yicommunity.entity.bean.RepairApplyBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.propery.contract.RepairApplyContract;
-
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/8 0008 21:31.

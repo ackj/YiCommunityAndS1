@@ -8,7 +8,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.message.contract.MessageCenterContract;
 import com.aglhz.yicommunity.main.message.model.MessageCenterModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**

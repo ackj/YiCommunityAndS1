@@ -8,6 +8,14 @@ public class IconBean {
     public int icon;
     public String title;
     public String fid;
+    public String roomDir;
+
+    public IconBean(int icon, String title, String fid, String roomDir) {
+        this.icon = icon;
+        this.title = title;
+        this.fid = fid;
+        this.roomDir = roomDir;
+    }
 
     public IconBean(int icon, String title, String fid) {
         this.icon = icon;

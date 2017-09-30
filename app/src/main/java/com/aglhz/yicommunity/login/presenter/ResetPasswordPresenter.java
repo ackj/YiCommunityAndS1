@@ -7,7 +7,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.login.contract.ResetPasswordContract;
 import com.aglhz.yicommunity.login.model.ResetPasswordModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/6/23 0023 19:32.

@@ -7,7 +7,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.picker.contract.ParkPickerContract;
 import com.aglhz.yicommunity.main.picker.model.ParkPickerModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/23 0023 15:07.

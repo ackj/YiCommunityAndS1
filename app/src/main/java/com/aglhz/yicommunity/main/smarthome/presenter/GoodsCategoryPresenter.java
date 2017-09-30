@@ -7,7 +7,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.smarthome.model.GoodsCategoryModel;
 import com.aglhz.yicommunity.main.smarthome.contract.GoodsCategoryContract;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/22 0022 10:24.

@@ -7,7 +7,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.message.contract.RepairDetailContract;
 import com.aglhz.yicommunity.main.message.model.RepairDetailModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/5/19 0019 09:42.

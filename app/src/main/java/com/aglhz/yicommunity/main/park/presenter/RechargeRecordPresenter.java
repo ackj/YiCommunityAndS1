@@ -8,7 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.contract.RechargeRecordContract;
 import com.aglhz.yicommunity.main.park.model.RechargeRecordModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/27 0027 15:39.

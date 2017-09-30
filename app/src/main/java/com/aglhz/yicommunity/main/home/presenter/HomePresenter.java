@@ -9,7 +9,8 @@ import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import com.aglhz.yicommunity.main.home.model.HomeModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author：leguang on 2016/10/9 0009 10:35
@@ -52,7 +53,13 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
     public void requestHomeNotices(Params params) {
         mRxManager.add(mModel.requestHomeNotices(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(strings -> getView().responseHomeNotices(strings), this::error));
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseHomeNotices(bean.getData().getNoticeList());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
     }
 
     @Override
@@ -118,6 +125,19 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
                         getView().responseSubCategoryList(categoryBean.getData());
                     } else {
                         getView().error(categoryBean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestCommEquipmentList(Params params) {
+        mRxManager.add(mModel.requestCommEquipmentList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(equipmentBean -> {
+                    if (equipmentBean.getOther().getCode() == 200) {
+                        getView().responseCommEquipmentList(equipmentBean.getData().getDataList());
+                    } else {
+                        getView().error(equipmentBean.getOther().getMessage());
                     }
                 }, this::error));
     }

@@ -4,7 +4,7 @@ import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author: LiuJia on 2017/6/23 0023 19:18.

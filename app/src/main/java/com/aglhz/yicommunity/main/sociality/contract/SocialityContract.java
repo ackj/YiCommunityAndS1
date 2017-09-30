@@ -6,7 +6,8 @@ import com.aglhz.yicommunity.entity.bean.CommunityBean;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import rx.Observable;
+
 
 /**
  * Author: LiuJia on 2017/9/5 0005 17:21.

@@ -7,8 +7,8 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 
 /**

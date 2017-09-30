@@ -7,7 +7,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.sociality.contract.SocialityContract;
 import com.aglhz.yicommunity.main.sociality.model.SocialityModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/9/5 0005 17:35.

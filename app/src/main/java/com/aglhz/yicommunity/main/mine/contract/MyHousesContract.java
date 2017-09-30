@@ -7,8 +7,7 @@ import com.aglhz.yicommunity.common.Params;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author: LiuJia on 2017/5/17 0017 16:03.
@@ -25,6 +24,6 @@ public interface MyHousesContract {
     }
 
     interface Model extends BaseContract.Model {
-        Flowable<MyHousesBean> requsetMyHouse(Params params);
+        Observable<MyHousesBean> requsetMyHouse(Params params);
     }
 }

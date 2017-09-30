@@ -8,6 +8,7 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
@@ -15,13 +16,8 @@ import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
 import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 import com.aglhz.yicommunity.main.home.contract.HomeContract;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -31,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HomeModel extends BaseModel implements HomeContract.Model {
+
     private final String TAG = HomeModel.class.getSimpleName();
 
     @Override
@@ -45,19 +42,11 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Single<List<String>> requestHomeNotices(Params params) {
+    public Observable<NoticeBean> requestHomeNotices(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestHomeNotices(ApiService.requestHomeNotices, params.token, params.cmnt_c, params.topnum)
-                .map(noticeBean -> {
-                    if (noticeBean.getOther().getCode() != 200) {
-                        return new ArrayList<NoticeBean.DataBean.NoticeListBean>();
-                    }
-                    return noticeBean.getData().getNoticeList();
-                })
-                .flatMap(Flowable::fromIterable)
-                .map(NoticeBean.DataBean.NoticeListBean::getTitle)
-                .toList()
                 .subscribeOn(Schedulers.io());
+
     }
 
     @Override
@@ -99,6 +88,13 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     public Observable<SubCategoryBean> requestSubCategoryList(Params params) {
         return HttpHelper.getService(ApiService.class).requestSubCategoryLevel(
                 ApiService.requestSubCategoryLevel,params.token,params.appType,params.id)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CommEquipmentBean> requestCommEquipmentList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestCommEquipmentList(
+                ApiService.requestCommEquipmentList,params.token,Params.cmnt_c,params.powerCode)
                 .subscribeOn(Schedulers.io());
     }
 }

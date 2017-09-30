@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.widget.statemanager.StateLayout;
-import com.aglhz.abase.widget.statemanager.StateManager;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.ApiService;
@@ -44,6 +42,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.statemanager.StateLayout;
+import cn.itsite.statemanager.StateManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 

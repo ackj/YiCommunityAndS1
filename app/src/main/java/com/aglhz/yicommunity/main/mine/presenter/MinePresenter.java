@@ -9,7 +9,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.mine.contract.MineContract;
 import com.aglhz.yicommunity.main.mine.model.MineModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -58,7 +58,6 @@ public class MinePresenter extends BasePresenter<MineContract.View, MineContract
                     if (isViewAttached()) {
                         getView().responseCache(s);
                     }
-
                 }, this::error)
         );
     }

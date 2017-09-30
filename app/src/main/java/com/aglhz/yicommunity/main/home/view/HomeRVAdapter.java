@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.abase.utils.DensityUtils;
 import com.aglhz.yicommunity.App;
@@ -100,6 +99,7 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                 helper.addOnClickListener(R.id.ll_quick_open_door)
                         .addOnClickListener(R.id.ll_property_payment)
                         .addOnClickListener(R.id.ll_temporary_parking)
+                        .addOnClickListener(R.id.ll_equipment_contral)
                         .addOnClickListener(R.id.ll_life_supermarket);
                 break;
             case HomeBean.TYPE_COMMUNITY_SERVICE:

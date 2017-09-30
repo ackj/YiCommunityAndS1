@@ -10,8 +10,9 @@ import com.aglhz.yicommunity.entity.bean.SipBean;
 import com.aglhz.yicommunity.entity.bean.UserBean;
 import com.aglhz.yicommunity.login.contract.LoginContract;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

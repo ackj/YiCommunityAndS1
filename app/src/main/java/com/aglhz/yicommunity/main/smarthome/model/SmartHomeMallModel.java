@@ -9,8 +9,9 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.smarthome.contract.SmartHomeMallContract;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/22 0022 09:07.

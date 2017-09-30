@@ -8,7 +8,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.mine.model.MyHousesModel;
 import com.aglhz.yicommunity.main.mine.contract.MyHousesContract;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/5/17 0017 16:15.

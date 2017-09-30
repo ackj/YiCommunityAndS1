@@ -1,13 +1,15 @@
 package com.aglhz.yicommunity.main.services.presenter;
 
+import android.support.annotation.NonNull;
+
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.services.contract.ServicesDetailContract;
 import com.aglhz.yicommunity.main.services.model.ServicesDetailModel;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 /**
  * Author: LiuJia on 2017/6/30 0030 17:34.

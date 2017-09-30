@@ -32,8 +32,8 @@ import org.linphone.core.LinphoneCoreException;
 import org.linphone.core.LinphoneCoreListenerBase;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class CallActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "CallActivity";

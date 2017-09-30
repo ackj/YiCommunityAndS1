@@ -27,7 +27,6 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.KeyBoardUtils;
 import com.aglhz.abase.utils.ScreenUtils;
 import com.aglhz.abase.utils.ToastUtils;
-import com.aglhz.abase.widget.statemanager.StateManager;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.abase.common.DialogHelper;
@@ -51,6 +50,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.statemanager.StateManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 import static com.aglhz.yicommunity.main.sociality.view.SocialityListFragment.TYPE_CARPOOL_OWNER;
