@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -48,7 +49,6 @@ import butterknife.Unbinder;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 
-import static anet.channel.util.Utils.context;
 
 
 /**
@@ -310,7 +310,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
 
             } else {
-                Toast.makeText(context, "已拒绝权限！", Toast.LENGTH_SHORT).show();
+                ToastUtils.showToast(_mActivity,"已拒绝权限");
             }
         }
     }

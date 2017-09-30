@@ -112,6 +112,23 @@
         android:layout_height="1dp"
         android:background="@color/base_line" />
 
+    <TextView
+        android:id="@+id/tv_goto_test_schema"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_arrow_right_gray_60px"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="进入测试模式"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_line" />
+
     <!--<TextView
         android:id="@+id/tv_unbind_host_setting_fragment"
         android:layout_width="match_parent"

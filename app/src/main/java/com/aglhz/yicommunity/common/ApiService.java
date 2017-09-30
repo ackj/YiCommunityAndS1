@@ -8,6 +8,7 @@ import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
 import com.aglhz.yicommunity.entity.bean.CheckTokenBean;
+import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.CommentListBean;
 import com.aglhz.yicommunity.entity.bean.CommunityBean;
 import com.aglhz.yicommunity.entity.bean.CommunitySelectBean;
@@ -952,6 +953,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestSetFamilyPhone(@Url String url, @Field("token") String token,@Field("calleePhones") String calleePhones, @Field("roomDir") String roomDir);
+
+    String requestCommEquipmentList = BASE_PROPERTY +"/smartequipment/info/get-enable-equipmentInfo-list";
+
+    @FormUrlEncoded
+    @POST
+    Observable<CommEquipmentBean> requestCommEquipmentList(@Url String url,
+                                                           @Field("token") String token,
+                                                           @Field("communityFid") String communityFid,
+                                                           @Field("powerCode") String powerCode);
 
 }
 

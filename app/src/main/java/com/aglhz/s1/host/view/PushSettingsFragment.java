@@ -141,6 +141,11 @@ public class PushSettingsFragment extends BaseFragment<HostSettingsContract.Pres
         sbDuanxintuisong.setChecked(bean.getSms_tophone() == 1);
     }
 
+    @Override
+    public void responseGatewayTest(BaseBean baseBean) {
+
+    }
+
     @OnClick({R.id.ll_waijiedianyuandiaodian,
             R.id.ll_huifuwaijiedianyuan,
             R.id.ll_bufangchefang,

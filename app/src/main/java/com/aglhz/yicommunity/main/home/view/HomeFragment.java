@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -19,6 +20,8 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.abase.utils.DensityUtils;
+import com.aglhz.s1.main.home.MainActivity;
+import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Constants;
@@ -26,6 +29,7 @@ import com.aglhz.yicommunity.common.LbsManager;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
+import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.HomeBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
@@ -233,6 +237,11 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                         case R.id.ll_property_payment:
                             _mActivity.start(PropertyPayFragment.newInstance());
                             break;
+                        case R.id.ll_equipment_contral:
+                            params.powerCode = "SmartEquipment";
+                            showLoading();
+                            mPresenter.requestCommEquipmentList(params);
+                            break;
                         case R.id.ll_temporary_parking:
 //                            go2Web("临时停车", ApiService.TEMP_PARKING);
                             _mActivity.start(TemporaryParkPayFragment.newInstance());
@@ -387,6 +396,39 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             ptrFrameLayout.refreshComplete();
             adapter.getData().get(5).setWisdomLife(datas);
             adapter.notifyItemChanged(5);
+        }
+    }
+
+    @Override
+    public void responseCommEquipmentList(List<CommEquipmentBean.DataBean.DataListBean> datas) {
+        dismissLoading();
+        if (datas.size() == 0) {
+            new AlertDialog.Builder(_mActivity)
+                    .setTitle("温馨提示")
+                    .setMessage("您当前暂无添加任何智能设备，可在【管家】的【智能家居】中添加。")
+                    .setPositiveButton("确定", null)
+                    .show();
+        } else {
+            new SelectorDialogFragment()
+                    .setTitle("请选择智能控制")
+                    .setItemLayoutId(R.layout.item_comm_equipment)
+                    .setData(datas)
+                    .setOnItemConvertListener((holder, position, dialog) -> {
+                        holder.setText(R.id.tv_device_name, datas.get(position).getDeviceName())
+                                .setText(R.id.tv_address, datas.get(position).getHouseInfoDetails());
+                    })
+                    .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                        dialog.dismiss();
+                        UserHelper.deviceSn = datas.get(position).getDeviceSn();
+                        UserHelper.deviceName = datas.get(position).getDeviceName();
+                        Intent intent = new Intent(App.mContext, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        App.mContext.startActivity(intent);
+                    })
+                    .setAnimStyle(R.style.SlideAnimation)
+                    .setGravity(Gravity.BOTTOM)
+                    .setHeight(350)
+                    .show(getChildFragmentManager());
         }
     }
 

@@ -59,4 +59,43 @@ public class SmartHomePresenter extends BasePresenter<SmartHomeContract.View,Sma
                 }, this::error));
     }
 
+    @Override
+    public void requestCameraList(Params params) {
+        mRxManager.add(mModel.requestCameraList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseCameraList(bean.getData());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestNewCamera(Params params) {
+        mRxManager.add(mModel.requestNewCamera(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseAddAndDelCameraSuccess(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestDelCamera(Params params) {
+        mRxManager.add(mModel.requestDelCamera(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseAddAndDelCameraSuccess(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
 }

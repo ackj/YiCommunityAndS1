@@ -44,4 +44,14 @@ public class HostSettingsModel extends BaseModel implements HostSettingsContract
                         params.type)
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseBean> requestGatewayTest(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestGatewayTest(ApiService.requestGatewayTest,
+                        params.token,
+                        params.deviceSn,
+                        params.status)
+                .subscribeOn(Schedulers.io());
+    }
 }

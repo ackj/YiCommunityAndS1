@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/PushSDK" />
             <option value="$PROJECT_DIR$/abase" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/apush" />
           </set>
         </option>
         <option name="myModules">
@@ -19,6 +20,7 @@
             <option value="$PROJECT_DIR$/PushSDK" />
             <option value="$PROJECT_DIR$/abase" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/apush" />
           </set>
         </option>
       </GradleProjectSettings>

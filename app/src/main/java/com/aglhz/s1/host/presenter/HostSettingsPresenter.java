@@ -56,4 +56,17 @@ public class HostSettingsPresenter extends BasePresenter<HostSettingsContract.Vi
                     }
                 }, this::error/*, this::complete, disposable -> start(null)*/));
     }
+
+    @Override
+    public void requestGatewayTest(Params params) {
+        mRxManager.add(mModel.requestGatewayTest(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseGatewayTest(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error/*, this::complete, disposable -> start(null)*/));
+    }
 }

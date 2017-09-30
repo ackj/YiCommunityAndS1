@@ -5,6 +5,7 @@ import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.CameraBean;
 import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.s1.main.smarthome.contract.SmartHomeContract;
 
@@ -32,6 +33,27 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
         return HttpHelper.getService(ApiService.class)
                 .requestDelGateway(ApiService.requestDelGateway,
                         params.token,params.deviceSn)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CameraBean> requestCameraList(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestCameraList(ApiService.requestCameraList,params.token,params.page,params.pageSize)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestNewCamera(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestNewcamera(ApiService.requestNewcamera,params.token,params.deviceId,params.deviceName,params.devicePassword)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestDelCamera(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestDelcamera(ApiService.requestDelcamera,params.token,params.fid)
                 .subscribeOn(Schedulers.io());
     }
 

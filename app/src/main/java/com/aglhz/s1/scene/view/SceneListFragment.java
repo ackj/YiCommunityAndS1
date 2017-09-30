@@ -102,12 +102,14 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             switch (view.getId()) {
                 case R.id.tv_delete_item_scene:
+                    showLoading();
                     params.index = adapter.getData().get(position).getIndex();
                     mPresenter.requestDeleteScene(params);
                     params.option = position;
                     break;
                 case R.id.tv_toggle_item_scene:
                     params.index = adapter.getData().get(position).getIndex();
+                    showLoading();
                     mPresenter.requestStartScene(params);
                     break;
                 default:
@@ -161,11 +163,13 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
 
     @Override
     public void responseStartScene(BaseBean bean) {
+        dismissLoading();
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 
     @Override
     public void responseDeleteScene(BaseBean bean) {
+        dismissLoading();
         adapter.remove(params.option);
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
@@ -173,6 +177,7 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
     @Override
     public void error(String errorMessage) {
         super.error(errorMessage);
+        dismissLoading();
         ptrFrameLayout.refreshComplete();
         if (params.page == 1) {
             mStateManager.showError();

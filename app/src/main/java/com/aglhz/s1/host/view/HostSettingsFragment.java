@@ -1,6 +1,8 @@
 package com.aglhz.s1.host.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +20,11 @@ import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
+import com.aglhz.s1.host.contract.HostSettingsContract;
+import com.aglhz.s1.host.presenter.HostSettingsPresenter;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
 
@@ -34,7 +40,7 @@ import rx.schedulers.Schedulers;
  * Email：langmanleguang@qq.com
  */
 
-public class HostSettingsFragment extends BaseFragment {
+public class HostSettingsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = HostSettingsFragment.class.getSimpleName();
     public static final int RESULT_HOST_SETTINGS = 1234;
     @BindView(R.id.toolbar_title)
@@ -54,8 +60,16 @@ public class HostSettingsFragment extends BaseFragment {
     private Unbinder unbinder;
     private RxManager mRxManager = new RxManager();
 
+    private Params params = Params.getInstance();
+
     public static HostSettingsFragment newInstance() {
         return new HostSettingsFragment();
+    }
+
+    @NonNull
+    @Override
+    protected HostSettingsContract.Presenter createPresenter() {
+        return new HostSettingsPresenter(this);
     }
 
     @Override
@@ -99,7 +113,8 @@ public class HostSettingsFragment extends BaseFragment {
     @OnClick({R.id.ll_host_name_host_setting_fragment,
             R.id.tv_alert_sms_host_setting_fragment,
             R.id.tv_push_host_setting_fragment,
-            R.id.tv_volume_host_setting_fragment})
+            R.id.tv_volume_host_setting_fragment,
+            R.id.tv_goto_test_schema})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_host_name_host_setting_fragment:
@@ -117,28 +132,20 @@ public class HostSettingsFragment extends BaseFragment {
             case R.id.tv_volume_host_setting_fragment:
                 start(VolumeSettingsFragment.newInstance());
                 break;
-//            case R.id.tv_unbind_host_setting_fragment:
-//                new AlertDialog.Builder(_mActivity)
-//                        .setTitle("提醒")
-//                        .setMessage("确定要解除绑定当前主机吗？")
-//                        .setPositiveButton("确定", (dialog, which) ->
-//                                mRxManager.add(HttpHelper.getService(ApiService.class)
-//                                        .requestUnbindHost(ApiService.requestUnbindHost, UserHelper.token, hostBean.getFid())
-//                                        .subscribeOn(Schedulers.io())
-//                                        .observeOn(AndroidSchedulers.mainThread())
-//                                        .subscribe(bean -> {
-//                                            if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-//                                                DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
-//                                            } else {
-//                                                error(bean.getOther().getMessage());
-//                                            }
-//                                        }, this::error/*, () -> complete(""), disposable -> start("")*/)))
-//                        .setNegativeButton("取消", null)
-//                        .show();
-//                break;
-//            case R.id.tv_accredit_host_setting_fragment:
-//                start(AuthorizationFragment.newInstance(hostBean));
-//                break;
+            case R.id.tv_goto_test_schema:
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("提示")
+                        .setMessage("检测模式下设备报警不会推送至安防中心，您可对设备进行报警检测，5分钟后自动退出检测模式！")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                params.status = 1;
+                                mPresenter.requestGatewayTest(params);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                break;
         }
     }
 
@@ -154,5 +161,20 @@ public class HostSettingsFragment extends BaseFragment {
 //            bundle.putParcelable(Constants.KEY_HOST, hostBean);
 //            setFragmentResult(HostSettingsFragment.RESULT_HOST_SETTINGS, bundle);
         }
+    }
+
+    @Override
+    public void responseSetHost(BaseBean baseBean) {
+
+    }
+
+    @Override
+    public void responseHostSettings(HostSettingsBean baseBean) {
+
+    }
+
+    @Override
+    public void responseGatewayTest(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
     }
 }

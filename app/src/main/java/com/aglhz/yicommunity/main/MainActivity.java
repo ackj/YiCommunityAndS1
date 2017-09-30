@@ -50,22 +50,18 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void callState(LinphoneCore lc, LinphoneCall call, LinphoneCall.State state, String message) {
                         ALog.e("state-->" + state + "-----" + "message-->" + message);
-
-
+                        if (state == LinphoneCall.State.OutgoingInit || state == LinphoneCall.State.OutgoingProgress) {
+                            startActivity(new Intent(MainActivity.this, CallActivity.class));
+                        }
                         String tenantCode = call.getRemoteParams().getCustomHeader(
                                 "X-TenantCode");
                         String deviceNumber = call.getRemoteParams().getCustomHeader(
                                 "X-DeviceNumber");
                         String callPicture = call.getRemoteParams().getCustomHeader(
                                 "X-CallPicture");
-
                         ALog.e(tenantCode);
                         ALog.e(deviceNumber);
                         ALog.e(callPicture);
-
-                        if (state == LinphoneCall.State.OutgoingInit || state == LinphoneCall.State.OutgoingProgress) {
-                            startActivity(new Intent(MainActivity.this, CallActivity.class));
-                        }
                     }
                 });
             }

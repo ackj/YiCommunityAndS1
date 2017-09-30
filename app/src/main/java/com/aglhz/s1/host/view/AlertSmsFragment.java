@@ -112,4 +112,9 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
         etPhone1.setText(bean.getData().getSmspush_number1());
         etPhone2.setText(bean.getData().getSmspush_number2());
     }
+
+    @Override
+    public void responseGatewayTest(BaseBean baseBean) {
+
+    }
 }

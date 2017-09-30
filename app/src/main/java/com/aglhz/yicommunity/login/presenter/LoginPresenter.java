@@ -50,6 +50,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());
 
                         Params.token = UserHelper.token;//必须赋值一次。
+                        com.aglhz.s1.common.Params.token = UserHelper.token;
                         //注册友盟
                         mModel.requestUMeng(params.user);
                         //注册Sip到全视通服务器

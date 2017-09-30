@@ -689,6 +689,14 @@ public interface ApiService {
                                                 @Field("gateway") String deviceSn,
                                                 @Field("name") String name);
 
+    String requestGatewayTest =BASE_URL+"/ctrl/client/gatewayTest";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestGatewayTest(@Url String url,
+                                           @Field("token") String token,
+                                           @Field("gateway") String deviceSn,
+                                           @Field("status") int status);
 
 
 }

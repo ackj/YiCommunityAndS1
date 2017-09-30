@@ -157,7 +157,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
             }
         });
         rvSmartDoor.setAdapter(smartDoorAdapter = new StewardRVAdapter());
-        List<IconBean> listSmartDoor = new ArrayList<IconBean>();
+        List<IconBean> listSmartDoor = new ArrayList<>();
         listSmartDoor.add(new IconBean(R.drawable.ic_key_green_140px_140px, "设置开门", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_open_door_green_140px, "指定开门", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_password_open_door_green_140px, "密码开门", ""));
@@ -174,7 +174,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
             }
         });
         rvSmartPark.setAdapter(smartParkAdapter = new StewardRVAdapter());
-        List<IconBean> listSmartPark = new ArrayList<IconBean>();
+        List<IconBean> listSmartPark = new ArrayList<>();
         listSmartPark.add(new IconBean(R.drawable.ic_car_card_200px, "我的车卡", ""));
         listSmartPark.add(new IconBean(R.drawable.ic_stop_record_140px, "停车记录", ""));
         listSmartPark.add(new IconBean(R.drawable.ic_add_car_card_200px, "办理车卡", ""));
@@ -188,7 +188,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
             }
         });
         rvPropertyService.setAdapter(propertyServiceAdapter = new StewardRVAdapter());
-        List<IconBean> listPropertyService = new ArrayList<IconBean>();
+        List<IconBean> listPropertyService = new ArrayList<>();
         listPropertyService.add(new IconBean(R.drawable.ic_repair_orange_140px, "物业报修", ""));
         listPropertyService.add(new IconBean(R.drawable.ic_call_property_orange_140px, "联系物业", ""));
         listPropertyService.add(new IconBean(R.drawable.ic_property_complaints_orange_140px, "管理投诉", ""));
@@ -352,7 +352,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     public void error(String errorMessage) {
         dismissLoading();
         ptrFrameLayout.refreshComplete();
-        DialogHelper.warningSnackbar(getView(), errorMessage);
+        DialogHelper.errorSnackbar(getView(), errorMessage);
     }
 
     protected void initToolbar(Toolbar toolbar) {
@@ -455,26 +455,6 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
                 .setGravity(Gravity.BOTTOM)
                 .setHeight(350)
                 .show(getChildFragmentManager());
-
-        /**
-         * 以下注释代码随时可删除
-         */
-//        String[] arrayDoors = new String[bean.getData().size()];
-//
-//        for (int i = 0; i < bean.getData().size(); i++) {
-//            arrayDoors[i] = bean.getData().get(i).getName();
-//        }
-//
-//        new AlertDialog.Builder(_mActivity)
-//                .setTitle("选择门禁")
-//                .setItems(arrayDoors, (dialog, which) -> {
-//                    params.dir = bean.getData().get(which).getDir();
-////                    params.powerCode = "RemoteWatch";
-//                    params.powerCode = Constants.PERMISSION_REMOTEWATCH;
-//                    mPresenter.requestCheckPermission(params);
-//                    showLoading();
-//                })
-//                .show();
     }
 
     @Override
@@ -490,11 +470,11 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
         dismissLoading();
         new SelectorDialogFragment()
                 .setTitle("请选择要切换的社区")
-                .setItemLayoutId(android.R.layout.simple_list_item_1)
+                .setItemLayoutId(R.layout.item_rv_simple_selector)
                 .setData(datas)
                 .setOnItemConvertListener((holder, position, dialog) -> {
                     HouseInfoBean.DataBean bean = datas.get(position);
-                    holder.setText(android.R.id.text1, bean.getHouseName());
+                    holder.setText(R.id.tv_item_rv_simple_selector, bean.getHouseName());
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();

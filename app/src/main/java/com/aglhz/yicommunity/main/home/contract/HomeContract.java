@@ -5,6 +5,7 @@ import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
@@ -14,7 +15,6 @@ import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 import java.util.List;
 
 import rx.Observable;
-import rx.Single;
 
 
 /**
@@ -41,6 +41,8 @@ public interface HomeContract {
 
         //智慧商城二级列表
         void responseSubCategoryList(List<SubCategoryBean.DataBean> datas);
+
+        void responseCommEquipmentList(List<CommEquipmentBean.DataBean.DataListBean> datas);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -59,6 +61,8 @@ public interface HomeContract {
 
         //智慧商城二级列表
         void requestSubCategoryList(Params params);
+
+        void requestCommEquipmentList(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -77,5 +81,8 @@ public interface HomeContract {
 
         //智慧商城二级列表
         Observable<SubCategoryBean> requestSubCategoryList(Params params);
+
+        Observable<CommEquipmentBean> requestCommEquipmentList(Params params);
+
     }
 }

@@ -16,7 +16,7 @@ public class Params {
     public int page = 1;
     public int pageSize = 50;
     public String sc = "AglhzYsq";
-//    public String sc = "AglhzSmart";
+    //    public String sc = "AglhzSmart";
     public String user = "";
     public String pwd = "";
     public String pwd0 = "";
@@ -72,7 +72,7 @@ public class Params {
     public String deviceId;
     public String deviceName;
     public String devicePassword;
-    public String powerCode;
+    public String powerCode = "SmartEquipment";
     public String roomDir;
     public String deviceSn;//
 

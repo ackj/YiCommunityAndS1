@@ -1,5 +1,6 @@
 package com.aglhz.s1.main.smarthome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,18 +9,26 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
+import com.aglhz.s1.camera.CameraPlayActivity;
+import com.aglhz.s1.camera.CameraSettingFragment;
+import com.aglhz.s1.camera.CameraWifiInputFragment;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.CameraBean;
 import com.aglhz.s1.entity.bean.EquipmentBean;
+import com.aglhz.s1.entity.bean.SmartHomeBean;
 import com.aglhz.s1.main.home.MainActivity;
 import com.aglhz.s1.main.smarthome.contract.SmartHomeContract;
 import com.aglhz.s1.main.smarthome.presenter.SmartHomePresenter;
@@ -28,13 +37,15 @@ import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.widget.PtrHTFrameLayout;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 
 /**
  * Author: LiuJia on 2017/9/25 0025 09:35.
@@ -56,9 +67,16 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
 
     private Unbinder unbinder;
     private SmartHomeListAdapter adapter;
-    private EquipmentBean.DataBean.DataListBean addBean;//添加的item
+    private EquipmentBean.DataBean.DataListBean addEquipmentBean;//添加的item
+    private CameraBean.DataBean addCameraBean;
+
+    private String[] addSelectedArr = {"新设备配置网络", "添加已联网设备"};
+    private String[] cameraSelectedArr = {"设置", "删除"};
 
     Params params = Params.getInstance();
+
+    public List<EquipmentBean.DataBean.DataListBean> equipmentList = new ArrayList<>();
+    public List<CameraBean.DataBean> cameraList = new ArrayList<>();
 
     public static SmartHomeFragment newInstance(String roomDir) {
         ALog.e(TAG, "roomDir:" + roomDir);
@@ -106,6 +124,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
     public void onRefresh() {
         super.onRefresh();
         mPresenter.requestEquipmentInfoList(params);
+        mPresenter.requestCameraList(params);
     }
 
     private void initToolbar() {
@@ -121,14 +140,21 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
         adapter = new SmartHomeListAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setBackgroundColor(_mActivity.getResources().getColor(R.color.material_grey_300));
-        params.powerCode = "SmartEquipment";
 
-        addBean = new EquipmentBean.DataBean.DataListBean();
-        addBean.setDeviceName("添加中控");
+        addEquipmentBean = new EquipmentBean.DataBean.DataListBean();
+        addEquipmentBean.setDeviceName("添加中控");
+        addCameraBean = new CameraBean.DataBean();
+        addCameraBean.setName("添加监控");
+
+        equipmentList.add(addEquipmentBean);
+        cameraList.add(addCameraBean);
+
+        adapter.addData(new SmartHomeBean(SmartHomeBean.TYPE_EQUIPMENT, equipmentList, null));
+        adapter.addData(new SmartHomeBean(SmartHomeBean.TYPE_CAMERA, null, cameraList));
     }
 
     private void initListener() {
-        adapter.setOnItemGridClickListener(new SmartHomeListAdapter.OnItemGridClickListener() {
+        adapter.setOnItemEquipmentClickListener(new SmartHomeListAdapter.OnItemEquipmentClickListener() {
             @Override
             public void click(BaseRecyclerViewAdapter adapter, EquipmentBean.DataBean.DataListBean item, int position) {
                 if (adapter.getData().size() - 1 == position) {
@@ -160,6 +186,119 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
                 }
             }
         });
+
+        adapter.setOnItemCameraClickListener(new SmartHomeListAdapter.OnItemCameraClickListener() {
+            @Override
+            public void click(BaseRecyclerViewAdapter adapter, CameraBean.DataBean item, int position) {
+                if (adapter.getData().size() - 1 == position) {
+                    showSelectedDialog();
+                } else {
+                    Intent intent = new Intent(_mActivity, CameraPlayActivity.class);
+                    intent.putExtra("bean", item);
+                    _mActivity.startActivity(intent);
+                }
+            }
+
+            @Override
+            public void longClick(BaseRecyclerViewAdapter adapter, CameraBean.DataBean item, int position) {
+                if (position != adapter.getData().size() - 1) {
+                    showCameraSelectedDialog(item);
+                }
+            }
+        });
+    }
+
+    private void showCameraSelectedDialog(CameraBean.DataBean item) {
+        new AlertDialog.Builder(_mActivity)
+                .setItems(cameraSelectedArr, (dialog, which) -> {
+                    if (which == 0) {
+                        showSelectorDialog();
+                    } else {
+                        showDelCameraDialog(item);
+                    }
+                })
+                .show();
+    }
+
+    private void showSelectorDialog() {
+        List<CameraBean.DataBean> data = adapter.getData().get(1).cameraList;
+        new SelectorDialogFragment()
+                .setTitle("请选择监控")
+                .setItemLayoutId(android.R.layout.simple_list_item_1)
+                .setData(data.subList(0, data.size() - 1))
+                .setOnItemConvertListener((holder, position, dialog) -> {
+                    holder.setText(android.R.id.text1, data.get(position).getName() + "(" + data.get(position).getNo() + ")");
+                })
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .show(getChildFragmentManager());
+    }
+
+    private void showDelCameraDialog(CameraBean.DataBean item) {
+        new AlertDialog.Builder(_mActivity)
+                .setMessage("确认删除？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        params.fid = item.getFid();
+                        mPresenter.requestDelCamera(params);
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    private void showSelectedDialog() {
+        new AlertDialog.Builder(_mActivity)
+                .setItems(addSelectedArr, (dialog, which) -> {
+                    if (which == 0) {
+                        _mActivity.start(CameraWifiInputFragment.newInstance());
+                    } else {
+                        showAddCameraDialog();
+                    }
+                })
+                .show();
+    }
+
+    private void showAddCameraDialog() {
+        new BaseDialogFragment()
+                .setLayoutId(R.layout.fragment_input_video)
+                .setConvertListener((holder, dialog) -> {
+                    EditText etDeviceId = holder.getView(R.id.et_input_1);
+                    EditText etNickname = holder.getView(R.id.et_input_2);
+                    EditText etPassword = holder.getView(R.id.et_input_3);
+                    holder.setText(R.id.tv_title, "添加设备")
+                            .setOnClickListener(R.id.tv_cancel, v -> {
+                                dialog.dismiss();
+                            })
+                            .setOnClickListener(R.id.tv_comfirm, v -> {
+                                params.deviceId = etDeviceId.getText().toString().trim();
+                                params.deviceName = etNickname.getText().toString().trim();
+                                params.devicePassword = etPassword.getText().toString().trim();
+                                if (TextUtils.isEmpty(params.deviceId)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头ID");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(params.deviceName)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头昵称");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(params.devicePassword)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头密码");
+                                    return;
+                                }
+                                mPresenter.requestNewCamera(params);
+                                dialog.dismiss();
+                            });
+                })
+                .setMargin(40)
+                .setDimAmount(0.3f)
+                .setGravity(Gravity.CENTER)
+                .show(getFragmentManager());
     }
 
     @Override
@@ -177,14 +316,30 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
     @Override
     public void responseEquipmentInfoList(List<EquipmentBean.DataBean.DataListBean> data) {
         ptrFrameLayout.refreshComplete();
-        adapter.setNewData(null);
-        data.add(addBean);
-        adapter.addData(data);
+        adapter.getData().set(0, new SmartHomeBean(SmartHomeBean.TYPE_EQUIPMENT, data, null));
+        data.add(addEquipmentBean);
+        adapter.notifyItemChanged(0);
     }
 
     @Override
     public void responseDelGatewaySuccess(BaseBean baseBean) {
-        DialogHelper.successSnackbar(getView(),baseBean.getOther().getMessage());
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         mPresenter.requestEquipmentInfoList(params);
     }
+
+    @Override
+    public void responseCameraList(List<CameraBean.DataBean> data) {
+        ptrFrameLayout.refreshComplete();
+        adapter.getData().set(1, new SmartHomeBean(SmartHomeBean.TYPE_CAMERA, null, data));
+        data.add(addCameraBean);
+        adapter.notifyItemChanged(1);
+    }
+
+    @Override
+    public void responseAddAndDelCameraSuccess(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        mPresenter.requestCameraList(params);
+    }
+
+
 }

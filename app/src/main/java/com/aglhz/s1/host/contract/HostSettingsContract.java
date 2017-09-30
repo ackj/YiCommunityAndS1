@@ -23,12 +23,15 @@ public interface HostSettingsContract {
 
         void responseHostSettings(HostSettingsBean baseBean);
 
+        void responseGatewayTest(BaseBean baseBean);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestSetHost(Params params);
 
         void requestHostSettings(Params params);
+
+        void requestGatewayTest(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -36,5 +39,7 @@ public interface HostSettingsContract {
         Observable<BaseBean> requestSetHost(Params params);
 
         Observable<HostSettingsBean> requestHostSettings(Params params);
+
+        Observable<BaseBean> requestGatewayTest(Params params);
     }
 }

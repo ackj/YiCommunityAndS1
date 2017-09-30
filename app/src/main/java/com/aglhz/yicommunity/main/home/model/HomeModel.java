@@ -8,6 +8,7 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
@@ -15,11 +16,7 @@ import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
 import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 import com.aglhz.yicommunity.main.home.contract.HomeContract;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import rx.Observable;
-import rx.Single;
 import rx.schedulers.Schedulers;
 
 /**
@@ -30,6 +27,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class HomeModel extends BaseModel implements HomeContract.Model {
+
     private final String TAG = HomeModel.class.getSimpleName();
 
     @Override
@@ -90,6 +88,13 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     public Observable<SubCategoryBean> requestSubCategoryList(Params params) {
         return HttpHelper.getService(ApiService.class).requestSubCategoryLevel(
                 ApiService.requestSubCategoryLevel,params.token,params.appType,params.id)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CommEquipmentBean> requestCommEquipmentList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestCommEquipmentList(
+                ApiService.requestCommEquipmentList,params.token,Params.cmnt_c,params.powerCode)
                 .subscribeOn(Schedulers.io());
     }
 }

@@ -128,4 +128,17 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
                     }
                 }, this::error));
     }
+
+    @Override
+    public void requestCommEquipmentList(Params params) {
+        mRxManager.add(mModel.requestCommEquipmentList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(equipmentBean -> {
+                    if (equipmentBean.getOther().getCode() == 200) {
+                        getView().responseCommEquipmentList(equipmentBean.getData().getDataList());
+                    } else {
+                        getView().error(equipmentBean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 }

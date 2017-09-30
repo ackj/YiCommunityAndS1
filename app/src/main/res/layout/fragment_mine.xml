@@ -31,12 +31,13 @@
                 android:layout_marginTop="50dp"
                 android:src="@drawable/ic_mine_avatar_normal_320px" />
 
-            <ImageView
+            <!--本身也不需要搞这个摄像头的图标放这里，避免误会可以点击。-->
+          <!--  <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignBottom="@id/iv_head_item_comment"
                 android:layout_alignRight="@id/iv_head_item_comment"
-                android:src="@drawable/ic_mine_change_avatar_80px" />
+                android:src="@drawable/ic_mine_change_avatar_80px" />-->
 
             <TextView
                 android:id="@+id/tv_name"

@@ -45,8 +45,6 @@ import com.aglhz.yicommunity.web.WebActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.umeng.message.PushAgent;
-import com.umeng.message.UTrack;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,7 +96,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.view_unread_mark_mine_fragment)
     View viewUnreadMark;
     @BindView(R.id.sv_mine_fragment)
-    ScrollView sv;
+    ScrollView svMine;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
 
@@ -322,16 +320,16 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         ivHeaderBackground.setImageResource(R.drawable.bg_mine_1920px_1080px);
         ivHead.setImageResource(R.drawable.ic_mine_avatar_normal_320px);
         tvLogout.setVisibility(View.GONE);
-        sv.post(() -> sv.fullScroll(ScrollView.FOCUS_UP));//滑动到顶部，提高用户体验，方便用户点击头像登录。
+        svMine.post(() -> svMine.fullScroll(ScrollView.FOCUS_UP));//滑动到顶部，提高用户体验，方便用户点击头像登录。
         DoorManager.getInstance().exit();// 停止SipService，用户明确的退出。
-        PushAgent.getInstance(App.mContext)
-                .removeAlias(UserHelper.account, "userType", new UTrack.ICallBack() {
-                    @Override
-                    public void onMessage(boolean b, String s) {
-                        ALog.e("b-->" + b);
-                        ALog.e("s-->" + s);
-                    }
-                });
+//        PushAgent.getInstance(App.mContext)
+//                .removeAlias(UserHelper.account, "userType", new UTrack.ICallBack() {
+//                    @Override
+//                    public void onMessage(boolean b, String s) {
+//                        ALog.e("b-->" + b);
+//                        ALog.e("s-->" + s);
+//                    }
+//                });
         UserHelper.clear();//要放在最后清除，不然上面用到UserHelper.account也为空了
     }
 

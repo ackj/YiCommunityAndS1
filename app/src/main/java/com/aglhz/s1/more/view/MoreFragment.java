@@ -33,7 +33,6 @@ import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.login.LoginActivity;
 import com.bumptech.glide.Glide;
-import com.umeng.message.PushAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -198,11 +197,11 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
         tvPhoneNumber.setText("");
         ivAvatar.setImageResource(R.drawable.ic_more_avatar_black_180px);
         sv.post(() -> sv.fullScroll(ScrollView.FOCUS_UP));//滑动到顶部，提高用户体验，方便用户点击头像登录。
-        PushAgent.getInstance(App.mContext)
-                .removeAlias(UserHelper.account, "userType", (b, s) -> {
-                    ALog.e("b-->" + b);
-                    ALog.e("s-->" + s);
-                });
+//        PushAgent.getInstance(App.mContext)
+//                .removeAlias(UserHelper.account, "userType", (b, s) -> {
+//                    ALog.e("b-->" + b);
+//                    ALog.e("s-->" + s);
+//                });
         UserHelper.clear();//要放在最后清除，不然上面用到UserHelper.account也为空了
     }
 

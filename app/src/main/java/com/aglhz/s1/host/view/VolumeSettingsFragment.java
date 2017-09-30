@@ -117,6 +117,11 @@ public class VolumeSettingsFragment extends BaseFragment<HostSettingsContract.Pr
         tvAlarm.setText(getVolume(bean.getAlarm()));
     }
 
+    @Override
+    public void responseGatewayTest(BaseBean baseBean) {
+
+    }
+
     private String getVolume(int intVolume) {
         String strVolume = "小声";
         switch (intVolume) {
