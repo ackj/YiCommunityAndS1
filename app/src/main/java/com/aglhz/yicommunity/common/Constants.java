@@ -4,14 +4,60 @@ package com.aglhz.yicommunity.common;
 import com.aglhz.abase.common.BaseConstants;
 import com.aglhz.yicommunity.BuildConfig;
 
-import static com.zhy.http.okhttp.OkHttpUtils.METHOD.HEAD;
-
 /**
  * Author：leguang on 2016/10/9 0009 15:49
  * Email：langmanleguang@qq.com
  */
 public class Constants extends BaseConstants {
     private final String TAG = Constants.class.getSimpleName();
+
+    //——————————————以下是区分debug版和非debug版的baseurl——————————————————————
+    public static String BASE_PROPERTY = "";
+    public static String BASE_USER = "";
+    public static String BASE_PROPERTYCFG_M = "";
+    public static String WEB_SERVER = "";
+    public static String UUID = "";
+
+    static {
+        if (BuildConfig.DEBUG) {
+            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
+            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
+            //给成都电信测试。
+//            WEB_SERVER = "http://mem.planidea.cn";
+//            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
+
+            //调试可以改这里的地址。
+            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
+            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
+//            BASE_PROPERTY = "http://192.168.7.110:8080/sub_property_ysq";   //物业
+//            BASE_PROPERTY = "http://119.23.129.133:8090/sub_property_ysq";   //物业
+
+            //给成都电信测试。
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
+//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
+
+        } else {
+            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
+            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
+            //给成都电信测试。
+//            WEB_SERVER = "http://mem.planidea.cn";
+//            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
+
+            //这里的是正式版的基础地址，永远不要动。
+            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
+            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
+
+//            //给成都电信测试。
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
+//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
+        }
+    }
+    //——————————————以上是区分debug版和非debug版的baseurl——————————————————————
+
     public static final String PRESS_AGAIN = "再按一次退出";
     public static final int PAGE_SIZE = 20;
     public static final String TITLE = "title";
@@ -51,7 +97,7 @@ public class Constants extends BaseConstants {
     public static final int ADD_HOUSE = 1;
     public static final int HOUSE_RIGHTS = 0;
 
-    //**************以下是EventBus系列,值是随便取，只要不相同即可。**********************************************************************
+    //**************以下是EventBus系列,值是随便取，只要不相同即可。*************************************
     //登录成功
     public static final int login = 11;
 
@@ -61,7 +107,7 @@ public class Constants extends BaseConstants {
     //刷新社区服务模块里的点评
     public static final int refresh_remark = 33;
 
-    //**************以上是EventBus系列,值是随便取，只要不相同即可。**********************************************************************
+    //**************以上是EventBus系列,值是随便取，只要不相同即可。*************************************
 
     public static final String CITY = "city";
 
@@ -112,53 +158,4 @@ public class Constants extends BaseConstants {
     //********************以上权限名称***********************
 
     public static final int TYPE_REMARK = 107;//社区服务点评回复
-
-    //——————————————以下是区分debug版和非debug版的baseurl——————————————————————
-
-    public static String BASE_PROPERTY = "";
-    public static String BASE_USER = "";
-    public static String BASE_PROPERTYCFG_M = "";
-    public static String WEB_SERVER = "";
-    public static String UUID = "";
-
-    static {
-        if (BuildConfig.DEBUG) {
-            //门禁机WebServer
-//            WEB_SERVER = "http://member.planidea.cn";
-            WEB_SERVER = "http://mem.planidea.cn";//给成都电信测试。
-            //门禁机后台UUID
-//            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";
-            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";//给成都电信测试。
-
-            //调试可以改这里的地址。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
-            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
-//            BASE_PROPERTY = "http://192.168.7.102:8080/sub_property_ysq";   //物业
-//            BASE_PROPERTY = "http://119.23.129.133:8090/sub_property_ysq";   //物业
-
-            //给成都电信测试。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
-//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
-
-        } else {
-            //门禁机WebServer
-            WEB_SERVER = "http://member.planidea.cn";
-            //门禁机后台UUID
-            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";
-
-            //这里的是正式版的基础地址，永远不要动。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
-            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
-
-//            //给成都电信测试。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
-//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
-        }
-    }
-    //——————————————以上是区分debug版和非debug版的baseurl——————————————————————
-
 }

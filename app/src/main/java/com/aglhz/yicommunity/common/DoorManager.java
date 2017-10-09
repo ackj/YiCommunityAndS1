@@ -31,25 +31,20 @@ import static android.content.Intent.ACTION_MAIN;
 
 public class DoorManager {
     public static final String TAG = DoorManager.class.getSimpleName();
-    private static final String URL = "http://member.planidea.cn";
-    //给成都电信测试。
-//    private static final String URL = "http://mem.planidea.cn";
+    private static final String WEB_SERVER = Constants.WEB_SERVER;
     private static DoorManager mDoorManager;
     private WebUserApi mWebUserApi;
     private LinphoneCallBack mListener;
 
 
     public static class Device {
-        public final static String UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";
-        //给成都电信测试。
-//        public final static String UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
-
-        public final static String UserName = "da";
-        public final static String tenantCode = "T0001";
+        public final static String UUID = Constants.UUID;
+        public final static String UserName = "da";//暂时没用到。
+        public final static String tenantCode = "T0001";//暂时没用到。
     }
 
     private DoorManager() {
-        WebApiConstants.setHttpServer(URL);
+        WebApiConstants.setHttpServer(WEB_SERVER);
     }
 
     //获取单例
@@ -105,11 +100,9 @@ public class DoorManager {
 
 
     public DoorManager initWebUserApi(String userName, AccessCallBack accessCallBack) {
-
         mWebUserApi = new WebUserApi(App.mContext);
         mWebUserApi.setOnAccessTokenListener(accessCallBack);
         mWebUserApi.accessToken(Device.UUID, userName);
-
         return this;
     }
 
