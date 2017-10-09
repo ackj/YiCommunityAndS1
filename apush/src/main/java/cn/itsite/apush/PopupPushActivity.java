@@ -37,5 +37,7 @@ public class PopupPushActivity extends AndroidPopupActivity {
         } else {
             startActivity(intent);
         }
+
+        finish();
     }
 }

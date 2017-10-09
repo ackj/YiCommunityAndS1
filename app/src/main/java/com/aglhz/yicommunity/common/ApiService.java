@@ -457,13 +457,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST
     Observable<MyHousesBean> requestMyhouses(@Url String url,
-                                           @Field("token") String token,
-                                           @Field("cmnt_c") String cmnt_c);
+                                             @Field("token") String token,
+                                             @Field("cmnt_c") String cmnt_c);
 
     //查询用户名下所有的房屋
     @POST
     Observable<MyHousesBean> requestMyhouses(@Url String url,
-                                           @Query("token") String token);
+                                             @Query("token") String token);
 
     //对自己设置权限
     String UPDATE_PERMISSION_MYSELF = BASE_PROPERTY + "/smartdoor/client/powerset";
@@ -582,9 +582,9 @@ public interface ApiService {
 
     @POST
     Observable<NoticeBean> requestHomeNotices(@Url String url,
-                                            @Query("token") String token,
-                                            @Query("cmnt_c") String cmnt_c,
-                                            @Query("topnum") int topnum);
+                                              @Query("token") String token,
+                                              @Query("cmnt_c") String cmnt_c,
+                                              @Query("topnum") int topnum);
 
 
     //获取闲置交换的评论
@@ -723,14 +723,14 @@ public interface ApiService {
                                           @Query("ofids") String ofids);
 
     //友盟用户登记接口
-    String requestUMeng = BASE_USER + "/client/logUMengParams.do";
+    String registerDevice = BASE_USER + "/client/logUMengParams.do";
 
     @POST
-    Observable<BaseBean> requestUMeng(@Url String url,
-                                      @Query("token") String token,
-                                      @Query("deviceToken") String deviceToken,
-                                      @Query("alias") String alias,
-                                      @Query("aliasType") String aliasType);
+    Observable<BaseBean> registerDevice(@Url String url,
+                                        @Query("token") String token,
+                                        @Query("deviceToken") String deviceToken,
+                                        @Query("alias") String alias,
+                                        @Query("aliasType") String aliasType);
 
     //************************* 智能商城模块 **************************
     //一级列表同时是判断是否是跳转一级列表还是二级列表的入口
@@ -940,7 +940,7 @@ public interface ApiService {
     Observable<CommunityBean> requestCommunityList(@Url String url, @Field("token") String token);
 
     //业主房屋列表
-    String requestHouseInfoList = BASE_PROPERTY+"/smartdoor/info/houseinfo-list";
+    String requestHouseInfoList = BASE_PROPERTY + "/smartdoor/info/houseinfo-list";
 
     @FormUrlEncoded
     @POST
@@ -948,13 +948,13 @@ public interface ApiService {
 
 
     //设置亲情号码
-    String requestSetFamilyPhone = BASE_PROPERTY+"/smartdoor/client/setFamilyNumber";
+    String requestSetFamilyPhone = BASE_PROPERTY + "/smartdoor/client/setFamilyNumber";
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestSetFamilyPhone(@Url String url, @Field("token") String token,@Field("calleePhones") String calleePhones, @Field("roomDir") String roomDir);
+    Observable<BaseBean> requestSetFamilyPhone(@Url String url, @Field("token") String token, @Field("calleePhones") String calleePhones, @Field("roomDir") String roomDir);
 
-    String requestCommEquipmentList = BASE_PROPERTY +"/smartequipment/info/get-enable-equipmentInfo-list";
+    String requestCommEquipmentList = BASE_PROPERTY + "/smartequipment/info/get-enable-equipmentInfo-list";
 
     @FormUrlEncoded
     @POST

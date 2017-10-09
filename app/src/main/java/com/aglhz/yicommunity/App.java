@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.aglhz.abase.BaseApplication;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.common.ApiService;
@@ -97,14 +95,19 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
     public void initCloudChannel(Context mContext) {
         PushServiceFactory.init(mContext);
         final CloudPushService pushService = PushServiceFactory.getCloudPushService();
+
+        ALog.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
+
+
         pushService.register(mContext, new CommonCallback() {
             @Override
             public void onSuccess(String response) {
-                Log.d(TAG, "init cloudchannel success");
-                Log.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
+                ALog.d(TAG, "init cloudchannel success");
+                ALog.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
 
                 HttpHelper.getService(ApiService.class)
-                        .requestUMeng(ApiService.requestUMeng, UserHelper.token, "and_" + pushService.getDeviceId(), UserHelper.account, "userType")
+                        .registerDevice(ApiService.registerDevice, UserHelper.token, "and_" + pushService.getDeviceId(), UserHelper.account, "userType")
+//                        .registerDevice("http://192.168.250.102:8080/sub_property_ysq/other/client/logUMengParams", UserHelper.token, "and_" + pushService.getDeviceId(), UserHelper.account, "userType")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
@@ -112,7 +115,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 
             @Override
             public void onFailed(String errorCode, String errorMessage) {
-                Log.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
+                ALog.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
             }
         });
 
@@ -149,7 +152,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 //                ALog.e(TAG, "deviceToken-->" + deviceToken);
 //
 //                HttpHelper.getService(ApiService.class)
-//                        .requestUMeng(ApiService.requestUMeng, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
+//                        .registerDevice(ApiService.registerDevice, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
 //                        .subscribeOn(Schedulers.io())
 //                        .observeOn(AndroidSchedulers.mainThread())
 //                        .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));

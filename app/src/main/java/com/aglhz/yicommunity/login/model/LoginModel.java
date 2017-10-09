@@ -37,7 +37,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     }
 
 //    @Override
-//    public void requestUMeng(String alias) {
+//    public void registerDevice(String alias) {
 //        PushAgent mPushAgent = PushAgent.getInstance(App.mContext);
 //        mPushAgent.addExclusiveAlias(alias, "userType", new UTrack.ICallBack() {
 //            @Override
@@ -53,7 +53,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
 //                ALog.e(TAG, "deviceToken-->" + deviceToken);
 //
 //                HttpHelper.getService(ApiService.class)
-//                        .requestUMeng(ApiService.requestUMeng, UserHelper.token, "and_" + deviceToken, alias, "userType")
+//                        .registerDevice(ApiService.registerDevice, UserHelper.token, "and_" + deviceToken, alias, "userType")
 //                        .subscribeOn(Schedulers.io())
 //                        .observeOn(AndroidSchedulers.mainThread())
 //                        .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
