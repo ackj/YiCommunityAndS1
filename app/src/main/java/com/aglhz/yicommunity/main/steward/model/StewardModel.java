@@ -47,8 +47,6 @@ public class StewardModel extends BaseModel implements StewardContract.Model {
 
     @Override
     public Observable<MyHousesBean> requestHouses(Params params) {
-        ALog.e("requestHouses::" + params.token);
-        ALog.e("requestHouses::" + params.cmnt_c);
         return HttpHelper.getService(ApiService.class)
                 .requestMyhouses(ApiService.requestMyhouses, params.token, params.cmnt_c)
                 .subscribeOn(Schedulers.io());
@@ -69,8 +67,6 @@ public class StewardModel extends BaseModel implements StewardContract.Model {
 
     @Override
     public Observable<DoorListBean> requestDoors(Params params) {
-        ALog.e("params.token::" + params.token);
-
         return HttpHelper.getService(ApiService.class)
                 .requestDoors(ApiService.requestDoors,
                         params.token, params.cmnt_c)

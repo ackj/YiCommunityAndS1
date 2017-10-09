@@ -60,7 +60,6 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
 
     @Override
     public Observable<ServicesTypesBean> requestServiceTypes(Params params) {
-        ALog.e(TAG,"requestServiceTypes cmnt_c"+params.cmnt_c+" page:"+params.page+" pageSize:"+params.pageSize);
         return HttpHelper.getService(ApiService.class)
                 .requestServiceClassifyList(ApiService.requestServiceClassifyList,
                         params.page,

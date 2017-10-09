@@ -203,7 +203,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             @Override
             public void onRefreshBegin(final PtrFrameLayout frame) {
                 AudioPlayer.getInstance(_mActivity).play(1);
-                ALog.e(TAG, "request all -- cmnt_c" + params.cmnt_c + " token:" + params.token);
                 mPresenter.requestBanners(params);
                 mPresenter.requestHomeNotices(params);
                 mPresenter.requestServiceTypes(params);

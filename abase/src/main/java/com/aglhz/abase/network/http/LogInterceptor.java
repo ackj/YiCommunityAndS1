@@ -11,7 +11,6 @@ import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 
@@ -48,6 +47,9 @@ public class LogInterceptor implements Interceptor {
             ALog.e(String.format("Received response for %s%nin %.1fms%n%sResponse Json: %s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers(),
                     jsonObject.toString()));
+
+            ALog.json(jsonObject.toString());
+            
             String code = jsonOther.optString("code");
             if ("123".equals(code)) {
                 EventBus.getDefault().post(new LogInterceptor());
