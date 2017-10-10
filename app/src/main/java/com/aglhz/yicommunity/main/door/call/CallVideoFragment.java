@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -14,8 +15,13 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.aglhz.abase.log.ALog;
+import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
+import com.bumptech.glide.Glide;
 import com.sipphone.sdk.CallManager;
 import com.sipphone.sdk.SipCoreManager;
 import com.sipphone.sdk.SipCoreUtils;
@@ -41,6 +47,7 @@ public class CallVideoFragment extends Fragment implements OnGestureListener, On
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CallActivity inCallActivity;
+    private ImageView ivSnapshot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,7 +92,7 @@ public class CallVideoFragment extends Fragment implements OnGestureListener, On
 
                 mGestureDetector.onTouchEvent(event);
                 if (inCallActivity != null) {
-                    if (event.getAction() == MotionEvent.ACTION_UP){
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
 //                        inCallActivity.displayVideoCall(false);
                     }
                 }
@@ -99,9 +106,28 @@ public class CallVideoFragment extends Fragment implements OnGestureListener, On
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ivSnapshot = (ImageView) view.findViewById(R.id.iv_snapshot);
+
+        LinphoneCore core = SipCoreManager.getLc();
+        if (core != null) {
+            LinphoneCall currentCall = core.getCurrentCall();
+            if (currentCall != null) {
+                String callPicture = currentCall.getRemoteParams().getCustomHeader("X-CallPicture");
+                callPicture = Constants.WEB_SERVER + ":18008/" + callPicture;
+                ALog.e("callPicture-->" + callPicture);
+                Glide.with(App.mContext)
+                        .load(callPicture)
+                        .into(ivSnapshot);
+            }
+        }
+    }
+
     private void fixZOrder(SurfaceView video, SurfaceView preview) {
         video.setZOrderOnTop(false);
-        preview.setZOrderOnTop(true);
+        preview.setZOrderOnTop(false);
         preview.setZOrderMediaOverlay(true); // Needed to be able to display control layout over
     }
 
@@ -313,5 +339,9 @@ public class CallVideoFragment extends Fragment implements OnGestureListener, On
     public boolean onSingleTapUp(MotionEvent e) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    public void closeSnapshot() {
+        ivSnapshot.setVisibility(View.GONE);
     }
 }

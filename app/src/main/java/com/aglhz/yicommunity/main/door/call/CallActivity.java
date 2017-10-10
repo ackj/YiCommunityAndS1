@@ -36,8 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class CallActivity extends BaseActivity implements View.OnClickListener {
-    public static final String TAG = "CallActivity";
-
+    public static final String TAG = CallActivity.class.getSimpleName();
     private ImageView micro;
     private ImageView unlock;
     private View mBottomView;
@@ -69,11 +68,9 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
         mListener = new LinphoneCoreListenerBase() {
             @Override
             public void callState(LinphoneCore lc, LinphoneCall call, State state, String message) {
-//                ToastUtils.showToast(App.mContext, "state-->" + state + "-----" + "message-->" + message);
                 ALog.e("state-->" + state + "-----" + "message-->" + message);
-                if (SipCoreManager.getLc().getCallsNb() == 0) {
-                    ALog.e("SipCoreManager.getLc().getCallsNb()-->" + SipCoreManager.getLc().getCallsNb());
 
+                if (SipCoreManager.getLc().getCallsNb() == 0) {
                     finish();
                 }
 
@@ -258,6 +255,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
         if (currentCall != null) {
             try {
                 lCore.acceptCall(currentCall);
+                videoCallFragment.closeSnapshot();
             } catch (LinphoneCoreException e) {
                 e.printStackTrace();
             }

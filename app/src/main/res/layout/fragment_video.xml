@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_call_1125_2011">
+    android:layout_height="match_parent">
 
     <org.linphone.mediastream.video.display.GL2JNIView
         android:id="@+id/videoSurface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/iv_snapshot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <SurfaceView
         android:id="@+id/videoCaptureSurface"
         android:layout_width="1dp"
         android:layout_height="1dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="5dp" />
+        android:layout_gravity="top|end" />
 
-</RelativeLayout>
+</FrameLayout>
