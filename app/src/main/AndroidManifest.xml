@@ -289,9 +289,10 @@
 
         <activity
             android:name=".main.door.call.CallActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:noHistory="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

@@ -68,7 +68,6 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
 
     @Override
     public void onDestroy() {
-        ALog.e(TAG + "onDestroy()");
         if (mPresenter != null) {
             mPresenter.clear();
             mPresenter = null;

@@ -354,4 +354,17 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
     public void onBackPressedSupport() {
         //禁止返回
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ALog.e("onStoponStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ALog.e("onPauseonPause");
+
+    }
 }

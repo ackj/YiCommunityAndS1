@@ -31,13 +31,13 @@ public class WisdomLifeAdapter extends BaseRecyclerViewAdapter<SubCategoryBean.D
             case 0:
                 frameLayout.setBackgroundResource(R.drawable.bg_a01_420px_300px);
                 break;
+//            case 1:
+//                frameLayout.setBackgroundResource(R.drawable.bg_a02_420px_300px);
+//                break;
             case 1:
-                frameLayout.setBackgroundResource(R.drawable.bg_a02_420px_300px);
-                break;
-            case 2:
                 frameLayout.setBackgroundResource(R.drawable.bg_mensuo_420px_300px);
                 break;
-            case 3:
+            case 2:
                 frameLayout.setBackgroundResource(R.drawable.bg_peijian_420px_300px);
                 break;
         }

@@ -14,9 +14,13 @@ import android.text.TextUtils;
 
 import com.aglhz.abase.common.ActivityHelper;
 import com.aglhz.abase.log.ALog;
+import com.aglhz.s1.event.EventLearnSensor;
+import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -64,6 +68,7 @@ public class NoticeHelper {
         Uri uriSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         int priority = TextUtils.isDigitsOnly(notice.getPriority()) ? NotificationCompat.PRIORITY_MAX : Integer.parseInt(notice.getPriority());
         PendingIntent pendingIntent = contentIntent(mContext, notice.getType());
+        handleMessage(notice.getType());
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(App.mContext)
                 .setContentTitle(notice.getTitle())
@@ -134,9 +139,36 @@ public class NoticeHelper {
         }
 
         Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
+        intent.setPackage(null);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
+
+    /**
+     * 依靠推送来刷新界面。
+     *
+     * @param type 友盟推送的json。
+     */
+    private static void handleMessage(String type) {
+        switch (type) {
+            case NoticeHelper.SENSOR_LEARN:
+                EventBus.getDefault().post(new EventLearnSensor());
+            case NoticeHelper.GW_NOTIFIY_DEFENSE_ST:
+                EventBus.getDefault().post(new EventRefreshSecurity());
+                break;
+            case NoticeHelper.DEVICE_LEARN:
+                break;
+            case NoticeHelper.GW_ALARM_GAS:
+                break;
+            case NoticeHelper.GW_ALARM_SOS:
+                break;
+            case NoticeHelper.ALARM_RED:
+                break;
+            case NoticeHelper.ALARM_DOOR:
+                break;
+        }
+    }
+
 
     public static void openUrl(Context context, String url) {
         if (!TextUtils.isEmpty(url.trim())) {
