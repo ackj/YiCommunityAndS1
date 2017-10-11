@@ -21,11 +21,6 @@ public class MyHousesModel extends BaseModel implements MyHousesContract.Model {
     private static final String TAG = MyHousesModel.class.getSimpleName();
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public Observable<MyHousesBean> requsetMyHouse(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestMyhouses(ApiService.requestMyhouses,

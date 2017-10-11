@@ -30,11 +30,6 @@ public class MyHousesPresenter extends BasePresenter<MyHousesContract.View,MyHou
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requsetMyHouse(Params params) {
         mRxManager.add(mModel.requsetMyHouse(params)
                 .observeOn(AndroidSchedulers.mainThread())

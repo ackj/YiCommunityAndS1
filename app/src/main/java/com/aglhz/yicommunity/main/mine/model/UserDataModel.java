@@ -25,12 +25,6 @@ import rx.schedulers.Schedulers;
 public class UserDataModel extends BaseModel implements UserDataContract.Model {
     private final String TAG = UserDataModel.class.getSimpleName();
 
-
-    @Override
-    public void start(Object request) {
-
-    }
-
     @Override
     public Observable<UserDataBean> requestChangePortrait(Params params) {
         // 创建 RequestBody，用于封装构建RequestBody

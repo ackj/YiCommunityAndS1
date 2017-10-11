@@ -33,10 +33,6 @@ public class MinePresenter extends BasePresenter<MineContract.View, MineContract
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestLogout(Params params) {
         mRxManager.add(mModel.requestLogout(params)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,7 +63,6 @@ public class MinePresenter extends BasePresenter<MineContract.View, MineContract
         mRxManager.add(mModel.requestClearCache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    ALog.e("Thread.currentThread().getName()::" + Thread.currentThread().getName());
                     if (isViewAttached()) {
                         getView().responseCache(s);
                     }

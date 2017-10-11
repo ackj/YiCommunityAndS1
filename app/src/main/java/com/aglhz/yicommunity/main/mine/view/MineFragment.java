@@ -201,7 +201,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                         .setMessage("确定退出登录？")
                         .setPositiveButton("确定", (dialog, which) -> {
                             mPresenter.requestLogout(params);//请求服务器注销。
-                            onLoginoutEvent(null);
+                            onLogoutEvent(null);
                         })
                         .setNegativeButton("取消", null)
                         .show();
@@ -313,7 +313,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginoutEvent(LogInterceptor event) {
+    public void onLogoutEvent(LogInterceptor event) {
         tvName.setText("访客");
         tvPhoneNumber.setText("");
         ivHeaderBackground.setImageResource(R.drawable.bg_mine_1920px_1080px);

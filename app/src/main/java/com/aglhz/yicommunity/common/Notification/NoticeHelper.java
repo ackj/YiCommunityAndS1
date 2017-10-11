@@ -29,7 +29,6 @@ import rx.Observable;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.media.RingtoneManager.getDefaultUri;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 
 /**
  * Created by leguang on 2017/9/18 0018.
@@ -154,7 +153,7 @@ public class NoticeHelper {
     private static void handleMessage(String type) {
 
         PowerManager pm = (PowerManager) App.mContext.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | FLAG_KEEP_SCREEN_ON, "notice");
+        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "notice");
         wakeLock.acquire();
 //                wakeLock.release();
 

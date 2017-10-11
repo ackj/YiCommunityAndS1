@@ -35,11 +35,6 @@ public class UserDataPresenter extends BasePresenter<UserDataContract.View, User
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestChangePortrait(Params params) {
         compress(params);
     }
