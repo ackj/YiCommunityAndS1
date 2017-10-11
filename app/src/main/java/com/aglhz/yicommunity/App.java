@@ -2,7 +2,6 @@ package com.aglhz.yicommunity;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.aglhz.abase.log.ALog;
@@ -29,6 +28,7 @@ import rx.schedulers.Schedulers;
 public class App extends com.aglhz.s1.App implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
     public static App mApp;
+    public static String deviceID;
 
     @Override
     public void onCreate() {
@@ -36,7 +36,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
         mApp = this;
         initData();//数据的初始化要在友盟推送之前，因为要注册别名时，用到用户名。
 //        initPush();//初始化友盟推送。
-        initCloudChannel(this);
+        initPush();
         initBoxing();//初始化图片选择器。
     }
 
@@ -89,25 +89,20 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 
     /**
      * 初始化云推送通道
-     *
-     * @param mContext
      */
-    public void initCloudChannel(Context mContext) {
+    public void initPush() {
         PushServiceFactory.init(mContext);
-        final CloudPushService pushService = PushServiceFactory.getCloudPushService();
-
-        ALog.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
-
-
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
         pushService.register(mContext, new CommonCallback() {
             @Override
             public void onSuccess(String response) {
-                ALog.d(TAG, "init cloudchannel success");
+                ALog.e(TAG, "init cloudchannel success");
                 ALog.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
 
+                deviceID = "and_" + pushService.getDeviceId();
+
                 HttpHelper.getService(ApiService.class)
-                        .registerDevice(ApiService.registerDevice, UserHelper.token, "and_" + pushService.getDeviceId(), UserHelper.account, "userType")
-//                        .registerDevice("http://192.168.250.102:8080/sub_property_ysq/other/client/logUMengParams", UserHelper.token, "and_" + pushService.getDeviceId(), UserHelper.account, "userType")
+                        .registerDevice(ApiService.registerDevice, UserHelper.token, deviceID, UserHelper.account, "userType")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
@@ -115,7 +110,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 
             @Override
             public void onFailed(String errorCode, String errorMessage) {
-                ALog.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
+                ALog.e(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
             }
         });
 
@@ -152,7 +147,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 //                ALog.e(TAG, "deviceToken-->" + deviceToken);
 //
 //                HttpHelper.getService(ApiService.class)
-//                        .registerDevice(ApiService.registerDevice, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
+//                        .registerPush(ApiService.registerPush, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
 //                        .subscribeOn(Schedulers.io())
 //                        .observeOn(AndroidSchedulers.mainThread())
 //                        .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));

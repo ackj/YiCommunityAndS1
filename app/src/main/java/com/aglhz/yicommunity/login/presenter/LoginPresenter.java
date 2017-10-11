@@ -38,32 +38,30 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
 
     @Override
     public void start(Object request) {
-
         Params params = (Params) request;
         mRxManager.add(mModel.requestLogin((Params) request)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userBean -> {
-                    if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-                        ALog.e("UserHelper.sip-->" + UserHelper.sip);
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userBean -> {
+                            if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
 
-                        //保存用户信息
-                        UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
-                        UserHelper.setUserInfo(userBean.getData().getMemberInfo());
+                                //保存用户信息
+                                UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
+                                UserHelper.setUserInfo(userBean.getData().getMemberInfo());
 
-                        Params.token = UserHelper.token;//必须赋值一次。
-                        com.aglhz.s1.common.Params.token = UserHelper.token;
-                        //注册友盟
-//                        mModel.registerDevice(params.user);
-                        //注册阿里云。
-                        mModel.requestUMeng(params.user);
-                        //注册Sip到全视通服务器
-                        requestSip(Params.getInstance());
-                        //登录成功后，通知相关页面刷新。
-                        EventBus.getDefault().post(new EventCommunity(null));
-                    } else {
-                        getView().error(userBean.getOther().getMessage());
-                    }
-                }, this::error)
+                                Params.token = UserHelper.token;//必须赋值一次。
+                                com.aglhz.s1.common.Params.token = UserHelper.token;
+                                //注册友盟
+//                        mModel.registerPush(params.user);
+                                //注册阿里云推送。
+                                mModel.registerPush();
+                                //注册Sip到全视通服务器
+                                requestSip(Params.getInstance());
+                                //登录成功后，通知相关页面刷新。
+                                EventBus.getDefault().post(new EventCommunity(null));
+                            } else {
+                                getView().error(userBean.getOther().getMessage());
+                            }
+                        }, this::error)
         );
     }
 
@@ -83,7 +81,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
 
                             @Override
                             public void onPostAccessToken(WebReponse webReponse) {
-                                ALog.e("11111PostPostPostPost");
                                 DoorManager.getInstance().startService();
                                 getView().start(null);
                             }

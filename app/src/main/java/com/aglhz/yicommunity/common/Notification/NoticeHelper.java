@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
@@ -28,6 +29,7 @@ import rx.Observable;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.media.RingtoneManager.getDefaultUri;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 
 /**
  * Created by leguang on 2017/9/18 0018.
@@ -150,6 +152,12 @@ public class NoticeHelper {
      * @param type 友盟推送的json。
      */
     private static void handleMessage(String type) {
+
+        PowerManager pm = (PowerManager) App.mContext.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | FLAG_KEEP_SCREEN_ON, "notice");
+        wakeLock.acquire();
+//                wakeLock.release();
+
         switch (type) {
             case NoticeHelper.SENSOR_LEARN:
                 EventBus.getDefault().post(new EventLearnSensor());

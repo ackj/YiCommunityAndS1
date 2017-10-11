@@ -723,7 +723,7 @@ public interface ApiService {
                                           @Query("ofids") String ofids);
 
     //友盟用户登记接口
-//    String registerDevice = BASE_USER + "/client/logUMengParams.do";
+//    String registerPush = BASE_USER + "/client/logUMengParams.do";
     String registerDevice = BASE_PROPERTY + "/other/client/logUMengParams";
 
     @POST

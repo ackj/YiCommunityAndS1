@@ -35,7 +35,6 @@ import com.aglhz.yicommunity.event.EventUnread;
 import com.aglhz.yicommunity.login.LoginActivity;
 import com.aglhz.yicommunity.main.MainActivity;
 import com.aglhz.yicommunity.main.about.AboutActivity;
-import com.aglhz.yicommunity.main.door.DoorActivity;
 import com.aglhz.yicommunity.main.message.view.MessageCenterFragment;
 import com.aglhz.yicommunity.main.mine.contract.MineContract;
 import com.aglhz.yicommunity.main.mine.presenter.MinePresenter;
@@ -90,7 +89,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.tv_logout)
     TextView tvLogout;
     @BindView(R.id.tv_cache_sum)
-    TextView tvCacheSum;
+    TextView tvCache;
     @BindView(R.id.iv_header_background)
     ImageView ivHeaderBackground;
     @BindView(R.id.view_unread_mark_mine_fragment)
@@ -223,7 +222,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @Override
     public void start(Object response) {
         if (response instanceof String) {
-            tvCacheSum.setText((String) response);
+            tvCache.setText((String) response);
         }
     }
 
@@ -303,7 +302,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
     @Override
     public void responseCache(String str) {
-        tvCacheSum.setText(str);
+        tvCache.setText(str);
     }
 
     @Override
@@ -322,14 +321,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         tvLogout.setVisibility(View.GONE);
         svMine.post(() -> svMine.fullScroll(ScrollView.FOCUS_UP));//滑动到顶部，提高用户体验，方便用户点击头像登录。
         DoorManager.getInstance().exit();// 停止SipService，用户明确的退出。
-//        PushAgent.getInstance(App.mContext)
-//                .removeAlias(UserHelper.account, "userType", new UTrack.ICallBack() {
-//                    @Override
-//                    public void onMessage(boolean b, String s) {
-//                        ALog.e("b-->" + b);
-//                        ALog.e("s-->" + s);
-//                    }
-//                });
         UserHelper.clear();//要放在最后清除，不然上面用到UserHelper.account也为空了
     }
 
@@ -344,13 +335,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         Intent intent = new Intent(getContext(), WebActivity.class);
         intent.putExtra(Constants.KEY_TITLE, title);
         intent.putExtra(Constants.KEY_LINK, link);
-        startActivity(intent);
-    }
-
-    //跳转到智能门禁模块。
-    private void go2SmartDoor(int position) {
-        Intent intent = new Intent(_mActivity, DoorActivity.class);
-        intent.putExtra(Constants.KEY_FROM_TO, position);
         startActivity(intent);
     }
 }
