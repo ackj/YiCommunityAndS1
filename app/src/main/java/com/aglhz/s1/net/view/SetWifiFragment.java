@@ -11,6 +11,8 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,20 +56,20 @@ public class SetWifiFragment extends BaseFragment {
     private static final int GET_AP_RESULT = 4;
     private static final int GET_AP_FAILED = 5;
     //状态
-    static public final int E_WIFI_BOND_CONNECTING = 1;
-    static public final int E_WIFI_BOND_SUCESS = 2;
-    static public final int E_WIFI_BOND_SSID_NEXIST = 3;
-    static public final int E_WIFI_BOND_PWD_WRONG = 4;
-    static public final int E_WIFI_BOND_CONNECT_ERR = 5;
-    static public final int E_WIFI_BOND_ERROR = 6;
+    public static final int E_WIFI_BOND_CONNECTING = 1;
+    public static final int E_WIFI_BOND_SUCESS = 2;
+    public static final int E_WIFI_BOND_SSID_NEXIST = 3;
+    public static final int E_WIFI_BOND_PWD_WRONG = 4;
+    public static final int E_WIFI_BOND_CONNECT_ERR = 5;
+    public static final int E_WIFI_BOND_ERROR = 6;
     //指令
-    static public final int E_SRV_APMODE_GET_INFO = 206;
-    static public final int E_SRV_APMODE_BONDING = 207;
-    static public final int E_SRV_GET_APLIST = 216;
-    static public final int E_SRV_START_SCAN_APLIST = 215;
-    static public final String IP = "10.10.10.250";
-    static public final int PORT = 12368;
-    public static final int TIMEOUT_SCAN = 3;
+    public static final int E_SRV_APMODE_GET_INFO = 206;
+    public static final int E_SRV_APMODE_BONDING = 207;
+    public static final int E_SRV_GET_APLIST = 216;
+    public static final int E_SRV_START_SCAN_APLIST = 215;
+    public static final String IP = "10.10.10.250";
+    public static final int PORT = 12368;
+    public static final int TIMEOUT_SCAN = 5;
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -123,18 +125,6 @@ public class SetWifiFragment extends BaseFragment {
     private void initData() {
         WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//        if (NetworkUtils.isWifiConnected(App.mContext)) {
-//            tvCurrentWifi.setText(wifiInfo.getSSID());
-//        } else {
-//            ALog.e(NetworkUtils.getNetworkType(App.mContext).value);
-//            ALog.e(NetworkUtils.getNetworkType(App.mContext));
-//            if (NetworkUtils.getNetworkType(App.mContext) == NetworkUtils.NetWorkType.UnKnown) {
-//                tvCurrentWifi.setText("未知网络");
-//            } else {
-//                tvCurrentWifi.setText(NetworkUtils.getNetworkType(App.mContext).value + "G网络");
-//            }
-//        }
-
         handler = new MyHandler(this);
         String name = (String) SPCache.get(App.mContext, Constants.WIFI_NAME, "");
         String password = (String) SPCache.get(App.mContext, Constants.WIFI_PASSWORD, "");
@@ -155,7 +145,6 @@ public class SetWifiFragment extends BaseFragment {
         }
         loadingDialog.show();
         IPC_DispatchText(IP, E_SRV_START_SCAN_APLIST, E_SRV_START_SCAN_APLIST, "");
-        Toast.makeText(App.mContext, "scaning AP.", Toast.LENGTH_SHORT).show();
         timerScan = new Timer();
         timerScan.schedule(createTimerTaskAP(), 3000, 2000);
     }
@@ -322,13 +311,22 @@ public class SetWifiFragment extends BaseFragment {
                         String[] arrayAP = msg.getData().getStringArray("aplist");
                         int[] arrayVal = msg.getData().getIntArray("aplistval");
 
+                        ALog.e(arrayAP.length);
+                        ALog.e(arrayVal.length);
+
+                        for (int i = 0; i < arrayAP.length; i++) {
+                            ALog.e("-->" + arrayAP[i]);
+
+                        }
+                        for (int i = 0; i < arrayVal.length; i++) {
+                            ALog.e("-->" + arrayVal[i]);
+
+                        }
+
                         if (fragment.timerScan != null) {
                             fragment.timerScan.cancel();
                             fragment.timerScan = null;
                         }
-
-                        Toast.makeText(App.mContext, "got ap list size=" + arrayAP.length, Toast.LENGTH_SHORT).show();
-                        //TODO: Here we get wifi info list data, please handle it.
 
                         fragment.showDialog(arrayAP);
 
@@ -364,8 +362,6 @@ public class SetWifiFragment extends BaseFragment {
 
             @Override
             public void run() {
-                ALog.e("Thread-->" + Thread.currentThread().getName());
-
                 // TODO Auto-generated method stub
                 String result = WifiIpc.TSV_C_SendXmlCommand(IP, PORT, E_SRV_APMODE_GET_INFO, E_SRV_APMODE_GET_INFO, "");
                 ALog.e("aplist", "E_SRV_APMODE_GET_INFO result=" + result);
@@ -395,29 +391,39 @@ public class SetWifiFragment extends BaseFragment {
             @Override
             public void run() {
                 scan_time++;
-
-                ALog.e(Thread.currentThread().getName());
-
-                String result = WifiIpc.TSV_C_SendXmlCommand(IP, PORT, E_SRV_GET_APLIST, E_SRV_GET_APLIST, "");
-                ALog.e("aplist", "Get AP LIST result=" + result);
-                if (result != null) {
+                String ret = WifiIpc.TSV_C_SendXmlCommand(IP, PORT, E_SRV_GET_APLIST, E_SRV_GET_APLIST, "");
+                Log.e("aplist", "Get AP LIST RET=" + ret);
+                if (ret != null) {
                     JSONArray root;
                     try {
-                        root = new JSONArray(result);
+                        int arrayStartIndex = 1;
+                        int version = 1;
+                        root = new JSONArray(ret);
                         JSONArray data = root.getJSONArray(1);
-                        int number = data.getInt(0);
+                        Object object = data.get(1);//兼容旧版本,旧的版本只有一个int为Number，新的版本加入version在第0个字段，number为第1个字段
+                        if (object instanceof Integer) {
+                            arrayStartIndex++;
+                            version = data.getInt(0);
+                        }
+                        int number = data.getInt(arrayStartIndex - 1);
 
                         String[] arrayAP = new String[number];
                         int[] arrayVal = new int[number];
 
                         for (int i = 0; i < number; i++) {
-                            arrayAP[i] = data.getJSONArray(i + 1).getString(0);
-                            arrayVal[i] = data.getJSONArray(i + 1).getInt(1);
+                            if (version == 1) {
+                                arrayAP[i] = data.getJSONArray(i + arrayStartIndex).getString(0);
+                            } else {
+                                try {
+                                    arrayAP[i] = new String(Base64.decode(data.getJSONArray(i + arrayStartIndex).getString(0), 0));
+                                } catch (Exception e) {
+                                }
+                            }
+                            arrayVal[i] = data.getJSONArray(i + arrayStartIndex).getInt(1);
                         }
                         Bundle extra = new Bundle();
                         extra.putStringArray("aplist", arrayAP);
                         extra.putIntArray("aplistval", arrayVal);
-
                         Message msg = new Message();
                         msg.what = GET_AP_RESULT;
                         msg.arg1 = number;
@@ -439,6 +445,7 @@ public class SetWifiFragment extends BaseFragment {
         };
         return timertask;
     }
+
 
     private void showDialog(String[] ssids) {
         new AlertDialog.Builder(_mActivity)

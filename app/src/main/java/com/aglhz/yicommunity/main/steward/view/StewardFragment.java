@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.abase.mvp.view.base.BaseLazyFragment;
 import com.aglhz.s1.main.smarthome.SmartHomeFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
@@ -42,7 +41,6 @@ import com.aglhz.yicommunity.main.publish.PropertyActivity;
 import com.aglhz.yicommunity.main.smarthome.view.GoodsCategoryFragment;
 import com.aglhz.yicommunity.main.steward.contract.StewardContract;
 import com.aglhz.yicommunity.main.steward.presenter.StewardPresenter;
-import com.aglhz.yicommunity.qrcode.ScanQRCodeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,7 +63,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 此类不能用懒加载，因为在未进入此页面，PtrFrameLayout尚未加载的完全的时候，
  * 由于切换小区，这个页面的EventBus会调用下拉刷新，导致再进入此页面后，下拉刷新无法归为，基本瘫痪。
  */
-public class StewardFragment extends BaseFragment<StewardContract.Presenter> implements StewardContract.View {
+public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter> implements StewardContract.View {
     private static final String TAG = StewardFragment.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -118,6 +116,10 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar(toolbar);
+    }
+
+    @Override
+    protected void initLazyView(@Nullable Bundle savedInstanceState) {
         initPtrFrameLayout(ptrFrameLayout, svSteward);
         initData();
         setListener();
@@ -144,9 +146,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
         });
         rvSmartHome.setAdapter(smartHomeAdapter = new StewardRVAdapter());
         List<IconBean> listSmartHome = new ArrayList<IconBean>();
-//        listSmartHome.add(new IconBean(R.drawable.ic_smart_device_blue_140px, "智能设备", ""));
         listSmartHome.add(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
-//        listSmartHome.add(new IconBean(R.drawable.ic_add_smart_blue_140px, "添加主机", ""));
         smartHomeAdapter.setNewData(listSmartHome);
 
         //智慧门禁卡片
@@ -210,23 +210,11 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
 
         //设置智能家居卡片点击事件。
         smartHomeAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            switch (position) {
-//                case 0:
-//                    go2SmartDevice();
-//                    break;
-//                case 1:
-//                    go2DeviceStore();
-//                    break;
-//                case 2:
-//                    go2AddDevice();
-//                    break;
-//            }
             IconBean bean = smartHomeAdapter.getItem(position);
             if (position == adapter.getData().size() - 1) {
                 //点击的最后一个item，此时应该跳转到添加房屋界面。
                 go2DeviceStore();
             } else {
-//                go2SmartDevice();
                 _mActivity.start(SmartHomeFragment.newInstance(bean.roomDir));
             }
         });
@@ -296,13 +284,6 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     //跳转到停车模块。
     private void go2Park(int position) {
         if (position == 2) {
-//            new AlertDialog.Builder(_mActivity)
-//                    .setTitle("提示")
-//                    .setMessage("当前小区未开通此服务!")
-//                    .setCancelable(false)
-//                    .setNegativeButton("确定", (dialog, which) -> {
-//
-//                    }).show();
             go2ParkActivity(position);
         } else {
             go2ParkActivity(position);
@@ -324,17 +305,8 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
         startActivity(intent);
     }
 
-    //跳转到添加设备模块。
-    private void go2AddDevice() {
-        startActivity(new Intent(_mActivity, ScanQRCodeActivity.class));
-    }
-
     private void go2DeviceStore() {
         _mActivity.start(GoodsCategoryFragment.newInstance());
-    }
-
-    private void go2SmartDevice() {
-        _mActivity.start(SmartHomeFragment.newInstance());
     }
 
     @Override
@@ -345,13 +317,8 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     }
 
     @Override
-    public void start(Object response) {
-
-    }
-
-    @Override
     public void error(String errorMessage) {
-        dismissLoading();
+        super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
         DialogHelper.errorSnackbar(getView(), errorMessage);
     }
@@ -461,8 +428,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
     @Override
     public void responseCheckPermission(BaseBean mBaseBean) {
         dismissLoading();
-        DoorManager
-                .getInstance()
+        DoorManager.getInstance()
                 .callOut(params.dir);
     }
 
@@ -493,7 +459,7 @@ public class StewardFragment extends BaseFragment<StewardContract.Presenter> imp
             return;
         }
         svSteward.fullScroll(ScrollView.FOCUS_UP);
-        ptrFrameLayout.postDelayed(() -> ptrFrameLayout.autoRefresh(), 100);
+        ptrFrameLayout.postDelayed(this::onRefresh, 100);
     }
 }
 
