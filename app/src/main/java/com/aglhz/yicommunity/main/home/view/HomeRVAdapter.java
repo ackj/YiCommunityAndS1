@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.aglhz.abase.mvp.view.base.BaseActivity;
@@ -27,7 +26,6 @@ import com.aglhz.yicommunity.main.sociality.view.SocialityFragment;
 import com.aglhz.yicommunity.main.sociality.view.SocialityListFragment;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -158,30 +156,18 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                 break;
             case HomeBean.TYPE_COMMUNITY_WISDOM_LIFE:
                 helper.setText(R.id.tv_title, "智慧家居");
-                RecyclerView recyclerView2 = helper.getView(R.id.recyclerView);
-                recyclerView2.setLayoutManager(new LinearLayoutManager(App.mContext, LinearLayoutManager.HORIZONTAL, false) {
+                RecyclerView rvSmartLife = helper.getView(R.id.recyclerView);
+                rvSmartLife.setLayoutManager(new LinearLayoutManager(App.mContext, LinearLayoutManager.HORIZONTAL, false) {
                     @Override
                     public boolean canScrollVertically() {
                         return false;
                     }
                 });
-                WisdomLifeAdapter wisdomLifeAdapter = new WisdomLifeAdapter(item.getWisdomLife());
-                wisdomLifeAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        ((BaseActivity) fragment.getActivity()).start(SmartHomeMallFragment.newInstance(item.getWisdomLife(),position));
-                    }
-                });
-                recyclerView2.setAdapter(wisdomLifeAdapter);
+                SmartLifeAdapter smartLifeAdapter = new SmartLifeAdapter(item.getWisdomLife());
+                smartLifeAdapter.setOnItemClickListener((adapter12, view, position) ->
+                        ((BaseActivity) fragment.getActivity()).start(SmartHomeMallFragment.newInstance(item.getWisdomLife(), position)));
+                rvSmartLife.setAdapter(smartLifeAdapter);
                 break;
         }
     }
-
-//    public class GlideImageLoader extends ImageLoader {
-//        @Override
-//        public void displayImage(Context context, Object advsBean, ImageView imageView) {
-//            BannerBean.DataBean.AdvsBean bean = (BannerBean.DataBean.AdvsBean) advsBean;
-//            Glide.with(context).load(bean.getCover()).into(imageView);
-//        }
-//    }
 }

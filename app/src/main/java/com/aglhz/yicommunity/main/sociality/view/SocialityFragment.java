@@ -40,9 +40,7 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
  */
 
 public class SocialityFragment extends BaseFragment<SocialityContract.Presenter> implements SocialityContract.View {
-
     private static final String TAG = SocialityFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)

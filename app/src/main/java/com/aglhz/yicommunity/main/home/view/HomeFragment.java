@@ -113,16 +113,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     }
 
     private void initView() {
-//        dialog = MultiSelectorDialog.builder(_mActivity)
-//                .setTitle("请选择开哪扇门")
-//                .setTabVisible(false)
-//                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-//                    dialog.dismiss();
-//                    ALog.e("pagerPosition-->" + pagerPosition + "\r\noptionPosition-->" + optionPosition + "\r\noption-->" + option);
-//                    openDoor(oneKeyDoorList.get(optionPosition).getDir());
-//                })
-//                .build();
-
         selectorAdapter = new BaseRecyclerViewAdapter<OneKeyDoorBean.DataBean.ItemListBean, BaseViewHolder>(R.layout.item_rv_door_selector) {
             @Override
             protected void convert(BaseViewHolder helper, OneKeyDoorBean.DataBean.ItemListBean item) {
