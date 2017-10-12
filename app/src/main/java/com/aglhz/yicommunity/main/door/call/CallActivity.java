@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.abase.common.RxManager;
@@ -27,11 +28,15 @@ import com.sipphone.sdk.SipCoreUtils;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCall.State;
 import org.linphone.core.LinphoneCallParams;
+import org.linphone.core.LinphoneCallStats;
 import org.linphone.core.LinphoneCore;
 import org.linphone.core.LinphoneCoreException;
 import org.linphone.core.LinphoneCoreListenerBase;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -47,7 +52,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
     private int cameraNumber;
     private LinphoneCoreListenerBase mListener;
     private LinphoneCall mCall;
-    private RxManager rxManager;
+    private RxManager rxManager = new RxManager();
 
 
     @Override
@@ -55,7 +60,6 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         setContentView(R.layout.activity_call);
-//        NoticeHelper.cancel();
         if (!BluetoothManager.getInstance().isBluetoothHeadsetAvailable()) {    // true
             BluetoothManager.getInstance().initBluetooth();
         }
@@ -143,24 +147,52 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
             getFragmentManager().beginTransaction().add(R.id.fragmentContainer, callFragment).commitAllowingStateLoss();
         }
         registerCallDurationTimer();
+        updateBandwidth();
+    }
 
+    private void updateBandwidth() {
+        TextView tvUpload = (TextView) findViewById(R.id.tv_upload_bandwith);
+        TextView tvDownload = (TextView) findViewById(R.id.tv_download_bandwith);
+        if (tvUpload == null || tvDownload == null) {
+            return;
+        }
+        rxManager.add(Observable.interval(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if (SipCoreManager.getLc() != null
+                            && SipCoreManager.getLc().getCurrentCall() != null) {
+                        LinphoneCall currentCall = SipCoreManager.getLc().getCurrentCall();
+                        final LinphoneCallParams params = currentCall.getCurrentParamsCopy();
+                        if (params.getVideoEnabled()) {
+                            final LinphoneCallStats videoStats = currentCall.getVideoStats();
+                            final LinphoneCallStats audioStats = currentCall.getAudioStats();
+                            if (videoStats != null && audioStats != null) {
+                                tvDownload.setText("↓" + (int) videoStats.getDownloadBandwidth() + " / " + (int) audioStats.getDownloadBandwidth() + " kb/s");
+                                tvUpload.setText("↑" + (int) videoStats.getUploadBandwidth() + " / " + (int) audioStats.getUploadBandwidth() + " kb/s");
+                            }
+                        } else {
+                            final LinphoneCallStats audioStats = currentCall.getAudioStats();
+                            if (audioStats != null) {
+                                tvDownload.setText("↓" + (int) audioStats.getDownloadBandwidth() + " kb/s");
+                                tvUpload.setText("↑" + (int) audioStats.getUploadBandwidth() + " kb/s");
+                            }
+                        }
+                    }
+                }));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.hang_up:
-
                 hangUp();
                 break;
-
             case R.id.switchCamera:
                 if (videoCallFragment != null) {
                     videoCallFragment.switchCamera();
                 }
                 break;
             case R.id.accept_call:
-//                NoticeHelper.cancel();
                 accept();
                 break;
             case R.id.video:
@@ -176,16 +208,10 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void openDoor() {
-        if (rxManager == null) {
-            rxManager = new RxManager();
-        }
-
         String dir = SipCoreManager.getLc().getCurrentCall().getRemoteAddress().getUserName();
-
         if (dir.contains("D")) {
             dir = dir.substring(1);
         }
-
         rxManager.add(HttpHelper.getService(ApiService.class)
                 .requestOpenDoor(ApiService.requestOpenDoor, UserHelper.token, dir)
                 .subscribeOn(Schedulers.io())
@@ -201,19 +227,14 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
                     ToastUtils.showToast(CallActivity.this, throwable.getMessage());
                 })
         );
-
         ALog.e("getUserName()-->" + SipCoreManager.getLc().getCurrentCall().getRemoteAddress().getUserName());
-
 //        SipCoreManager.getLc().sendDtmf('#');//不推荐使用这个API，因为后续会改，同时没有开门记录。
     }
 
     @Override
     protected void onDestroy() {
         ToastUtils.showToast(App.mContext, "通话已结束！");
-
         super.onDestroy();
-//        NoticeHelper.cancel();
-
         hangUp();
 
         if (rxManager != null) {

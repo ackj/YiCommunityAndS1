@@ -1,5 +1,6 @@
 package com.aglhz.yicommunity.common.Notification;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +12,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
 import com.aglhz.abase.common.ActivityHelper;
@@ -19,6 +21,7 @@ import com.aglhz.s1.event.EventLearnSensor;
 import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.DoorManager;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,6 +55,7 @@ public class NoticeHelper {
     public static final String REPAIR = "repair_publish";// 物业报修
     public static final String COMPLAINT = "complaint_publish";// 物业投诉
     public static final String SMART_DOOR_CALL_PUSH = "smartdoor_call_push";//智慧门禁呼叫
+    public static final String LOGIN_DEVICE_CHG = "login_device_chg";//token发生变化，如：在被的设备上登录。
 
     //智能家居推送类型如下：
     public static final String SENSOR_LEARN = "sensor_learn";// 传感器学习
@@ -68,6 +72,7 @@ public class NoticeHelper {
         long when = TextUtils.isEmpty(notice.getWhen()) ? System.currentTimeMillis() : Long.parseLong(notice.getWhen());
         Uri uriSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         int priority = TextUtils.isDigitsOnly(notice.getPriority()) ? NotificationCompat.PRIORITY_MAX : Integer.parseInt(notice.getPriority());
+        String vibrate = notice.getVibrate();
         PendingIntent pendingIntent = contentIntent(mContext, notice.getType());
         handleMessage(notice.getType());
 
@@ -155,7 +160,7 @@ public class NoticeHelper {
         PowerManager pm = (PowerManager) App.mContext.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "notice");
         wakeLock.acquire();
-//                wakeLock.release();
+//        wakeLock.release();
 
         switch (type) {
             case NoticeHelper.SENSOR_LEARN:
@@ -172,6 +177,17 @@ public class NoticeHelper {
             case NoticeHelper.ALARM_RED:
                 break;
             case NoticeHelper.ALARM_DOOR:
+                break;
+            case NoticeHelper.LOGIN_DEVICE_CHG:
+                DoorManager.getInstance().exit();// 停止SipService，用户明确的退出。
+                Activity activity = ActivityHelper.getInstance().currentActivity();
+                new AlertDialog.Builder(activity)
+                        .setTitle("提醒")
+                        .setMessage("当前账号已在其他设备上登录，是否重新登录？")
+                        .setPositiveButton("是", (dialog, which) ->
+                                activity.startActivity(new Intent("LoginActivity")))
+                        .setNegativeButton("否", null)
+                        .show();
                 break;
         }
     }

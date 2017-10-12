@@ -33,11 +33,6 @@ public class OpenDoorRecordPresenter extends BasePresenter<OpenDoorRecordContrac
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestRecord(Params params) {
         mRxManager.add(mModel.getOpenDoorRecord(params)
                 .observeOn(AndroidSchedulers.mainThread())
