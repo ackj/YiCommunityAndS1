@@ -1,7 +1,6 @@
 package com.aglhz.s1.camera;
 
 import android.content.Intent;
-import android.util.Log;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.s1.App;
@@ -24,6 +23,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vCalling(boolean isOutCall, String threeNumber, int type) {
+        ALog.e(TAG,"vCalling");
 
     }
 
@@ -66,31 +66,39 @@ public class P2PListener implements IP2P {
         Intent intent = new Intent();
         intent.setAction(CameraPlayActivity.P2P_READY);
         App.mContext.sendBroadcast(intent);
+
     }
 
     @Override
     public void vAllarming(String srcId, int type, boolean isSupportExternAlarm, int iGroup, int iItem, boolean isSurpportDelete) {
         //老版设备报警时的回调,可忽略,新版报警回调见下面方法,应用不在前台或者后台时不会响应
+        ALog.e(TAG,"vAllarming");
+
     }
 
     @Override
     public void vChangeVideoMask(int state) {
-
+        ALog.e(TAG,"vChangeVideoMask");
 
     }
 
     @Override
     public void vRetPlayBackPos(int length, int currentPos) {
         //回放进度回调  length是总时长 currentPos当前播放时间点
+        ALog.e(TAG,"vRetPlayBackPos");
+
     }
 
     @Override
     public void vRetPlayBackStatus(int state) {
         //回放状态回调
+        ALog.e(TAG,"vRetPlayBackStatus");
+
     }
 
     @Override
     public void vGXNotifyFlag(int flag) {
+        ALog.e(TAG,"vGXNotifyFlag");
 
     }
 
@@ -102,6 +110,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRetPlaySize(int iWidth, int iHeight) {
+        ALog.e(TAG,"vRetPlaySize");
 
     }
 
@@ -113,6 +122,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRetPlayNumber(int iNumber, int[] data) {
+        ALog.e(TAG,"vRetPlayNumber");
 
     }
 
@@ -128,6 +138,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRecvAudioVideoData(byte[] AudioBuffer, int AudioLen, int AudioFrames, long AudioPTS, byte[] VideoBuffer, int VideoLen, long VideoPTS) {
+        ALog.e(TAG,"vRecvAudioVideoData");
 
     }
 
@@ -150,7 +161,8 @@ public class P2PListener implements IP2P {
 //        AlarmInfo info=new AlarmInfo(srcId,type,option,iGroup,iItem,imagecounts,imagePath,alarmCapDir,VideoPath,sensorName,deviceType);
 //        DBManager.getInstance(MyApp.app).insertAlarmInfo(info);
 //        RxBus.get().post(RxBUSAction.EVENT_ALARM,info);
-        Log.e("dxsTest","vAllarmingWitghTime.srcId:"+srcId);
+        ALog.e(TAG,"vAllarmingWitghTime.srcId:"+srcId);
+
     }
 
     /**
@@ -161,12 +173,16 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRetNewSystemMessage(int iSystemMessageType, int iSystemMessageIndex) {
+        ALog.e(TAG,"vRetNewSystemMessage");
 
     }
 
     @Override
     public void vRetRTSPNotify(int arg2, String msg) {
         //暂时无用
+        ALog.e(TAG,"vRetRTSPNotify");
+
+
     }
 
     /**
@@ -180,6 +196,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRetPostFromeNative(int what, int iDesID, int arg1, int arg2, String msgStr) {
+        ALog.e(TAG,"vRetPostFromeNative");
 
     }
 
@@ -192,7 +209,7 @@ public class P2PListener implements IP2P {
      */
     @Override
     public void vRetUserData(byte cmd, byte option, int[] data) {
-
+        ALog.e(TAG,"vRetUserData");
     }
 
 }

@@ -269,7 +269,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     break;
             }
         });
-        ivCamera.setOnClickListener(v -> login());
+        ivCamera.setOnClickListener(v ->  _mActivity.start(CameraListFragment.newInstance()));
 //        ivCamera.setOnClickListener(v -> new AlertDialog.Builder(_mActivity)
 //                .setTitle("温馨提示")
 //                .setMessage("亲！为了给您更好的用户体验，工程师正在玩命优化该功能")
