@@ -1,6 +1,7 @@
 package com.aglhz.s1.net.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -13,11 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.KeyBoardUtils;
 import com.aglhz.s1.App;
+import com.aglhz.s1.net.contract.NetContract;
+import com.aglhz.s1.net.presenter.NetPresenter;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.login.contract.LoginContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +34,10 @@ import butterknife.Unbinder;
  * Created by leguang on 2017/5/24 0029.
  * Email：langmanleguang@qq.com
  */
-public class HotPasswordFragment extends BaseFragment implements TextWatcher {
+public class HotPasswordFragment extends BaseFragment<NetContract.Presenter> implements NetContract.View, TextWatcher {
     private static final String TAG = HotPasswordFragment.class.getSimpleName();
+    public static final int CMD_REQUEST_HOST_INFO = 212;
+    public static final int CMD_UPDATE_HOST_INFO = 213;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -41,9 +49,16 @@ public class HotPasswordFragment extends BaseFragment implements TextWatcher {
     @BindView(R.id.bt_save_hot_password_fragment)
     Button btSave;
     private Unbinder unbinder;
+    private JSONArray jsonArray;
 
     public static HotPasswordFragment newInstance() {
         return new HotPasswordFragment();
+    }
+
+    @NonNull
+    @Override
+    protected NetContract.Presenter createPresenter() {
+        return new NetPresenter(this);
     }
 
     @Nullable
@@ -64,6 +79,7 @@ public class HotPasswordFragment extends BaseFragment implements TextWatcher {
     private void initData() {
         etConfirm.addTextChangedListener(this);
         etPassword.addTextChangedListener(this);
+        mPresenter.command(CMD_REQUEST_HOST_INFO, "");
     }
 
     private void initToolbar() {
@@ -82,7 +98,20 @@ public class HotPasswordFragment extends BaseFragment implements TextWatcher {
 
     @OnClick(R.id.bt_save_hot_password_fragment)
     public void onViewClicked() {
+        if (!etPassword.getText().toString().equals(etConfirm.getText().toString())) {
+            DialogHelper.warningSnackbar(getView(), "两次密码必须相同！");
+            return;
+        }
 
+        try {
+            jsonArray.put(0, CMD_UPDATE_HOST_INFO);
+            jsonArray.optJSONArray(1).put(1, etPassword.getText().toString());
+            jsonArray.optJSONArray(1).remove(8);
+            mPresenter.command(CMD_UPDATE_HOST_INFO, jsonArray.toString());
+        } catch (JSONException e) {
+            DialogHelper.warningSnackbar(getView(), "设置异常！");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -100,5 +129,27 @@ public class HotPasswordFragment extends BaseFragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void command(int cmd, String response) {
+        switch (cmd) {
+            case CMD_REQUEST_HOST_INFO:
+                try {
+                    jsonArray = new JSONArray(response);
+                } catch (JSONException e) {
+                    error("数据解析异常！");
+                    e.printStackTrace();
+                }
+
+                break;
+            case CMD_UPDATE_HOST_INFO:
+                if (response == null || response.equals("fail")) {
+                    DialogHelper.errorSnackbar(getView(), "密码设置失败！");
+                } else {
+                    DialogHelper.successSnackbar(getView(), "密码设置成功！");
+                }
+                break;
+        }
     }
 }
