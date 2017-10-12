@@ -2,6 +2,7 @@ package com.aglhz.abase.mvp.view.base;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -196,13 +197,16 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
      *
      * @param errorMessage P层传递过来的错误信息显示给用户。
      */
+
     @Override
+    @CallSuper
     public void error(String errorMessage) {
         dismissLoading();
         DialogHelper.errorSnackbar(getView(), errorMessage);
     }
 
     @Override
+    @CallSuper
     public void complete(Object response) {
         dismissLoading();
     }
