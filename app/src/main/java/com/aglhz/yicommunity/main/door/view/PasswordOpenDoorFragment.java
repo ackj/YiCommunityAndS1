@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.common.share.WxShare;
 import com.aglhz.yicommunity.entity.bean.DoorListBean;
 import com.aglhz.yicommunity.entity.bean.PasswordBean;
 import com.aglhz.yicommunity.main.door.contract.PasswordOpenDoorContract;
 import com.aglhz.yicommunity.main.door.presenter.PasswordOpenDoorPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.itsite.multiselector.MultiSelectorDialog;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 
 /**
  * Author: LiuJia on 2017/4/21 9:54.
@@ -63,8 +63,7 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
     LinearLayout llDoorName;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
-    private MultiSelectorDialog dialog;
-
+    private List<DoorListBean.DataBean> doors;
 
     public static PasswordOpenDoorFragment newInstance() {
         return new PasswordOpenDoorFragment();
@@ -88,6 +87,7 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
+        initDate();
     }
 
     private void initToolbar() {
@@ -95,6 +95,10 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
         toolbarTitle.setText("密码开门");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+    }
+
+    private void initDate() {
+        mPresenter.requestDoors(params);
     }
 
     /**
@@ -123,11 +127,14 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
                 showLoading();
                 break;
             case R.id.bt_share:
+                if (!tvPassword.getText().toString().matches("^\\d{4}$")) {
+                    DialogHelper.warningSnackbar(getView(), "请先生成数字密码！");
+                    return;
+                }
                 sharePassword();
                 break;
             case R.id.ll_door_name_password_opendoor_fragment:
-                mPresenter.requestDoors(params);
-                showLoading();
+                showSelector();
                 break;
         }
     }
@@ -165,11 +172,6 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
     }
 
     @Override
-    public void start(Object response) {
-
-    }
-
-    @Override
     public void error(String errorMessage) {
         dismissLoading();
         DialogHelper.warningSnackbar(getView(), errorMessage);
@@ -183,26 +185,12 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
 
     @Override
     public void responseDoors(DoorListBean data) {
-        dismissLoading();
-        if (data != null && data.getData().isEmpty()) {
+        if (data == null || data.getData() == null
+                || data.getData().isEmpty()) {
             return;
         }
-        List<String> list = new ArrayList<>();
-        for (DoorListBean.DataBean dataBean : data.getData()) {
-            list.add(dataBean.getName());
-        }
-        dialog = MultiSelectorDialog.builder(_mActivity)
-                .setTitle("请选择开哪扇门")
-                .setTabVisible(false)
-                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-                    dialog.dismiss();
-                    ALog.e("pagerPosition-->" + pagerPosition + "\r\noptionPosition-->" + optionPosition + "\r\noption-->" + option);
-                    params.dir = data.getData().get(optionPosition).getDir();
-                    tvDoorName.setText(data.getData().get(optionPosition).getName());
-                })
-                .show();
-
-        getView().post(() -> dialog.notifyDataSetChanged(list));
+        doors = data.getData();
+        tvDoorName.setText(doors.get(0).getName());
     }
 
     public String createMessage() {
@@ -222,5 +210,29 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
                 .append("\r\n")
                 .append("请妥善保管。");
         return sb.toString();
+    }
+
+    private void showSelector() {
+        new SelectorDialogFragment()
+                .setTitle("请选择门禁")
+                .setItemLayoutId(R.layout.item_rv_door_selector)
+                .setData(doors)
+                .setOnItemConvertListener((holder, position, dialog) -> {
+                    DoorListBean.DataBean item = doors.get(position);
+                    holder.setText(R.id.tv_name_item_rv_door_selector, item.getName())
+                            .setText(R.id.tv_community_item_rv_door_selector, UserHelper.communityName)
+                            .setText(R.id.tv_online_item_rv_door_selector, item.isOnline() ? "在线" : "离线")
+                            .setTextColor(R.id.tv_online_item_rv_door_selector,
+                                    item.isOnline() ? Color.parseColor("#999999") : Color.parseColor("#FF0000"));
+                })
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    params.dir = doors.get(position).getDir();
+                    tvDoorName.setText(doors.get(position).getName());
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .setHeight(350)
+                .show(getChildFragmentManager());
     }
 }
