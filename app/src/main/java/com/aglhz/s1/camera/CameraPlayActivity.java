@@ -123,6 +123,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     public BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            ALog.e(TAG, "onReceive action:" + intent.getAction());
             if (intent.getAction().equals(P2P_ACCEPT)) {
                 int[] type = intent.getIntArrayExtra("type");
                 P2PView.type = type[0];
@@ -161,23 +162,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                     connect(userId, callID, password);
                 } else {
                     //未知因素，以询问方式进行重连
-                    progressDialog.dismiss();
-                    new AlertDialog.Builder(CameraPlayActivity.this)
-                            .setMessage("连接失败，是否重新连接？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    progressDialog.show();
-                                    connect(userId, callID, password);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    CameraPlayActivity.this.finish();
-                                }
-                            })
-                            .show();
+                    reConnect();
                 }
             }
         }
@@ -194,6 +179,26 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                             })
                             .show();
                 }*/
+
+    private void reConnect() {
+        progressDialog.dismiss();
+        new AlertDialog.Builder(CameraPlayActivity.this)
+                .setMessage("连接失败，是否重新连接？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.show();
+                        connect(userId, callID, password);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CameraPlayActivity.this.finish();
+                    }
+                })
+                .show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,12 +264,22 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
 
     //连接
     private boolean connect(String userId, String id, String pwd) {
-        return P2PHandler.getInstance().call(userId, pwd, true, 1, id, "", "", 2, id);
+        boolean call = P2PHandler.getInstance().call(userId, pwd, true, 1, id, "", "", 2, id);
+        ALog.e(TAG, "正在连接:" + call);
+//        toolbar.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (progressDialog.isShowing()){
+//                    ToastUtils.showToast(CameraPlayActivity.this,"连接失败");
+//                    CameraPlayActivity.this.finish();
+//                }
+//            }
+//        }, 15 * 1000);
+        return call;
     }
 
     private void initData() {
         checkCameraPermission();
-
         //-------------------- 获取数据 --------------------
         bean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
@@ -334,7 +349,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
             @Override
             public void run() {
                 int avBytesPerSec = P2PHandler.getInstance().getAvBytesPerSec();
-                ALog.e(TAG, "avBytesPerSec：" + avBytesPerSec);
+                ALog.d(TAG, "avBytesPerSec：" + avBytesPerSec);
                 if (tvAvBytesPerSec != null) {
                     tvAvBytesPerSec.setText("码率：" + (avBytesPerSec / 1024) + "kb/s");
                 }
