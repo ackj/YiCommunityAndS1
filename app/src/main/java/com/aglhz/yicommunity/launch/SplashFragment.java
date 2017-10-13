@@ -17,7 +17,6 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.abase.utils.ToastUtils;
-import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.camera.P2PListener;
 import com.aglhz.s1.camera.SettingListener;
 import com.aglhz.yicommunity.App;
@@ -117,7 +116,7 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
                                 Integer.parseInt(loginResult.getP2PVerifyCode1()),
                                 Integer.parseInt(loginResult.getP2PVerifyCode2()));
 
-                        ALog.e(TAG,"摄像头登录成功！");
+                        ALog.e(TAG, "摄像头登录成功！");
                         break;
                     case HttpErrorCode.ERROR_10902011:
                         ToastUtils.showToast(_mActivity, "用户不存在");
@@ -211,27 +210,25 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
     }
 
     private void checkSip() {
+        DoorManager.getInstance().initWebUserApi(UserHelper.sip, new DoorManager.AccessCallBack() {
+            @Override
+            public void onPreAccessToken() {
+                go2Main();
+            }
 
-        DoorManager.getInstance()
-                .initWebUserApi(UserHelper.sip, new DoorManager.AccessCallBack() {
-
-                    @Override
-                    public void onPreAccessToken() {
-                        go2Main();
-                    }
-
-                    @Override
-                    public void onPostAccessToken(WebReponse webReponse) {
-                        go2Main();
-                    }
-                });
+            @Override
+            public void onPostAccessToken(WebReponse webReponse) {
+                ALog.e("webReponse-->" + webReponse.getStatusCode());
+                go2Main();
+            }
+        });
     }
 
     private void go2Main() {
         boolean welcomed = (boolean) SPCache.get(_mActivity, Constants.SP_KEY_WELCOME, false);
         if (!welcomed) {
             startActivity(new Intent(_mActivity, WelcomeActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(_mActivity, MainActivity.class));
         }
         _mActivity.overridePendingTransition(0, 0);

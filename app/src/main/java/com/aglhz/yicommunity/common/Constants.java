@@ -20,40 +20,40 @@ public class Constants extends BaseConstants {
 
     static {
         if (BuildConfig.DEBUG) {
-            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
-            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
+//            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
+//            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
             //给成都电信测试。
-//            WEB_SERVER = "http://mem.planidea.cn";
-//            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
+            WEB_SERVER = "http://mem.planidea.cn";
+            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
 
             //调试可以改这里的地址。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
-            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
+//            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
 //            BASE_PROPERTY = "http://192.168.7.110:8080/sub_property_ysq";   //物业
 //            BASE_PROPERTY = "http://119.23.129.133:8090/sub_property_ysq";   //物业
 
             //给成都电信测试。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
-//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
+            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m";//配置系统
+            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq";   //物业
 
         } else {
-            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
-            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
+//            WEB_SERVER = "http://member.planidea.cn"; //门禁机WebServer
+//            UUID = "b4ec659b-af86-4333-b753-98839a2d4dbb";//门禁机后台UUID
             //给成都电信测试。
-//            WEB_SERVER = "http://mem.planidea.cn";
-//            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
+            WEB_SERVER = "http://mem.planidea.cn";
+            UUID = "5D7F8D33-2D37-4EBC-8E38-172E8AFD9136";
 
             //这里的是正式版的基础地址，永远不要动。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
-            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_PROPERTYCFG_M = "http://www.aglhz.com:8096/propertyCFG-m";//配置系统
+//            BASE_PROPERTY = "http://www.aglhz.com:8090/sub_property_ysq";   //物业
 
 //            //给成都电信测试。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-//            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m/";//配置系统
-//            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq/";   //物业
+            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_PROPERTYCFG_M = "http://mem.planidea.cn:8096/propertyCFG-m";//配置系统
+            BASE_PROPERTY = "http://mem.planidea.cn:8090/sub_property_ysq";   //物业
         }
     }
     //——————————————以上是区分debug版和非debug版的baseurl——————————————————————
