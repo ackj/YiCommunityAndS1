@@ -3,9 +3,10 @@ package com.aglhz.yicommunity.main.smarthome.presenter;
 import android.support.annotation.NonNull;
 
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
+import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.main.smarthome.model.GoodsCategoryModel;
 import com.aglhz.yicommunity.main.smarthome.contract.GoodsCategoryContract;
+import com.aglhz.yicommunity.main.smarthome.model.GoodsCategoryModel;
 
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -15,7 +16,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Email: liujia95me@126.com
  */
 
-public class GoodsCategoryPresenter extends BasePresenter<GoodsCategoryContract.View,GoodsCategoryContract.Model> implements GoodsCategoryContract.Presenter {
+public class GoodsCategoryPresenter extends BasePresenter<GoodsCategoryContract.View, GoodsCategoryContract.Model> implements GoodsCategoryContract.Presenter {
     /**
      * 创建Presenter的时候就绑定View和创建model。
      *
@@ -41,7 +42,7 @@ public class GoodsCategoryPresenter extends BasePresenter<GoodsCategoryContract.
         mRxManager.add(mModel.requestFirstLevel(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(firstLevelBean -> {
-                    if (firstLevelBean.getOther().getCode() == 200) {
+                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
                         getView().responseFirstLevel(firstLevelBean.getData());
                     } else {
                         getView().error(firstLevelBean.getOther().getMessage());
