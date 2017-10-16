@@ -114,7 +114,7 @@ public class CallVideoFragment extends Fragment implements OnGestureListener, On
         LinphoneCore core = SipCoreManager.getLc();
         if (core != null) {
             LinphoneCall currentCall = core.getCurrentCall();
-            if (currentCall != null) {
+            if (currentCall != null && currentCall.getRemoteParams() != null) {
                 String callPicture = currentCall.getRemoteParams().getCustomHeader("X-CallPicture");
                 callPicture = Constants.WEB_SERVER + ":18008/" + callPicture;
                 ALog.e("callPicture-->" + callPicture);

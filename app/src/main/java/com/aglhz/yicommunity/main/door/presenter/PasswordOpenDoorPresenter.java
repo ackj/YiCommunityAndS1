@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.DoorListBean;
 import com.aglhz.yicommunity.main.door.contract.PasswordOpenDoorContract;
 import com.aglhz.yicommunity.main.door.model.PasswordOpenDoorModel;
 
@@ -25,28 +26,39 @@ public class PasswordOpenDoorPresenter extends BasePresenter<PasswordOpenDoorCon
         super(mView);
     }
 
-    @Override
-    public void start(Object request) {
-
-    }
-
     @NonNull
     @Override
     protected PasswordOpenDoorContract.Model createModel() {
         return new PasswordOpenDoorModel();
     }
 
+//    @Override
+//    public void requestDoors(Params params) {
+//        mRxManager.add(mModel.requestDoors(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(doorListBean -> {
+//                    if (doorListBean.getOther().getCode() == 200) {
+//                        getView().responseDoors(doorListBean);
+//                    } else {
+//                        getView().error(doorListBean.getOther().getMessage());
+//                    }
+//                }, this::error));
+//    }
+
     @Override
     public void requestDoors(Params params) {
         mRxManager.add(mModel.requestDoors(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(doorListBean -> {
-                    if (doorListBean.getOther().getCode() == 200) {
-                        getView().responseDoors(doorListBean);
-                    } else {
-                        getView().error(doorListBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<DoorListBean>() {
+                    @Override
+                    public void _onNext(DoorListBean doors) {
+                        if (doors.getOther().getCode() == 200) {
+                            getView().responseDoors(doors);
+                        } else {
+                            getView().error(doors.getOther().getMessage());
+                        }
                     }
-                }, this::error));
+                }));
     }
 
     @Override

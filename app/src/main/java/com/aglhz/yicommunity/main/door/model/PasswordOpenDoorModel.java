@@ -23,11 +23,6 @@ public class PasswordOpenDoorModel extends BaseModel implements PasswordOpenDoor
     private final String TAG = PasswordOpenDoorModel.class.getSimpleName();
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public Observable<DoorListBean> requestDoors(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestDoors(ApiService.requestDoors,

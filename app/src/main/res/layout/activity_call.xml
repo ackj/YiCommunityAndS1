@@ -158,7 +158,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragmentContainer"
         android:padding="5dp"
-        android:text=" kbits/s"
+        android:text=" kb/s"
         android:textColor="@color/white_70_percent_alpha" />
 
     <TextView
@@ -168,7 +168,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragmentContainer"
         android:padding="5dp"
-        android:text=" kbits/s"
+        android:text=" kb/s"
         android:textColor="@color/white_70_percent_alpha" />
 
 </RelativeLayout>

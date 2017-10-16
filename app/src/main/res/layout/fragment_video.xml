@@ -12,7 +12,8 @@
     <ImageView
         android:id="@+id/iv_snapshot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@null" />
 
     <SurfaceView
         android:id="@+id/videoCaptureSurface"

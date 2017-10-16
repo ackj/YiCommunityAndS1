@@ -35,15 +35,13 @@ public class DoorManager {
     private static DoorManager mDoorManager;
     private WebUserApi mWebUserApi;
     private LinphoneCallBack mListener;
-
-
-    public static class Device {
-        public final static String UUID = Constants.UUID;
-        public final static String UserName = "da";//暂时没用到。
-        public final static String tenantCode = "T0001";//暂时没用到。
-    }
+    public final static String UUID = Constants.UUID;
+    public final static String UserName = "da";//暂时没用到。
+    public final static String tenantCode = "T0001";//暂时没用到。
 
     private DoorManager() {
+        ALog.e("WEB_SERVER-->" + WEB_SERVER);
+        ALog.e("WEB_SERVER-->" + UUID);
         WebApiConstants.setHttpServer(WEB_SERVER);
     }
 
@@ -60,8 +58,6 @@ public class DoorManager {
     }
 
     public DoorManager startService() {
-        ALog.e(TAG, "startService");
-
         //全视通的要求最好在启动服务之前再停一遍。
         exit();
         App.mContext.startService(new Intent(ACTION_MAIN)
@@ -86,7 +82,6 @@ public class DoorManager {
                 .subscribe(o -> {
                     SipService.instance()
                             .setActivityToLaunchOnIncomingReceived(CallActivity.class);
-                    ALog.e(TAG, "setActivityToLaunchOnIncomingReceived");
                 });
         return this;
     }
@@ -98,14 +93,13 @@ public class DoorManager {
                 .setClass(App.mContext, SipService.class));
     }
 
-
     public DoorManager initWebUserApi(String userName, AccessCallBack accessCallBack) {
+        ALog.e("userName-->" + userName);
         mWebUserApi = new WebUserApi(App.mContext);
         mWebUserApi.setOnAccessTokenListener(accessCallBack);
-        mWebUserApi.accessToken(Device.UUID, userName);
+        mWebUserApi.accessToken(UUID, userName);
         return this;
     }
-
 
     public DoorManager addCallListener(LinphoneCallBack callBack) {
         mListener = callBack;
@@ -127,7 +121,6 @@ public class DoorManager {
         }
         return this;
     }
-
 
     public DoorManager removeCallListener() {
         LinphoneCore lc = SipCoreManager.getLcIfManagerNotDestroyedOrNull();

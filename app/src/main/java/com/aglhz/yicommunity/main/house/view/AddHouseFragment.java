@@ -457,7 +457,7 @@ public class AddHouseFragment extends BaseFragment<AddHouseContract.Presenter> i
         }
 
         new AlertDialog.Builder(_mActivity)
-                .setTitle("请选择楼层")
+                .setTitle("请选择房号")
                 .setItems(array, (dialog, which) -> {
                     params.bdg_f_h_c = rooms.get(which).getCode();
                     tvRoom.setText(array[which]);
