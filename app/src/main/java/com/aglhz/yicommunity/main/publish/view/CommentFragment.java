@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import butterknife.BindView;
@@ -213,6 +217,9 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
 
     IKeyBoardVisibleListener listener = (visible, windowBottom) -> {
         windowBottom -= ScreenUtils.getStatusBarHeight(_mActivity);
+        if (checkDeviceHasNavigationBar(_mActivity)) {
+            windowBottom -= getBottomKeyboardHeight();
+        }
         if (visible) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, windowBottom);
             viewBottomSpace.setLayoutParams(lp);
@@ -225,6 +232,56 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
 
     interface IKeyBoardVisibleListener {
         void onSoftKeyBoardVisible(boolean visible, int windowBottom);
+    }
+
+    //获取是否存在NavigationBar
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+
+        }
+        return hasNavigationBar;
+    }
+
+    public int getBottomKeyboardHeight() {
+        int screenHeight = getAccurateScreenDpi()[1];
+        DisplayMetrics dm = new DisplayMetrics();
+        _mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int heightDifference = screenHeight - dm.heightPixels;
+        return heightDifference;
+    }
+
+    /**
+     * 获取精确的屏幕大小
+     */
+    public int[] getAccurateScreenDpi() {
+        int[] screenWH = new int[2];
+        Display display = _mActivity.getWindowManager().getDefaultDisplay();
+        DisplayMetrics dm = new DisplayMetrics();
+        try {
+            Class<?> c = Class.forName("android.view.Display");
+            Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
+            method.invoke(display, dm);
+            screenWH[0] = dm.widthPixels;
+            screenWH[1] = dm.heightPixels;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return screenWH;
     }
 
     private void initData() {
