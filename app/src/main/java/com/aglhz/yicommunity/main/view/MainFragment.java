@@ -3,6 +3,7 @@ package com.aglhz.yicommunity.main.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,12 +99,12 @@ public class MainFragment extends BaseFragment {
         bottomItems.add(item3);
         bottomItems.add(item4);
         ahbn.addItems(bottomItems);
-        ahbn.setDefaultBackgroundColor(getResources().getColor(R.color.white));
+        ahbn.setDefaultBackgroundColor(ContextCompat.getColor(App.mContext, R.color.white));
         ahbn.setBehaviorTranslationEnabled(false);
         ahbn.setColored(true);
         ahbn.setForceTint(false);
-        ahbn.setAccentColor(getResources().getColor(R.color.base_color));
-        ahbn.setInactiveColor(getResources().getColor(R.color.black));
+        ahbn.setAccentColor(ContextCompat.getColor(App.mContext, R.color.base_color));
+        ahbn.setInactiveColor(ContextCompat.getColor(App.mContext, R.color.black));
         ahbn.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
         ahbn.setOnTabSelectedListener((position, wasSelected) -> {
@@ -123,6 +124,8 @@ public class MainFragment extends BaseFragment {
                         ((SocialityFragment) mFragments[2]).go2TopAndRefresh();
                         break;
                     case 3:
+                        break;
+                    default:
                         break;
                 }
             }

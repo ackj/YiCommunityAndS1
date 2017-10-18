@@ -128,7 +128,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 //        mPushAgent.setResourcePackageName("com.aglhz.yicommunity");
 //        mPushAgent.setNotificaitonOnForeground(false);
 //        //sdk开启通知声音
-////        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
+//        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
 //
 //        ALog.e(TAG, "UserHelper.account-->" + UserHelper.account);
 //
@@ -171,7 +171,7 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 //                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 //                PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, NoticeHelper.CALL_IN + "");
 //                wakeLock.acquire();
-////                wakeLock.release();
+//                wakeLock.release();
 //
 //                if (msg.builder_id == 1 && !ActivityHelper.getInstance().isEmpty()) {
 //                    msg.builder_id = 0;
@@ -189,33 +189,33 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
 //                        ALog.e(TAG, msg.play_lights);
 //                        ALog.e(TAG, msg.play_sound);
 //
-////                        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-////                        Notification notification = new NotificationCompat.Builder(App.mContext)
-////                                .setContentTitle(msg.title)
-////                                .setContentText(msg.text)
-////                                .setWhen(System.currentTimeMillis())
-////                                .setSmallIcon(R.mipmap.ic_app_logo)
-////                                .setLargeIcon(BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.ic_app_logo))
-////                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-////                                .setVibrate(new long[]{0, 1000, 1000, 1000})
-////                                .setLights(Color.RED, 1000, 1000)
-////                                .setPriority(NotificationCompat.PRIORITY_MAX)
-////                                .setAutoCancel(true)
-////                                .build();
-////                        notification.flags |= Notification.FLAG_INSISTENT;
-////
-////                        Observable.timer(10, TimeUnit.SECONDS)
-////                                .subscribe(new Consumer<Long>() {
-////                                    @Override
-////                                    public void accept(@NonNull Long aLong) throws Exception {
-////                                        NoticeHelper.cancel();
-////                                        notification.flags = Notification.DEFAULT_SOUND;
-////                                        manager.notify(NoticeHelper.CALL_IN, notification);
-////                                    }
-////                                });
+//                        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                        Notification notification = new NotificationCompat.Builder(App.mContext)
+//                                .setContentTitle(msg.title)
+//                                .setContentText(msg.text)
+//                                .setWhen(System.currentTimeMillis())
+//                                .setSmallIcon(R.mipmap.ic_app_logo)
+//                                .setLargeIcon(BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.ic_app_logo))
+//                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+//                                .setVibrate(new long[]{0, 1000, 1000, 1000})
+//                                .setLights(Color.RED, 1000, 1000)
+//                                .setPriority(NotificationCompat.PRIORITY_MAX)
+//                                .setAutoCancel(true)
+//                                .build();
+//                        notification.flags |= Notification.FLAG_INSISTENT;
 //
-//                        return NoticeHelper.callIn(msg);
-////                        return notification;
+//                        Observable.timer(10, TimeUnit.SECONDS)
+//                                .subscribe(new Consumer<Long>() {
+//                                    @Override
+//                                    public void accept(@NonNull Long aLong) throws Exception {
+//                                        NoticeHelper.cancel();
+//                                        notification.flags = Notification.DEFAULT_SOUND;
+//                                        manager.notify(NoticeHelper.CALL_IN, notification);
+//                                    }
+//                                });
+//
+//                      return NoticeHelper.callIn(msg);
+//                        return notification;
 //                    default:
 //                        //默认为0，若填写的builder_id并不存在，也使用默认。
 //                        return super.getNotification(context, msg);

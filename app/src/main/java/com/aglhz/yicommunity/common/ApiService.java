@@ -722,8 +722,7 @@ public interface ApiService {
                                           @Query("type") int type,
                                           @Query("ofids") String ofids);
 
-    //友盟用户登记接口
-//    String registerPush = BASE_USER + "/client/logUMengParams.do";
+    //阿里云deviceID登记接口
     String registerDevice = BASE_PROPERTY + "/other/client/logUMengParams";
 
     @POST
