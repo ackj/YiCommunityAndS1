@@ -108,7 +108,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
         mRxManager.add(mModel.requestFirstLevel(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(firstLevelBean -> {
-                    if (firstLevelBean.getOther().getCode() == 200) {
+                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
                         getView().responseFirstLevel(firstLevelBean.getData());
                     } else {
                         getView().error(firstLevelBean.getOther().getMessage());
@@ -121,7 +121,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
         mRxManager.add(mModel.requestSubCategoryList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(categoryBean -> {
-                    if (categoryBean.getOther().getCode() == 200) {
+                    if (categoryBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
                         getView().responseSubCategoryList(categoryBean.getData());
                     } else {
                         getView().error(categoryBean.getOther().getMessage());
@@ -134,7 +134,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
         mRxManager.add(mModel.requestCommEquipmentList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(equipmentBean -> {
-                    if (equipmentBean.getOther().getCode() == 200) {
+                    if (equipmentBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
                         getView().responseCommEquipmentList(equipmentBean.getData().getDataList());
                     } else {
                         getView().error(equipmentBean.getOther().getMessage());

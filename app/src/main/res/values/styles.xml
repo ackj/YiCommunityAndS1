@@ -9,7 +9,7 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!-- <item name="android:navigationBarColor">@color/base_color</item>-->
+        <item name="android:navigationBarColor">@color/base_color</item>
         <item name="android:windowAnimationStyle">@style/NoAnimationTheme</item>
     </style>
 
@@ -17,7 +17,7 @@
     <style name="LaunchTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_splash_720px_1280px</item>
         <item name="android:windowFullscreen">true</item>
-        <!-- <item name="android:navigationBarColor">@color/transparent</item>-->
+        <item name="android:navigationBarColor">@color/base_color</item>
         <item name="android:windowAnimationStyle">@style/NoAnimationTheme</item>
     </style>
 

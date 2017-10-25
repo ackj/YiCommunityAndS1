@@ -51,9 +51,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
     public static final String TAG = MainFragment.class.getSimpleName();
-    private static final long WAIT_TIME = 2000L;// 再点一次退出程序时间设置
-    private static final int CAMERA_LOCATION = 100;
-    private long TOUCH_TIME = 0;
+    public static final long WAIT_TIME = 2000L;// 再点一次退出程序时间设置
+    public static final int CAMERA_LOCATION = 100;
+    public long TOUCH_TIME = 0;
     private AHBottomNavigation ahbn;
     private SupportFragment[] fragments = new SupportFragment[5];
     private int bottomNavigationPreposition;

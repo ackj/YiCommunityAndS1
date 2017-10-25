@@ -21,7 +21,8 @@ public class SocialityModel extends BaseModel implements SocialityContract.Model
 
     @Override
     public Observable<CommunityBean> requestCommunitys(Params params) {
-        return HttpHelper.getService(ApiService.class).requestCommunityList(ApiService.requestCommunityList, params.url)
+        return HttpHelper.getService(ApiService.class)
+                .requestCommunityList(ApiService.requestCommunityList, params.token)
                 .subscribeOn(Schedulers.io());
     }
 }
