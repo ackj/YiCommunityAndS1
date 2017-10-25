@@ -193,7 +193,6 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
             builder.setItems(arr, (dialog, which) -> {
                 switch (which) {
                     case 0:
-                        //
                         String inputContent = etInputFragmentComment.getText().toString();
                         if (!TextUtils.isEmpty(inputContent) && inputContent.contains(replyName)) {
                             inputContent = inputContent.substring(replyName.length());

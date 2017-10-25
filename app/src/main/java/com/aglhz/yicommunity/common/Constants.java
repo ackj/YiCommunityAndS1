@@ -113,7 +113,6 @@ public class Constants extends BaseConstants {
 
     //********************以上为物业缴费模块************************
 
-
     //******************** Bundle key ***********************
     public static final String KEY_TITLE = "title";
     public static final String KEY_FID = "fid";

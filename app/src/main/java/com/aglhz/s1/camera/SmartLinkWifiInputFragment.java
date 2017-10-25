@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -20,28 +21,44 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.yicommunity.R;
+import com.hdl.udpsenderlib.UDPResult;
+import com.jwkj.soundwave.ResultCallback;
+import com.jwkj.soundwave.SoundWaveManager;
+import com.jwkj.soundwave.SoundWaveSender;
+import com.jwkj.soundwave.bean.NearbyDevice;
 import com.mediatek.elian.ElianNative;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Author: LiuJia on 2017/9/6 0006 10:12.
  * Email: liujia95me@126.com
  */
 
-public class CameraWifiInputFragment extends BaseFragment {
+public class SmartLinkWifiInputFragment extends BaseFragment {
+
+    private static final String TAG = SmartLinkWifiInputFragment.class.getSimpleName();
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -57,7 +74,7 @@ public class CameraWifiInputFragment extends BaseFragment {
     Unbinder unbinder;
 
     String ssid;
-    String pwd="";
+    String pwd = "";
     boolean isRegFilter = false;
     boolean is5GWifi = false;
     boolean isWifiEncrypt = false;
@@ -65,9 +82,10 @@ public class CameraWifiInputFragment extends BaseFragment {
     ElianNative elain;
     WifiManager wifiManager;
     public UDPHelper mHelper;
+    private BaseDialogFragment linkDialogLoading;
 
-    public static CameraWifiInputFragment newInstance() {
-        CameraWifiInputFragment fragment = new CameraWifiInputFragment();
+    public static SmartLinkWifiInputFragment newInstance() {
+        SmartLinkWifiInputFragment fragment = new SmartLinkWifiInputFragment();
         return fragment;
     }
 
@@ -105,9 +123,10 @@ public class CameraWifiInputFragment extends BaseFragment {
 
     private void initData() {
         currenWifi();
+        SoundWaveManager.init(_mActivity);//初始化声波配置
         regFilter();
         //监听UDP广播
-        mHelper = new UDPHelper(_mActivity,9988);
+        mHelper = new UDPHelper(_mActivity, 9988);
         mHelper.StartListen();
     }
 
@@ -160,11 +179,11 @@ public class CameraWifiInputFragment extends BaseFragment {
         }
     }
 
-    public void regFilter(){
-        IntentFilter filter=new IntentFilter();
+    public void regFilter() {
+        IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        _mActivity.registerReceiver(br,filter);
-        isRegFilter=true;
+        _mActivity.registerReceiver(br, filter);
+        isRegFilter = true;
     }
 
     BroadcastReceiver br = new BroadcastReceiver() {
@@ -265,7 +284,7 @@ public class CameraWifiInputFragment extends BaseFragment {
         if (!isWifiConnected()) {
             return null;
         }
-        WifiManager wifiManager = (WifiManager) _mActivity.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) _mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null) {
             return null;
         }
@@ -323,33 +342,156 @@ public class CameraWifiInputFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
-                pwd=etPassword.getText().toString().trim();
-                if (!isWifiConnected()||ssid == null || ssid.equals("")||ssid.equals("<unknown ssid>")) {
-                    ToastUtils.showToast(_mActivity,"请先将手机连接到WiFi");
+                pwd = etPassword.getText().toString().trim();
+                if (!isWifiConnected() || ssid == null || ssid.equals("") || ssid.equals("<unknown ssid>")) {
+                    ToastUtils.showToast(_mActivity, "请先将手机连接到WiFi");
                     return;
                 }
-                if(is5GWifi){
-                    ToastUtils.showToast(_mActivity,"设备不支持5G网络");
+                if (is5GWifi) {
+                    ToastUtils.showToast(_mActivity, "设备不支持5G网络");
                     return;
                 }
                 if (!isWifiEncrypt) {
                     if (TextUtils.isEmpty(pwd)) {
-                        ToastUtils.showToast(_mActivity,"请输入WiFi密码");
+                        ToastUtils.showToast(_mActivity, "请输入WiFi密码");
                         return;
                     }
                 }
+                isSend = true;
                 sendWifi();
-                isSend=true;
-                tvReceive.append("开始发包......\n");
+                sendSoundWave();//声波
+                tvReceive.append("开始配网......\n");
+
+                showLinkDialogLoading();
                 break;
             case R.id.btn_stop:
-                if(!isSend){
+                if (!isSend) {
                     return;
                 }
+                isSend = false;
                 stopSendWifi();
-                tvReceive.append("停止发包\n");
-                isSend=false;
+                onStopSoundWave();
+                tvReceive.append("停止配网\n");
                 break;
         }
+    }
+
+    //-------------------------------  以下是声波部分 --------------------------------
+
+    /**
+     * 开始发送声波
+     */
+    private void sendSoundWave() {
+        ALog.e(TAG, "sendSoundWave 开始发送声波");
+        SoundWaveSender.getInstance()
+                .with(_mActivity)
+                .setWifiSet(ssid, pwd)
+                .send(new ResultCallback() {
+                    @Override
+                    public void onNext(UDPResult udpResult) {
+                        ALog.e(TAG, "声波配网NEXT:" + udpResult.getIp());
+                        NearbyDevice device = NearbyDevice.getDeviceInfoByByteArray(udpResult.getResultData());
+                        device.setIp(udpResult.getIp());
+                        tvReceive.append("\n设备联网成功！");
+                        ALog.e(TAG, "设备信息:" + device.toString());
+                        isSend = false;
+                        onStopSoundWave();
+                        if (linkDialogLoading != null)
+                            linkDialogLoading.dismiss();
+                        pop();
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        ALog.e(TAG, "声波配网ERROR:" + throwable.getMessage());
+                        onStopSend();
+//                        SoundWaveSender.getInstance().stopSend();//出错了就要停止任务，然后重启发送
+                    }
+
+                    /**
+                     * 当声波停止的时候
+                     */
+                    @Override
+                    public void onStopSend() {
+                        ALog.e(TAG, "声波配网STOP:" + isSend);
+                        if (isSend) {//是否需要继续发送声波
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Looper.prepare();
+                                    sendSoundWave();
+                                }
+                            }).start();
+                        } else {//结束了就需要将发送器关闭
+                            SoundWaveSender.getInstance().stopSend();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 停止发送声波
+     */
+    public void onStopSoundWave() {
+        ALog.e(TAG, "onStopSoundWave");
+        SoundWaveSender.getInstance().with(_mActivity).stopSend();
+    }
+
+
+    private int countdown;
+
+    private void showLinkDialogLoading() {
+        //开始动画
+        linkDialogLoading = new BaseDialogFragment()
+                .setLayoutId(R.layout.layout_link_loading)
+                .setConvertListener((holder, dialogFragment) -> {
+                    ImageView iv = holder.getView(R.id.iv_link_loading);
+                    Animation animation = AnimationUtils.loadAnimation(_mActivity, R.anim.dialog_scan_rotate);
+                    iv.startAnimation(animation);//开始动画
+
+                    countdown = 60;
+                    TextView tvCountDown = holder.getView(R.id.tv_count_down);
+                    Subscription subscribe = Observable.interval(0, 1, TimeUnit.SECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Action1<Long>() {
+                                @Override
+                                public void call(Long aLong) {
+                                    tvCountDown.setText((--countdown) + "");
+                                    if (countdown == 0) {
+                                        stopLink();
+                                        dialogFragment.dismiss();
+                                    }
+                                }
+                            });
+
+                    holder.setOnClickListener(R.id.btn_stop, v -> {
+                        stopLink();
+                        subscribe.unsubscribe();
+                        dialogFragment.dismiss();
+                    });
+                });
+
+        linkDialogLoading.setCancelable(false);
+        linkDialogLoading.show(getFragmentManager());
+
+    }
+
+    //停止配网
+    private void stopLink() {
+        isSend = false;
+        stopSendWifi();
+        onStopSoundWave();
+        tvReceive.append("停止配网\n");
+    }
+
+
+    @Override
+    public boolean onBackPressedSupport() {
+//        if (linkDialogLoading != null && !linkDialogLoading.isHidden()) {
+//            linkDialogLoading.dismiss();
+//            return true;
+//        }
+        return super.onBackPressedSupport();
     }
 }

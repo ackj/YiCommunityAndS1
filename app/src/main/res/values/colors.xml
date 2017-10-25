@@ -90,6 +90,8 @@
     <!--配网模块-->
     <color name="green_updata_password">#08BF8F</color>
 
+    <color name="s1_base_color">#2F9FE8</color>
+
     <!--—————————————————————————————————————————————————————— Material Color Palette ————————————————————————————————————————————————————————————————————————-->
     <!-- Red -->
     <color name="material_red_50">#fde0dc</color>
