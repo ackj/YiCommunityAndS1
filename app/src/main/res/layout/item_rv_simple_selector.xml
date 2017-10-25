@@ -6,4 +6,5 @@
     android:background="?android:attr/selectableItemBackground"
     android:ellipsize="end"
     android:maxLines="2"
-    android:padding="10dp" />
+    android:padding="10dp"
+    android:textColor="@color/base_black" />
