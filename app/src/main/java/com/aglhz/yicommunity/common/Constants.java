@@ -68,7 +68,7 @@ public class Constants extends BaseConstants {
     public static final String WX_APP_ID = "wx160fff7b6ed86ef7";
 
     //网络部分
-    public static final int RESPONSE_CODE_NOMAL = 200;
+    public static final int RESPONSE_CODE_SUCCESS = 200;
     public static final int RESPONSE_CODE_LOGOUT = 123;
 
     //停车模块

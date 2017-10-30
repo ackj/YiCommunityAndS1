@@ -43,7 +43,7 @@ public class ServicesDetailPresenter extends BasePresenter<ServicesDetailContrac
         mRxManager.add(mModel.requestServiceDetail(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(detailBean -> {
-                    if (detailBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (detailBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseServiceDetail(detailBean);
                     } else {
                         getView().error(detailBean.getOther().getMessage());

@@ -217,7 +217,7 @@ public class CallActivity extends BaseActivity implements View.OnClickListener {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         ToastUtils.showToast(CallActivity.this, "开门成功，欢迎回家，我的主人！");
 
                     } else {

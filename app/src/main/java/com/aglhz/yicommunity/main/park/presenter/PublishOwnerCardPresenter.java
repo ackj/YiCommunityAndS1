@@ -44,7 +44,7 @@ public class PublishOwnerCardPresenter extends BasePresenter<PublishOwnerCardCon
         mRxManager.add(mModel.requestSubmitOwnerCard(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
@@ -57,7 +57,7 @@ public class PublishOwnerCardPresenter extends BasePresenter<PublishOwnerCardCon
         mRxManager.add(mModel.requestModifyOwnerCard(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());

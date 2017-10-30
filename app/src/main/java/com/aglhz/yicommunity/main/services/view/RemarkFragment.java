@@ -137,7 +137,7 @@ public class RemarkFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     dismissLoading();
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
                         setFragmentResult(RESULT_RECORD, new Bundle());
                         pop();

@@ -36,7 +36,7 @@ public class ComplainReplyPresenter extends BasePresenter<ComplainReplyContract.
                     if (!isViewAttached()) {
                         return;
                     }
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().start(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());

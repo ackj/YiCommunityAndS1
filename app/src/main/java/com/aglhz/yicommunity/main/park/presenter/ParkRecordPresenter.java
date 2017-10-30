@@ -42,7 +42,7 @@ public class ParkRecordPresenter extends BasePresenter<ParkRecordContract.View, 
         mRxManager.add(mModel.requestParkRecord(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(parkRecordListBean -> {
-                    if (parkRecordListBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (parkRecordListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseParkRecord(parkRecordListBean.getData().getParkRecordList());
                     } else {
                         getView().error(parkRecordListBean.getOther().getMessage());

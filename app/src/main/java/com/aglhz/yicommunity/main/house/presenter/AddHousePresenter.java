@@ -41,7 +41,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestCommunitys(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseCommunitys(bean.getData().getCommunities());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -55,7 +55,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestBuildings(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseBuildings(bean.getData().getBuildings());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -69,7 +69,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestUnits(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 
                         getView().responseUnits(bean.getData().getBuildingUnits());
                     } else {
@@ -84,7 +84,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestFloors(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 
                         getView().responseFloors(bean.getData().getFloors());
                     } else {
@@ -99,7 +99,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestRooms(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseRooms(bean.getData().getHouses());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -113,7 +113,7 @@ public class AddHousePresenter extends BasePresenter<AddHouseContract.View, AddH
         mRxManager.add(mModel.requestApply(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseApply(bean.getOther().getMessage());
                     } else {
                         getView().error(bean.getOther().getMessage());

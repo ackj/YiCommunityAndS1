@@ -34,7 +34,7 @@ public class MyHousesPresenter extends BasePresenter<MyHousesContract.View,MyHou
         mRxManager.add(mModel.requsetMyHouse(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myHousesBean -> {
-                    if (myHousesBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (myHousesBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseHouses(myHousesBean.getData().getAuthBuildings());
                     } else {
                         getView().error(myHousesBean.getOther().getMessage());

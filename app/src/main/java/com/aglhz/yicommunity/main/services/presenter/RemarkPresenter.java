@@ -37,7 +37,7 @@ public class RemarkPresenter extends BasePresenter<RemarkContract.View, RemarkCo
         mRxManager.add(mModel.requestRemarkList((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(remarkListBean -> {
-                    if (remarkListBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (remarkListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().start(remarkListBean);
                     } else {
                         getView().error(remarkListBean.getOther().getMessage());

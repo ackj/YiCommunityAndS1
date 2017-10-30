@@ -42,7 +42,7 @@ public class ParkOrderPresenter extends BasePresenter<ParkOrderContract.View,Par
         mRxManager.add(mModel.requestParkOrder(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(parkOrderBean -> {
-                    if (parkOrderBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (parkOrderBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseParkOrder(parkOrderBean.getData());
                     } else {
                         getView().error(parkOrderBean.getOther().getMessage());

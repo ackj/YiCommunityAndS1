@@ -43,7 +43,7 @@ public class RechargeRecordPresenter extends BasePresenter<RechargeRecordContrac
         mRxManager.add(mModel.requsetMonthCardBillList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(cardBillListBean -> {
-                    if (cardBillListBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (cardBillListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseRechargeRecord(cardBillListBean.getData().getMonthCardBillList());
                     } else {
                         getView().error(cardBillListBean.getOther().getMessage());
