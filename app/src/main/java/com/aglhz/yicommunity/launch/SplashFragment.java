@@ -196,17 +196,20 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getData().getStatus() == 1) {
-                        UserHelper.clear();
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        if (bean.getData().getStatus() == 1) {
+                            UserHelper.clear();
+                            go2Main();
+                        } else if (bean.getData().getStatus() == 0) {
+                            checkSip();
+                        }
+                    } else {
                         go2Main();
-                    } else if (bean.getData().getStatus() == 0) {
-                        checkSip();
                     }
                 }, throwable -> {
                     ALog.e(throwable);
                     go2Main();
-                })
-        );
+                }));
     }
 
     private void checkSip() {

@@ -42,7 +42,7 @@ public class ServicesPresenter extends BasePresenter<ServicesContract.View, Serv
         mRxManager.add(mModel.requestServiceCommodityList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(commodityListBean -> {
-                    if (commodityListBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (commodityListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseServiceCommodityList(commodityListBean.getData().getDataList());
                     } else {
                         getView().error(commodityListBean.getOther().getMessage());

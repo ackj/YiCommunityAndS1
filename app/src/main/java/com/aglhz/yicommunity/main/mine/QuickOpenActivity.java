@@ -105,7 +105,7 @@ public class QuickOpenActivity extends BaseActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(baseBean -> {
                         exit();
-                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                             openDoorDialog.setSuccess();
                             DialogHelper.successSnackbar(rootView, "开门成功，欢迎回家，我的主人！");
                         } else {

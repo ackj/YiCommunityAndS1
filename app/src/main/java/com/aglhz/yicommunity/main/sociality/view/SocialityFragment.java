@@ -204,10 +204,10 @@ public class SocialityFragment extends BaseFragment<SocialityContract.Presenter>
                                 .getFragments().get(0)).refresh(bean.getCommunityFid());
                     }
                 })
-                .setConvertListener((holder, dialogFragment) -> {
-                    ((RecyclerView) holder.getView(R.id.recyclerView_selector))
-                            .addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
-                })
+//                .setConvertListener((holder, dialogFragment) -> {
+//                    ((RecyclerView) holder.getView(R.id.recyclerView_selector))
+//                            .addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
+//                })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());

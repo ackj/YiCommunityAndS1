@@ -132,7 +132,6 @@ public interface ApiService {
 
 
     //登录验证
-//    @POST("/memberSYS-m/client/checkIfTokenInvalid.do")
     String requestCheckToken = BASE_USER + "/client/checkIfTokenInvalid.do";
 
     @POST
@@ -152,7 +151,6 @@ public interface ApiService {
     //登出
     String requestLogout = BASE_USER + "/client/logout.do";
 
-    //    @POST("/memberSYS-m/client/logout.do")
     @POST
     Observable<BaseBean> requestLogout(
             @Url String url,

@@ -42,7 +42,7 @@ public class GoodsCategoryPresenter extends BasePresenter<GoodsCategoryContract.
         mRxManager.add(mModel.requestFirstLevel(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(firstLevelBean -> {
-                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseFirstLevel(firstLevelBean.getData());
                     } else {
                         getView().error(firstLevelBean.getOther().getMessage());

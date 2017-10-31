@@ -122,6 +122,7 @@ public class AboutUsFragment extends BaseFragment {
             case R.id.tv_check_update_about_us_fragment://[检测App更新]
                 updateApp();
                 break;
+            default:
         }
     }
 

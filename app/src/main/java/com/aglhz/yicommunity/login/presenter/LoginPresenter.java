@@ -42,7 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         mRxManager.add(mModel.requestLogin((Params) request)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(userBean -> {
-                            if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                            if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 
                                 //保存用户信息
                                 UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
@@ -69,7 +69,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         mModel.requestSip(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sipBean -> {
-                    if (sipBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (sipBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         UserHelper.setSip(sipBean.getData().getAccount());
                         ALog.e("UserHelper.sip-->" + UserHelper.sip);
                         DoorManager.getInstance().initWebUserApi(UserHelper.sip, new DoorManager.AccessCallBack() {

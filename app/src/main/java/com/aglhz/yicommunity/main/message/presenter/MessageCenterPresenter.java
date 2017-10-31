@@ -36,7 +36,7 @@ public class MessageCenterPresenter extends BasePresenter<MessageCenterContract.
         mRxManager.add(mModel.requestMessages((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(messageCenterBean -> {
-                    if (messageCenterBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (messageCenterBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().start(messageCenterBean.getData().getMemNews());
                     } else {
                         getView().error(messageCenterBean.getOther().getMessage());
@@ -49,7 +49,7 @@ public class MessageCenterPresenter extends BasePresenter<MessageCenterContract.
         mRxManager.add(mModel.requestMessageRead(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseReadSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
@@ -62,7 +62,7 @@ public class MessageCenterPresenter extends BasePresenter<MessageCenterContract.
         mRxManager.add(mModel.requsetDeleteMessage(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDeleteSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());

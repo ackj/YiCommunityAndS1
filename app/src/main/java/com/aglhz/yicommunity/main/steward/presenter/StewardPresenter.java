@@ -36,7 +36,7 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
         mRxManager.add(mModel.requestHouses((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseHouses(bean.getData().getAuthBuildings());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -50,7 +50,7 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
         mRxManager.add(mModel.requestContact(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(contactBean -> {
-                    if (contactBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (contactBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         String[] arrayPhones;
                         if (contactBean.getData() != null) {
                             arrayPhones = new String[2];
@@ -72,7 +72,7 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
         mRxManager.add(mModel.requestDoors(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDoors(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -85,7 +85,7 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
         mRxManager.add(mModel.requestCheckPermission(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseCheckPermission(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -98,7 +98,7 @@ public class StewardPresenter extends BasePresenter<StewardContract.View, Stewar
         mRxManager.add(mModel.requestHouseInfoList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseHouseInfoList(bean.getData());
                     } else {
                         getView().error(bean.getOther().getMessage());

@@ -41,7 +41,7 @@ public class MemberPermissionPresenter extends BasePresenter<MemberPermissionCon
         mRxManager.add(mModel.requestRights(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseRights(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -55,7 +55,7 @@ public class MemberPermissionPresenter extends BasePresenter<MemberPermissionCon
         mRxManager.add(mModel.requestUpdateRights(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseUpdateRights(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -69,7 +69,7 @@ public class MemberPermissionPresenter extends BasePresenter<MemberPermissionCon
         mRxManager.add(mModel.requestDeleteMember(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDeleteMember(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());

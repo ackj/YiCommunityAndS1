@@ -45,7 +45,7 @@ public class CarCardPresenter extends BasePresenter<CarCardContract.View, CarCar
         mRxManager.add(mModel.requestCarCardList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(carCardListBean -> {
-                    if (carCardListBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (carCardListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseCarCardList(carCardListBean.getData().getCardList());
                     } else {
                         getView().error(carCardListBean.getOther().getMessage());
@@ -58,7 +58,7 @@ public class CarCardPresenter extends BasePresenter<CarCardContract.View, CarCar
         mRxManager.add(mModel.requestDeleteCarCard(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDeleteSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
