@@ -8,10 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aglhz.abase.common.AudioPlayer;
 import com.aglhz.abase.common.DialogHelper;
@@ -23,7 +27,6 @@ import com.aglhz.abase.utils.DensityUtils;
 import com.aglhz.s1.main.home.MainActivity;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.LbsManager;
 import com.aglhz.yicommunity.common.Params;
@@ -45,6 +48,7 @@ import com.aglhz.yicommunity.main.park.view.TemporaryParkPayFragment;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
 import com.aglhz.yicommunity.main.propery.view.NoticeListFragment;
 import com.aglhz.yicommunity.main.propery.view.PropertyPayFragment;
+import com.aglhz.yicommunity.main.supermarket.StoreListFragment;
 import com.aglhz.yicommunity.web.WebActivity;
 import com.aglhz.yicommunity.widget.OpenDoorDialog;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -58,6 +62,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -76,6 +81,10 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrFrameLayout ptrFrameLayout;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
+    @BindView(R.id.view_toolbar_bg)
+    View viewToolbarBg;
     Unbinder unbinder;
     private HomeRVAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -91,7 +100,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recyclerview, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         return view;
@@ -123,13 +132,16 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         };
     }
 
+
     private void initData() {
+        setCommunity();
+
         layoutManager = new LinearLayoutManager(_mActivity);
         recyclerView.setLayoutManager(layoutManager);
         List<HomeBean> data = new ArrayList<>();
         //Banner
         HomeBean bannerBean = new HomeBean();
-        bannerBean.community = UserHelper.city + UserHelper.communityName;
+//        bannerBean.community = UserHelper.city + UserHelper.communityName;
         bannerBean.setItemType(HomeBean.TYPE_COMMUNITY_BANNER);
         data.add(bannerBean);
         //Notice
@@ -172,6 +184,14 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         adapter.addFooterView(footerView);
     }
 
+    private void setCommunity() {
+        String address = UserHelper.city + UserHelper.communityName;
+        if (TextUtils.isEmpty(address)) {
+            address = "请选择社区";
+        }
+        tvLocation.setText(address);
+    }
+
     private void initPtrFrameLayout() {
         // header
         final RentalsSunHeaderView header = new RentalsSunHeaderView(getContext());
@@ -202,16 +222,17 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     }
 
     private void initListener() {
+
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             int viewType = adapter1.getItemViewType(position);
             switch (viewType) {
-                case HomeBean.TYPE_COMMUNITY_BANNER:
-                    switch (view.getId()) {
-                        case R.id.fl_item_banner:
-                            _mActivity.startActivity(new Intent(_mActivity, PickerActivity.class));
-                            break;
-                    }
-                    break;
+//                case HomeBean.TYPE_COMMUNITY_BANNER:
+//                    switch (view.getId()) {
+//                        case R.id.fl_item_banner:
+//
+//                            break;
+//                    }
+//                    break;
                 case HomeBean.TYPE_COMMUNITY_NOTICE:
                     _mActivity.start(NoticeListFragment.newInstance());
                     break;
@@ -238,15 +259,48 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                         case R.id.ll_life_supermarket:
                             ALog.e(UserHelper.communityLongitude);
                             ALog.e(UserHelper.communityLatitude);
-                            go2Web("生活超市", ApiService.SUPERMARKET
-                                    .replace("%1", UserHelper.token)
-                                    .replace("%2", UserHelper.communityLongitude)
-                                    .replace("%3", UserHelper.communityLatitude));
+//                            go2Web("生活超市", ApiService.SUPERMARKET
+//                                    .replace("%1", UserHelper.token)
+//                                    .replace("%2", UserHelper.communityLongitude)
+//                                    .replace("%3", UserHelper.communityLatitude));
+                            _mActivity.start(StoreListFragment.newInstance());
+                            break;
+                        default:
                             break;
                     }
                     break;
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int totalDy = 0;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                totalDy += dy;
+                Log.d(TAG, "dy---------:" + totalDy);
+                int offsetToStart = totalDy;
+                int bannerHeight = DensityUtils.getDisplayWidth(_mActivity) / 2;
+                if (offsetToStart <= bannerHeight) {
+                    float alpha = (offsetToStart * 1.0f / bannerHeight) * 0.9f;
+                    setToolbarAlpha(alpha);
+                } else {
+                    setToolbarAlpha(0.9f);
+                }
+            }
+        });
+    }
+
+    public void setToolbarAlpha(float alpha) {
+        Log.d(TAG, "alpha:" + alpha);
+//        locationLayout.setAlpha(0.9f - alpha);
+//        locationLayoutAfter.setAlpha(alpha);
+        viewToolbarBg.setAlpha(alpha);
     }
 
     private void openDoor(String dir) {
@@ -319,8 +373,8 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                     UserHelper.setCommunityLongitude(String.valueOf(longitude));
                     UserHelper.setCommunityLatitude(String.valueOf(latitude));
                 });
-        adapter.getData().get(0).community = UserHelper.city + UserHelper.communityName;
-        params.cmnt_c = UserHelper.communityCode;
+        setCommunity();
+        Params.cmnt_c = UserHelper.communityCode;
         ptrFrameLayout.autoRefresh();
     }
 
@@ -435,5 +489,16 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         }
         openDoorialog.setOpenDoor();
         openDoorialog.show();
+    }
+
+    @OnClick({R.id.tv_location, R.id.tv_scan})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_location:
+                _mActivity.startActivity(new Intent(_mActivity, PickerActivity.class));
+                break;
+            case R.id.tv_scan:
+                break;
+        }
     }
 }

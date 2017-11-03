@@ -86,6 +86,9 @@
 
     <color name="light_green">#0BBD9B</color>
 
+    <!--todo(高亮)sssssssssssssssssssss 以下为商城相关 ssssssssssssssssssssssssss-->
+    <color name="gray_border">#EEE</color>
+
     <!--todo(高亮)sssssssssssssssssssss 以下为s1相关 ssssssssssssssssssssssssss-->
     <!--配网模块-->
     <color name="green_updata_password">#08BF8F</color>
