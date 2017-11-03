@@ -244,7 +244,12 @@
             android:name=".main.park.ParkActivity"
             android:theme="@style/Transparent" />
         <activity
-
+            android:name=".main.parking.ParkingActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".main.parking.TempParkActivity"
+            android:theme="@style/Transparent" />
+        <activity
             android:name=".main.publish.PropertyActivity"
             android:theme="@style/Transparent"
             android:windowSoftInputMode="adjustPan" />
