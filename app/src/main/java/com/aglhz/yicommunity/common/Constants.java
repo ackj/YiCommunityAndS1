@@ -151,4 +151,13 @@ public class Constants extends BaseConstants {
     //********************以上权限名称***********************
 
     public static final int TYPE_REMARK = 107;//社区服务点评回复
+
+    //-----------------------扫描二维码跳转类型------------------
+
+    public static final String TYPE_TEMPORARYPARKPAY = "temporaryParkPay";
+    public static final String TYPE_SMARTDOOROPEN = "smartdoorOpen";
+    public static final String TYPE = "type";
+    public static final String PARAM_PARKPLACEFID = "parkPlaceFid";
+    public static final String PARAM_PARKNAME = "parkName";
+
 }

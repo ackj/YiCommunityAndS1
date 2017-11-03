@@ -2,7 +2,7 @@ package com.aglhz.yicommunity.main.park.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.yicommunity.entity.bean.ParkOrderBean;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.contract.ParkOrderContract;
@@ -24,8 +24,8 @@ public class ParkOrderModel extends BaseModel implements ParkOrderContract.Model
     }
 
     @Override
-    public Observable<ParkOrderBean> requestParkOrder(Params params) {
-        return HttpHelper.getService(ApiService.class).requestPayBill(ApiService.requestPayBill, params.token, params.parkPlaceFid, params.carNo)
+    public Observable<ParkingChargeBean> requestParkOrder(Params params) {
+        return HttpHelper.getService(ApiService.class).requestParkingCharge(ApiService.requestParkingCharge, params.token, params.parkPlaceFid, params.carNo)
                 .subscribeOn(Schedulers.io());
     }
 }

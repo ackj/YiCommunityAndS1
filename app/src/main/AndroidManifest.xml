@@ -226,7 +226,7 @@
             android:launchMode="singleTop"
             android:theme="@style/Transparent" />
         <activity
-            android:name=".qrcode.ScanQRCodeActivity"
+            android:name=".qrcode.QRCodeActivity"
             android:theme="@style/Transparent" />
         <activity
             android:name=".launch.WelcomeActivity"
@@ -248,7 +248,12 @@
             android:theme="@style/Transparent" />
         <activity
             android:name=".main.parking.TempParkActivity"
-            android:theme="@style/Transparent" />
+            android:theme="@style/Transparent">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".main.publish.PropertyActivity"
             android:theme="@style/Transparent"

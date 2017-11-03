@@ -27,9 +27,9 @@ import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.OpenDoorRecordBean;
-import com.aglhz.yicommunity.entity.bean.ParkOrderBean;
 import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.bean.PasswordBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
@@ -820,10 +820,14 @@ public interface ApiService {
     //-------------- 未对接的接口 ---------------
 
     //某车临时停车的缴费账单
-    String requestPayBill = BASE_PROPERTY + "/park/temporary/to-client/pay-bill";
+    String requestParkingCharge = BASE_PROPERTY + "/park/temporary/to-client/pay-bill";
 
+    @FormUrlEncoded
     @POST
-    Observable<ParkOrderBean> requestPayBill(@Url String url, @Query("token") String token, @Query("parkPlaceFid") String fid, @Query("carNo") String carNo);
+    Observable<ParkingChargeBean> requestParkingCharge(@Url String url,
+                                                       @Field("token") String token,
+                                                       @Field("parkPlaceFid") String fid,
+                                                       @Field("carNo") String carNo);
 
     //车卡管理里某免费卡的修改页
     String requestModifyOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-modify";
