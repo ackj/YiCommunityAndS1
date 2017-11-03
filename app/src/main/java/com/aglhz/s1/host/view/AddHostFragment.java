@@ -15,23 +15,18 @@ import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.utils.KeyBoardUtils;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.LbsManager;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.AddHostContract;
 import com.aglhz.s1.host.presenter.AddHostPresenter;
-import com.aglhz.s1.location.LoacationFragment;
 import com.aglhz.yicommunity.R;
-import com.amap.api.services.core.PoiItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by leguang on 2017/6/22 0022.
