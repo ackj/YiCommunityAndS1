@@ -9,6 +9,7 @@ import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 
@@ -25,20 +26,20 @@ public interface TempParkContract {
 
         void responseParkingCharge(ParkingChargeBean data);
 
-        void responseParkBill(BaseBean baseBean);
+        void responseTempParkBill(BaseBean baseBean);
     }
 
     interface Presenter extends BaseContract.Presenter {
 
         void requestParkingCharge(Params params);
 
-        void requestParkBill(Params params);
+        void requestTempParkBill(Params params);
     }
 
     interface Model extends BaseContract.Model {
 
         Observable<ParkingChargeBean> requestParkingCharge(Params params);
 
-        Observable<BaseBean> requestParkBill(Params params);
+        Observable<ResponseBody> requestTempParkBill(Params params);
     }
 }

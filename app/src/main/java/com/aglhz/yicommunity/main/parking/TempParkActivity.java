@@ -27,7 +27,6 @@ public class TempParkActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        ALog.e("intent.hasExtra(QRCodeActivity.QRCODE_RESULT)--" + intent.hasExtra(QRCodeActivity.QRCODE_RESULT));
         if (intent.hasExtra(QRCodeActivity.QRCODE_RESULT)) {
             Bundle bundle = intent.getExtras();
             String url = bundle.getString(QRCodeActivity.QRCODE_RESULT);

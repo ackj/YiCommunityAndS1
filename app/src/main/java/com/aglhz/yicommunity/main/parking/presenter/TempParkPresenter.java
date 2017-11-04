@@ -5,10 +5,17 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.model.TempParkModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -49,7 +56,36 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
     }
 
     @Override
-    public void requestParkBill(Params params) {
+    public void requestTempParkBill(Params params) {
+        mRxManager.add(mModel.requestTempParkBill(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<ResponseBody>() {
+                    @Override
+                    public void _onNext(ResponseBody body) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(body.string());
+                            JSONObject jsonOther = jsonObject.optJSONObject("other");
 
+                            String code = jsonOther.optString("code");
+                            if ("200".equals(code)) {
+                                if (params.payType == 1) {
+                                    //支付宝
+
+//                                    JSONObject jsonData = jsonObject.optJSONObject("data");
+//                                    getView().responseTempParkBill(jsonData.optString("body"));
+
+                                } else if (params.payType == 2) {
+                                    //微信
+                                    WxPayHelper.WxPay(jsonObject.toString());
+                                }
+                            } else {
+                                getView().error(jsonOther.optString("message"));
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }));
     }
 }

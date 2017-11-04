@@ -45,6 +45,7 @@ import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import com.aglhz.yicommunity.main.home.presenter.HomePresenter;
 import com.aglhz.yicommunity.main.home.view.header.RentalsSunHeaderView;
 import com.aglhz.yicommunity.main.park.view.TemporaryParkPayFragment;
+import com.aglhz.yicommunity.main.parking.view.CarportFragment;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
 import com.aglhz.yicommunity.main.propery.view.NoticeListFragment;
 import com.aglhz.yicommunity.main.propery.view.PropertyPayFragment;
@@ -498,7 +499,8 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                 break;
             case R.id.tv_scan:
                 Intent intent = new Intent(_mActivity, QRCodeActivity.class);
-                _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
+//                _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
+                _mActivity.start(CarportFragment.newInstance());
                 break;
             default:
         }

@@ -260,7 +260,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
     }
 
     private void showAddCameraDialog() {
-        BaseDialogFragment dialogFragment = new BaseDialogFragment()
+        new BaseDialogFragment()
                 .setLayoutId(R.layout.fragment_input_video)
                 .setConvertListener((holder, dialog) -> {
                     EditText etDeviceId = holder.getView(R.id.et_input_1);

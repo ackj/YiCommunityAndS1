@@ -829,6 +829,16 @@ public interface ApiService {
                                                        @Field("parkPlaceFid") String fid,
                                                        @Field("carNo") String carNo);
 
+    //临时停车支付
+    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/temporary-pay";
+
+    @FormUrlEncoded
+    @POST
+    Observable<ResponseBody> requestTempParkBill(@Url String url,
+                                                 @Field("parkPlaceFid") String parkPlaceFid,
+                                                 @Field("carNo") String carNo,
+                                                 @Field("payType") Integer payType);
+
     //车卡管理里某免费卡的修改页
     String requestModifyOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-modify";
 

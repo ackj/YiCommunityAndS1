@@ -4,10 +4,10 @@ import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -32,7 +32,12 @@ public class TempParkModel extends BaseModel implements TempParkContract.Model {
     }
 
     @Override
-    public Observable<BaseBean> requestParkBill(Params params) {
-        return null;
+    public Observable<ResponseBody> requestTempParkBill(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestTempParkBill(ApiService.requestTempParkBill,
+                        params.parkPlaceFid,
+                        params.carNo,
+                        params.payType)
+                .subscribeOn(Schedulers.io());
     }
 }

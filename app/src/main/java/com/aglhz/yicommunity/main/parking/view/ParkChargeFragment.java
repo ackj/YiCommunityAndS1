@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
+        showParkingCharge();
     }
 
     private void initToolbar() {
@@ -154,10 +156,34 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
 
     private void showParkingCharge() {
         new BaseDialogFragment()
+                .setLayoutId(R.layout.dialog_parking_charge)
+                .setConvertListener((holder, dialog) -> {
+                    holder.setOnClickListener(R.id.iv_cancel_parking_charge_dialog, v -> {
+                        dialog.dismiss();
+                    }).setOnClickListener(R.id.tv_alipay_parking_charge_dialog, v -> {
+                        params.payType = 1;
+                        mPresenter.requestTempParkBill(params);
+                        dialog.dismiss();
+                    }).setOnClickListener(R.id.tv_weixin_parking_charge_dialog, v -> {
+                        params.payType = 2;
+                        mPresenter.requestTempParkBill(params);
+                        dialog.dismiss();
+                    }).setText(R.id.tv_carport_search, "2222")
+                            .setText(R.id.tv_plate_parking_charge_dialog, "2222")
+                            .setText(R.id.tv_in_time_parking_charge_dialog, "2222")
+                            .setText(R.id.tv_pay_time_parking_charge_dialog, "2222")
+                            .setText(R.id.tv_duration_parking_charge_dialog, "2222")
+                            .setText(R.id.tv_charge_parking_charge_dialog, "2222");
+                })
+                .setMargin(20)
+                .setDimAmount(0.3f)
+                .setGravity(Gravity.CENTER)
+                .show(getFragmentManager())
+                .setCancelable(false);
     }
 
     @Override
-    public void responseParkBill(BaseBean baseBean) {
+    public void responseTempParkBill(BaseBean baseBean) {
 
     }
 }
