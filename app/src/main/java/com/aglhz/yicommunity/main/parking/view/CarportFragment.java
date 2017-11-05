@@ -1,6 +1,7 @@
 package com.aglhz.yicommunity.main.parking.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.main.parking.contract.CarportContract;
+import com.aglhz.yicommunity.main.parking.presenter.CarportPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +27,7 @@ import butterknife.Unbinder;
  * @time 2017/11/2 0002 17:39
  * 临时停车场模块的容器Activity。
  */
-public class CarportFragment extends BaseFragment {
+public class CarportFragment extends BaseFragment<CarportContract.Presenter> implements CarportContract.View {
     private static final String TAG = CarportFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -37,6 +41,12 @@ public class CarportFragment extends BaseFragment {
 
     public static CarportFragment newInstance() {
         return new CarportFragment();
+    }
+
+    @NonNull
+    @Override
+    protected CarportContract.Presenter createPresenter() {
+        return new CarportPresenter(this);
     }
 
     @Nullable
@@ -79,5 +89,10 @@ public class CarportFragment extends BaseFragment {
                 break;
             default:
         }
+    }
+
+    @Override
+    public void responseCarports(BaseBean data) {
+
     }
 }

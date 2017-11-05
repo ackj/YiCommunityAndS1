@@ -764,11 +764,16 @@ public interface ApiService {
     Observable<BaseBean> requestSubmitOwnerCard(@Url String url, @Body MultipartBody body);
 
     //按区域搜索停车场
-    String requestParkList = BASE_PROPERTY + "/park/place/to-client/search-park-list";
+    String requestParks = BASE_PROPERTY + "/park/place/to-client/search-park-list";
 
     @FormUrlEncoded
     @POST
-    Observable<ParkSelectBean> requestParkList(@Url String url, @Field("token") String token, @Field("page") int page, @Field("pageSize") int pageSize, @Field("regionKeywords") String regionKeywords);
+    Observable<ParkSelectBean> requestParks(@Url String url,
+                                            @Field("pageSize") int pageSize,
+                                            @Field("page") int page,
+                                            @Field("keywords") String keywords,
+                                            @Field("regionKeywords") String regionKeywords,
+                                            @Field("naKeywords") String naKeywords);
 
     //我的车卡列表
     String requestCarCardList = BASE_PROPERTY + "/park/card/to-client/card-list";

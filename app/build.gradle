@@ -140,4 +140,6 @@ dependencies {
     compile 'com.jwkj:udpsender:v2.0.1'
     //由于自定义键盘网络依赖不了，暂时先这么顶着。
     compile project(':library')
+    //orm框架
+    compile 'org.litepal.android:core:1.6.0'
 }

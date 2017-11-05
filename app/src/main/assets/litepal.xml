@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="yicommunity" />
+
+    <version value="1" />
+
+    <storage value="external" />
+
+    <list>
+        <mapping class="com.aglhz.yicommunity.entity.db.ParkHistoryData" />
+    </list>
+</litepal>

@@ -160,4 +160,7 @@ public class Constants extends BaseConstants {
     public static final String PARAM_PARKPLACEFID = "parkPlaceFid";
     public static final String PARAM_PARKNAME = "parkName";
 
+    //历史记录最多缓存数。
+    public static final int HISTORY_SIZE = 5;
+
 }
