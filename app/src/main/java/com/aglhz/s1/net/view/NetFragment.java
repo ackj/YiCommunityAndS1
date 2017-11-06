@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static android.content.Context.WIFI_SERVICE;
 import static com.tsvclient.ipc.WifiIpc.TSV_C_SendXmlCommand;
 
 

@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.park.contract;
+package com.aglhz.yicommunity.main.parking.contract;
 
 
 import com.aglhz.abase.mvp.contract.base.BaseContract;

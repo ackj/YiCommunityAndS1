@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.park.model;
+package com.aglhz.yicommunity.main.parking.model;
 
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
@@ -6,7 +6,8 @@ import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.entity.bean.MonthCardBillListBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.main.park.contract.RechargeRecordContract;
+import com.aglhz.yicommunity.main.parking.contract.RechargeRecordContract;
+import com.aglhz.yicommunity.main.parking.presenter.ParkRecordPresenter;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -17,10 +18,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class RechargeRecordModel extends BaseModel implements RechargeRecordContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
+    public static final String TAG = RechargeRecordModel.class.getSimpleName();
 
     @Override
     public Observable<MonthCardBillListBean> requsetMonthCardBillList(Params params) {

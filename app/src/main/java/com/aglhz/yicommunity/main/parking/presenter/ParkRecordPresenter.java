@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.park.presenter;
+package com.aglhz.yicommunity.main.parking.presenter;
 
 import android.support.annotation.NonNull;
 
@@ -7,6 +7,7 @@ import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.model.ParkRecordModel;
 import com.aglhz.yicommunity.main.park.contract.ParkRecordContract;
+import com.aglhz.yicommunity.main.parking.view.RechargeRecordFragment;
 
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -16,12 +17,8 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 
 public class ParkRecordPresenter extends BasePresenter<ParkRecordContract.View, ParkRecordContract.Model> implements ParkRecordContract.Presenter {
+    public static final String TAG = ParkRecordPresenter.class.getSimpleName();
 
-    /**
-     * 创建Presenter的时候就绑定View和创建model。
-     *
-     * @param mView 所要绑定的view层对象，一般在View层创建Presenter的时候通过this把自己传过来。
-     */
     public ParkRecordPresenter(ParkRecordContract.View mView) {
         super(mView);
     }
@@ -30,11 +27,6 @@ public class ParkRecordPresenter extends BasePresenter<ParkRecordContract.View, 
     @Override
     protected ParkRecordContract.Model createModel() {
         return new ParkRecordModel();
-    }
-
-    @Override
-    public void start(Object request) {
-
     }
 
     @Override

@@ -55,7 +55,8 @@ public class ParkPickerAdapter extends BaseMultiItemQuickAdapter<ParkSelectBean.
                 break;
             case TYPE_CONTENT:
                 holder.setText(R.id.tv_name_item_rv_park_selector, item.getName())
-                        .setText(R.id.tv_address_item_rv_park_selector, item.getAddress());
+                        .setText(R.id.tv_address_item_rv_park_selector, item.getAddress())
+                        .addOnClickListener(R.id.cv_item_rv_park_selector);
                 break;
             default:
         }

@@ -39,11 +39,6 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestSubmitMonthCard(Params params) {
         mRxManager.add(mModel.requestSubmitMonthCard(params)
                 .observeOn(AndroidSchedulers.mainThread())

@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.yicommunity.main.park.view.CarCardFragment;
+import com.aglhz.yicommunity.main.parking.view.CarCardFragment;
 import com.aglhz.yicommunity.main.parking.view.ParkChargeFragment;
 import com.aglhz.yicommunity.qrcode.QRCodeActivity;
 

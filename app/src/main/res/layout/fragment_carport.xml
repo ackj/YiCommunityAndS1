@@ -27,14 +27,14 @@
             android:id="@+id/iv_header"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="22dp"
             android:src="@drawable/ic_carport_90"
             android:tint="@color/white_70_percent_alpha"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_des"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_des"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
@@ -43,20 +43,23 @@
             android:text="车位查询"
             android:textColor="@color/white_70_percent_alpha"
             android:textSize="28sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_header"
-            app:layout_constraintLeft_toRightOf="@+id/iv_header" />
+            app:layout_constraintBottom_toTopOf="@+id/tv_des"
+            app:layout_constraintLeft_toRightOf="@+id/iv_header"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_des"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
+            android:layout_marginStart="15dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="查询各小区车位情况"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="@+id/iv_header"
-            app:layout_constraintTop_toBottomOf="@+id/iv_header" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -128,7 +131,6 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="999"
             android:textColor="@color/base_black"
             android:textSize="95sp"
             android:typeface="monospace"

@@ -5,19 +5,10 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.common.payment.WxPayHelper;
-import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
+import com.aglhz.yicommunity.entity.bean.CarportBeam;
 import com.aglhz.yicommunity.main.parking.contract.CarportContract;
-import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.model.CarportModel;
-import com.aglhz.yicommunity.main.parking.model.TempParkModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -28,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * 车位模块Presenter。
  */
 public class CarportPresenter extends BasePresenter<CarportContract.View, CarportContract.Model> implements CarportContract.Presenter {
-    private final String TAG = CarportPresenter.class.getSimpleName();
+    public final String TAG = CarportPresenter.class.getSimpleName();
 
     public CarportPresenter(CarportContract.View mView) {
         super(mView);
@@ -37,13 +28,22 @@ public class CarportPresenter extends BasePresenter<CarportContract.View, Carpor
     @NonNull
     @Override
     protected CarportContract.Model createModel() {
-        return new CarportModel() {
-        };
+        return new CarportModel();
     }
-
 
     @Override
     public void requestCarports(Params params) {
-
+        mRxManager.add(mModel.requestCarports(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<CarportBeam>() {
+                    @Override
+                    public void _onNext(CarportBeam bean) {
+                        if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseCarports(bean);
+                        } else {
+                            getView().error(bean.getOther().getMessage());
+                        }
+                    }
+                }));
     }
 }

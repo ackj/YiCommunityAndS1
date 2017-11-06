@@ -50,9 +50,7 @@ import cn.itsite.statemanager.StateManager;
  */
 
 public class CameraListFragment extends BaseFragment<CameraListContract.Presenter> implements CameraListContract.View {
-
     private static final String TAG = CameraListFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -61,7 +59,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     Unbinder unbinder;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;

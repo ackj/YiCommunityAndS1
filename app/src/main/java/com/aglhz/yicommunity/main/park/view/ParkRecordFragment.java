@@ -18,7 +18,7 @@ import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.park.contract.ParkRecordContract;
-import com.aglhz.yicommunity.main.park.presenter.ParkRecordPresenter;
+import com.aglhz.yicommunity.main.parking.presenter.ParkRecordPresenter;
 import com.bigkoo.pickerview.TimePickerView;
 
 import java.text.SimpleDateFormat;

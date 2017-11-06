@@ -134,7 +134,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
             case R.id.ll_video:
                 _mActivity.start(CameraFileRecordFragment.newInstance(bean.getNo(), bean.getPassword()));
                 break;
-
+            default:
         }
     }
 

@@ -57,6 +57,7 @@ public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presente
     private Toolbar toolbar;
     private Params params = Params.getInstance();
     public static final int REQUEST_CODE_CITY = 100;
+    public static final int RESULT_CODE_PARK = 101;
 
     public static ParkPickerFragment newInstance() {
         return new ParkPickerFragment();
@@ -139,36 +140,29 @@ public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presente
 
         tvCity.setOnClickListener(v -> startForResult(CityPickerFragment.newInstance(), REQUEST_CODE_CITY));
 
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ALog.e(TAG, "setOnItemClickListener:" + position);
-            ALog.e(TAG, "setOnItemClickListener:" + view.getId());
-
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             switch (adapter1.getItemViewType(position)) {
                 case ParkPickerAdapter.TYPE_NAME:
-                    ALog.e("switch:+TYPE_NAME");
-//                    if (view.getId() == R.id.iv_clean_item_rv_park_selector_type) {
-                    ALog.e("view.getId()" + view.getId());
-                    new AlertDialog.Builder(_mActivity)
-                            .setTitle("温馨提醒：")
-                            .setMessage("确认删除历史记录吗？")
-                            .setNegativeButton("取消", null)
-                            .setPositiveButton("确认", (dialog, which) -> {
-                                DataSupport.deleteAll(ParkHistoryData.class);
-                                adapter.removeHistory();
-                            }).show();
-//                    }
+                    if (view.getId() == R.id.iv_clean_item_rv_park_selector_type) {
+                        new AlertDialog.Builder(_mActivity)
+                                .setTitle("温馨提醒：")
+                                .setMessage("确认删除历史记录吗？")
+                                .setNegativeButton("取消", null)
+                                .setPositiveButton("确认", (dialog, which) -> {
+                                    DataSupport.deleteAll(ParkHistoryData.class);
+                                    adapter.removeHistory();
+                                }).show();
+                    }
                     break;
                 case ParkPickerAdapter.TYPE_CONTENT:
-                    ALog.e("switch:+TYPE_CONTENT");
-
-                    mPresenter.cacheParkHistory(adapter.listHistory, adapter.getItem(position));
+                    mPresenter.cacheParkHistory(adapter.getItem(position));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.KEY_PARK, adapter.getItem(position));
+                    setFragmentResult(RESULT_CODE_PARK, bundle);
+                    pop();
                     break;
                 default:
             }
-
-//            ParkSelectBean.DataBean.ParkPlaceListBean listBean = mDatas.get(position);
-//            EventBus.getDefault().post(new EventPark(listBean));
-//            _mActivity.finish();
         });
     }
 

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.FloatingActionButton.OnVisibilityChangedListener;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.mvp.view.base.Decoration;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;

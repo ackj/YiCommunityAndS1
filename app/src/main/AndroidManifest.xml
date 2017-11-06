@@ -249,9 +249,6 @@
         <activity
             android:name=".main.parking.TempParkActivity"
             android:theme="@style/Transparent">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity

@@ -15,7 +15,6 @@ import com.aglhz.abase.common.ActivityHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.AppUtils;
-import com.aglhz.s1.history.view.DeviceLogsFragment;
 import com.aglhz.s1.more.view.More2Fragment;
 import com.aglhz.s1.net.NetActivity;
 import com.aglhz.s1.net.view.SetWifiFragment;

@@ -6,7 +6,7 @@
 
     <!-- 常用颜色值 -->
     <color name="base_color">#E95D5A</color>
-    <color name="default_color">#E95D5A</color>
+    <color name="default_color">#99CCFF</color>
 
     <color name="base_line">#E7E7E7</color>
 

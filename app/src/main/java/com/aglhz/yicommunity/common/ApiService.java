@@ -7,6 +7,7 @@ import com.aglhz.yicommunity.entity.bean.BuildingBean;
 import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
+import com.aglhz.yicommunity.entity.bean.CarportBeam;
 import com.aglhz.yicommunity.entity.bean.CheckTokenBean;
 import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.CommentListBean;
@@ -752,16 +753,29 @@ public interface ApiService {
     //************************ 停车记录 *************************
 
     //月卡办理
-    String requestSubmitMonthCard = BASE_PROPERTY + "/park/card/from-client/month-card-create";
+    String requestApplyMonthCard = BASE_PROPERTY + "/park/card/from-client/month-card-create";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestSubmitMonthCard(@Url String url, @Body MultipartBody body);
+    Observable<BaseBean> requestApplyMonthCard(@Url String url,
+                                               @Field("token") String token,
+                                               @Field("parkPlaceFid") String parkPlaceFid,
+                                               @Field("carNo") String carNo,
+                                               @Field("customerName") String customerName,
+                                               @Field("phoneNo") String phoneNo);
 
     //业主办理免费卡
-    String requestSubmitOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-create";
+    String requestCarportCard = BASE_PROPERTY + "/park/card/from-client/owner-card-create";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestSubmitOwnerCard(@Url String url, @Body MultipartBody body);
+    Observable<BaseBean> requestCarportCard(@Url String url,
+                                            @Field("token") String token,
+                                            @Field("parkPlaceFid") String parkPlaceFid,
+                                            @Field("carNo") String carNo,
+                                            @Field("annexCarNo") String annexCarNo,
+                                            @Field("customerName") String customerName,
+                                            @Field("phoneNo") String phoneNo);
 
     //按区域搜索停车场
     String requestParks = BASE_PROPERTY + "/park/place/to-client/search-park-list";
@@ -852,10 +866,12 @@ public interface ApiService {
     Observable<BaseBean> requestModifyOwnerCard(@Url String url, @FieldMap() Map<String, String> map);
 
     //实时查询某停车场的车位信息
-    String requestSearchParkSpace = BASE_PROPERTY + "/park/space/to-client/search-park-space";
+    String requestCarports = BASE_PROPERTY + "/park/space/to-client/search-park-space";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestSearchParkSpace(@Url String url, @Query("parkPlaceFid") String fid);
+    Observable<CarportBeam> requestCarports(@Url String url,
+                                            @Field("parkPlaceFid") String fid);
 
     //todo:（临时测试用的接口）车卡管理里列出某会员的月卡充值记录列表
     String requestRechargeRecord = BASE_PROPERTY + "/park/card/to-client/month-card-recharge-record-list";

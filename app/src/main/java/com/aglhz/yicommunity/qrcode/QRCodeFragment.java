@@ -19,7 +19,6 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.ImageUtils;
-import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 

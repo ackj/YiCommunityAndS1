@@ -19,7 +19,6 @@ import com.aglhz.s1.App;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.event.EventDeviceNameChanged;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;

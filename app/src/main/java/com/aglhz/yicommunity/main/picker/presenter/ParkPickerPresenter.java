@@ -66,7 +66,7 @@ public class ParkPickerPresenter extends BasePresenter<ParkPickerContract.View, 
     }
 
     @Override
-    public void cacheParkHistory(List<ParkSelectBean.DataBean.ParkPlaceListBean> listHistory, ParkSelectBean.DataBean.ParkPlaceListBean history) {
+    public void cacheParkHistory(ParkSelectBean.DataBean.ParkPlaceListBean history) {
         int i = DataSupport.deleteAll(ParkHistoryData.class, "parkID = ?", history.getFid());
         ALog.e("delete--" + i);
         if (DataSupport.count(ParkHistoryData.class) >= Constants.HISTORY_SIZE) {

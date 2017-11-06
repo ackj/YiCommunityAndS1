@@ -11,9 +11,13 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.common.Constants;
+import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.CarportBeam;
+import com.aglhz.yicommunity.entity.bean.ParkSelectBean.DataBean.ParkPlaceListBean;
 import com.aglhz.yicommunity.main.parking.contract.CarportContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarportPresenter;
+import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +32,7 @@ import butterknife.Unbinder;
  * 临时停车场模块的容器Activity。
  */
 public class CarportFragment extends BaseFragment<CarportContract.Presenter> implements CarportContract.View {
-    private static final String TAG = CarportFragment.class.getSimpleName();
+    public static final String TAG = CarportFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -38,6 +42,7 @@ public class CarportFragment extends BaseFragment<CarportContract.Presenter> imp
     @BindView(R.id.tv_amount_carport_fragment)
     TextView tvAmount;
     private Unbinder unbinder;
+    private Params params = Params.getInstance();
 
     public static CarportFragment newInstance() {
         return new CarportFragment();
@@ -84,6 +89,7 @@ public class CarportFragment extends BaseFragment<CarportContract.Presenter> imp
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_park_carport_fragment:
+                startForResult(ParkPickerFragment.newInstance(), ParkPickerFragment.RESULT_CODE_PARK);
                 break;
             case R.id.tv_amount_carport_fragment:
                 break;
@@ -92,7 +98,21 @@ public class CarportFragment extends BaseFragment<CarportContract.Presenter> imp
     }
 
     @Override
-    public void responseCarports(BaseBean data) {
+    public void responseCarports(CarportBeam data) {
+        tvAmount.setText(data.getData().getUsingSpace() + "");
+    }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        ParkPlaceListBean parkBean = (ParkPlaceListBean) data.getSerializable(Constants.KEY_PARK);
+        if (parkBean != null) {
+            tvPark.setText(parkBean.getName());
+            params.parkPlaceFid = parkBean.getFid();
+            mPresenter.requestCarports(params);
+        }
     }
 }

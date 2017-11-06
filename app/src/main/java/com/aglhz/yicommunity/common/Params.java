@@ -58,6 +58,7 @@ public class Params {
     public String secondCategoryId;//二级菜单的id
     public String keywords;
     public String carNo;
+    public String annexCarNo;
     public String monthName;
     public String authFid;
     public String commentFid;//某条社区评论点评的id。

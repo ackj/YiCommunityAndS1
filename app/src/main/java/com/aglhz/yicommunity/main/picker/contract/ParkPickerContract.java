@@ -26,7 +26,7 @@ public interface ParkPickerContract {
     interface Presenter extends BaseContract.Presenter {
         void requestParks(Params params);
 
-        void cacheParkHistory(List<ParkSelectBean.DataBean.ParkPlaceListBean> listHistory, ParkSelectBean.DataBean.ParkPlaceListBean history);
+        void cacheParkHistory(ParkSelectBean.DataBean.ParkPlaceListBean history);
     }
 
     interface Model extends BaseContract.Model {

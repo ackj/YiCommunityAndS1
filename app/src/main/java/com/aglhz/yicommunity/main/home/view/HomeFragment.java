@@ -45,8 +45,6 @@ import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import com.aglhz.yicommunity.main.home.presenter.HomePresenter;
 import com.aglhz.yicommunity.main.home.view.header.RentalsSunHeaderView;
 import com.aglhz.yicommunity.main.park.view.TemporaryParkPayFragment;
-import com.aglhz.yicommunity.main.parking.view.CarportFragment;
-import com.aglhz.yicommunity.main.parking.view.ParkChargeFragment;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
 import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 import com.aglhz.yicommunity.main.propery.view.NoticeListFragment;

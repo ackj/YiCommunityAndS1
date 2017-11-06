@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.entity.bean.BaseBean;

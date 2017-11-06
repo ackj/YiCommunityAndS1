@@ -9,12 +9,9 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceNameChanged;
-import com.aglhz.s1.host.view.HostListFragment;
 import com.aglhz.s1.host.view.HostSettingsFragment;
 import com.aglhz.s1.net.view.SetWifiFragment;
-import com.aglhz.s1.room.view.AddDeviceFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
 

@@ -6,9 +6,9 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.yicommunity.main.park.view.CarCardFragment;
 import com.aglhz.yicommunity.main.park.view.CarCardTransactFragment;
 import com.aglhz.yicommunity.main.park.view.ParkRecordFragment;
+import com.aglhz.yicommunity.main.parking.view.CarCardFragment;
 
 /**
  * 停车场模块的父容器
@@ -29,7 +29,7 @@ public class ParkActivity extends BaseActivity {
                 case Constants.MY_CARD:
                     loadRootFragment(R.id.fl_main_activity, CarCardFragment.newInstance());
                     break;
-                case Constants.PARKING_RECORD:
+                case Constants.CARPORT:
                     loadRootFragment(R.id.fl_main_activity, ParkRecordFragment.newInstance());
                     break;
                 case Constants.CARD_TRANSACT:

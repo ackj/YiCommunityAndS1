@@ -2,16 +2,16 @@ package com.aglhz.yicommunity.main.park.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.main.park.contract.PublishOwnerCardContract;
 
 import java.util.HashMap;
 
+import okhttp3.MultipartBody;
 import rx.Observable;
 import rx.schedulers.Schedulers;
-import okhttp3.MultipartBody;
 
 /**
  * Author: LiuJia on 2017/5/24 0024 10:44.
@@ -21,11 +21,6 @@ import okhttp3.MultipartBody;
 public class PublishOwnerCardModel extends BaseModel implements PublishOwnerCardContract.Model {
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public Observable<BaseBean> requestSubmitOwnerCard(Params params) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.addFormDataPart("token", params.token);
@@ -33,9 +28,10 @@ public class PublishOwnerCardModel extends BaseModel implements PublishOwnerCard
         builder.addFormDataPart("carNo", params.carNo);
         builder.addFormDataPart("customerName", params.name);
         builder.addFormDataPart("phoneNo", params.phoneNo);
-        return HttpHelper.getService(ApiService.class).requestSubmitOwnerCard(ApiService.requestSubmitOwnerCard,
-                builder.build())
-                .subscribeOn(Schedulers.io());
+//        return HttpHelper.getService(ApiService.class).requestCarportCard(ApiService.requestCarportCard,
+//                builder.build())
+//                .subscribeOn(Schedulers.io());
+        return null;
     }
 
     public Observable<BaseBean> requestModifyOwnerCard(Params params) {

@@ -3,9 +3,7 @@ package com.aglhz.yicommunity.main.publish.model;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.IconBean;
 import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.entity.bean.RepairTypesBean;
 import com.aglhz.yicommunity.common.ApiService;
@@ -13,7 +11,6 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.publish.contract.PublishContract;
 
 import java.io.File;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

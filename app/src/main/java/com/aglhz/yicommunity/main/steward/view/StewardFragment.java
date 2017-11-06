@@ -35,7 +35,7 @@ import com.aglhz.yicommunity.login.LoginActivity;
 import com.aglhz.yicommunity.main.door.DoorActivity;
 import com.aglhz.yicommunity.main.door.view.FamilyPhoneFragment;
 import com.aglhz.yicommunity.main.house.HouseActivity;
-import com.aglhz.yicommunity.main.park.ParkActivity;
+import com.aglhz.yicommunity.main.parking.ParkingActivity;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
 import com.aglhz.yicommunity.main.publish.PropertyActivity;
 import com.aglhz.yicommunity.main.smarthome.view.GoodsCategoryFragment;
@@ -161,7 +161,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
         listSmartDoor.add(new IconBean(R.drawable.ic_key_green_140px_140px, "设置开门", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_open_door_green_140px, "指定开门", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_password_open_door_green_140px, "密码开门", ""));
-        listSmartDoor.add(new IconBean(R.drawable.ic_call_door_green_140px, "门禁监控", ""));
+//        listSmartDoor.add(new IconBean(R.drawable.ic_call_door_green_140px, "门禁监控", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_open_recording_green_140px, "开门记录", ""));
         listSmartDoor.add(new IconBean(R.drawable.ic_qinqinghaoma_240px, "亲情号码", ""));
         smartDoorAdapter.setNewData(listSmartDoor);
@@ -176,7 +176,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
         rvSmartPark.setAdapter(smartParkAdapter = new StewardRVAdapter());
         List<IconBean> listSmartPark = new ArrayList<>();
         listSmartPark.add(new IconBean(R.drawable.ic_car_card_200px, "我的车卡", ""));
-        listSmartPark.add(new IconBean(R.drawable.ic_stop_record_140px, "停车记录", ""));
+        listSmartPark.add(new IconBean(R.drawable.ic_stop_record_140px, "车位查询", ""));
         listSmartPark.add(new IconBean(R.drawable.ic_add_car_card_200px, "办理车卡", ""));
         smartParkAdapter.setNewData(listSmartPark);
 
@@ -291,7 +291,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     }
 
     private void go2ParkActivity(int position) {
-        Intent intent = new Intent(_mActivity, ParkActivity.class);
+        Intent intent = new Intent(_mActivity, ParkingActivity.class);
         intent.putExtra(Constants.KEY_FROM_TO, position);
         startActivity(intent);
     }
