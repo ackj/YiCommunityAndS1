@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:background="@drawable/bg_park_payment_record_white_1020_960"
+        android:layoutAnimation="@anim/layout_dock_left_enter"
         android:paddingBottom="60dp">
 
         <ImageView

@@ -5,8 +5,8 @@ import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.CarCardListBean;
-import com.aglhz.yicommunity.main.parking.contract.CarCardContract;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
+import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -19,18 +19,8 @@ import rx.schedulers.Schedulers;
  * 负责邻里模块的Model层内容。
  */
 
-public class CarCardModel extends BaseModel implements CarCardContract.Model {
-    public static final String TAG = CarCardModel.class.getSimpleName();
-
-    @Override
-    public Observable<CarCardListBean> requestCarCardList(Params params) {
-        return HttpHelper.getService(ApiService.class)
-                .requestCarCardList(ApiService.requestCarCardList,
-                        params.token,
-                        params.page,
-                        params.pageSize)
-                .subscribeOn(Schedulers.io());
-    }
+public class CarCardPayModel extends BaseModel implements CarCardPayContract.Model {
+    public static final String TAG = CarCardPayModel.class.getSimpleName();
 
     @Override
     public Observable<BaseBean> requestDeleteCarCard(Params params) {
@@ -38,6 +28,15 @@ public class CarCardModel extends BaseModel implements CarCardContract.Model {
                 .requestDeleteCarCard(ApiService.requestDeleteCarCard,
                         params.token,
                         params.parkCardFid)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<MonthlyPayRulesBean> requestMonthlyPayRules(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestMonthlyPayRules(ApiService.requestMonthlyPayRules,
+                        params.token,
+                        params.parkPlaceFid)
                 .subscribeOn(Schedulers.io());
     }
 }

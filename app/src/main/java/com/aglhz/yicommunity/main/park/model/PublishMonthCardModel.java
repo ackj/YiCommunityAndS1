@@ -7,7 +7,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
-import com.aglhz.yicommunity.entity.bean.MonthCardRuleListBean;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.main.park.contract.PublishMonthCardContract;
 
 import okhttp3.MultipartBody;
@@ -40,8 +40,8 @@ public class PublishMonthCardModel extends BaseModel implements PublishMonthCard
         return null;
     }
 
-    public Observable<MonthCardRuleListBean> requestMonthCardRule(Params params) {
-        return HttpHelper.getService(ApiService.class).requestMonthCardRuleList(ApiService.requestMonthCardRuleList,
+    public Observable<MonthlyPayRulesBean> requestMonthCardRule(Params params) {
+        return HttpHelper.getService(ApiService.class).requestMonthlyPayRules(ApiService.requestMonthlyPayRules,
                 params.token, params.fid)
                 .subscribeOn(Schedulers.io());
     }

@@ -24,9 +24,8 @@ public class ParkPickerAdapter extends BaseMultiItemQuickAdapter<ParkSelectBean.
 
     public ParkPickerAdapter(List<ParkSelectBean.DataBean.ParkPlaceListBean> data) {
         super(data);
-        addItemType(TYPE_CONTENT, R.layout.item_rv_park_selector);
         addItemType(TYPE_NAME, R.layout.item_rv_park_selector_type);
-
+        addItemType(TYPE_CONTENT, R.layout.item_rv_park_selector);
     }
 
     public void setSearchKey(String searchKey) {

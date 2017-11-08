@@ -130,6 +130,7 @@ public class Constants extends BaseConstants {
     public static final String KEY_FROM_TO = "from_to";
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_MEMBER = "member";
+    public static final String KEY_ITEM = "item";
 
     //******************** SP key ***********************
     public static final String SP_KEY_USED_CITYS = "sp_key_used_citys";
@@ -163,5 +164,8 @@ public class Constants extends BaseConstants {
     //历史记录最多缓存数。
     public static final int HISTORY_SIZE = 5;
     public static final String KEY_PARK = "key_park";
+
+    public static final String CARD_TYPE_MONTHLY = "月租卡";
+    public static final String CARD_TYPE_CARPORT = "免费卡";
 
 }

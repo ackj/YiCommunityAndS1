@@ -23,7 +23,7 @@ import com.aglhz.yicommunity.entity.bean.HouseInfoBean;
 import com.aglhz.yicommunity.entity.bean.HouseRightsBean;
 import com.aglhz.yicommunity.entity.bean.MessageCenterBean;
 import com.aglhz.yicommunity.entity.bean.MonthCardBillListBean;
-import com.aglhz.yicommunity.entity.bean.MonthCardRuleListBean;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
@@ -796,16 +796,22 @@ public interface ApiService {
     Observable<CarCardListBean> requestCarCardList(@Url String url, @Query("token") String token, @Query("page") int page, @Query("pageSize") int pageSize);
 
     //月卡计费规则列表
-    String requestMonthCardRuleList = BASE_PROPERTY + "/park/card/rule/to-client/rule-list";
+    String requestMonthlyPayRules = BASE_PROPERTY + "/park/card/rule/to-client/rule-list";
 
+    @FormUrlEncoded
     @POST
-    Observable<MonthCardRuleListBean> requestMonthCardRuleList(@Url String url, @Query("token") String token, @Query("parkPlaceFid") String fid);
+    Observable<MonthlyPayRulesBean> requestMonthlyPayRules(@Url String url,
+                                                           @Field("token") String token,
+                                                           @Field("parkPlaceFid") String parkPlaceFid);
 
     //删除车卡
     String requestDeleteCarCard = BASE_PROPERTY + "/park/card/from-client/card-delete";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestDeleteCarCard(@Url String url, @Query("token") String token, @Query("parkCardFids") String fid);
+    Observable<BaseBean> requestDeleteCarCard(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("parkCardFids") String parkCardFids);
 
     //车卡管理里某月卡审核通过后的缴费页
     String requestCardPay = BASE_PROPERTY + "/park/card/to-client/card-pay";

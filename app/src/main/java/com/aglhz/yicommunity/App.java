@@ -10,6 +10,7 @@ import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.common.boxing.BoxingGlideLoader;
 import com.aglhz.yicommunity.entity.db.ParkHistoryData;
+import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -45,6 +46,12 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
         DataSupport.deleteAll(ParkHistoryData.class);
         for (int i = 0; i < 5; i++) {
             ParkHistoryData data = new ParkHistoryData("凯宾斯基" + i, i + "", "惠州" + i, "惠城区" + i, i + "", "凯宾斯基小区" + i);
+            data.save();
+        }
+
+        DataSupport.deleteAll(PlateHistoryData.class);
+        for (int i = 0; i < 5; i++) {
+            PlateHistoryData data = new PlateHistoryData("粤" + i + i + i + i + i + i + i);
             data.save();
         }
     }

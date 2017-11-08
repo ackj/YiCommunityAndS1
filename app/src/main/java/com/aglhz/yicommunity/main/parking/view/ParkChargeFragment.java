@@ -4,6 +4,9 @@ import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,14 +19,17 @@ import android.widget.TextView;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.abase.mvp.view.base.Decoration;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
-import com.aglhz.yicommunity.main.guide.GuideHelper;
+import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.presenter.TempParkPresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,9 +59,12 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     Button btSearch;
     @BindView(R.id.keyboard)
     KeyboardView keyboard;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     private Unbinder unbinder;
     private KeyboardHelper keyboardHelper;
     private Params params = Params.getInstance();
+    private ParkChargeAdapter adapter;
 
     public static ParkChargeFragment newInstance(Bundle bundle) {
         ParkChargeFragment fragment = new ParkChargeFragment();
@@ -100,29 +109,55 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         toolbarTitle.setText("临停缴费");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
-        //显示引导页
-        GuideHelper.showTempporaryCardPayGuide(_mActivity);
     }
 
     private void initData() {
+        mPresenter.requestPlateHistory();
         keyboardHelper = new KeyboardHelper(keyboard, tvPlate);
         tvPark.setText(params.name);
-        tvPark.addTextChangedListener(new TextWatcher() {
+        tvPlate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ALog.e("count--" + count);
                 ALog.e("CharSequence--" + s);
-                btSearch.setEnabled(count != 0);
+                btSearch.setEnabled(s.length() >= 7);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
 
+        adapter = new ParkChargeAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        recyclerView.addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
+            switch (view.getId()) {
+                case R.id.iv_clean_item_rv_park_charge:
+                    new AlertDialog.Builder(_mActivity)
+                            .setTitle("温馨提示")
+                            .setMessage("是否删除历史记录？")
+                            .setPositiveButton("是", (dialog, which) -> {
+                                if (position == 0) {
+                                    adapter.removeHistory();
+                                } else {
+                                    adapter.removeHistory(position);
+                                }
+                            }).setNegativeButton("否", null)
+                            .show();
+                    break;
+                case R.id.tv_park_item_rv_park_charge:
+                    if (position > 0) {
+                        PlateHistoryData plate = adapter.getItem(position);
+                        tvPlate.setText(plate.getPlate());
+                        mPresenter.cachePlateHistory(plate);
+                    }
+                    break;
+                default:
             }
         });
     }
@@ -142,11 +177,11 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
             case R.id.bt_search_parking_charge_fragment:
                 params.carNo = tvPlate.getText().toString();
                 mPresenter.requestParkingCharge(params);
+                mPresenter.cachePlateHistory(new PlateHistoryData(tvPlate.getText().toString()));
                 break;
             default:
         }
     }
-
 
     @Override
     public void responseParkingCharge(ParkingChargeBean data) {
@@ -185,5 +220,10 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     @Override
     public void responseTempParkBill(BaseBean baseBean) {
 
+    }
+
+    @Override
+    public void responsePlateHistory(List<PlateHistoryData> plates) {
+        adapter.setNewData(plates);
     }
 }

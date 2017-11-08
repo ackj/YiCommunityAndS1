@@ -14,7 +14,7 @@
         <Key
             android:codes="2"
             android:keyLabel="2"
-            android:keyOutputText="1" />
+            android:keyOutputText="2" />
         <Key
             android:codes="3"
             android:keyLabel="3"

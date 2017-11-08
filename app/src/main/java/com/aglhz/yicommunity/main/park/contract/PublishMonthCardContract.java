@@ -5,7 +5,7 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
 import com.aglhz.yicommunity.entity.bean.MonthCardRuleBean;
-import com.aglhz.yicommunity.entity.bean.MonthCardRuleListBean;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.common.Params;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public interface PublishMonthCardContract {
     interface Model extends BaseContract.Model {
         Observable<BaseBean> requestSubmitMonthCard(Params params);
 
-        Observable<MonthCardRuleListBean> requestMonthCardRule(Params params);
+        Observable<MonthlyPayRulesBean> requestMonthCardRule(Params params);
 
         Observable<CarCardBean> requestCardPay(Params params);
 

@@ -4,8 +4,8 @@ package com.aglhz.yicommunity.main.parking.contract;
 import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.CarCardListBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
+import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 
 import java.util.List;
 
@@ -27,6 +27,8 @@ public interface TempParkContract {
         void responseParkingCharge(ParkingChargeBean data);
 
         void responseTempParkBill(BaseBean baseBean);
+
+        void responsePlateHistory(List<PlateHistoryData> plates);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -34,6 +36,11 @@ public interface TempParkContract {
         void requestParkingCharge(Params params);
 
         void requestTempParkBill(Params params);
+
+        void requestPlateHistory();
+
+        void cachePlateHistory(PlateHistoryData plate);
+
     }
 
     interface Model extends BaseContract.Model {
@@ -41,5 +48,7 @@ public interface TempParkContract {
         Observable<ParkingChargeBean> requestParkingCharge(Params params);
 
         Observable<ResponseBody> requestTempParkBill(Params params);
+
+        Observable<List<PlateHistoryData>> requestPlateHistory();
     }
 }

@@ -3,7 +3,6 @@ package com.aglhz.yicommunity.main.parking.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
@@ -20,9 +20,6 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean;
 import com.aglhz.yicommunity.main.guide.GuideHelper;
-import com.aglhz.yicommunity.main.park.view.PublishMonthCardFragment;
-import com.aglhz.yicommunity.main.park.view.PublishOwnerCardFragment;
-import com.aglhz.yicommunity.main.park.view.SubmitResultFragment;
 import com.aglhz.yicommunity.main.parking.contract.CarCardContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPresenter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -120,45 +117,11 @@ public class CarCardFragment extends BaseFragment<CarCardContract.Presenter> imp
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CarCardListBean.DataBean.CardListBean bean = (CarCardListBean.DataBean.CardListBean) adapter.getData().get(position);
-            switch (view.getId()) {
-                case R.id.ll_view_group:
-                    if (bean.getApproveState() == 0) {
-                        //-------------- 审核中 -------------
-                        startForResult(SubmitResultFragment.newInstance(bean.getCardType(), true), 100);
-                    } else if (bean.getApproveState() == 1) {
-                        //-------------- 审核通过 -------------
-                        if ("月租卡".equals(bean.getCardType())) {
-                            //-------------- 月租卡 -------------
-//                            if (bean.getNeedToPayType() > 1) {
-                            start(PublishMonthCardFragment.newInstance(PublishMonthCardFragment.TYPE_RECHARGE, bean.getFid()));
-//                            } else {
-//                                start(PublishMonthCardFragment.newInstance(PublishMonthCardFragment.TYPE_FIRST_PAY, bean.getFid()));
-//                            }
-                        } else {
-                            //-------------- 业主卡 -------------
-                            startForResult(PublishOwnerCardFragment.newInstance(bean), 200);
-                        }
-                    } else {
-                        //-------------- 审核被拒 -------------
-                        startForResult(SubmitResultFragment.newInstance(bean.getCardType(), false), 100);
-                    }
-                    break;
-                case R.id.iv_delete_card:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(_mActivity);
-                    builder.setMessage("确认删除吗？");
-                    builder.setTitle("提示");
-                    builder.setPositiveButton("确认", (dialog, which) -> {
-                        removePosition = position;
-                        params.fid = bean.getFid();
-                        mPresenter.requestDeleteCarCard(params);//请求删除车卡
-                    });
-                    builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
-                    builder.create().show();
-                    break;
-                default:
-            }
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            Bundle bundle = new Bundle();
+            CarCardListBean.DataBean.CardListBean item = adapter.getItem(position);
+            bundle.putSerializable(Constants.KEY_ITEM, item);
+            startForResult(CarcardPayFragment.newInstance(bundle), CarcardPayFragment.RESULT_CODE);
         });
     }
 
@@ -176,16 +139,11 @@ public class CarCardFragment extends BaseFragment<CarCardContract.Presenter> imp
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 100:
-                    pop();
-                    break;
-                case 200:
-                    mPresenter.requestCarCardList(params);//请求车卡列表
-                    break;
-                default:
-            }
+        ALog.e("requestCode--" + requestCode);
+        ALog.e("resultCode--" + resultCode);
+        ALog.e("data--" + data);
+        if (resultCode == CarcardPayFragment.RESULT_CODE) {
+            mPresenter.requestCarCardList(params);//刷新车卡列表。
         }
     }
 
@@ -195,10 +153,6 @@ public class CarCardFragment extends BaseFragment<CarCardContract.Presenter> imp
         unbinder.unbind();
     }
 
-    @Override
-    public void start(Object response) {
-
-    }
 
     @Override
     public void error(String errorMessage) {

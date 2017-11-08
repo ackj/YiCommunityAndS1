@@ -58,7 +58,7 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(monthCardRuleListBean -> {
                     if (monthCardRuleListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseRuleList(monthCardRuleListBean.getData().getMonthCardRuleList());
+//                        getView().responseRuleList(monthCardRuleListBean.getData().getMonthCardRuleList());
                     } else {
                         getView().error(monthCardRuleListBean.getOther().getMessage());
                     }

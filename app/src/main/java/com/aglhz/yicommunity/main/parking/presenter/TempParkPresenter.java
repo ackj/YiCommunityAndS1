@@ -2,18 +2,23 @@ package com.aglhz.yicommunity.main.parking.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
+import com.aglhz.yicommunity.entity.db.ParkHistoryData;
+import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.model.TempParkModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +42,6 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
     protected TempParkContract.Model createModel() {
         return new TempParkModel();
     }
-
 
     @Override
     public void requestParkingCharge(Params params) {
@@ -87,5 +91,31 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
                         }
                     }
                 }));
+    }
+
+    @Override
+    public void requestPlateHistory() {
+        mRxManager.add(mModel.requestPlateHistory()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<List<PlateHistoryData>>() {
+                    @Override
+                    public void _onNext(List<PlateHistoryData> plates) {
+                        if (plates != null && !plates.isEmpty()) {
+                            plates.add(0, new PlateHistoryData("历史记录"));
+                            getView().responsePlateHistory(plates);
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void cachePlateHistory(PlateHistoryData plate) {
+        int i = DataSupport.deleteAll(PlateHistoryData.class, "plate = ?", plate.getPlate());
+        ALog.e("delete--" + i);
+        if (DataSupport.count(PlateHistoryData.class) >= Constants.HISTORY_SIZE) {
+            PlateHistoryData first = DataSupport.findFirst(PlateHistoryData.class);
+            first.delete();
+        }
+        plate.save();
     }
 }

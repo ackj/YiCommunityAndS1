@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -136,8 +137,16 @@ public class ApplyFragment extends BaseFragment<ApplyContract.Presenter> impleme
 
     @Override
     public void responseApplyCard(BaseBean data) {
+        dismissLoading();
         DialogHelper.successSnackbar(getView(), data.getOther().getMessage());
-        // TODO: 2017/11/6 0006 跳转页面。
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_DES, "申请已提交成功，申请结果将发送至消息中心，请稍后！");
+        bundle.putString(Constants.KEY_TITLE, "提交成功");
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment instanceof ApplyCardFragment) {
+            ((ApplyCardFragment) getParentFragment())
+                    .startWithPop(ApplyCarCardResultFragment.newInstance(bundle));
+        }
     }
 
     @OnClick({R.id.tv_plate_apply_fragment,
@@ -149,8 +158,11 @@ public class ApplyFragment extends BaseFragment<ApplyContract.Presenter> impleme
                 keyboardHelper.show();
                 break;
             case R.id.tv_park_apply_fragment:
-                ((ApplyCardFragment) getParentFragment())
-                        .startForResult(ParkPickerFragment.newInstance(), params.type);
+                Fragment fragment = getParentFragment();
+                if (fragment != null && fragment instanceof ApplyCardFragment) {
+                    ((ApplyCardFragment) getParentFragment())
+                            .startForResult(ParkPickerFragment.newInstance(), params.type);
+                }
                 break;
             case R.id.bt_apply_fragment:
                 if (TextUtils.isEmpty(tvPlate.getText().toString())) {
