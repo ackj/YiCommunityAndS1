@@ -796,13 +796,13 @@ public interface ApiService {
     Observable<CarCardListBean> requestCarCardList(@Url String url, @Query("token") String token, @Query("page") int page, @Query("pageSize") int pageSize);
 
     //月卡计费规则列表
-    String requestMonthlyPayRules = BASE_PROPERTY + "/park/card/rule/to-client/rule-list";
+    String requestMonthlyPayRules = BASE_PROPERTY + "/park/card/to-client/card-recharge";
 
     @FormUrlEncoded
     @POST
     Observable<MonthlyPayRulesBean> requestMonthlyPayRules(@Url String url,
                                                            @Field("token") String token,
-                                                           @Field("parkPlaceFid") String parkPlaceFid);
+                                                           @Field("parkCardFid") String parkCardFid);
 
     //删除车卡
     String requestDeleteCarCard = BASE_PROPERTY + "/park/card/from-client/card-delete";
@@ -896,16 +896,16 @@ public interface ApiService {
                                                          @Query("token") String token,
                                                          @Query("complaintFid") String String);
 
-    String requestCarCardOrder = BASE_PROPERTY + "/park/card/from-client/month-card-bill-pay";
+    String requestCarCardBill = BASE_PROPERTY + "/park/card/from-client/month-card-bill-pay";
 
     @FormUrlEncoded
     @POST
-    Observable<ResponseBody> requestCarCardOrder(@Url String url,
-                                                 @Field("token") String token,
-                                                 @Field("parkCardFid") String parkCardFid,
-                                                 @Field("monthName") String monthName,//预缴月数名称（例如：一个月、半年、一年等）
-                                                 @Field("monthCount") int monthCount,//预缴月数值（例如：1、6、12等）
-                                                 @Field("payType") int payType);//支付类型（1=支付宝支付、2=微信支付）
+    Observable<ResponseBody> requestCarCardBill(@Url String url,
+                                                @Field("token") String token,
+                                                @Field("parkCardFid") String parkCardFid,
+                                                @Field("monthName") String monthName,//预缴月数名称（例如：一个月、半年、一年等）
+                                                @Field("monthCount") int monthCount,//预缴月数值（例如：1、6、12等）
+                                                @Field("payType") int payType);//支付类型（1=支付宝支付、2=微信支付）
 
 
     //-------------------------------以下为2017.06.30添加的社区服务接口--------------------------------------------

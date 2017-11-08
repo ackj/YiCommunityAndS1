@@ -6,6 +6,7 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 
@@ -22,6 +23,9 @@ public interface CarCardPayContract {
         void responseDeleteCarCard(BaseBean baseBean);
 
         void responseMonthlyPayRules(MonthlyPayRulesBean bean);
+
+        void responseALiPay(String bill);
+
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -30,6 +34,8 @@ public interface CarCardPayContract {
 
         void requestMonthlyPayRules(Params params);
 
+        void requestCarCardBill(Params params);
+
     }
 
     interface Model extends BaseContract.Model {
@@ -37,5 +43,8 @@ public interface CarCardPayContract {
         Observable<BaseBean> requestDeleteCarCard(Params params);
 
         Observable<MonthlyPayRulesBean> requestMonthlyPayRules(Params params);
+
+        Observable<ResponseBody> requestCarCardBill(Params params);
+
     }
 }

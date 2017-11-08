@@ -61,7 +61,7 @@ public class PublishMonthCardModel extends BaseModel implements PublishMonthCard
     @Override
     public Observable<ResponseBody> requestCarCardOrder(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestCarCardOrder(ApiService.requestCarCardOrder,
+                .requestCarCardBill(ApiService.requestCarCardBill,
                         params.token,
                         params.parkCardFid,
                         params.monthName,

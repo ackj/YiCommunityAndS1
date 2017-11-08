@@ -18,6 +18,7 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
@@ -146,7 +147,6 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     }
 
     private void initDate() {
-        params.parkPlaceFid = carCard.getParkPlace().getFid();
         mPresenter.requestMonthlyPayRules(params);
         if (CARD_TYPE_MONTHLY.equals(carCard.getCardType())) {
             toolbarTitle.setText("月卡充值");
@@ -194,8 +194,12 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                 selector.show(getChildFragmentManager());
                 break;
             case R.id.tv_alipay_car_card_pay_fragment:
+                params.payType = Constants.TYPE_ALIPAY;
+                mPresenter.requestCarCardBill(params);
                 break;
             case R.id.tv_weixin_car_card_pay_fragment:
+                params.payType = Constants.TYPE_WXPAY;
+                mPresenter.requestCarCardBill(params);
                 break;
             default:
         }
@@ -203,7 +207,6 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
 
     @Override
     public void responseDeleteCarCard(BaseBean baseBean) {
-        dismissLoading();
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ITEM, carCard);
@@ -217,11 +220,15 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
         if (rules == null || rules.isEmpty()) {
             return;
         }
+
+        //默认设置第一个。
         MonthlyPayRulesBean.DataBean.MonthCardRuleListBean firstRule = rules.get(0);
         tvMonth.setText(firstRule.getName());
-        tvIndate.setText(firstRule.getStartDate() + "至" + firstRule.getEndDate());
+        tvIndate.setText(firstRule.getStartDate() + "　至　" + firstRule.getEndDate());
         tvAmount.setText(firstRule.getMoney() + "");
-        //事先生成好弹框选择器。
+        params.monthName = firstRule.getName();
+        params.monthCount = firstRule.getMonthCount();
+
         selector = new SelectorDialogFragment()
                 .setTitle("请选择充值时长")
                 .setItemLayoutId(R.layout.item_rv_simple_selector)
@@ -234,11 +241,17 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                     dialog.dismiss();
                     MonthlyPayRulesBean.DataBean.MonthCardRuleListBean rule = rules.get(position);
                     tvMonth.setText(rule.getName());
-                    tvIndate.setText(rule.getStartDate() + "至" + rule.getEndDate());
+                    tvIndate.setText(rule.getStartDate() + "　至　" + rule.getEndDate());
                     tvAmount.setText(rule.getMoney() + "");
-
+                    params.monthName = rule.getName();
+                    params.monthCount = rule.getMonthCount();
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM);
+    }
+
+    @Override
+    public void responseALiPay(String bill) {
+        new ALiPayHelper().pay(_mActivity, bill);
     }
 }

@@ -36,7 +36,7 @@ public class CarCardListBean extends BaseBean {
             this.cardList = cardList;
         }
 
-        public static class CardListBean implements Serializable{
+        public static class CardListBean implements Serializable {
             /**
              * annexFirstCarNo : string
              * annexSecondCarNo : string
@@ -221,7 +221,7 @@ public class CarCardListBean extends BaseBean {
                 this.surplusDays = surplusDays;
             }
 
-            public static class MemberBean {
+            public static class MemberBean implements Serializable {
                 /**
                  * avator : string
                  * grade : string
@@ -277,7 +277,7 @@ public class CarCardListBean extends BaseBean {
                 }
             }
 
-            public static class ParkPlaceBean {
+            public static class ParkPlaceBean implements Serializable {
                 /**
                  * address : string
                  * communityFid : string

@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static final String TAG = WXPayEntryActivity.class.getName();
+    public static final String TAG = WXPayEntryActivity.class.getName();
     private IWXAPI api;
 
     @Override
