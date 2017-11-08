@@ -147,6 +147,7 @@ public class OrderformDetailFragment extends BaseFragment implements View.OnClic
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
             }
         });
     }

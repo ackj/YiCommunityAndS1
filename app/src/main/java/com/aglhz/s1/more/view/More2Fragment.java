@@ -8,21 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.s1.common.Params;
-import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceNameChanged;
-import com.aglhz.s1.host.view.HostListFragment;
 import com.aglhz.s1.host.view.HostSettingsFragment;
 import com.aglhz.s1.net.view.SetWifiFragment;
-import com.aglhz.s1.room.view.AddDeviceFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,13 +30,14 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class More2Fragment extends BaseFragment {
-
     public static final String TAG = More2Fragment.class.getSimpleName();
     Unbinder unbinder;
     @BindView(R.id.tv_name)
     TextView tvName;
-    private Params params = Params.getInstance();
-    private List<String> addHostTypes;
+    @BindView(R.id.tv_device_no)
+    TextView tvDeviceNo;
+//    @BindView(R.id.ll_host_authorize)
+//    LinearLayout llHostAuthorize;
 
     public static SupportFragment newInstance() {
         return new More2Fragment();
@@ -65,13 +60,14 @@ public class More2Fragment extends BaseFragment {
 
     private void initData() {
         tvName.setText(UserHelper.deviceName);
+        tvDeviceNo.setText(UserHelper.deviceSn);
+//        llHostAuthorize.setVisibility(UserHelper.isManager ? View.VISIBLE : View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventAddDevice(EventDeviceNameChanged event) {
         tvName.setText(UserHelper.deviceName);
     }
-
 
     @Override
     public void onDestroyView() {
@@ -80,18 +76,22 @@ public class More2Fragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_wifi_setting, R.id.ll_host_manager, R.id.ll_room_manager})
+    @OnClick({R.id.ll_wifi_setting,/* R.id.ll_host_authorize,*/ R.id.ll_host_manager, R.id.ll_room_manager})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_wifi_setting:
                 _mActivity.start(SetWifiFragment.newInstance());
                 break;
+//            case R.id.ll_host_authorize:
+//                _mActivity.start(AuthorizeFragment.newInstance(UserHelper.gateway));
+//                break;
             case R.id.ll_host_manager:
                 _mActivity.start(HostSettingsFragment.newInstance());
                 break;
             case R.id.ll_room_manager:
                 _mActivity.start(RoomManagerFragment.newInstance());
                 break;
+            default:
         }
     }
 }

@@ -39,6 +39,7 @@ import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.libhttp.entity.LoginResult;
 import com.libhttp.subscribers.SubscriberListener;
 import com.p2p.core.P2PHandler;
@@ -66,16 +67,13 @@ import static android.content.Context.MODE_PRIVATE;
  * Email： liujia95me@126.com
  */
 public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.Presenter> implements RoomDeviceListContract.View {
-
     private static final String TAG = RoomDeviceListFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
     Unbinder unbinder;
@@ -87,6 +85,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private boolean isFirst = true;//是否是第一次进来
     //    private StateManager mStateManager;
     private ImageView ivCamera;
+    private boolean isLinking = false;
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -152,10 +151,23 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         ToastUtils.showToast(_mActivity, "请选择房间");
                         return true;
                     }
-                    _mActivity.start(DeviceTypeFragment.newInstance(selectRoom.getFid()));
+                    mPresenter.requestNewDevice24(params);
+                    showLoading();
+                    isLinking = true;
+                    toolbar.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isLinking) {
+                                ToastUtils.showToast(_mActivity, "学习超时");
+                                dismissLoading();
+                            }
+                        }
+                    }, 30 * 1000);
                     break;
                 case R.id.change_room:
                     mPresenter.requestHouseList(params);
+                    break;
+                default:
                     break;
             }
             return true;
@@ -254,22 +266,24 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
-            DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
-            switch (view.getId()) {
-                case R.id.iv_setting:
-                    if (selectRoom == null) {
-                        DialogHelper.warningSnackbar(getView(), "请选择房间");
-                        return;
-                    }
-                    _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
-                    break;
-                default:
-                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode(), bean.getIndex()));
-                    break;
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
+                DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
+                switch (view.getId()) {
+                    case R.id.iv_setting:
+                        if (selectRoom == null) {
+                            DialogHelper.warningSnackbar(getView(), "请选择房间");
+                        }
+                        _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
+                        break;
+                    default:
+                        _mActivity.start(DeviceOnOffFragment.newInstance(bean));
+                        break;
+                }
             }
         });
-        ivCamera.setOnClickListener(v ->  _mActivity.start(CameraListFragment.newInstance()));
+        ivCamera.setOnClickListener(v -> _mActivity.start(CameraListFragment.newInstance()));
 //        ivCamera.setOnClickListener(v -> new AlertDialog.Builder(_mActivity)
 //                .setTitle("温馨提示")
 //                .setMessage("亲！为了给您更好的用户体验，工程师正在玩命优化该功能")
@@ -425,6 +439,20 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     public void responseNewDeviceConfirm(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         onRefresh();
+    }
+
+    @Override
+    public void responseNewDevice24(BaseBean bean) {
+        isLinking = false;
+        dismissLoading();
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("提示")
+                .setMessage("听到设备学习成功提示后请手动刷新设备列表。")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    onRefresh();
+                }).show();
     }
 
     private void showRoomSelecotr(List<RoomsBean.DataBean.RoomListBean> data) {
