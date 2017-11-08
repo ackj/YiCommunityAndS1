@@ -291,6 +291,17 @@ public interface ApiService {
             , @Field("status") int status
             , @Field("gateway") String deviceSn);
 
+    String requestNewDevice24 = BASE_URL+"/ctrl/client/newdevice24";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewDevice24(@Url String url
+            , @Field("token") String token
+            , @Field("rommId") int rommId
+            , @Field("gateway") String deviceSn);
+
+
+
 
     //----------------------------- 房间相关 ---------------------------------
     //获取房间列表

@@ -83,4 +83,17 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     }
                 }, this::error/*, this::complete, disposable -> start(null)*/));
     }
+
+    @Override
+    public void requestNewDevice24(Params params) {
+        mRxManager.add(mModel.requestNewDevice24(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseNewDevice24(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error/*, this::complete, disposable -> start(null)*/));
+    }
 }

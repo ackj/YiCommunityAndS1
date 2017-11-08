@@ -15,6 +15,7 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.room.contract.DeviceOnOffContract;
 import com.aglhz.s1.room.presenter.DeviceOnOffPresenter;
 import com.aglhz.yicommunity.R;
@@ -42,19 +43,22 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     RecyclerView recyclerView;
 
     Unbinder unbinder;
-    private int node;
-    private String name;
     private DeviceOnOffRVAdapter adapter;
     private Params params = Params.getInstance();
+    private DeviceListBean.DataBean.SubDevicesBean bean;
 
-    public static DeviceOnOffFragment newInstance(String name, int node, int index) {
+    public static DeviceOnOffFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean) {
         DeviceOnOffFragment fragment = new DeviceOnOffFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("name", name);
-        bundle.putInt("node", node);
-        bundle.putInt("index", index);
+        bundle.putSerializable("bean", bean);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
     }
 
     @NonNull
@@ -68,9 +72,6 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        name = getArguments().getString("name");
-        node = getArguments().getInt("node");
-        params.index = getArguments().getInt("index");
         return attachToSwipeBack(view);
     }
 
@@ -84,7 +85,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText(name);
+        toolbarTitle.setText(bean.getName());
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,13 +96,17 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     }
 
     private void initData() {
+        params.index = bean.getIndex();
         List<Integer> data = new ArrayList<>();
-        for (int i = 1; i <= node; i++) {
+        for (int i = 1; i <= bean.getExtInfo().getNode(); i++) {
             data.add(i);
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new DeviceOnOffRVAdapter();
+        //具有3个操作的才是窗帘
+        adapter.setIsCurtains(bean.getActions().size() == 3);
         recyclerView.setAdapter(adapter);
+
         adapter.setNewData(data);
     }
 
@@ -111,6 +116,9 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
             public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
                 params.nodeId = position + "";
                 switch (view.getId()) {
+                    case R.id.ll_stop:
+                        params.status = 2;
+                        break;
                     case R.id.ll_open:
                         params.status = 1;
                         break;

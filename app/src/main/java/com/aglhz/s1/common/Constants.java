@@ -54,10 +54,8 @@ public class Constants extends BaseConstants {
     public static final String KEY_HOST = "key_host";
     public static final String KEY_HOST_NAME = "key_host_name";
 
-
 //    public static final int TYPE_ADD_HOST = 0;//0是添加。
 //    public static final int TYPE_EDIT_HOST = 1;//1是编辑。
-
 
     //友盟推送extra字段类型。
     public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
@@ -79,7 +77,6 @@ public class Constants extends BaseConstants {
     public static final String DEVICE = "device";
 
     public static final String KEY_SELECTOR = "key_SELECTOR";
-
 
     /**
      * 主机配置类型
@@ -110,4 +107,6 @@ public class Constants extends BaseConstants {
     public static final String PS_SMS_TOPHONE = "p_sms_tophone";///** 网关开启指定手机短信的推送 */
     public static final String PS_WIFI_CONNECT = "p_wifi_connect";///** 网关开启WiFi连接的推送 */
     public static final String PS_WIFI_DISCONNECT = "p_wifi_disconnect";///** 网关开启WiFi断开的推送 */
+
+
 }
