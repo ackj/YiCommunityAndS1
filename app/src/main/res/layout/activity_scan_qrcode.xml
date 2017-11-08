@@ -36,6 +36,7 @@
         app:qrcv_topOffset="150dp" />
 
     <LinearLayout
+        android:id="@+id/ll_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

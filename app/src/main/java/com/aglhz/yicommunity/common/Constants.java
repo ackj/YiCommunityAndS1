@@ -73,7 +73,7 @@ public class Constants extends BaseConstants {
 
     //停车模块
     public static final int MY_CARD = 0;
-    public static final int PARKING_RECORD = 1;
+    public static final int CARPORT = 1;
     //报修模块
     public static final int CARD_TRANSACT = 2;
     public static final int PROPERTY_REPAIR = 0;
@@ -130,6 +130,7 @@ public class Constants extends BaseConstants {
     public static final String KEY_FROM_TO = "from_to";
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_MEMBER = "member";
+    public static final String KEY_ITEM = "item";
 
     //******************** SP key ***********************
     public static final String SP_KEY_USED_CITYS = "sp_key_used_citys";
@@ -151,4 +152,20 @@ public class Constants extends BaseConstants {
     //********************以上权限名称***********************
 
     public static final int TYPE_REMARK = 107;//社区服务点评回复
+
+    //-----------------------扫描二维码跳转类型------------------
+
+    public static final String TYPE_TEMPORARYPARKPAY = "temporaryParkPay";
+    public static final String TYPE_SMARTDOOROPEN = "smartdoorOpen";
+    public static final String TYPE = "type";
+    public static final String PARAM_PARKPLACEFID = "parkPlaceFid";
+    public static final String PARAM_PARKNAME = "parkName";
+
+    //历史记录最多缓存数。
+    public static final int HISTORY_SIZE = 5;
+    public static final String KEY_PARK = "key_park";
+
+    public static final String CARD_TYPE_MONTHLY = "月租卡";
+    public static final String CARD_TYPE_CARPORT = "免费卡";
+
 }

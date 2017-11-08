@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.event.EventDeviceNameChanged;
 import com.aglhz.s1.host.view.HostSettingsFragment;
 import com.aglhz.s1.net.view.SetWifiFragment;

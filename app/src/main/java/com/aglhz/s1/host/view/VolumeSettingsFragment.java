@@ -15,7 +15,6 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.HostSettingsBean;
 import com.aglhz.s1.host.contract.HostSettingsContract;
 import com.aglhz.s1.host.presenter.HostSettingsPresenter;

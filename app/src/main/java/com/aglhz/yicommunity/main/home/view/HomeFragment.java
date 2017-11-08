@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,6 +26,7 @@ import com.aglhz.abase.utils.DensityUtils;
 import com.aglhz.s1.main.home.MainActivity;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.LbsManager;
 import com.aglhz.yicommunity.common.Params;
@@ -45,10 +45,13 @@ import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import com.aglhz.yicommunity.main.home.presenter.HomePresenter;
 import com.aglhz.yicommunity.main.home.view.header.RentalsSunHeaderView;
 import com.aglhz.yicommunity.main.park.view.TemporaryParkPayFragment;
+import com.aglhz.yicommunity.main.parking.view.CarportFragment;
+import com.aglhz.yicommunity.main.parking.view.ParkChargeFragment;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
+import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 import com.aglhz.yicommunity.main.propery.view.NoticeListFragment;
 import com.aglhz.yicommunity.main.propery.view.PropertyPayFragment;
-import com.aglhz.yicommunity.main.supermarket.StoreListFragment;
+import com.aglhz.yicommunity.qrcode.QRCodeActivity;
 import com.aglhz.yicommunity.web.WebActivity;
 import com.aglhz.yicommunity.widget.OpenDoorDialog;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -141,7 +144,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         List<HomeBean> data = new ArrayList<>();
         //Banner
         HomeBean bannerBean = new HomeBean();
-//        bannerBean.community = UserHelper.city + UserHelper.communityName;
         bannerBean.setItemType(HomeBean.TYPE_COMMUNITY_BANNER);
         data.add(bannerBean);
         //Notice
@@ -259,16 +261,16 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                         case R.id.ll_life_supermarket:
                             ALog.e(UserHelper.communityLongitude);
                             ALog.e(UserHelper.communityLatitude);
-//                            go2Web("生活超市", ApiService.SUPERMARKET
-//                                    .replace("%1", UserHelper.token)
-//                                    .replace("%2", UserHelper.communityLongitude)
-//                                    .replace("%3", UserHelper.communityLatitude));
-                            _mActivity.start(StoreListFragment.newInstance());
+                            go2Web("生活超市", ApiService.SUPERMARKET
+                                    .replace("%1", UserHelper.token)
+                                    .replace("%2", UserHelper.communityLongitude)
+                                    .replace("%3", UserHelper.communityLatitude));
+//                            _mActivity.start(StoreListFragment.newInstance());
                             break;
                         default:
-                            break;
                     }
                     break;
+                default:
             }
         });
 
@@ -498,7 +500,13 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                 _mActivity.startActivity(new Intent(_mActivity, PickerActivity.class));
                 break;
             case R.id.tv_scan:
+                Intent intent = new Intent(_mActivity, QRCodeActivity.class);
+//                _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
+//                _mActivity.start(CarportFragment.newInstance());
+                _mActivity.start(ParkChargeFragment.newInstance(new Bundle()));
+//                _mActivity.start(ParkPickerFragment.newInstance());
                 break;
+            default:
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.aglhz.yicommunity.main.park.contract;
 
 import com.aglhz.abase.mvp.contract.base.BaseContract;
-import com.aglhz.yicommunity.entity.bean.ParkOrderBean;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.common.Params;
 
 import rx.Observable;
@@ -15,7 +15,7 @@ import rx.Observable;
 public interface ParkOrderContract {
 
     interface View extends BaseContract.View {
-        void responseParkOrder(ParkOrderBean.DataBean bean);
+        void responseParkOrder(ParkingChargeBean.DataBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -23,7 +23,7 @@ public interface ParkOrderContract {
     }
 
     interface Model extends BaseContract.Model {
-        Observable<ParkOrderBean> requestParkOrder(Params params);
+        Observable<ParkingChargeBean> requestParkOrder(Params params);
     }
 
 }

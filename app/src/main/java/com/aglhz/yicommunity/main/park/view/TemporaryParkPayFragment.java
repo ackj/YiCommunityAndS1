@@ -18,7 +18,7 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.event.EventPark;
 import com.aglhz.yicommunity.main.guide.GuideHelper;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
-import com.aglhz.yicommunity.qrcode.ScanQRCodeActivity;
+import com.aglhz.yicommunity.qrcode.QRCodeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,7 +98,7 @@ public class TemporaryParkPayFragment extends BaseFragment {
                 _mActivity.startActivity(intent);
                 break;
             case R.id.ll_scan_pay:
-                startActivity(new Intent(_mActivity, ScanQRCodeActivity.class));
+                startActivity(new Intent(_mActivity, QRCodeActivity.class));
                 break;
             case R.id.tv_car_city:
                 startForResult(CarCityFragment.newInstance(), 100);

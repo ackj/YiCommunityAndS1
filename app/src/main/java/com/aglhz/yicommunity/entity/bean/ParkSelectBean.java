@@ -1,5 +1,7 @@
 package com.aglhz.yicommunity.entity.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class ParkSelectBean extends BaseBean {
             this.parkPlaceList = parkPlaceList;
         }
 
-        public static class ParkPlaceListBean implements Serializable {
+        public static class ParkPlaceListBean implements Serializable, MultiItemEntity {
             /**
              * address : 凯宾斯基测试地址
              * communityFid : KBSJ-agl-00005
@@ -51,6 +53,7 @@ public class ParkSelectBean extends BaseBean {
             private String fid;
             private String name;
             private String regionInfo;
+            private int itemType = 0;
 
             public String getAddress() {
                 return address;
@@ -98,6 +101,15 @@ public class ParkSelectBean extends BaseBean {
 
             public void setRegionInfo(String regionInfo) {
                 this.regionInfo = regionInfo;
+            }
+
+            @Override
+            public int getItemType() {
+                return itemType;
+            }
+
+            public void setItemType(int itemType) {
+                this.itemType = itemType;
             }
         }
     }

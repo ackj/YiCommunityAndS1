@@ -19,10 +19,6 @@ import okhttp3.ResponseBody;
  */
 
 public class PropertyPayModel extends BaseModel implements PropertyPayContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<PropertyPayBean> requestPropertyNotPay(Params params) {

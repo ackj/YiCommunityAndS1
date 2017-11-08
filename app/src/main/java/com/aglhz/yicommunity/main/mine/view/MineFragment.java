@@ -39,7 +39,6 @@ import com.aglhz.yicommunity.main.message.view.MessageCenterFragment;
 import com.aglhz.yicommunity.main.mine.contract.MineContract;
 import com.aglhz.yicommunity.main.mine.presenter.MinePresenter;
 import com.aglhz.yicommunity.main.mypublish.MyPublishActivity;
-import com.aglhz.yicommunity.main.supermarket.orderform.MineOrderformFragment;
 import com.aglhz.yicommunity.main.view.MainFragment;
 import com.aglhz.yicommunity.web.WebActivity;
 import com.bumptech.glide.Glide;
@@ -165,9 +164,9 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                 break;
             case R.id.ll_my_indent:
                 if (isLogined()) {
-//                    String url = ApiService.INDENT_CENTER + UserHelper.token;
-//                    go2Web("我的订单", url);
-                    _mActivity.start(MineOrderformFragment.newInstance());
+                    String url = ApiService.INDENT_CENTER + UserHelper.token;
+                    go2Web("我的订单", url);
+//                    _mActivity.start(MineOrderformFragment.newInstance());
                 }
                 break;
             case R.id.ll_my_address:

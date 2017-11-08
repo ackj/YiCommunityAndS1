@@ -23,7 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 public class CarCardRVAdapter extends BaseRecyclerViewAdapter<CarCardListBean.DataBean.CardListBean, BaseViewHolder> {
 
     public CarCardRVAdapter() {
-        super(R.layout.item_rv_car_card);
+        super(R.layout.item_rv_car_card_temp);
     }
 
     public String getStringRes(int resId) {

@@ -1,15 +1,20 @@
 package com.aglhz.yicommunity.main;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.DoorManager;
 import com.aglhz.yicommunity.main.door.call.CallActivity;
+import com.aglhz.yicommunity.main.parking.TempParkActivity;
 import com.aglhz.yicommunity.main.view.MainFragment;
+import com.aglhz.yicommunity.qrcode.QRCodeActivity;
 
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCore;
@@ -53,15 +58,28 @@ public class MainActivity extends BaseActivity {
                         if (state == LinphoneCall.State.OutgoingInit || state == LinphoneCall.State.OutgoingProgress) {
                             startActivity(new Intent(MainActivity.this, CallActivity.class));
                         }
-                        String tenantCode = call.getRemoteParams().getCustomHeader("X-TenantCode");
-                        String deviceNumber = call.getRemoteParams().getCustomHeader("X-DeviceNumber");
-                        String callPicture = call.getRemoteParams().getCustomHeader("X-CallPicture");
-                        ALog.e(tenantCode);
-                        ALog.e(deviceNumber);
-                        ALog.e(callPicture);
                     }
                 });
             }
         }, 3000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (intent != null && intent.getExtras() != null) {
+            String result = (String) intent.getExtras().get(QRCodeActivity.QRCODE_RESULT);
+            Uri uri = Uri.parse(result);
+            String type = uri.getQueryParameter(Constants.TYPE);
+            switch (type) {
+                case Constants.TYPE_TEMPORARYPARKPAY:
+                    intent.setComponent(new ComponentName(this, TempParkActivity.class));
+                    break;
+                case Constants.TYPE_SMARTDOOROPEN:
+                    break;
+                default:
+            }
+            startActivity(intent);
+        }
     }
 }

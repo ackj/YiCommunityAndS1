@@ -7,24 +7,17 @@
 
     <include layout="@layout/toolbar" />
 
-    <View
+   <!-- <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/cp_gray_round" />
+        android:background="@color/cp_gray_round" />-->
 
     <include layout="@layout/cp_view_search" />
 
-    <View
+  <!--  <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/cp_gray_round" />
-
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/rv_search_community"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
+        android:background="@color/cp_gray_round" />-->
 
     <include layout="@layout/recyclerview" />
-
-
 </LinearLayout>

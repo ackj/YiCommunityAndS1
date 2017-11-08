@@ -16,12 +16,8 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.common.RxManager;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.s1.common.ApiService;
-import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.HostSettingsBean;
 import com.aglhz.s1.host.contract.HostSettingsContract;
 import com.aglhz.s1.host.presenter.HostSettingsPresenter;
@@ -32,8 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by leguang on 2017/6/22 0022.

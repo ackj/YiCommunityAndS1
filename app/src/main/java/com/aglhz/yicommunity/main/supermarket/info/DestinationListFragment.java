@@ -31,9 +31,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  */
 
 public class DestinationListFragment extends BaseFragment {
-
     private static final String TAG = DestinationListFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -44,7 +42,6 @@ public class DestinationListFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
-
     private Unbinder unbinder;
     private StateManager mStateManager;
     private Params params = Params.getInstance();

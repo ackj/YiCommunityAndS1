@@ -38,7 +38,7 @@ import java.util.List;
  */
 
 public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewHolder> {
-
+    private static final String TAG = HomeRVAdapter.class.getSimpleName();
     private HomeFragment fragment;
 
     public void setFragment(HomeFragment fragment) {
@@ -59,8 +59,6 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
     protected void convert(final BaseViewHolder helper, HomeBean item) {
         switch (helper.getItemViewType()) {
             case HomeBean.TYPE_COMMUNITY_BANNER:
-//                helper.addOnClickListener(R.id.fl_item_banner)
-//                        .setText(R.id.tv_location_item_banner, TextUtils.isEmpty(item.community) ? "请选择社区" : item.community);
                 Banner banner = helper.getView(R.id.viewpager_item_banner);
                 List<BannerBean.DataBean.AdvsBean> banners = item.getBanners();
                 if (banners != null && banners.size() > 0) {
@@ -119,6 +117,7 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                             case 2:
                                 fragment.go2Web("送水上门", ApiService.SONGSHUI);
                                 break;
+                            default:
                         }
                     } else {
                         Intent intent = new Intent(viewpager.getContext(), ServicesActivity.class);
@@ -150,6 +149,7 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                         case 2:
                             ((BaseActivity) fragment.getActivity()).start(CarpoolFragment.newInstance());
                             break;
+                        default:
                     }
                 });
                 break;
@@ -167,6 +167,7 @@ public class HomeRVAdapter extends BaseMultiItemQuickAdapter<HomeBean, BaseViewH
                         ((BaseActivity) fragment.getActivity()).start(SmartHomeMallFragment.newInstance(item.getWisdomLife(), position)));
                 rvSmartLife.setAdapter(smartLifeAdapter);
                 break;
+            default:
         }
     }
 }

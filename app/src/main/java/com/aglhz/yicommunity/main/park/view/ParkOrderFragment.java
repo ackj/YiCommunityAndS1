@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.entity.bean.ParkOrderBean;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
@@ -137,7 +137,7 @@ public class ParkOrderFragment extends BaseFragment<ParkOrderContract.Presenter>
      * @param bean
      */
     @Override
-    public void responseParkOrder(ParkOrderBean.DataBean bean) {
+    public void responseParkOrder(ParkingChargeBean.DataBean bean) {
 //        tvBillCode.setText(bean.getBillCode());
 //        tvCreateTime.setText(bean.getCreateTime());
         tvCarNum.setText(bean.getCarNo());

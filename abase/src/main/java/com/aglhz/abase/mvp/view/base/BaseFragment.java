@@ -77,6 +77,9 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
     }
 
     public void initStateBar(View view) {
+//        if (view == null) {
+//            return;
+//        }
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
             view.setPadding(view.getPaddingLeft(),
                     view.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity),

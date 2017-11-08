@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.main.park.contract.CarCardContract;
-import com.aglhz.yicommunity.main.park.model.CarCardModel;
+import com.aglhz.yicommunity.main.parking.contract.CarCardContract;
+import com.aglhz.yicommunity.main.parking.model.CarCardModel;
 
 import rx.android.schedulers.AndroidSchedulers;
 

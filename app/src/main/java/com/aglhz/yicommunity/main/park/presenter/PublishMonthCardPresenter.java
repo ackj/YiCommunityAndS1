@@ -39,11 +39,6 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestSubmitMonthCard(Params params) {
         mRxManager.add(mModel.requestSubmitMonthCard(params)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +58,7 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(monthCardRuleListBean -> {
                     if (monthCardRuleListBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseRuleList(monthCardRuleListBean.getData().getMonthCardRuleList());
+//                        getView().responseRuleList(monthCardRuleListBean.getData().getMonthCardRuleList());
                     } else {
                         getView().error(monthCardRuleListBean.getOther().getMessage());
                     }

@@ -58,6 +58,7 @@ public class Params {
     public String secondCategoryId;//二级菜单的id
     public String keywords;
     public String carNo;
+    public String annexCarNo;
     public String monthName;
     public String authFid;
     public String commentFid;//某条社区评论点评的id。
@@ -89,6 +90,7 @@ public class Params {
     public String parkCardFid;//要修改的某免费卡的Fid
     public String parkPlaceFid;//某停车场Fid
     public String regionKeywords;//区域关键字
+    public String naKeywords;//停车场关键字（包括停车场名称和停车场地址）。
     public String complaintFid;//投诉回复时所需参数
     //在房屋权限页面中，由于请求权限的接口要用到上一页传进来的名称为fid的参数，
     // 而设置权限接口也要用到fid这个参数，但是传的请求权限接口中的一个叫rfid的字段的值，
@@ -103,7 +105,7 @@ public class Params {
     public String certificateType = "1";//证件类型（1=身份证，2=护照）
     public int identityType;//住户类型（1=业主，2=家属，3=租客）
     public String cmnt_c_en;//闲置交换和左邻右里的社区切换
-    public String roomDir ; //6-31-1-1
+    public String roomDir; //6-31-1-1
 
 
     private Params() {

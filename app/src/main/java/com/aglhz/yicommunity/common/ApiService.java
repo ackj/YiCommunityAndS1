@@ -7,6 +7,7 @@ import com.aglhz.yicommunity.entity.bean.BuildingBean;
 import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
+import com.aglhz.yicommunity.entity.bean.CarportBeam;
 import com.aglhz.yicommunity.entity.bean.CheckTokenBean;
 import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.CommentListBean;
@@ -22,14 +23,14 @@ import com.aglhz.yicommunity.entity.bean.HouseInfoBean;
 import com.aglhz.yicommunity.entity.bean.HouseRightsBean;
 import com.aglhz.yicommunity.entity.bean.MessageCenterBean;
 import com.aglhz.yicommunity.entity.bean.MonthCardBillListBean;
-import com.aglhz.yicommunity.entity.bean.MonthCardRuleListBean;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.entity.bean.MyHousesBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.OpenDoorRecordBean;
-import com.aglhz.yicommunity.entity.bean.ParkOrderBean;
 import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.bean.PasswordBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
@@ -752,23 +753,41 @@ public interface ApiService {
     //************************ 停车记录 *************************
 
     //月卡办理
-    String requestSubmitMonthCard = BASE_PROPERTY + "/park/card/from-client/month-card-create";
-
-    @POST
-    Observable<BaseBean> requestSubmitMonthCard(@Url String url, @Body MultipartBody body);
-
-    //业主办理免费卡
-    String requestSubmitOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-create";
-
-    @POST
-    Observable<BaseBean> requestSubmitOwnerCard(@Url String url, @Body MultipartBody body);
-
-    //按区域搜索停车场
-    String requestParkList = BASE_PROPERTY + "/park/place/to-client/search-park-list";
+    String requestApplyMonthCard = BASE_PROPERTY + "/park/card/from-client/month-card-create";
 
     @FormUrlEncoded
     @POST
-    Observable<ParkSelectBean> requestParkList(@Url String url, @Field("token") String token, @Field("page") int page, @Field("pageSize") int pageSize, @Field("regionKeywords") String regionKeywords);
+    Observable<BaseBean> requestApplyMonthCard(@Url String url,
+                                               @Field("token") String token,
+                                               @Field("parkPlaceFid") String parkPlaceFid,
+                                               @Field("carNo") String carNo,
+                                               @Field("customerName") String customerName,
+                                               @Field("phoneNo") String phoneNo);
+
+    //业主办理免费卡
+    String requestCarportCard = BASE_PROPERTY + "/park/card/from-client/owner-card-create";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestCarportCard(@Url String url,
+                                            @Field("token") String token,
+                                            @Field("parkPlaceFid") String parkPlaceFid,
+                                            @Field("carNo") String carNo,
+                                            @Field("annexCarNo") String annexCarNo,
+                                            @Field("customerName") String customerName,
+                                            @Field("phoneNo") String phoneNo);
+
+    //按区域搜索停车场
+    String requestParks = BASE_PROPERTY + "/park/place/to-client/search-park-list";
+
+    @FormUrlEncoded
+    @POST
+    Observable<ParkSelectBean> requestParks(@Url String url,
+                                            @Field("pageSize") int pageSize,
+                                            @Field("page") int page,
+                                            @Field("keywords") String keywords,
+                                            @Field("regionKeywords") String regionKeywords,
+                                            @Field("naKeywords") String naKeywords);
 
     //我的车卡列表
     String requestCarCardList = BASE_PROPERTY + "/park/card/to-client/card-list";
@@ -777,16 +796,22 @@ public interface ApiService {
     Observable<CarCardListBean> requestCarCardList(@Url String url, @Query("token") String token, @Query("page") int page, @Query("pageSize") int pageSize);
 
     //月卡计费规则列表
-    String requestMonthCardRuleList = BASE_PROPERTY + "/park/card/rule/to-client/rule-list";
+    String requestMonthlyPayRules = BASE_PROPERTY + "/park/card/rule/to-client/rule-list";
 
+    @FormUrlEncoded
     @POST
-    Observable<MonthCardRuleListBean> requestMonthCardRuleList(@Url String url, @Query("token") String token, @Query("parkPlaceFid") String fid);
+    Observable<MonthlyPayRulesBean> requestMonthlyPayRules(@Url String url,
+                                                           @Field("token") String token,
+                                                           @Field("parkPlaceFid") String parkPlaceFid);
 
     //删除车卡
     String requestDeleteCarCard = BASE_PROPERTY + "/park/card/from-client/card-delete";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestDeleteCarCard(@Url String url, @Query("token") String token, @Query("parkCardFids") String fid);
+    Observable<BaseBean> requestDeleteCarCard(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("parkCardFids") String parkCardFids);
 
     //车卡管理里某月卡审核通过后的缴费页
     String requestCardPay = BASE_PROPERTY + "/park/card/to-client/card-pay";
@@ -820,10 +845,24 @@ public interface ApiService {
     //-------------- 未对接的接口 ---------------
 
     //某车临时停车的缴费账单
-    String requestPayBill = BASE_PROPERTY + "/park/temporary/to-client/pay-bill";
+    String requestParkingCharge = BASE_PROPERTY + "/park/temporary/to-client/pay-bill";
 
+    @FormUrlEncoded
     @POST
-    Observable<ParkOrderBean> requestPayBill(@Url String url, @Query("token") String token, @Query("parkPlaceFid") String fid, @Query("carNo") String carNo);
+    Observable<ParkingChargeBean> requestParkingCharge(@Url String url,
+                                                       @Field("token") String token,
+                                                       @Field("parkPlaceFid") String fid,
+                                                       @Field("carNo") String carNo);
+
+    //临时停车支付
+    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/temporary-pay";
+
+    @FormUrlEncoded
+    @POST
+    Observable<ResponseBody> requestTempParkBill(@Url String url,
+                                                 @Field("parkPlaceFid") String parkPlaceFid,
+                                                 @Field("carNo") String carNo,
+                                                 @Field("payType") Integer payType);
 
     //车卡管理里某免费卡的修改页
     String requestModifyOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-modify";
@@ -833,10 +872,12 @@ public interface ApiService {
     Observable<BaseBean> requestModifyOwnerCard(@Url String url, @FieldMap() Map<String, String> map);
 
     //实时查询某停车场的车位信息
-    String requestSearchParkSpace = BASE_PROPERTY + "/park/space/to-client/search-park-space";
+    String requestCarports = BASE_PROPERTY + "/park/space/to-client/search-park-space";
 
+    @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestSearchParkSpace(@Url String url, @Query("parkPlaceFid") String fid);
+    Observable<CarportBeam> requestCarports(@Url String url,
+                                            @Field("parkPlaceFid") String fid);
 
     //todo:（临时测试用的接口）车卡管理里列出某会员的月卡充值记录列表
     String requestRechargeRecord = BASE_PROPERTY + "/park/card/to-client/month-card-recharge-record-list";

@@ -7,7 +7,7 @@ android {
         debug {
             keyAlias 'agl'
             keyPassword 'aglandroid'
-            storeFile file('F:/gaocheng/agl.keystore')
+            storeFile file('D:/Android/Workspace/gckj/agl.keystore')
             storePassword 'aglandroid'
         }
         release {
@@ -138,4 +138,8 @@ dependencies {
     compile 'com.github.jwkj:SoundWaveSender:v2.0.2'
     //声波配网库说依赖的udp通讯库，不可删除
     compile 'com.jwkj:udpsender:v2.0.1'
+    //由于自定义键盘网络依赖不了，暂时先这么顶着。
+    compile project(':library')
+    //orm框架
+    compile 'org.litepal.android:core:1.6.0'
 }

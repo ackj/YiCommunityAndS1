@@ -2,18 +2,18 @@ package com.aglhz.yicommunity.main.park.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
+import com.aglhz.yicommunity.common.ApiService;
+import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardBean;
 import com.aglhz.yicommunity.entity.bean.CardRechargeBean;
-import com.aglhz.yicommunity.entity.bean.MonthCardRuleListBean;
-import com.aglhz.yicommunity.common.ApiService;
-import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.main.park.contract.PublishMonthCardContract;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/23 0023 16:12.
@@ -21,10 +21,6 @@ import okhttp3.ResponseBody;
  */
 
 public class PublishMonthCardModel extends BaseModel implements PublishMonthCardContract.Model {
-
-    @Override
-    public void start(Object request) {
-    }
 
     @Override
     public Observable<BaseBean> requestSubmitMonthCard(Params params) {
@@ -38,13 +34,14 @@ public class PublishMonthCardModel extends BaseModel implements PublishMonthCard
 //        builder.addFormDataPart("monthCount", params.monthCount + "");
 //        builder.addFormDataPart("money", params.price);
 
-        return HttpHelper.getService(ApiService.class).requestSubmitMonthCard(ApiService.requestSubmitMonthCard,
-                builder.build())
-                .subscribeOn(Schedulers.io());
+//        return HttpHelper.getService(ApiService.class).requestApplyMonthCard(ApiService.requestApplyMonthCard,
+//                builder.build())
+//                .subscribeOn(Schedulers.io());
+        return null;
     }
 
-    public Observable<MonthCardRuleListBean> requestMonthCardRule(Params params) {
-        return HttpHelper.getService(ApiService.class).requestMonthCardRuleList(ApiService.requestMonthCardRuleList,
+    public Observable<MonthlyPayRulesBean> requestMonthCardRule(Params params) {
+        return HttpHelper.getService(ApiService.class).requestMonthlyPayRules(ApiService.requestMonthlyPayRules,
                 params.token, params.fid)
                 .subscribeOn(Schedulers.io());
     }

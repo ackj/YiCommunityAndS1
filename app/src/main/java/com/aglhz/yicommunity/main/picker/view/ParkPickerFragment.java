@@ -3,6 +3,7 @@ package com.aglhz.yicommunity.main.picker.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,15 +20,14 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean;
-import com.aglhz.yicommunity.event.EventPark;
+import com.aglhz.yicommunity.entity.db.ParkHistoryData;
 import com.aglhz.yicommunity.main.picker.contract.ParkPickerContract;
 import com.aglhz.yicommunity.main.picker.presenter.ParkPickerPresenter;
 
-import org.greenrobot.eventbus.EventBus;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +37,27 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import static com.aglhz.yicommunity.common.UserHelper.city;
 
 /**
- * Author: LiuJia on 2017/5/23 0023 14:51.
- * Email: liujia95me@126.com
- * [选择停车场]的View层
+ * @author leguang
+ * @version v0.0.0
+ * @E-mail langmanleguang@qq.com
+ * @time 2017/11/2 0002 17:39
+ * 选择停车场模块。
  */
 
 public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presenter> implements ParkPickerContract.View {
     private static final String TAG = ParkPickerFragment.class.getSimpleName();
     private PtrFrameLayout ptrFrameLayout;
     private RecyclerView recyclerView;
-    private List<ParkSelectBean.DataBean.ParkPlaceListBean> mDatas;
-    private List<ParkSelectBean.DataBean.ParkPlaceListBean> resultData;
+    private List<ParkSelectBean.DataBean.ParkPlaceListBean> mDatas = new ArrayList<>();
+    private List<ParkSelectBean.DataBean.ParkPlaceListBean> resultData = new ArrayList<>();
     private EditText etSearchCommunity;
-    private ParkPickerRVAdapter adapter;
+    private ParkPickerAdapter adapter;
     private TextView tvCity;
     private TextView tvTitle;
     private Toolbar toolbar;
     private Params params = Params.getInstance();
     public static final int REQUEST_CODE_CITY = 100;
+    public static final int RESULT_CODE_PARK = 101;
 
     public static ParkPickerFragment newInstance() {
         return new ParkPickerFragment();
@@ -98,17 +101,14 @@ public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presente
 
     @Override
     public void onRefresh() {
-        mPresenter.requestParkList(params);
+        mPresenter.requestParks(params);
     }
 
     private void initData() {
         params.city = city;
-        mPresenter.requestParkList(params);//请求停车场列表
         etSearchCommunity.setHint("请输入停车场关键字");
-        mDatas = new ArrayList<>();
-        resultData = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        adapter = new ParkPickerRVAdapter(resultData);
+        adapter = new ParkPickerAdapter(resultData);
         recyclerView.setAdapter(adapter);
     }
 
@@ -140,10 +140,29 @@ public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presente
 
         tvCity.setOnClickListener(v -> startForResult(CityPickerFragment.newInstance(), REQUEST_CODE_CITY));
 
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ParkSelectBean.DataBean.ParkPlaceListBean listBean = mDatas.get(position);
-            EventBus.getDefault().post(new EventPark(listBean));
-            _mActivity.finish();
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
+            switch (adapter1.getItemViewType(position)) {
+                case ParkPickerAdapter.TYPE_NAME:
+                    if (view.getId() == R.id.iv_clean_item_rv_park_selector_type) {
+                        new AlertDialog.Builder(_mActivity)
+                                .setTitle("温馨提醒：")
+                                .setMessage("确认删除历史记录吗？")
+                                .setNegativeButton("取消", null)
+                                .setPositiveButton("确认", (dialog, which) -> {
+                                    DataSupport.deleteAll(ParkHistoryData.class);
+                                    adapter.removeHistory();
+                                }).show();
+                    }
+                    break;
+                case ParkPickerAdapter.TYPE_CONTENT:
+                    mPresenter.cacheParkHistory(adapter.getItem(position));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.KEY_PARK, adapter.getItem(position));
+                    setFragmentResult(RESULT_CODE_PARK, bundle);
+                    pop();
+                    break;
+                default:
+            }
         });
     }
 
@@ -157,25 +176,29 @@ public class ParkPickerFragment extends BaseFragment<ParkPickerContract.Presente
     }
 
     @Override
-    public void start(Object response) {
-
-    }
-
-    @Override
     public void error(String errorMessage) {
+        super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
-        DialogHelper.warningSnackbar(getView(), errorMessage);
     }
 
     /**
-     * 响应请求停车场列表
+     * 响应数据库的历史停车记录。
      *
-     * @param beans
+     * @param listHistory
      */
     @Override
-    public void responsePark(List<ParkSelectBean.DataBean.ParkPlaceListBean> beans) {
+    public void responseParkHistory(List<ParkSelectBean.DataBean.ParkPlaceListBean> listHistory) {
+        adapter.notifyHistory(listHistory);
+    }
+
+    /**
+     * 响应请求停车场列表。
+     *
+     * @param parks
+     */
+    @Override
+    public void responseParks(List<ParkSelectBean.DataBean.ParkPlaceListBean> parks) {
         ptrFrameLayout.refreshComplete();
-        mDatas = beans;
-        adapter.setNewData(mDatas);
+        adapter.addData(parks);
     }
 }

@@ -16,10 +16,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.network.http.LogInterceptor;
-import com.aglhz.s1.App;
 import com.aglhz.s1.about.AboutActivity;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.event.EventLogin;

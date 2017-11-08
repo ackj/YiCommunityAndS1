@@ -33,11 +33,6 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestPropertyNotPay(Params params) {
         mRxManager.add(mModel.requestPropertyNotPay(params)
                 .observeOn(AndroidSchedulers.mainThread())

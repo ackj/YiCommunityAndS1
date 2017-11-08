@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.App;
 import com.aglhz.s1.entity.bean.CameraBean;
-import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.yicommunity.R;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
