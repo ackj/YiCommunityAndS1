@@ -8,7 +8,6 @@ import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
-import com.aglhz.yicommunity.entity.db.ParkHistoryData;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.model.TempParkModel;
@@ -73,13 +72,13 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
 
                             String code = jsonOther.optString("code");
                             if ("200".equals(code)) {
-                                if (params.payType == 1) {
+                                if (params.payType == Constants.TYPE_ALIPAY) {
                                     //支付宝
 
-//                                    JSONObject jsonData = jsonObject.optJSONObject("data");
-//                                    getView().responseTempParkBill(jsonData.optString("body"));
+                                    JSONObject jsonData = jsonObject.optJSONObject("data");
+                                    getView().responseTempParkBill(jsonData.optString("body"));
 
-                                } else if (params.payType == 2) {
+                                } else if (params.payType == Constants.TYPE_WXPAY) {
                                     //微信
                                     WxPayHelper.WxPay(jsonObject.toString());
                                 }

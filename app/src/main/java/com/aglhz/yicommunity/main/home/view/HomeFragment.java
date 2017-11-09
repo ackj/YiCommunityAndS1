@@ -44,11 +44,8 @@ import com.aglhz.yicommunity.event.EventCommunity;
 import com.aglhz.yicommunity.main.home.contract.HomeContract;
 import com.aglhz.yicommunity.main.home.presenter.HomePresenter;
 import com.aglhz.yicommunity.main.home.view.header.RentalsSunHeaderView;
-import com.aglhz.yicommunity.main.park.view.TemporaryParkPayFragment;
-import com.aglhz.yicommunity.main.parking.view.CarportFragment;
 import com.aglhz.yicommunity.main.parking.view.ParkChargeFragment;
 import com.aglhz.yicommunity.main.picker.PickerActivity;
-import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 import com.aglhz.yicommunity.main.propery.view.NoticeListFragment;
 import com.aglhz.yicommunity.main.propery.view.PropertyPayFragment;
 import com.aglhz.yicommunity.qrcode.QRCodeActivity;
@@ -84,7 +81,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrFrameLayout ptrFrameLayout;
-    @BindView(R.id.tv_location)
+    @BindView(R.id.tv_location_home_fragment)
     TextView tvLocation;
     @BindView(R.id.view_toolbar_bg)
     View viewToolbarBg;
@@ -256,7 +253,9 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                             break;
                         case R.id.ll_temporary_parking:
 //                            go2Web("临时停车", ApiService.TEMP_PARKING);
-                            _mActivity.start(TemporaryParkPayFragment.newInstance());
+//                            _mActivity.start(TemporaryParkPayFragment.newInstance());
+                            _mActivity.start(ParkChargeFragment.newInstance(null));
+
                             break;
                         case R.id.ll_life_supermarket:
                             ALog.e(UserHelper.communityLongitude);
@@ -300,8 +299,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
 
     public void setToolbarAlpha(float alpha) {
         Log.d(TAG, "alpha:" + alpha);
-//        locationLayout.setAlpha(0.9f - alpha);
-//        locationLayoutAfter.setAlpha(alpha);
         viewToolbarBg.setAlpha(alpha);
     }
 
@@ -327,10 +324,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         if (adapter != null) {
             adapter = null;
         }
-    }
-
-    @Override
-    public void start(Object response) {
     }
 
     @Override
@@ -493,17 +486,17 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         openDoorialog.show();
     }
 
-    @OnClick({R.id.tv_location, R.id.tv_scan})
+    @OnClick({R.id.tv_location_home_fragment, R.id.tv_scan_home_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_location:
+            case R.id.tv_location_home_fragment:
                 _mActivity.startActivity(new Intent(_mActivity, PickerActivity.class));
                 break;
-            case R.id.tv_scan:
+            case R.id.tv_scan_home_fragment:
                 Intent intent = new Intent(_mActivity, QRCodeActivity.class);
-//                _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
+                _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
 //                _mActivity.start(CarportFragment.newInstance());
-                _mActivity.start(ParkChargeFragment.newInstance(new Bundle()));
+//                _mActivity.start(ParkChargeFragment.newInstance(new Bundle()));
 //                _mActivity.start(ParkPickerFragment.newInstance());
                 break;
             default:

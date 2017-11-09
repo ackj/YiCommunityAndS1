@@ -26,7 +26,7 @@ public interface TempParkContract {
 
         void responseParkingCharge(ParkingChargeBean data);
 
-        void responseTempParkBill(BaseBean baseBean);
+        void responseTempParkBill(String bill);
 
         void responsePlateHistory(List<PlateHistoryData> plates);
     }

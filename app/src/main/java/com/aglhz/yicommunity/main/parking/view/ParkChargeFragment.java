@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,11 +24,13 @@ import com.aglhz.abase.mvp.view.base.Decoration;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.entity.bean.BaseBean;
+import com.aglhz.yicommunity.common.payment.ALiPayHelper;
+import com.aglhz.yicommunity.entity.bean.ParkSelectBean.DataBean.ParkPlaceListBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.presenter.TempParkPresenter;
+import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 
 import java.util.List;
 
@@ -47,6 +50,7 @@ import cn.itsite.akeyboard.KeyboardHelper;
  */
 public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter> implements TempParkContract.View {
     private static final String TAG = ParkChargeFragment.class.getSimpleName();
+    public static final int REQUEST_CODE_CITY = 0x010;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -72,20 +76,23 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            params.parkPlaceFid = arguments.getString(Constants.PARAM_PARKPLACEFID);
-            params.name = arguments.getString(Constants.PARAM_PARKNAME);
-        }
-    }
-
     @NonNull
     @Override
     protected TempParkContract.Presenter createPresenter() {
         return new TempParkPresenter(this);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            params.parkPlaceFid = bundle.getString(Constants.PARAM_PARKPLACEFID);
+            params.name = bundle.getString(Constants.PARAM_PARKNAME);
+            if (TextUtils.isEmpty(params.parkPlaceFid) || TextUtils.isEmpty(params.name)) {
+                startForResult(ParkPickerFragment.newInstance(), REQUEST_CODE_CITY);
+            }
+        }
     }
 
     @Nullable
@@ -101,7 +108,12 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        showParkingCharge();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void initToolbar() {
@@ -113,6 +125,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
 
     private void initData() {
         mPresenter.requestPlateHistory();
+//        tvPlate.setText("粤BA1X14");
         keyboardHelper = new KeyboardHelper(keyboard, tvPlate);
         tvPark.setText(params.name);
         tvPlate.addTextChangedListener(new TextWatcher() {
@@ -162,12 +175,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @OnClick({R.id.tv_plate_parking_charge_fragment, R.id.bt_search_parking_charge_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -185,30 +192,29 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
 
     @Override
     public void responseParkingCharge(ParkingChargeBean data) {
-        ALog.e("data--" + data.getData().getCarNo());
-        showParkingCharge();
+        showParkingCharge(data);
     }
 
-    private void showParkingCharge() {
+    private void showParkingCharge(ParkingChargeBean data) {
         new BaseDialogFragment()
                 .setLayoutId(R.layout.dialog_parking_charge)
                 .setConvertListener((holder, dialog) -> {
                     holder.setOnClickListener(R.id.iv_cancel_parking_charge_dialog, v -> {
                         dialog.dismiss();
                     }).setOnClickListener(R.id.tv_alipay_parking_charge_dialog, v -> {
-                        params.payType = 1;
+                        params.payType = Constants.TYPE_ALIPAY;
                         mPresenter.requestTempParkBill(params);
                         dialog.dismiss();
                     }).setOnClickListener(R.id.tv_weixin_parking_charge_dialog, v -> {
-                        params.payType = 2;
+                        params.payType = Constants.TYPE_WXPAY;
                         mPresenter.requestTempParkBill(params);
                         dialog.dismiss();
-                    }).setText(R.id.tv_carport_search, "2222")
-                            .setText(R.id.tv_plate_parking_charge_dialog, "2222")
-                            .setText(R.id.tv_in_time_parking_charge_dialog, "2222")
-                            .setText(R.id.tv_pay_time_parking_charge_dialog, "2222")
-                            .setText(R.id.tv_duration_parking_charge_dialog, "2222")
-                            .setText(R.id.tv_charge_parking_charge_dialog, "2222");
+                    }).setText(R.id.tv_park_parking_charge_dialog, data.getData().getParkPlaceName())
+                            .setText(R.id.tv_plate_parking_charge_dialog, data.getData().getCarNo())
+                            .setText(R.id.tv_in_time_parking_charge_dialog, data.getData().getInTime())
+                            .setText(R.id.tv_pay_time_parking_charge_dialog, data.getData().getOutTime())
+                            .setText(R.id.tv_duration_parking_charge_dialog, data.getData().getTotalCostTime())
+                            .setText(R.id.tv_charge_parking_charge_dialog, data.getData().getCostMoney() + "");
                 })
                 .setMargin(20)
                 .setDimAmount(0.3f)
@@ -218,12 +224,31 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     }
 
     @Override
-    public void responseTempParkBill(BaseBean baseBean) {
-
+    public void responseTempParkBill(String bill) {
+        new ALiPayHelper().pay(_mActivity, bill);
     }
 
     @Override
     public void responsePlateHistory(List<PlateHistoryData> plates) {
         adapter.setNewData(plates);
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        ALog.e("requestCode--" + requestCode);
+        ALog.e("resultCode--" + resultCode);
+        ALog.e("data--" + data);
+
+        if (data == null) {
+            return;
+        }
+
+        ParkPlaceListBean parkBean = (ParkPlaceListBean) data.getSerializable(Constants.KEY_PARK);
+        if (parkBean != null) {
+            params.parkPlaceFid = parkBean.getFid();
+            params.name = parkBean.getName();
+            tvPark.setText(params.name);
+        }
     }
 }

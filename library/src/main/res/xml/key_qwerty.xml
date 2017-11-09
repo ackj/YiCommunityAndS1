@@ -141,7 +141,7 @@
         <Key
             android:codes="-6"
             android:keyEdgeFlags="left"
-            android:keyLabel="返回"
+            android:keyLabel="完成"
             android:keyTextSize="8sp"
             android:keyWidth="13.55%p" />
         <Key
