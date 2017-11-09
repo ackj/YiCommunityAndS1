@@ -8,6 +8,7 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -36,7 +37,19 @@ public class CarCardPayModel extends BaseModel implements CarCardPayContract.Mod
         return HttpHelper.getService(ApiService.class)
                 .requestMonthlyPayRules(ApiService.requestMonthlyPayRules,
                         params.token,
-                        params.parkPlaceFid)
+                        params.parkCardFid)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ResponseBody> requestCarCardBill(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestCarCardBill(ApiService.requestCarCardBill,
+                        params.token,
+                        params.parkCardFid,
+                        params.monthName,
+                        params.monthCount,
+                        params.payType)
                 .subscribeOn(Schedulers.io());
     }
 }

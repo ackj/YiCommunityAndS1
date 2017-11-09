@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static final String TAG = WXPayEntryActivity.class.getName();
+    public static final String TAG = WXPayEntryActivity.class.getName();
     private IWXAPI api;
 
     @Override
@@ -32,6 +32,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
         api = WXAPIFactory.createWXAPI(this, UserHelper.WXAPPID);
         api.handleIntent(getIntent(), this);
+        ALog.e(TAG, "启动支付页面……………………………………");
+
     }
 
     @Override
@@ -43,11 +45,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onReq(BaseReq req) {
-
         ALog.e(TAG, "resp.errCode=" + req.openId);
         ALog.e(TAG, "resp.errCode=" + req.getType());
         ALog.e(TAG, "resp.errCode=" + req.transaction);
-
     }
 
     @Override
@@ -58,9 +58,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         ALog.e(TAG, "resp.errCode=" + resp.getType());
         ALog.e(TAG, "resp.errCode=" + resp.checkArgs());
         ((Vibrator) App.mContext.getSystemService(VIBRATOR_SERVICE)).vibrate(500);
-
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-
             EventBus.getDefault().post(new EventPay(resp.errCode));
             finish();
         }

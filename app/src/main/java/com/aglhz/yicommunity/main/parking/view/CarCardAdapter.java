@@ -52,6 +52,7 @@ public class CarCardAdapter extends BaseRecyclerViewAdapter<CarCardListBean.Data
                 imageResource = R.drawable.ic_stamp_wait_pay_240;
             } else if (item.getNeedToPayType() == 2) {
                 if (item.getSurplusDays() <= 0) {
+                    //-------------- 已过期 -------------
                     imageResource = R.drawable.ic_stamp_expired_240;
                 }
             }

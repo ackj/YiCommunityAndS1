@@ -9,8 +9,6 @@ import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.common.boxing.BoxingGlideLoader;
-import com.aglhz.yicommunity.entity.db.ParkHistoryData;
-import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -20,7 +18,6 @@ import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
 
 import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,17 +40,17 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
         initBoxing();//初始化图片选择器。
         LitePal.initialize(this);//初始化ORM。
 
-        DataSupport.deleteAll(ParkHistoryData.class);
-        for (int i = 0; i < 5; i++) {
-            ParkHistoryData data = new ParkHistoryData("凯宾斯基" + i, i + "", "惠州" + i, "惠城区" + i, i + "", "凯宾斯基小区" + i);
-            data.save();
-        }
-
-        DataSupport.deleteAll(PlateHistoryData.class);
-        for (int i = 0; i < 5; i++) {
-            PlateHistoryData data = new PlateHistoryData("粤" + i + i + i + i + i + i + i);
-            data.save();
-        }
+//        DataSupport.deleteAll(ParkHistoryData.class);
+//        for (int i = 0; i < 5; i++) {
+//            ParkHistoryData data = new ParkHistoryData("凯宾斯基" + i, i + "", "惠州" + i, "惠城区" + i, i + "", "凯宾斯基小区" + i);
+//            data.save();
+//        }
+//
+//        DataSupport.deleteAll(PlateHistoryData.class);
+//        for (int i = 0; i < 5; i++) {
+//            PlateHistoryData data = new PlateHistoryData("粤" + i + i + i + i + i + i + i);
+//            data.save();
+//        }
     }
 
     private void initData() {

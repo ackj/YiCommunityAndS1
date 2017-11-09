@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,12 @@ public class ApplyFragment extends BaseFragment<ApplyContract.Presenter> impleme
     KeyboardView keyboard;
     @BindView(R.id.cl_header_apply_fragment)
     ConstraintLayout clHeader;
+    @BindView(R.id.tv_title_apply_fragment)
+    TextView tvTitle;
+    @BindView(R.id.tv_des_apply_fragment)
+    TextView tvDes;
+    @BindView(R.id.cv_content_apply_fragment)
+    CardView cvContent;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
     private KeyboardHelper keyboardHelper;
@@ -106,6 +113,8 @@ public class ApplyFragment extends BaseFragment<ApplyContract.Presenter> impleme
             clHeader.setBackgroundResource(R.drawable.bg_apply_header_1);
             indicator0.setBackgroundColor(ContextCompat.getColor(App.mContext, R.color.default_gray));
             indicator1.setBackgroundColor(ContextCompat.getColor(App.mContext, R.color.base_color));
+            tvTitle.setText("办理车位卡");
+            tvDes.setText("免费办理小区业主自有车位卡");
         }
         keyboardHelper = new KeyboardHelper(keyboard, tvPlate);
         tvPhone.setText(UserHelper.account);
@@ -149,11 +158,16 @@ public class ApplyFragment extends BaseFragment<ApplyContract.Presenter> impleme
         }
     }
 
-    @OnClick({R.id.tv_plate_apply_fragment,
+    @OnClick({R.id.cv_content_apply_fragment,
+            R.id.tv_plate_apply_fragment,
             R.id.tv_park_apply_fragment,
             R.id.bt_apply_fragment})
     public void onViewClicked(View view) {
+        keyboardHelper.hide();
         switch (view.getId()) {
+            case R.id.cv_content_apply_fragment:
+                keyboardHelper.hide();
+                break;
             case R.id.tv_plate_apply_fragment:
                 keyboardHelper.show();
                 break;
