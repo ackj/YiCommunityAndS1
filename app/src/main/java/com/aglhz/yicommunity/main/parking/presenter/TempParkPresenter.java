@@ -116,5 +116,6 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
             first.delete();
         }
         plate.save();
+        requestPlateHistory();//更新历史记录列表。
     }
 }

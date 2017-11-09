@@ -189,6 +189,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                 params.carNo = tvPlate.getText().toString();
                 mPresenter.requestParkingCharge(params);
                 mPresenter.cachePlateHistory(new PlateHistoryData(tvPlate.getText().toString()));
+                keyboardHelper.hide();
                 break;
             default:
         }
