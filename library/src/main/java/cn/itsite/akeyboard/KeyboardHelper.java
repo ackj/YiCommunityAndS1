@@ -89,7 +89,7 @@ public class KeyboardHelper implements KeyboardView.OnKeyboardActionListener {
                 shift();
                 break;
             case Keyboard.KEYCODE_ALT:
-                complete();
+                alt();
                 break;
             default:
         }
@@ -172,11 +172,10 @@ public class KeyboardHelper implements KeyboardView.OnKeyboardActionListener {
         mKeyboardView.setKeyboard(keys);
     }
 
-    private void complete() {
-//        if (provincekeys == null) {
-//            provincekeys = new Keyboard(mKeyboardView.getContext(), R.xml.key_provice);
-//        }
-//        mKeyboardView.setKeyboard(provincekeys);
-        mKeyboardView.setVisibility(View.GONE);
+    private void alt() {
+        if (provincekeys == null) {
+            provincekeys = new Keyboard(mKeyboardView.getContext(), R.xml.key_provice);
+        }
+        mKeyboardView.setKeyboard(provincekeys);
     }
 }

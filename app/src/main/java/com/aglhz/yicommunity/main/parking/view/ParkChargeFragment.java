@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.Decoration;
@@ -28,9 +29,13 @@ import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean.DataBean.ParkPlaceListBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
+import com.aglhz.yicommunity.event.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.presenter.TempParkPresenter;
 import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -125,7 +130,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
 
     private void initData() {
         mPresenter.requestPlateHistory();
-//        tvPlate.setText("粤BA1X14");
         keyboardHelper = new KeyboardHelper(keyboard, tvPlate);
         tvPark.setText(params.name);
         tvPlate.addTextChangedListener(new TextWatcher() {
@@ -249,6 +253,17 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
             params.parkPlaceFid = parkBean.getFid();
             params.name = parkBean.getName();
             tvPark.setText(params.name);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventPay event) {
+        if (event.code == 0) {
+            Bundle bundle = new Bundle();
+
+            start(ParkPayResultFragment.newInstance(bundle));
+        } else {
+            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
         }
     }
 }

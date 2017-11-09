@@ -26,6 +26,6 @@ public class RechargeReocrdAdapter extends BaseRecyclerViewAdapter<MonthCardBill
                 .setText(R.id.tv_pay_time_item_recharge_record, item.getStartTime() + "至" + item.getEndTime())
                 .setText(R.id.tv_charge_item_recharge_record, item.getMoney() + "元")
                 .setText(R.id.tv_recharge_time_item_recharge_record, "充值日期：" + item.getPayTime())
-                .setText(R.id.tv_order_item_recharge_record, "");
+                .setText(R.id.tv_order_item_recharge_record, item.getBillCode());
     }
 }

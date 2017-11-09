@@ -22,8 +22,12 @@ import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
+import com.aglhz.yicommunity.event.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -147,14 +151,32 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     }
 
     private void initDate() {
-        mPresenter.requestMonthlyPayRules(params);
+        if (carCard.getApproveState() == 2) {
+            new AlertDialog.Builder(_mActivity).setTitle("温馨提示：")
+                    .setMessage("您的车卡审核未通过\n" + carCard.getApproveDes())
+                    .setPositiveButton("退出", (dialog, which) -> {
+                        pop();
+                    }).show();
+        }
+        
         if (CARD_TYPE_MONTHLY.equals(carCard.getCardType())) {
+            mPresenter.requestMonthlyPayRules(params);
             toolbarTitle.setText("月卡充值");
             clHeader.setBackgroundResource(R.drawable.bg_apply_header_0);
+            if (carCard.getApproveState() == 1
+                    && carCard.getNeedToPayType() == 2
+                    && carCard.getSurplusDays() <= 0) {
+                //-------------- 已过期 -------------
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("温馨提示：")
+                        .setMessage("您的月卡已经过期，可充值继续使用！")
+                        .setPositiveButton("充值", null)
+                        .show();
+            }
         } else {
             toolbarTitle.setText("车位卡");
             clHeader.setBackgroundResource(R.drawable.bg_apply_header_1);
-            tvIndate.setText("长期有效");
+            tvIndate.setText("永久有效");
             clContain.setPadding(clContain.getPaddingLeft(), clContain.getPaddingTop(),
                     clContain.getPaddingRight(), clContain.getPaddingBottom() + 30);
             tvMonth.setVisibility(View.GONE);
@@ -253,5 +275,16 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public void responseALiPay(String bill) {
         new ALiPayHelper().pay(_mActivity, bill);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventPay event) {
+        if (event.code == 0) {
+            Bundle bundle = new Bundle();
+
+            setFragmentResult(RESULT_CODE, null);//依托这个来，返回的时候刷新列表。
+        } else {
+            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
+        }
     }
 }
