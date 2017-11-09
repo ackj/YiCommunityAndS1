@@ -17,19 +17,16 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.ToastUtils;
+import com.aglhz.s1.widget.CameraCountDownDialog;
 import com.aglhz.yicommunity.R;
 import com.hdl.udpsenderlib.UDPResult;
 import com.jwkj.soundwave.ResultCallback;
@@ -39,26 +36,20 @@ import com.jwkj.soundwave.bean.NearbyDevice;
 import com.mediatek.elian.ElianNative;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 /**
  * Author: LiuJia on 2017/9/6 0006 10:12.
  * Email: liujia95me@126.com
  */
 
-public class SmartLinkWifiInputFragment extends BaseFragment {
+public class CameraWifiInputFragment extends BaseFragment {
 
-    private static final String TAG = SmartLinkWifiInputFragment.class.getSimpleName();
+    private static final String TAG = CameraWifiInputFragment.class.getSimpleName() + "123";
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -68,25 +59,23 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
     TextView tvWifiname;
     @BindView(R.id.et_password)
     EditText etPassword;
-    @BindView(R.id.tv_receive)
-    TextView tvReceive;
 
     Unbinder unbinder;
+    boolean isLinking = false;
+    ElianNative elain;
+    UDPHelper mHelper;
 
-    String ssid;
-    String pwd = "";
-    boolean isRegFilter = false;
+    //wifi相关
+    String wifiName;
+    String wifiPassword;
     boolean is5GWifi = false;
     boolean isWifiEncrypt = false;
-    boolean isSend = false;
-    ElianNative elain;
     WifiManager wifiManager;
-    public UDPHelper mHelper;
-    private BaseDialogFragment linkDialogLoading;
 
-    public static SmartLinkWifiInputFragment newInstance() {
-        SmartLinkWifiInputFragment fragment = new SmartLinkWifiInputFragment();
-        return fragment;
+    private CameraCountDownDialog countDownDialog;
+
+    public static CameraWifiInputFragment newInstance() {
+        return new CameraWifiInputFragment();
     }
 
     static {
@@ -122,9 +111,14 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
     }
 
     private void initData() {
-        currenWifi();
+        countDownDialog = new CameraCountDownDialog();
+        //注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        _mActivity.registerReceiver(br, filter);
+
+        notifyCurrenWifi();
         SoundWaveManager.init(_mActivity);//初始化声波配置
-        regFilter();
         //监听UDP广播
         mHelper = new UDPHelper(_mActivity, 9988);
         mHelper.StartListen();
@@ -133,32 +127,29 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
     @SuppressLint("HandlerLeak")
     private void initListener() {
         mHelper.setCallBack(new Handler() {
-
             @Override
             public void handleMessage(Message msg) {
                 // TODO Auto-generated method stub
                 switch (msg.what) {
                     case UDPHelper.HANDLER_MESSAGE_BIND_ERROR:
-                        Log.e("my", "HANDLER_MESSAGE_BIND_ERROR");
+                        ALog.e(TAG, "HANDLER_MESSAGE_BIND_ERROR");
                         break;
                     case UDPHelper.HANDLER_MESSAGE_RECEIVE_MSG:
-                        Bundle bundle = msg.getData();
-                        String deviceId = bundle.getString("contactId");//设备ID
-                        String frag = bundle.getString("frag");//有无密码标记
-                        String ip = bundle.getString("ip");//id地址
-                        int type = bundle.getInt("type", 0);//设备主类型
-                        int subType = bundle.getInt("subType", 0);//设备子类型
-                        String deviceInfo = "deviceId=" + deviceId + " deviceType=" + type + " subType=" + subType + " ip=" + ip;
-                        if (Integer.parseInt(frag) == 0) {
-                            deviceInfo = deviceInfo + "无密码";
-                        } else {
-                            deviceInfo = deviceInfo + "有密码";
-                        }
-                        tvReceive.append(deviceInfo + "\n\n");
+                        ALog.e(TAG, "智能配网成功");
+                        stopLink(true);
+                        break;
+                    default:
                         break;
                 }
             }
+        });
 
+        countDownDialog.setOnListener(new CameraCountDownDialog.OnListener() {
+            @Override
+            public void onStopListener() {
+                //停止配网
+                stopLink(false);
+            }
         });
     }
 
@@ -166,31 +157,48 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        if (isSend) {
-            stopSendWifi();
-            isSend = false;
-        }
-        if (isRegFilter) {
-            _mActivity.unregisterReceiver(br);
-            isRegFilter = false;
+        _mActivity.unregisterReceiver(br);
+        if (isLinking) {
+            stopLink(false);
         }
         if (mHelper != null) {
             mHelper.StopListen();
         }
     }
 
-    public void regFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        _mActivity.registerReceiver(br, filter);
-        isRegFilter = true;
+    @OnClick({R.id.btn_send})
+    public void onViewClicked() {
+        if (checkNetwork()) {
+            startLink();
+        }
     }
+
+    private boolean checkNetwork() {
+        wifiPassword = etPassword.getText().toString().trim();
+        if (!isWifiConnected() || wifiName == null || wifiName.equals("") || wifiName.equals("<unknown ssid>")) {
+            ToastUtils.showToast(_mActivity, "请先将手机连接到WiFi");
+            return false;
+        }
+        if (is5GWifi) {
+            ToastUtils.showToast(_mActivity, "设备不支持5G网络");
+            return false;
+        }
+        if (!isWifiEncrypt) {
+            if (TextUtils.isEmpty(wifiPassword)) {
+                ToastUtils.showToast(_mActivity, "请输入WiFi密码");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //todo(高亮)-------------------------------  以下是Wifi部分 --------------------------------
 
     BroadcastReceiver br = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("android.net.conn.CONNECTIVITY_CHANGE")) {
-                currenWifi();
+                notifyCurrenWifi();
             }
         }
     };
@@ -208,29 +216,29 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
     private byte AuthModeWPAPSK = 4;
 
     //获取当前连接wifi
-    public void currenWifi() {
+    public void notifyCurrenWifi() {
         WifiInfo wifiInfo = getConnectWifiInfo();
         if (wifiInfo == null) {
-            ssid = "";
+            wifiName = "";
             tvWifiname.setText("请先连接wifi");
             return;
         }
-        ssid = wifiInfo.getSSID();
-        if (ssid == null) {
+        wifiName = wifiInfo.getSSID();
+        if (wifiName == null) {
             return;
         }
-        if (ssid.equals("")) {
+        if (wifiName.equals("")) {
             return;
         }
-        if (ssid.length() <= 0) {
+        if (wifiName.length() <= 0) {
             return;
         }
-        int a = ssid.charAt(0);
+        int a = wifiName.charAt(0);
         if (a == 34) {
-            ssid = ssid.substring(1, ssid.length() - 1);
+            wifiName = wifiName.substring(1, wifiName.length() - 1);
         }
-        if (!ssid.equals("<unknown ssid>") && !ssid.equals("0x")) {
-            tvWifiname.setText(ssid);
+        if (!wifiName.equals("<unknown ssid>") && !wifiName.equals("0x")) {
+            tvWifiname.setText(wifiName);
         }
         List<ScanResult> wifiList = getLists(_mActivity);
         if (wifiList == null) {
@@ -238,7 +246,7 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
         }
         for (int i = 0; i < wifiList.size(); i++) {
             ScanResult result = wifiList.get(i);
-            if (!result.SSID.equals(ssid)) {
+            if (!result.SSID.equals(wifiName)) {
                 continue;
             }
             is5GWifi = is5GWifi(result.frequency);
@@ -284,7 +292,7 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
         if (!isWifiConnected()) {
             return null;
         }
-        WifiManager wifiManager = (WifiManager) _mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) _mActivity.getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null) {
             return null;
         }
@@ -294,8 +302,7 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
 
     //获取wifi列表
     public List<ScanResult> getLists(Context context) {
-        wifiManager = (WifiManager) context
-                .getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         wifiManager.startScan();
         List<ScanResult> lists = wifiManager.getScanResults();
         return lists;
@@ -319,86 +326,40 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
                 || result.capabilities.toLowerCase().indexOf("wpa") != -1);
     }
 
+    //todo(高亮)-------------------------------  以下是配网部分 --------------------------------
 
-    //开始发包
-    private void sendWifi() {
+    //智能配网
+    private void startSmartLink() {
         if (elain == null) {
             elain = new ElianNative();
         }
-        if (null != ssid && !"".equals(ssid)) {
+        if (null != wifiName && !"".equals(wifiName)) {
             elain.InitSmartConnection(null, 1, 1);
             //wifi名  wifi密码  加密方式
-            elain.StartSmartConnection(ssid, pwd, "", mAuthMode);
+            elain.StartSmartConnection(wifiName, wifiPassword, "", mAuthMode);
         }
     }
 
-    private void stopSendWifi() {
+    private void stopSmartLink() {
         if (elain != null) {
             elain.StopSmartConnection();
         }
     }
 
-    @OnClick({R.id.btn_send, R.id.btn_stop})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_send:
-                pwd = etPassword.getText().toString().trim();
-                if (!isWifiConnected() || ssid == null || ssid.equals("") || ssid.equals("<unknown ssid>")) {
-                    ToastUtils.showToast(_mActivity, "请先将手机连接到WiFi");
-                    return;
-                }
-                if (is5GWifi) {
-                    ToastUtils.showToast(_mActivity, "设备不支持5G网络");
-                    return;
-                }
-                if (!isWifiEncrypt) {
-                    if (TextUtils.isEmpty(pwd)) {
-                        ToastUtils.showToast(_mActivity, "请输入WiFi密码");
-                        return;
-                    }
-                }
-                isSend = true;
-                sendWifi();
-                sendSoundWave();//声波
-                tvReceive.append("开始配网......\n");
-
-                showLinkDialogLoading();
-                break;
-            case R.id.btn_stop:
-                if (!isSend) {
-                    return;
-                }
-                isSend = false;
-                stopSendWifi();
-                onStopSoundWave();
-                tvReceive.append("停止配网\n");
-                break;
-        }
-    }
-
-    //-------------------------------  以下是声波部分 --------------------------------
-
-    /**
-     * 开始发送声波
-     */
-    private void sendSoundWave() {
+    //声波配网
+    private void startSoundWave() {
         ALog.e(TAG, "sendSoundWave 开始发送声波");
         SoundWaveSender.getInstance()
                 .with(_mActivity)
-                .setWifiSet(ssid, pwd)
+                .setWifiSet(wifiName, wifiPassword)
                 .send(new ResultCallback() {
                     @Override
                     public void onNext(UDPResult udpResult) {
-                        ALog.e(TAG, "声波配网NEXT:" + udpResult.getIp());
+                        ALog.e(TAG, "声波配网成功:" + udpResult.getIp());
                         NearbyDevice device = NearbyDevice.getDeviceInfoByByteArray(udpResult.getResultData());
-                        device.setIp(udpResult.getIp());
-                        tvReceive.append("\n设备联网成功！");
                         ALog.e(TAG, "设备信息:" + device.toString());
-                        isSend = false;
-                        onStopSoundWave();
-                        if (linkDialogLoading != null)
-                            linkDialogLoading.dismiss();
-                        pop();
+                        device.setIp(udpResult.getIp());
+                        stopLink(true);
                     }
 
                     @Override
@@ -406,7 +367,6 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
                         super.onError(throwable);
                         ALog.e(TAG, "声波配网ERROR:" + throwable.getMessage());
                         onStopSend();
-//                        SoundWaveSender.getInstance().stopSend();//出错了就要停止任务，然后重启发送
                     }
 
                     /**
@@ -414,84 +374,45 @@ public class SmartLinkWifiInputFragment extends BaseFragment {
                      */
                     @Override
                     public void onStopSend() {
-                        ALog.e(TAG, "声波配网STOP:" + isSend);
-                        if (isSend) {//是否需要继续发送声波
+                        ALog.e(TAG, "声波配网STOP:" + isLinking);
+                        if (isLinking) {//是否需要继续发送声波
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Looper.prepare();
-                                    sendSoundWave();
+                                    startSoundWave();
                                 }
                             }).start();
                         } else {//结束了就需要将发送器关闭
-                            SoundWaveSender.getInstance().stopSend();
+                            stopLink(false);
                         }
                     }
                 });
     }
 
-    /**
-     * 停止发送声波
-     */
-    public void onStopSoundWave() {
+    public void stopSoundWave() {
         ALog.e(TAG, "onStopSoundWave");
-        SoundWaveSender.getInstance().with(_mActivity).stopSend();
+        SoundWaveSender.getInstance().stopSend();
     }
 
-
-    private int countdown;
-
-    private void showLinkDialogLoading() {
-        //开始动画
-        linkDialogLoading = new BaseDialogFragment()
-                .setLayoutId(R.layout.layout_link_loading)
-                .setConvertListener((holder, dialogFragment) -> {
-                    ImageView iv = holder.getView(R.id.iv_link_loading);
-                    Animation animation = AnimationUtils.loadAnimation(_mActivity, R.anim.dialog_scan_rotate);
-                    iv.startAnimation(animation);//开始动画
-
-                    countdown = 60;
-                    TextView tvCountDown = holder.getView(R.id.tv_count_down);
-                    Subscription subscribe = Observable.interval(0, 1, TimeUnit.SECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Action1<Long>() {
-                                @Override
-                                public void call(Long aLong) {
-                                    tvCountDown.setText((--countdown) + "");
-                                    if (countdown == 0) {
-                                        stopLink();
-                                        dialogFragment.dismiss();
-                                    }
-                                }
-                            });
-
-                    holder.setOnClickListener(R.id.btn_stop, v -> {
-                        stopLink();
-                        subscribe.unsubscribe();
-                        dialogFragment.dismiss();
-                    });
-                });
-
-        linkDialogLoading.setCancelable(false);
-        linkDialogLoading.show(getFragmentManager());
-
+    private void startLink() {
+        isLinking = true;
+        countDownDialog.show(getFragmentManager());
+        startSmartLink();
+        startSoundWave();
     }
 
-    //停止配网
-    private void stopLink() {
-        isSend = false;
-        stopSendWifi();
-        onStopSoundWave();
-        tvReceive.append("停止配网\n");
+    private void stopLink(boolean isSuccess) {
+        isLinking = false;
+        stopSoundWave();
+        stopSmartLink();
+        if (countDownDialog != null && countDownDialog.isShowing()){
+            countDownDialog.dismiss();
+        }
+        if (isSuccess) {
+            ToastUtils.showToast(_mActivity,"配网成功");
+            pop();
+        }
     }
 
-
-    @Override
-    public boolean onBackPressedSupport() {
-//        if (linkDialogLoading != null && !linkDialogLoading.isHidden()) {
-//            linkDialogLoading.dismiss();
-//            return true;
-//        }
-        return super.onBackPressedSupport();
-    }
 }
