@@ -27,14 +27,12 @@ import com.bumptech.glide.Glide;
 public class WelcomeActivity extends BaseActivity {
     private static final String TAG = WelcomeActivity.class.getSimpleName();
     private ViewPager viewPager;
-
     private int[] welcomeBg = {R.drawable.yindao300ye1242px2208px,
             R.drawable.yindao301ye1242px2208px, R.drawable.yindao303ye1242px2208px};
     private View pointer;
     private ImageView imageView1;
     private ImageView imageView2;
     private Button btnBegin;
-
     private int imageView1StartX, imageView2StartX, pointerStartX, btnStartX;
 
     @Override

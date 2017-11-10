@@ -24,8 +24,8 @@ android {
         applicationId "com.aglhz.yicommunity"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 219
-        versionName "2.1.9"
+        versionCode 220
+        versionName "2.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        ndk {
 //            abiFilters 'armeabi', 'armeabi-v7a', 'x86'

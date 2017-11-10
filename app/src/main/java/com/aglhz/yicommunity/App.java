@@ -39,18 +39,6 @@ public class App extends com.aglhz.s1.App implements Application.ActivityLifecyc
         initPush();//初始化推送。
         initBoxing();//初始化图片选择器。
         LitePal.initialize(this);//初始化ORM。
-
-//        DataSupport.deleteAll(ParkHistoryData.class);
-//        for (int i = 0; i < 5; i++) {
-//            ParkHistoryData data = new ParkHistoryData("凯宾斯基" + i, i + "", "惠州" + i, "惠城区" + i, i + "", "凯宾斯基小区" + i);
-//            data.save();
-//        }
-//
-//        DataSupport.deleteAll(PlateHistoryData.class);
-//        for (int i = 0; i < 5; i++) {
-//            PlateHistoryData data = new PlateHistoryData("粤" + i + i + i + i + i + i + i);
-//            data.save();
-//        }
     }
 
     private void initData() {
