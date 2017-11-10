@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
+import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +45,8 @@ public class ParkPayResultFragment extends BaseFragment {
     @BindView(R.id.bt_back_park_pay_result_fragment)
     Button btBack;
     private Unbinder unbinder;
+    private ParkingChargeBean parkCharge;
+    private String order;
 
     public static ParkPayResultFragment newInstance(Bundle bundle) {
         ParkPayResultFragment fragment = new ParkPayResultFragment();
@@ -53,10 +57,10 @@ public class ParkPayResultFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-//            params.parkPlaceFid = arguments.getString(Constants.PARAM_PARKPLACEFID);
-//            params.name = arguments.getString(Constants.PARAM_PARKNAME);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            order = bundle.getString(Constants.KEY_ORDER);
+            parkCharge = ((ParkingChargeBean) bundle.getSerializable(Constants.KEY_PARK));
         }
     }
 
@@ -83,6 +87,11 @@ public class ParkPayResultFragment extends BaseFragment {
     }
 
     private void initData() {
+        tvPark.setText(parkCharge.getData().getParkPlaceName());
+        tvPlate.setText(parkCharge.getData().getCarNo());
+        tvOrder.setText(order);
+        tvPayTime.setText(parkCharge.getData().getOutTime());
+        tvCharge.setText(parkCharge.getData().getCostMoney() + "");
     }
 
     @Override
@@ -93,6 +102,6 @@ public class ParkPayResultFragment extends BaseFragment {
 
     @OnClick(R.id.bt_back_park_pay_result_fragment)
     public void onViewClicked() {
-        pop();
+        _mActivity.onBackPressedSupport();
     }
 }

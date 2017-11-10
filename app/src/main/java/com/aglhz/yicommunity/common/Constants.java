@@ -120,6 +120,7 @@ public class Constants extends BaseConstants {
     public static final String KEY_BEAN = "bean";
     public static final String KEY_LINK = "link";
     public static final String KEY_DES = "des";
+    public static final String KEY_ORDER = "order";
     public static final String KEY_SHORTFROM = "shortfrom";
     public static final String KEY_CARNO = "carNo";
     public static final String KEY_TYPE = "type";

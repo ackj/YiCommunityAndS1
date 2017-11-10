@@ -7,6 +7,8 @@ import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -26,7 +28,7 @@ public interface TempParkContract {
 
         void responseParkingCharge(ParkingChargeBean data);
 
-        void responseTempParkBill(String bill);
+        void responseTempParkBill(JSONObject bill);
 
         void responsePlateHistory(List<PlateHistoryData> plates);
     }

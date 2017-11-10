@@ -14,21 +14,21 @@ import java.security.MessageDigest;
 import java.util.List;
 
 /**
- * Created by YandZD on 2017/3/2.
+ * @author leguang
+ * @version v0.0.0
+ * @E-mail langmanleguang@qq.com
+ * @time 2017/4/12 0009 17:39
+ * 微信支付工具。
  */
-
 public class WxPayHelper {
     public static final String TAG = WxPayHelper.class.getSimpleName();
 
     public static String appId;
 
-    public static void WxPay(String string) {
-        ALog.e("微信支付：：" + string);
-        JSONObject json;
+    public static void pay(String string) {
+        ALog.e("微信支付-->" + string);
         try {
-            json = new JSONObject(string);
-            JSONObject payData = json.getJSONObject("data");
-            ALog.e("json", json.toString());
+            JSONObject payData = new JSONObject(string);
 
             PayReq req = new PayReq();
             //{"data":{"appId":"wxe5dbac804d7bb267","timeStamp":"1488436959","noncestr":"cfb9296583e2461caeda09d0d3621f9a","sign":"BC569731EE8560316A719BC1F8EBCF0E","partnerid":"1335876101","prepayid":"wx20170302144239e711b2897c0269541507","package_":"Sign=WXPay","wxOrderSn":"20170302144238868719"},"other":{"code":200,"message":"","time":"","currpage":0,"next":"","forward":"","refresh":"","first":""}}
@@ -46,6 +46,8 @@ public class WxPayHelper {
             ALog.e("timeStamp", req.timeStamp);
             req.sign = payData.optString("sign");
             ALog.e("sign", req.sign);
+            req.extData = payData.optString("out_trade_no");
+            ALog.e("extData", req.extData);
 
             appId = req.appId;
             IWXAPI api = WXAPIFactory.createWXAPI(App.mContext, req.appId);
