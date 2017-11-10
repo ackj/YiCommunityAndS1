@@ -24,7 +24,7 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.camera.CameraPlayActivity;
 import com.aglhz.s1.camera.CameraSettingFragment;
-import com.aglhz.s1.camera.SmartLinkWifiInputFragment;
+import com.aglhz.s1.camera.CameraWifiInputFragment;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CameraBean;
@@ -251,7 +251,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
         new AlertDialog.Builder(_mActivity)
                 .setItems(addSelectedArr, (dialog, which) -> {
                     if (which == 0) {
-                        _mActivity.start(SmartLinkWifiInputFragment.newInstance());
+                        _mActivity.start(CameraWifiInputFragment.newInstance());
                     } else {
                         showAddCameraDialog();
                     }

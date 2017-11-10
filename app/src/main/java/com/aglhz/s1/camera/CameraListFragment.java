@@ -150,7 +150,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
         new AlertDialog.Builder(_mActivity)
                 .setItems(addSelectedArr, (dialog, which) -> {
                     if (which == 0) {
-                        _mActivity.start(SmartLinkWifiInputFragment.newInstance());
+                        _mActivity.start(CameraWifiInputFragment.newInstance());
                     } else {
                         showAddCameraDialog();
                     }
