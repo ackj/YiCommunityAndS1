@@ -169,4 +169,11 @@ public class Constants extends BaseConstants {
     public static final String CARD_TYPE_MONTHLY = "月租卡";
     public static final String CARD_TYPE_CARPORT = "免费卡";
 
+    //App更新
+    public static final String APP_UPDATE_URL = "http://119.23.129.133:8066/appstore/client/info/checkVersion";
+    public static final String SYS_ACCESS_PREFIX = "centro";
+    public static final String SYS_ACCESS_KEY = "aglapps@0752";
+    public static String SC = "AglhzYsq";
+    public static String APP_TYPE = "1";//1为android。2为iOS。
+
 }
