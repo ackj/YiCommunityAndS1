@@ -168,9 +168,8 @@ dependencies {
     //声波配网库说依赖的udp通讯库，不可删除
     compile 'com.jwkj:udpsender:v2.0.1'
 
-    //由于自定义键盘网络依赖不了，暂时先这么顶着。
-    compile project(':library')
-
+    //自定义车牌键盘。
+    compile 'com.github.leguang:AKeyboard:0.0.3'
     //orm框架
     compile 'org.litepal.android:core:1.6.0'
 }
