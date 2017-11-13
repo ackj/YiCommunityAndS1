@@ -382,10 +382,6 @@
             android:name="com.aglhz.s1.camera.CameraPlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name="com.aglhz.s1.camera.CameraPlayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
 
         <activity android:name="com.aglhz.s1.camera.PlayBackActivity" />
 

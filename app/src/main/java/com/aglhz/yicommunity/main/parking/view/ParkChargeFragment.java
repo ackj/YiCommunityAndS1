@@ -265,14 +265,23 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         ALog.e("data--" + data);
 
         if (data == null) {
+            _mActivity.onBackPressedSupport();
             return;
         }
 
         ParkPlaceListBean parkBean = (ParkPlaceListBean) data.getSerializable(Constants.KEY_PARK);
-        if (parkBean != null) {
-            params.parkPlaceFid = parkBean.getFid();
-            params.name = parkBean.getName();
-            tvPark.setText(params.name);
+        if (parkBean == null) {
+            _mActivity.onBackPressedSupport();
+            return;
+        }
+
+        params.parkPlaceFid = parkBean.getFid();
+        params.name = parkBean.getName();
+        tvPark.setText(params.name);
+
+        if (TextUtils.isEmpty(params.parkPlaceFid)
+                ||TextUtils.isEmpty(params.name)) {
+            _mActivity.onBackPressedSupport();
         }
     }
 
