@@ -131,7 +131,7 @@ public class AboutUsFragment extends BaseFragment {
     /**
      * 检测是否有新版本需要下载更新。
      */
-    private void updateApp() {
+    public void updateApp() {
         String random = System.currentTimeMillis() + "";
         String accessKey = Constants.SYS_ACCESS_PREFIX + random + Constants.SYS_ACCESS_KEY;
         ALog.e("random-->" + random);
