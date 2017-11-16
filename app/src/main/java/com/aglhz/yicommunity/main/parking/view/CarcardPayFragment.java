@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
@@ -27,6 +28,7 @@ import com.aglhz.yicommunity.event.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -128,6 +130,7 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_card_pay, container, false);
+        EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -142,6 +145,7 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 

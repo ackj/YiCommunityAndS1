@@ -56,6 +56,7 @@ public class ALiPayHelper {
 
             if (TextUtils.equals(mapResult.get("resultStatus"), "9000")) {
                 ALiPayResultBean bean = JSON.parseObject(mapResult.get("result"), ALiPayResultBean.class);
+                ALog.e("已经支付………………");
                 EventPay eventPay = new EventPay(0, "", bean.getAlipay_trade_app_pay_response().getOut_trade_no());
                 EventBus.getDefault().post(eventPay);
             } else {
