@@ -22,6 +22,7 @@ import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
+import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
 import com.aglhz.yicommunity.event.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
@@ -158,7 +159,7 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                         pop();
                     }).show();
         }
-        
+
         if (CARD_TYPE_MONTHLY.equals(carCard.getCardType())) {
             mPresenter.requestMonthlyPayRules(params);
             toolbarTitle.setText("月卡充值");
@@ -213,7 +214,9 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                         .show();
                 break;
             case R.id.tv_month_car_card_pay_fragment:
-                selector.show(getChildFragmentManager());
+                if (selector != null) {
+                    selector.show(getChildFragmentManager());
+                }
                 break;
             case R.id.tv_alipay_car_card_pay_fragment:
                 params.payType = Constants.TYPE_ALIPAY;
@@ -239,18 +242,6 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public void responseMonthlyPayRules(MonthlyPayRulesBean bean) {
         List<MonthlyPayRulesBean.DataBean.MonthCardRuleListBean> rules = bean.getData().getMonthCardRuleList();
-        if (rules == null || rules.isEmpty()) {
-            return;
-        }
-
-        //默认设置第一个。
-        MonthlyPayRulesBean.DataBean.MonthCardRuleListBean firstRule = rules.get(0);
-        tvMonth.setText(firstRule.getName());
-        tvIndate.setText(firstRule.getStartDate() + "　至　" + firstRule.getEndDate());
-        tvAmount.setText(firstRule.getMoney() + "");
-        params.monthName = firstRule.getName();
-        params.monthCount = firstRule.getMonthCount();
-
         selector = new SelectorDialogFragment()
                 .setTitle("请选择充值时长")
                 .setItemLayoutId(R.layout.item_rv_simple_selector)
@@ -270,6 +261,17 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM);
+
+        if (rules == null || rules.isEmpty()) {
+            return;
+        }
+        //默认设置第一个。
+        MonthlyPayRulesBean.DataBean.MonthCardRuleListBean firstRule = rules.get(0);
+        tvMonth.setText(firstRule.getName());
+        tvIndate.setText(firstRule.getStartDate() + "　至　" + firstRule.getEndDate());
+        tvAmount.setText(firstRule.getMoney() + "");
+        params.monthName = firstRule.getName();
+        params.monthCount = firstRule.getMonthCount();
     }
 
     @Override
@@ -281,8 +283,14 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     public void onEvent(EventPay event) {
         if (event.code == 0) {
             Bundle bundle = new Bundle();
-
-            setFragmentResult(RESULT_CODE, null);//依托这个来，返回的时候刷新列表。
+            ParkPayResultBean result = new ParkPayResultBean();
+            result.order = event.extra;
+            result.park = carCard.getParkPlace().getName();
+            result.plate = carCard.getCarNo();
+            result.time = carCard.getCreateTime();
+            result.amount = tvAmount.getText().toString();
+            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
+            start(ParkPayResultFragment.newInstance(bundle));
         } else {
             DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
         }

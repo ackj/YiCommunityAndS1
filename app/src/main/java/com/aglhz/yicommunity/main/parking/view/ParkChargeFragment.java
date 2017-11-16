@@ -27,6 +27,7 @@ import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.common.payment.WxPayHelper;
+import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean.DataBean.ParkPlaceListBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
@@ -78,7 +79,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     private Params params = Params.getInstance();
     private ParkChargeAdapter adapter;
     private ParkingChargeBean parkCharge;
-    private String order;
 
     public static ParkChargeFragment newInstance(Bundle bundle) {
         ParkChargeFragment fragment = new ParkChargeFragment();
@@ -245,7 +245,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                 break;
             case Constants.TYPE_WXPAY:
                 //微信
-                order = jsonData.optString("out_trade_no");
                 WxPayHelper.pay(jsonData.toString());
                 break;
             default:
@@ -280,7 +279,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         tvPark.setText(params.name);
 
         if (TextUtils.isEmpty(params.parkPlaceFid)
-                ||TextUtils.isEmpty(params.name)) {
+                || TextUtils.isEmpty(params.name)) {
             _mActivity.onBackPressedSupport();
         }
     }
@@ -289,8 +288,13 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     public void onEvent(EventPay event) {
         if (event.code == 0) {
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.KEY_ORDER, event.extra);
-            bundle.putSerializable(Constants.KEY_PARK, parkCharge);
+            ParkPayResultBean result = new ParkPayResultBean();
+            result.order = event.extra;
+            result.park = parkCharge.getData().getParkPlaceName();
+            result.plate = parkCharge.getData().getCarNo();
+            result.time = parkCharge.getData().getOutTime();
+            result.amount = parkCharge.getData().getCostMoney() + "";
+            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
             start(ParkPayResultFragment.newInstance(bundle));
         } else {
             DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");

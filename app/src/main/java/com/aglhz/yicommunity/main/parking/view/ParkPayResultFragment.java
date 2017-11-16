@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
+import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,8 +45,7 @@ public class ParkPayResultFragment extends BaseFragment {
     @BindView(R.id.bt_back_park_pay_result_fragment)
     Button btBack;
     private Unbinder unbinder;
-    private ParkingChargeBean parkCharge;
-    private String order;
+    private ParkPayResultBean result;
 
     public static ParkPayResultFragment newInstance(Bundle bundle) {
         ParkPayResultFragment fragment = new ParkPayResultFragment();
@@ -59,8 +58,7 @@ public class ParkPayResultFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            order = bundle.getString(Constants.KEY_ORDER);
-            parkCharge = ((ParkingChargeBean) bundle.getSerializable(Constants.KEY_PARK));
+            result = ((ParkPayResultBean) bundle.getSerializable(Constants.KEY_PAR_KPAY_RESULT));
         }
     }
 
@@ -87,11 +85,11 @@ public class ParkPayResultFragment extends BaseFragment {
     }
 
     private void initData() {
-        tvPark.setText(parkCharge.getData().getParkPlaceName());
-        tvPlate.setText(parkCharge.getData().getCarNo());
-        tvOrder.setText(order);
-        tvPayTime.setText(parkCharge.getData().getOutTime());
-        tvCharge.setText(parkCharge.getData().getCostMoney() + "");
+        tvPark.setText(result.park);
+        tvPlate.setText(result.plate);
+        tvOrder.setText(result.order);
+        tvPayTime.setText(result.time);
+        tvCharge.setText(result.amount);
     }
 
     @Override
