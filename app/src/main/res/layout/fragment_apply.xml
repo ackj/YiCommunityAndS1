@@ -65,7 +65,7 @@
                     android:layout_marginStart="15dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="按个小区收费标准收取月租费用"
+                    android:text="按各小区收费标准收取月租费用"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
