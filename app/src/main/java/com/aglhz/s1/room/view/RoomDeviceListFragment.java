@@ -1,17 +1,17 @@
 package com.aglhz.s1.room.view;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +21,9 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.ToastUtils;
-import com.aglhz.s1.App;
 import com.aglhz.s1.camera.CameraListFragment;
+import com.aglhz.s1.camera.CameraPlay2Activity;
+import com.aglhz.s1.camera.CameraSettingFragment;
 import com.aglhz.s1.camera.P2PListener;
 import com.aglhz.s1.camera.SettingListener;
 import com.aglhz.s1.common.Constants;
@@ -50,8 +51,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -67,7 +68,9 @@ import static android.content.Context.MODE_PRIVATE;
  * Email： liujia95me@126.com
  */
 public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.Presenter> implements RoomDeviceListContract.View {
-    private static final String TAG = RoomDeviceListFragment.class.getSimpleName();
+
+    private static final String TAG =  RoomDeviceListFragment.class.getSimpleName();
+
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -76,16 +79,21 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
+
     Unbinder unbinder;
+
     private ImageView ivRoom;
     private ImageView ivHeader;
     private Params params = Params.getInstance();
-    private RoomDeviceList2RVAdapter adapter;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
     //    private StateManager mStateManager;
     private ImageView ivCamera;
-    private boolean isLinking = false;
+    private DeviceGridRVAdapter adapter;
+    private DeviceListBean.DataBean.SubDevicesBean addIconDevice;
+    private String[] cameraArr = {"设置", "删除"};
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -112,7 +120,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initToolbar();
         initData();
         initListener();
-//        initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
@@ -126,57 +133,18 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("大厅");
-        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_homemore_90px));
-        toolbar.inflateMenu(R.menu.room_menu);
-
-        //通过反射强制每一个Menu的Item同时显示图标和文字。
-        Menu menu = toolbar.getMenu();
-        if (menu != null) {
-            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
-                try {
-                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch (Exception e) {
-                    Log.e(getClass().getSimpleName(), "onMenuOpened...unable to set icons for overflow menu", e);
-                }
+        toolbarMenu.setText("切换");
+        toolbarMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.requestHouseList(params);
             }
-        }
-
-        toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.add_device:
-                    ToastUtils.showToast(App.mContext, "添加设备");
-                    if (selectRoom == null) {
-                        ToastUtils.showToast(_mActivity, "请选择房间");
-                        return true;
-                    }
-                    mPresenter.requestNewDevice24(params);
-                    showLoading();
-                    isLinking = true;
-                    toolbar.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isLinking) {
-                                ToastUtils.showToast(_mActivity, "学习超时");
-                                dismissLoading();
-                            }
-                        }
-                    }, 30 * 1000);
-                    break;
-                case R.id.change_room:
-                    mPresenter.requestHouseList(params);
-                    break;
-                default:
-                    break;
-            }
-            return true;
         });
     }
 
     private void initData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        adapter = new RoomDeviceList2RVAdapter();
+        recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
+        adapter = new DeviceGridRVAdapter();
 
         View viewHeader = LayoutInflater.from(_mActivity).inflate(R.layout.layout_room_header, null);
 
@@ -190,21 +158,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         adapter.setHeaderView(viewHeader);
         recyclerView.setAdapter(adapter);
         mPresenter.requestHouseList(params);
-    }
 
-    private void initStateManager() {
-//        mStateManager = StateManager.builder(_mActivity)
-//                .setContent(recyclerView)
-//                .setEmptyView(R.layout.layout_state_empty)
-//                .setEmptyText("该房间暂无设备，空空如也！")
-//                .setEmptyImage(R.drawable.ic_no_device_empty_state_300)
-//                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
-//                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
-//                .setConvertListener((holder, stateLayout) ->
-//                        holder.setOnClickListener(R.id.bt_empty_state,
-//                                v -> ptrFrameLayout.autoRefresh())
-//                                .setText(R.id.bt_empty_state, "点击刷新"))
-//                .build();
+        addIconDevice = new DeviceListBean.DataBean.SubDevicesBean();
+        addIconDevice.setIcon("add_icon");
+        addIconDevice.setName("添加控制器");
+        adapter.addData(addIconDevice);
     }
 
     private void selectRoom(RoomsBean.DataBean.RoomListBean bean) {
@@ -226,8 +184,10 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 resId = R.drawable.room_room_1242px_745px;
                 break;
             case "厕所":
+            case "浴室":
                 resId = R.drawable.room_cesuo_1242px_745px;
                 break;
+            default:
         }
         toolbarTitle.setText(bean.getName());
         Glide.with(_mActivity)
@@ -242,14 +202,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSelectedDeviceType(EventSelectedDeviceType event) {
-        new AlertDialog.Builder(_mActivity)
-                .setTitle("学习中...")
-                .setMessage("设备是否收到了正确的反馈？")
-                .setNegativeButton("否", null)
-                .setPositiveButton("是", (dialog, which) -> {
-                    params.status = 1;
-                    mPresenter.requestNewDeviceConfirm(params);
-                }).show();
+//        new AlertDialog.Builder(_mActivity)
+//                .setTitle("学习中...")
+//                .setMessage("设备是否收到了正确的反馈？")
+//                .setNegativeButton("否", null)
+//                .setPositiveButton("是", (dialog, which) -> {
+//                    params.status = 1;
+//                    mPresenter.requestNewDeviceConfirm(params);
+//                }).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -266,29 +226,59 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
-                DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
-                switch (view.getId()) {
-                    case R.id.iv_setting:
-                        if (selectRoom == null) {
-                            DialogHelper.warningSnackbar(getView(), "请选择房间");
-                        }
-                        _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
-                        break;
-                    default:
-                        _mActivity.start(DeviceOnOffFragment.newInstance(bean));
-                        break;
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
+            //点击最后一个跳添加页面
+            if (position == adapter.getData().size() - 1) {
+                if (selectRoom == null) {
+                    DialogHelper.warningSnackbar(getView(), "请选择房间");
+                    return;
                 }
+                _mActivity.start(DeviceTypeFragment.newInstance(selectRoom.getFid()));
+            } else if ("camera01".equals(bean.getDeviceType())) {
+                Intent intent = new Intent(_mActivity, CameraPlay2Activity.class);
+                intent.putExtra("bean", (Serializable) bean);
+                _mActivity.startActivity(intent);
+            } else {
+                _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
             }
         });
-        ivCamera.setOnClickListener(v -> _mActivity.start(CameraListFragment.newInstance()));
-//        ivCamera.setOnClickListener(v -> new AlertDialog.Builder(_mActivity)
-//                .setTitle("温馨提示")
-//                .setMessage("亲！为了给您更好的用户体验，工程师正在玩命优化该功能")
-//                .setNegativeButton("取消", null)
-//                .show());
+
+        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter1, View view, int position) {
+                DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
+                if ("camera01".equals(bean.getDeviceType())) {
+                    new AlertDialog.Builder(_mActivity)
+                            .setItems(cameraArr, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        _mActivity.start(CameraSettingFragment.newInstance(bean));
+                                    } else {
+
+                                        showDeleteCameraDialog(bean);
+                                    }
+                                }
+                            }).show();
+                }
+                return false;
+            }
+        });
+        ivCamera.setOnClickListener(v -> login());
+    }
+
+    private void showDeleteCameraDialog(DeviceListBean.DataBean.SubDevicesBean bean) {
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("提示")
+                .setMessage("你确定要删除吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        params.index = bean.getIndex();
+                        mPresenter.requestDelDevice(params);
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     private void login() {
@@ -401,6 +391,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             adapter.loadMoreComplete();
         }
         if (params.page == 1) {
+            data.add(addIconDevice);
             adapter.setNewData(data);
         } else {
             adapter.addData(data);
@@ -413,6 +404,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 //            mStateManager.showContent();
         }
     }
+
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
@@ -443,16 +435,13 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseNewDevice24(BaseBean bean) {
-        isLinking = false;
-        dismissLoading();
+
+    }
+
+    @Override
+    public void responseDelSuccess(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
-        new AlertDialog.Builder(_mActivity)
-                .setTitle("提示")
-                .setMessage("听到设备学习成功提示后请手动刷新设备列表。")
-                .setNegativeButton("取消", null)
-                .setPositiveButton("确定", (dialog, which) -> {
-                    onRefresh();
-                }).show();
+        onRefresh();
     }
 
     private void showRoomSelecotr(List<RoomsBean.DataBean.RoomListBean> data) {
@@ -470,4 +459,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
     }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        onRefresh();
+    }
+
 }

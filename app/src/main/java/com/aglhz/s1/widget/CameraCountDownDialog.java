@@ -58,6 +58,7 @@ public class CameraCountDownDialog extends BaseDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         isShowing = true;
+        setCancelable(false);
         initAnimator();
         countDown();
     }

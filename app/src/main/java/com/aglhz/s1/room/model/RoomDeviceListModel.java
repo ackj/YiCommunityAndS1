@@ -75,4 +75,11 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseBean> requestDelDevice(Params params) {
+        return HttpHelper.getService(ApiService.class).requestDelDevice(ApiService.requestDelDevice
+                , params.token, params.index,params.deviceSn)
+                .subscribeOn(Schedulers.io());
+    }
 }

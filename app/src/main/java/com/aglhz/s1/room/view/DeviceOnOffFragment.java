@@ -16,6 +16,7 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.room.contract.DeviceOnOffContract;
 import com.aglhz.s1.room.presenter.DeviceOnOffPresenter;
 import com.aglhz.yicommunity.R;
@@ -41,16 +42,21 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
 
     Unbinder unbinder;
+
     private DeviceOnOffRVAdapter adapter;
     private Params params = Params.getInstance();
     private DeviceListBean.DataBean.SubDevicesBean bean;
+    private RoomsBean.DataBean.RoomListBean selectRoom;
 
-    public static DeviceOnOffFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean) {
+    public static DeviceOnOffFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, RoomsBean.DataBean.RoomListBean selectRoom) {
         DeviceOnOffFragment fragment = new DeviceOnOffFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
+        bundle.putSerializable("selectRoom", selectRoom);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,6 +65,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
+        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("selectRoom");
     }
 
     @NonNull
@@ -93,6 +100,14 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
                 _mActivity.onBackPressedSupport();
             }
         });
+
+        toolbarMenu.setText("设置");
+        toolbarMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.startForResult(AddDeviceFragment.newInstance(bean, selectRoom), 100);
+            }
+        });
     }
 
     private void initData() {
@@ -125,10 +140,19 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
                     case R.id.ll_close:
                         params.status = 0;
                         break;
+                    default:
                 }
                 mPresenter.requestDeviceCtrl(params);
             }
         });
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            pop();
+        }
     }
 
     @Override

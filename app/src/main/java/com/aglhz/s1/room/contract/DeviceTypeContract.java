@@ -25,13 +25,13 @@ public interface DeviceTypeContract {
     interface Presenter extends BaseContract.Presenter {
         void requestDeviceType(Params params);
         void requestAddDevice(Params params);
-
+        void requestAddCamera(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<DevicesBean> requestDeviceType(Params params);
         Observable<BaseBean> requestAddDevice(Params params);
-
+        Observable<BaseBean> requestAddCamera(Params params);
     }
 
 }

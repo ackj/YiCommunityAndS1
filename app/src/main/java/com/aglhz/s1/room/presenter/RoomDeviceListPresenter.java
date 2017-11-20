@@ -96,4 +96,17 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     }
                 }, this::error/*, this::complete, disposable -> start(null)*/));
     }
+
+    @Override
+    public void requestDelDevice(Params params) {
+        mRxManager.add(mModel.requestDelDevice(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseDelSuccess(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 }

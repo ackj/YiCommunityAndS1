@@ -30,4 +30,11 @@ public class DeviceTypeModel extends BaseModel implements DeviceTypeContract.Mod
                 , params.token,params.deviceType,params.name,params.roomFid,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseBean> requestAddCamera(Params params) {
+        return HttpHelper.getService(ApiService.class).requestNewCamera(ApiService.requestNewDevice
+                , params.token, params.deviceType, params.name, params.roomFid, params.deviceId, params.devicePassword)
+                .subscribeOn(Schedulers.io());
+    }
 }

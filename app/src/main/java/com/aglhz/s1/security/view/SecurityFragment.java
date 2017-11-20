@@ -207,6 +207,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
             tv.setSelected(true);
         }
+
+        //设置toolbar
+        StringBuilder title = new StringBuilder();
+        if (securityBean.getData().getGateway().getIsOnline() == 0) {
+            title.append("（离线）");
+        } else {
+            title.append("（在线）");
+        }
+        title.append(securityBean.getData().getGateway().getName());
+        toolbarTitle.setText(title);
+
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
         if (securityBean.getData() != null
                 || securityBean.getData().getSubDevices() != null) {
