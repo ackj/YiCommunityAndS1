@@ -20,31 +20,15 @@ public class ParkPickerAdapter extends BaseMultiItemQuickAdapter<ParkSelectBean.
     public static final int TYPE_CONTENT = 0;
     public static final int TYPE_NAME = 1;
     public List<ParkSelectBean.DataBean.ParkPlaceListBean> listHistory;
-    private String searchKey = "";
 
-    public ParkPickerAdapter(List<ParkSelectBean.DataBean.ParkPlaceListBean> data) {
-        super(data);
+    public ParkPickerAdapter() {
+        super(null);
         addItemType(TYPE_NAME, R.layout.item_rv_park_selector_type);
         addItemType(TYPE_CONTENT, R.layout.item_rv_park_selector);
     }
 
-    public void setSearchKey(String searchKey) {
-        this.searchKey = searchKey;
-    }
-
     @Override
     protected void convert(BaseViewHolder holder, ParkSelectBean.DataBean.ParkPlaceListBean item) {
-//        if (bean == null) {
-//            return;
-//        }
-//        int nameIndex = bean.getName().indexOf(searchKey);
-//        SpannableString nameSpan = new SpannableString(bean.getName());
-//        if (nameIndex != -1) {
-//            nameSpan.setSpan(new ForegroundColorSpan(Color.RED), nameIndex, nameIndex + searchKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
-//        helper.setText(android.R.id.text1, nameSpan);
-
-
         switch (holder.getItemViewType()) {
             case TYPE_NAME:
                 holder.setText(R.id.tv_name_item_rv_park_selector_type, item.getName())

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.common.payment.ALiPayHelper;
 import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
@@ -91,7 +90,7 @@ public class CarCardPayPresenter extends BasePresenter<CarCardPayContract.View, 
 
                             } else if (params.payType == Constants.TYPE_WXPAY) {
                                 //微信
-                                WxPayHelper.WxPay(jsonObject.toString());
+                                WxPayHelper.pay(jsonObject.toString());
                             }
                         } else {
                             getView().error(jsonOther.optString("message"));

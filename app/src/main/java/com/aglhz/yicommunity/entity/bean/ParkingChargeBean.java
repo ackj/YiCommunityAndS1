@@ -1,11 +1,13 @@
 package com.aglhz.yicommunity.entity.bean;
 
+import java.io.Serializable;
+
 /**
  * Author: LiuJia on 2017/6/1 0001 10:02.
  * Email: liujia95me@126.com
  */
 
-public class ParkingChargeBean extends BaseBean {
+public class ParkingChargeBean extends BaseBean implements Serializable {
 
 
     /**

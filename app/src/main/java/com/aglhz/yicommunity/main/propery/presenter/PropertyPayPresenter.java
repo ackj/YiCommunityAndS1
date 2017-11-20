@@ -93,7 +93,7 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
 
                             } else if (params.type == 2) {
                                 //微信
-                                WxPayHelper.WxPay(jsonObject.toString());
+                                WxPayHelper.pay(jsonObject.toString());
                             }
                         } else {
                             getView().error(jsonOther.optString("message"));

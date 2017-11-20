@@ -26,6 +26,8 @@ import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.ALiPayHelper;
+import com.aglhz.yicommunity.common.payment.WxPayHelper;
+import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
 import com.aglhz.yicommunity.entity.bean.ParkSelectBean.DataBean.ParkPlaceListBean;
 import com.aglhz.yicommunity.entity.bean.ParkingChargeBean;
 import com.aglhz.yicommunity.entity.db.PlateHistoryData;
@@ -34,8 +36,10 @@ import com.aglhz.yicommunity.main.parking.contract.TempParkContract;
 import com.aglhz.yicommunity.main.parking.presenter.TempParkPresenter;
 import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -74,6 +78,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     private KeyboardHelper keyboardHelper;
     private Params params = Params.getInstance();
     private ParkChargeAdapter adapter;
+    private ParkingChargeBean parkCharge;
 
     public static ParkChargeFragment newInstance(Bundle bundle) {
         ParkChargeFragment fragment = new ParkChargeFragment();
@@ -105,6 +110,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parking_charge, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return attachToSwipeBack(view);
     }
 
@@ -118,6 +124,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -201,6 +208,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     }
 
     private void showParkingCharge(ParkingChargeBean data) {
+        this.parkCharge = data;
         new BaseDialogFragment()
                 .setLayoutId(R.layout.dialog_parking_charge)
                 .setConvertListener((holder, dialog) -> {
@@ -229,8 +237,18 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     }
 
     @Override
-    public void responseTempParkBill(String bill) {
-        new ALiPayHelper().pay(_mActivity, bill);
+    public void responseTempParkBill(JSONObject jsonData) {
+        switch (params.payType) {
+            case Constants.TYPE_ALIPAY:
+                //支付宝
+                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
+                break;
+            case Constants.TYPE_WXPAY:
+                //微信
+                WxPayHelper.pay(jsonData.toString());
+                break;
+            default:
+        }
     }
 
     @Override
@@ -246,14 +264,23 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         ALog.e("data--" + data);
 
         if (data == null) {
+            _mActivity.onBackPressedSupport();
             return;
         }
 
         ParkPlaceListBean parkBean = (ParkPlaceListBean) data.getSerializable(Constants.KEY_PARK);
-        if (parkBean != null) {
-            params.parkPlaceFid = parkBean.getFid();
-            params.name = parkBean.getName();
-            tvPark.setText(params.name);
+        if (parkBean == null) {
+            _mActivity.onBackPressedSupport();
+            return;
+        }
+
+        params.parkPlaceFid = parkBean.getFid();
+        params.name = parkBean.getName();
+        tvPark.setText(params.name);
+
+        if (TextUtils.isEmpty(params.parkPlaceFid)
+                || TextUtils.isEmpty(params.name)) {
+            _mActivity.onBackPressedSupport();
         }
     }
 
@@ -261,7 +288,13 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     public void onEvent(EventPay event) {
         if (event.code == 0) {
             Bundle bundle = new Bundle();
-
+            ParkPayResultBean result = new ParkPayResultBean();
+            result.order = event.extra;
+            result.park = parkCharge.getData().getParkPlaceName();
+            result.plate = parkCharge.getData().getCarNo();
+            result.time = parkCharge.getData().getOutTime();
+            result.amount = parkCharge.getData().getCostMoney() + "";
+            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
             start(ParkPayResultFragment.newInstance(bundle));
         } else {
             DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");

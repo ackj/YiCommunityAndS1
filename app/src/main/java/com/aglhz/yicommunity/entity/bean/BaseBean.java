@@ -1,6 +1,15 @@
 package com.aglhz.yicommunity.entity.bean;
 
-public class BaseBean {
+import java.io.Serializable;
+
+/**
+ * @author leguang
+ * @version v0.0.0
+ * @E-mail langmanleguang@qq.com
+ * @time 2017/11/2 0002 17:39
+ * 临时停车场模块Presenter。
+ */
+public class BaseBean implements Serializable {
 
     /**
      * other : {"code":500,"message":"手机号 不能为空","time":"","currpage":0,"next":"","forward":"","refresh":"","first":""}
@@ -16,7 +25,7 @@ public class BaseBean {
         this.other = other;
     }
 
-    public static class OtherBean {
+    public static class OtherBean implements Serializable {
         /**
          * code : 500
          * message : 手机号 不能为空

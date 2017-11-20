@@ -114,7 +114,7 @@ public class PublishMonthCardPresenter extends BasePresenter<PublishMonthCardCon
 
                             } else if (params.payType == 2) {
                                 //微信
-                                WxPayHelper.WxPay(jsonObject.toString());
+                                WxPayHelper.pay(jsonObject.toString());
                             }
                         } else {
                             getView().error(jsonOther.optString("message"));

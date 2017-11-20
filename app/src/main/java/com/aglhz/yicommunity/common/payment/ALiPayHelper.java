@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.event.EventPay;
+import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,10 +23,11 @@ import rx.schedulers.Schedulers;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 /**
- * Author：leguang on 2017/4/12 0009 15:49
- * Email：langmanleguang@qq.com
- * <p>
- * 支付宝工具
+ * @author leguang
+ * @version v0.0.0
+ * @E-mail langmanleguang@qq.com
+ * @time 2017/4/12 0009 17:39
+ * 支付宝工具。
  */
 public class ALiPayHelper {
     private static final String TAG = ALiPayHelper.class.getSimpleName();
@@ -53,7 +55,10 @@ public class ALiPayHelper {
             }
 
             if (TextUtils.equals(mapResult.get("resultStatus"), "9000")) {
-                EventBus.getDefault().post(new EventPay(0));
+                ALiPayResultBean bean = JSON.parseObject(mapResult.get("result"), ALiPayResultBean.class);
+                ALog.e("已经支付………………");
+                EventPay eventPay = new EventPay(0, "", bean.getAlipay_trade_app_pay_response().getOut_trade_no());
+                EventBus.getDefault().post(eventPay);
             } else {
                 EventBus.getDefault().post(new EventPay(-1));
             }

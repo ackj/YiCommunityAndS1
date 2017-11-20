@@ -49,7 +49,6 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 
 
-
 /**
  * Author: LiuJia on 2017/4/26 0026 11:11.
  * Email: liujia95me@126.com
@@ -139,8 +138,9 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void onRefresh() {
-        if (mPresenter != null)
+        if (mPresenter != null) {
             mPresenter.requestSecurity(params);
+        }
     }
 
     private View initHeaderView() {
@@ -221,6 +221,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
         if (securityBean.getData() != null
                 || securityBean.getData().getSubDevices() != null) {
+            adapter.setHostState(securityBean.getData().getGateway().getDefenseStatus());
             adapter.setNewData(securityBean.getData().getSubDevices());
         }
         adapter.addData(addIconDevice);
@@ -320,7 +321,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
 
             } else {
-                ToastUtils.showToast(_mActivity,"已拒绝权限");
+                ToastUtils.showToast(_mActivity, "已拒绝权限");
             }
         }
     }

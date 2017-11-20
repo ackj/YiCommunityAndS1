@@ -120,6 +120,7 @@ public class Constants extends BaseConstants {
     public static final String KEY_BEAN = "bean";
     public static final String KEY_LINK = "link";
     public static final String KEY_DES = "des";
+    public static final String KEY_ORDER = "order";
     public static final String KEY_SHORTFROM = "shortfrom";
     public static final String KEY_CARNO = "carNo";
     public static final String KEY_TYPE = "type";
@@ -164,8 +165,16 @@ public class Constants extends BaseConstants {
     //历史记录最多缓存数。
     public static final int HISTORY_SIZE = 3;
     public static final String KEY_PARK = "key_park";
+    public static final String KEY_PAR_KPAY_RESULT = "key_par_kpay_result";
 
     public static final String CARD_TYPE_MONTHLY = "月租卡";
     public static final String CARD_TYPE_CARPORT = "免费卡";
+
+    //App更新
+    public static final String APP_UPDATE_URL = "http://119.23.129.133:8066/appstore/client/info/checkVersion";
+    public static final String SYS_ACCESS_PREFIX = "centro";
+    public static final String SYS_ACCESS_KEY = "aglapps@0752";
+    public static String SC = "AglhzYsq";
+    public static String APP_TYPE = "1";//1为android。2为iOS。
 
 }

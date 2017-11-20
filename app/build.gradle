@@ -24,12 +24,9 @@ android {
         applicationId "com.aglhz.yicommunity"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 219
-        versionName "2.1.9"
+        versionCode 220
+        versionName "2.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        ndk {
-//            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
-//        }
         multiDexEnabled true
     }
 
@@ -42,11 +39,7 @@ android {
         debug {
             buildConfigField "boolean", "isDebug", "true"//配置自定义debug版下的字段。
 
-
             ndk {
-//                abiFilters "armeabi", "armeabi-v7a", "x86"
-//                abiFilters "armeabi"
-//                abiFilters "armeabi-v7a"
                 abiFilters "armeabi", "armeabi-v7a"
 
             }
@@ -138,8 +131,9 @@ dependencies {
     compile 'com.github.jwkj:SoundWaveSender:v2.0.2'
     //声波配网库说依赖的udp通讯库，不可删除
     compile 'com.jwkj:udpsender:v2.0.1'
-    //由于自定义键盘网络依赖不了，暂时先这么顶着。
-    compile project(':library')
+
+    //自定义车牌键盘。
+    compile 'com.github.leguang:AKeyboard:0.0.3'
     //orm框架
     compile 'org.litepal.android:core:1.6.0'
 }

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
+import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +45,7 @@ public class ParkPayResultFragment extends BaseFragment {
     @BindView(R.id.bt_back_park_pay_result_fragment)
     Button btBack;
     private Unbinder unbinder;
+    private ParkPayResultBean result;
 
     public static ParkPayResultFragment newInstance(Bundle bundle) {
         ParkPayResultFragment fragment = new ParkPayResultFragment();
@@ -53,10 +56,9 @@ public class ParkPayResultFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-//            params.parkPlaceFid = arguments.getString(Constants.PARAM_PARKPLACEFID);
-//            params.name = arguments.getString(Constants.PARAM_PARKNAME);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            result = ((ParkPayResultBean) bundle.getSerializable(Constants.KEY_PAR_KPAY_RESULT));
         }
     }
 
@@ -83,6 +85,11 @@ public class ParkPayResultFragment extends BaseFragment {
     }
 
     private void initData() {
+        tvPark.setText(result.park);
+        tvPlate.setText(result.plate);
+        tvOrder.setText(result.order);
+        tvPayTime.setText(result.time);
+        tvCharge.setText(result.amount);
     }
 
     @Override
@@ -93,6 +100,6 @@ public class ParkPayResultFragment extends BaseFragment {
 
     @OnClick(R.id.bt_back_park_pay_result_fragment)
     public void onViewClicked() {
-        pop();
+        _mActivity.onBackPressedSupport();
     }
 }

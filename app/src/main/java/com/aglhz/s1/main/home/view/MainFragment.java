@@ -94,17 +94,14 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
 
 
     private void initData() {
-        updateApp();//检测App的更新。
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.room, R.drawable.ic_navigationroom_black_78px, R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.drawable.ic_navigationscenes_black_78px, R.color.white);
-//        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.hisotry, R.drawable.ic_navigationhistory_black_78px, R.color.white);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);
         List<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
         bottomNavigationItems.add(item3);
-//        bottomNavigationItems.add(item4);
         bottomNavigationItems.add(item5);
         ahbn.addItems(bottomNavigationItems);
         ahbn.setDefaultBackgroundColor(getResources().getColor(R.color.white));
@@ -126,54 +123,6 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CURR_POSITION, bottomNavigationPreposition);
-    }
-
-    /**
-     * 检测是否有新版本需要下载更新。
-     */
-    private void updateApp() {
-        ALog.e("requestAppUpdatae-->" + ApiService.requestAppUpdatae);
-        Map<String, String> params = new HashMap<>();
-        params.put("appType", "1");
-
-        new UpdateAppManager
-                .Builder()
-                .setActivity(_mActivity)
-                .setHttpManager(new UpdateAppHttpUtils())
-                .setPost(true)
-                .setParams(params)
-                .setUpdateUrl(ApiService.requestAppUpdatae)
-                .hideDialogOnDownloading(false)
-                .build()
-                .checkNewApp(new UpdateCallback() {
-                    @Override
-                    protected UpdateAppBean parseJson(String json) {
-                        ALog.e("requestAppUpdatae-->" + json);
-                        UpdateAppBean updateAppBean = new UpdateAppBean();
-                        AppUpdateBean mAppUpdateBean = new Gson().fromJson(json, AppUpdateBean.class);
-
-                        updateAppBean
-                                //（必须）是否更新Yes,No
-                                .setUpdate(AppUtils.getVersionCode(_mActivity) < mAppUpdateBean.getData().getVersionCode() ? "Yes" : "No")
-                                //（必须）新版本号，
-                                .setNewVersion(mAppUpdateBean.getData().getVersionName())
-                                //（必须）下载地址
-                                .setApkFileUrl(mAppUpdateBean.getData().getUrl())
-                                //（必须）更新内容
-                                .setUpdateLog(mAppUpdateBean.getData().getDescription())
-                                //大小，不设置不显示大小，可以不设置
-                                .setTargetSize(mAppUpdateBean.getData().getSize())
-                                //是否强制更新，可以不设置
-                                .setConstraint(mAppUpdateBean.getData().isIsForce());
-
-                        return updateAppBean;
-                    }
-
-                    @Override
-                    protected void hasNewApp(UpdateAppBean updateApp, UpdateAppManager updateAppManager) {
-                        updateAppManager.showDialogFragment();
-                    }
-                });
     }
 
     @AfterPermissionGranted(CAMERA_LOCATION)

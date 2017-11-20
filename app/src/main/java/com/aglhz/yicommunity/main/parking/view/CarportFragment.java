@@ -99,7 +99,7 @@ public class CarportFragment extends BaseFragment<CarportContract.Presenter> imp
 
     @Override
     public void responseCarports(CarportBeam data) {
-        tvAmount.setText(data.getData().getUsingSpace() + "");
+        tvAmount.setText(data.getData().getSurplusSpace() + "");
     }
 
     @Override

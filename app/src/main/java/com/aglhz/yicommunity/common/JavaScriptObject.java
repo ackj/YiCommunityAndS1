@@ -26,7 +26,7 @@ public class JavaScriptObject {
     @JavascriptInterface
     public void appWeixinPay(String str) {
         ALog.e("JS--WX-->" + str);
-        WxPayHelper.WxPay(str);
+        WxPayHelper.pay(str);
     }
 
     @JavascriptInterface
