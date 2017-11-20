@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.DoorManager;
+import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.door.call.CallActivity;
 import com.aglhz.yicommunity.main.parking.TempParkActivity;
 import com.aglhz.yicommunity.main.view.MainFragment;
@@ -74,12 +76,19 @@ public class MainActivity extends BaseActivity {
             switch (type) {
                 case Constants.TYPE_TEMPORARYPARKPAY:
                     intent.setComponent(new ComponentName(this, TempParkActivity.class));
+                    startActivity(intent);
                     break;
                 case Constants.TYPE_SMARTDOOROPEN:
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(MainFragment.class.getName());
+                    if (fragment instanceof MainFragment) {
+                        Params params = Params.getInstance();
+                        params.acsStoreDeviceFid = uri.getQueryParameter(Constants.PARAM_ACSSTOREDEVICEFID);
+                        params.accessKey = uri.getQueryParameter(Constants.PARAM_ACCESSKEY);
+                        ((MainFragment) fragment).scanOpenDoor(params);
+                    }
                     break;
                 default:
             }
-            startActivity(intent);
         }
     }
 }

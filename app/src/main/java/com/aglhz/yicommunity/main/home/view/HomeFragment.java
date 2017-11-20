@@ -32,6 +32,7 @@ import com.aglhz.yicommunity.common.LbsManager;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
+import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.HomeBean;
@@ -470,6 +471,14 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         }
     }
 
+    @Override
+    public void responseScanOpenDoor(BaseBean baseBean) {
+        if (openDoorialog != null) {
+            openDoorialog.setSuccess();
+        }
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+    }
+
     public void go2TopAndRefresh() {
         if (recyclerView == null || ptrFrameLayout == null) {
             return;
@@ -495,11 +504,13 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             case R.id.tv_scan_home_fragment:
                 Intent intent = new Intent(_mActivity, QRCodeActivity.class);
                 _mActivity.startActivityForResult(intent, QRCodeActivity.QRCODE_REQUEST);
-//                _mActivity.start(CarportFragment.newInstance());
-//                _mActivity.start(ParkChargeFragment.newInstance(new Bundle()));
-//                _mActivity.start(ParkPickerFragment.newInstance());
                 break;
             default:
         }
+    }
+
+    public void scanOpenDoor(Params params) {
+        showQuickOpenDoorDialog();
+        mPresenter.requestScanOpenDoor(params);
     }
 }

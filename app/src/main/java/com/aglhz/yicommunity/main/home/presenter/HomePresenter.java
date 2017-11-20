@@ -33,10 +33,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestBanners(Params params) {
         mRxManager.add(mModel.requestBanners(params)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -138,6 +134,19 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
                         getView().responseCommEquipmentList(equipmentBean.getData().getDataList());
                     } else {
                         getView().error(equipmentBean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestScanOpenDoor(Params params) {
+        mRxManager.add(mModel.requestScanOpenDoor(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseScanOpenDoor(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
                     }
                 }, this::error));
     }
