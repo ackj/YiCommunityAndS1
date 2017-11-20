@@ -43,7 +43,6 @@ public class QRCodeFragment extends BaseFragment implements QRCodeView.Delegate 
     private boolean isFlashlightOpened = false;
     private LinearLayout ll_top_bar;
     public static final String QRCODE_RESULT = "qrcode_result";
-    public static final int QRCODE_REQUEST = 0x01;
 
     public static QRCodeFragment newInstance() {
         return new QRCodeFragment();
@@ -87,31 +86,20 @@ public class QRCodeFragment extends BaseFragment implements QRCodeView.Delegate 
     }
 
     private void initData() {
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop();
-            }
+        iv_back.setOnClickListener(v -> _mActivity.finish());
+        iv_photo.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
+            startActivityForResult(intent, REQUEST_IMAGE);
         });
-        iv_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE);
+        iv_flashlight.setOnClickListener(v -> {
+            if (isFlashlightOpened) {
+                mQRCodeView.closeFlashlight();
+            } else {
+                mQRCodeView.openFlashlight();
             }
-        });
-        iv_flashlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFlashlightOpened) {
-                    mQRCodeView.closeFlashlight();
-                } else {
-                    mQRCodeView.openFlashlight();
-                }
-                isFlashlightOpened = !isFlashlightOpened;
-            }
+            isFlashlightOpened = !isFlashlightOpened;
         });
     }
 

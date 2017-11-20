@@ -26,7 +26,6 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
  */
 public abstract class BaseActivity<P extends BaseContract.Presenter> extends SwipeBackActivity {
     private final String TAG = BaseActivity.class.getSimpleName();
-
     public P mPresenter;
 
     @Override
@@ -54,7 +53,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
     private void initActivity() {
         //把每一个Activity加入栈中
         ActivityHelper.getInstance().addActivity(this);
-
         //一旦启动某个Activity就打印Log，方便找到该类
         ALog.e(TAG);
     }
@@ -71,12 +69,11 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
 
     @Override
     protected void onDestroy() {
-
         if (mPresenter != null) {
             mPresenter.clear();
             mPresenter = null;
         }
-        //把每一个Activity弹出栈
+        //把每一个Activity弹出栈。
         ActivityHelper.getInstance().removeActivity(this);
         super.onDestroy();
     }
