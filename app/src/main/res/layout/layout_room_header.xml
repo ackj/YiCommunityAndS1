@@ -14,5 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_shexiangtou_blule_120px" />
+        android:src="@drawable/ic_shexiangtou_blule_120px"
+        android:visibility="gone" />
 </FrameLayout>

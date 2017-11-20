@@ -208,6 +208,15 @@ public interface ApiService {
                                           @Field("roomFid") String roomFid,
                                           @Field("gateway") String deviceSn);
 
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewCamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("deviceType") String deviceType,
+                                          @Field("name") String name,
+                                          @Field("roomFid") String roomFid,
+                                          @Field("deviceId") String deviceId,
+                                          @Field("password") String password);
 
     //修改设备
     String requestModDevice = BASE_URL + "/ctrl/client/moddevice";

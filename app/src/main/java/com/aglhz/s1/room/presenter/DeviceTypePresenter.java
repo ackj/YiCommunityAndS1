@@ -58,4 +58,17 @@ public class DeviceTypePresenter extends BasePresenter<DeviceTypeContract.View,D
                     }
                 }, this::error));
     }
+
+    @Override
+    public void requestAddCamera(Params params) {
+        mRxManager.add(mModel.requestAddCamera(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseAddDevice(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 }

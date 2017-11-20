@@ -1,5 +1,6 @@
 package com.aglhz.s1.room.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -144,10 +145,20 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                     DialogHelper.warningSnackbar(getView(), "删除失败");
                     return;
                 }
-                cpbDelete.setProgress(50);
-                params.index = bean.getIndex();
-                mPresenter.requestDelDevice(params);
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("提示")
+                        .setMessage("你确定要删除吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                cpbDelete.setProgress(50);
+                                params.index = bean.getIndex();
+                                mPresenter.requestDelDevice(params);
+                            }
+                        }).setNegativeButton("取消", null)
+                        .show();
                 break;
+
             case R.id.toolbar_menu:
                 if (bean == null) {
                     mPresenter.requestnewDevice(params);

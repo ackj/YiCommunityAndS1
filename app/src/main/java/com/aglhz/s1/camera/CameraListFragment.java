@@ -312,7 +312,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
-                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+//                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)

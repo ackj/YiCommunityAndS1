@@ -226,7 +226,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
-                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+//                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)

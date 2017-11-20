@@ -29,8 +29,9 @@ import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.camera.presenter.CameraSettingPresenter;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
+import com.aglhz.s1.utils.CameraHelper;
 import com.aglhz.yicommunity.R;
 import com.p2p.core.BaseMonitorActivity;
 import com.p2p.core.P2PHandler;
@@ -40,6 +41,7 @@ import com.p2p.core.P2PView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -49,14 +51,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 
-/**
- * Author: LiuJia on 2017/11/9 0009 11:16.
- * Email: liujia95me@126.com
- */
+public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSettingContract.View {
 
-public class CameraPlayActivity extends BaseMonitorActivity implements CameraSettingContract.View {
-
-    private static final String TAG = CameraPlayActivity.class.getSimpleName();
+    private static final String TAG = CameraPlay2Activity.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.progressBar)
@@ -89,10 +86,10 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     ImageView ivPhotograph;
     @BindView(R.id.tv_quality)
     TextView tvQuality;
-    @BindView(R.id.viewblack)
-    View viewBlack;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
 
-    private CameraBean.DataBean cameraBean;
+    private DeviceListBean.DataBean.SubDevicesBean cameraBean;
     private String cameraUserId;
     private String cameraPassword;
     private String cameraCallId;
@@ -107,7 +104,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_play);
+        setContentView(R.layout.activity_camera_play2);
         ButterKnife.bind(this);
         //7是设备类型(技威定义的)
         pView = (P2PView) findViewById(R.id.p2pview);
@@ -130,7 +127,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                     setMute(true);
                     return true;
                 default:
-                    break;
             }
             return false;
         });
@@ -138,6 +134,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
 
     private void initToolbar() {
         toolbarTitle.setText("智能监控");
+        toolbarMenu.setText("设置");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,11 +154,11 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         registerReceiver(mReceiver, filter);
 
         //获取数据
-        cameraBean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
+        cameraBean = (DeviceListBean.DataBean.SubDevicesBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         cameraUserId = sp.getString("userId", "");
         cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
-        cameraCallId = cameraBean.getNo();
+        cameraCallId = cameraBean.getDeviceId();
 
         ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接
@@ -182,7 +179,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         tvLoading.setText("加载中...");
         progressBar.setVisibility(View.VISIBLE);
         llLoading.setVisibility(View.VISIBLE);
-        viewBlack.setVisibility(View.VISIBLE);
         setControlEnable(false);
     }
 
@@ -191,7 +187,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         progressBar.setVisibility(View.GONE);
         tvLoading.setText(message + "\n点击重试");
         llLoading.setVisibility(View.VISIBLE);
-        viewBlack.setVisibility(View.VISIBLE);
         setControlEnable(false);
     }
 
@@ -199,7 +194,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         isLoading = false;
         tvLoading.setText("加载成功");
         llLoading.setVisibility(View.GONE);
-        toolbar.postDelayed(() -> viewBlack.setVisibility(View.GONE), 1000);
         setControlEnable(true);
     }
 
@@ -213,12 +207,16 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     }
 
     private void connectDevice() {
+        ALog.e(TAG, "cameraUserId:" + cameraUserId + " cameraPassword:" + cameraPassword);
         boolean call = P2PHandler.getInstance().call(cameraUserId, cameraPassword, true, 1, cameraCallId, "", "", 2, cameraCallId);
+        if (!call) {
+            CameraHelper.cameraLogin();
+        }
         ALog.e(TAG, "正在连接:" + call);
         loadingShow();
     }
 
-    @OnClick({R.id.ll_loading, R.id.iv_mute, R.id.iv_video, R.id.iv_photograph, R.id.tv_quality})
+    @OnClick({R.id.ll_loading, R.id.iv_mute, R.id.iv_video, R.id.iv_photograph, R.id.tv_quality, R.id.toolbar_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_loading://重新加载
@@ -238,8 +236,12 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
             case R.id.tv_quality:
                 clickQuality();
                 break;
-            default:
+            case R.id.toolbar_menu:
+                Intent intent = new Intent(this, CameraSettingActivity.class);
+                intent.putExtra("bean", (Serializable) cameraBean);
+                startActivity(intent);
                 break;
+            default:
         }
     }
 
@@ -257,6 +259,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                         case VIDEO_MODE_LD:
                             P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_LD);
                             break;
+                        default:
                     }
                     tvQuality.setText(qualityArr[which]);
                 }).show();
@@ -310,9 +313,9 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                                 if (TextUtils.isEmpty(result)) {
                                     DialogHelper.warningSnackbar(toolbar, "请输入内容");
                                 } else {
-                                    params.fid = cameraBean.getFid();
-                                    params.deviceName = cameraBean.getName();
-                                    params.deviceType = "password";
+//                                    params.fid = cameraBean.getFid();
+//                                    params.deviceName = cameraBean.getName();
+                                    params.deviceType = cameraBean.getDeviceType();
                                     params.devicePassword = result;
                                     presenter.requestModCamera(params);
                                     dialog.dismiss();
@@ -359,10 +362,10 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     public void stopMoniterReocding() {
         if (P2PHandler.getInstance().stopRecoding() == 0) {
             //录像不正常
-            ToastUtils.showToast(CameraPlayActivity.this, " 视频片段时间太短了");
+            ToastUtils.showToast(CameraPlay2Activity.this, " 视频片段时间太短了");
         } else {
             //正常停止
-            ToastUtils.showToast(CameraPlayActivity.this, " 停止录像，已保存到" + pathName);
+            ToastUtils.showToast(CameraPlay2Activity.this, " 停止录像，已保存到" + pathName);
         }
     }
 
@@ -476,7 +479,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     }
 
     //todo(高亮) ------------------------- 以下是设备重载方法 ----------------------------
-
 
     @Override
     protected void onP2PViewSingleTap() {

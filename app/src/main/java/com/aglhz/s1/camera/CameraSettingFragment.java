@@ -18,7 +18,7 @@ import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.camera.presenter.CameraSettingPresenter;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.event.EventCameraPwdChanged;
 import com.aglhz.yicommunity.R;
 import com.p2p.core.P2PHandler;
@@ -52,7 +52,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
     TextView tvPassword;
 
     Unbinder unbinder;
-    private CameraBean.DataBean bean;
+    private DeviceListBean.DataBean.SubDevicesBean bean;
     //    private AlertDialog.Builder dialogBuilder;
     private boolean isNickname;
     private Params params = Params.getInstance();
@@ -63,7 +63,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
         return new CameraSettingPresenter(this);
     }
 
-    public static CameraSettingFragment newInstance(CameraBean.DataBean bean) {
+    public static CameraSettingFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean) {
         CameraSettingFragment fragment = new CameraSettingFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
@@ -76,9 +76,9 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera_setting, container, false);
         unbinder = ButterKnife.bind(this, view);
-        bean = (CameraBean.DataBean) getArguments().getSerializable("bean");
+        bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
         EventBus.getDefault().register(this);
-        return attachToSwipeBack(view);
+        return view;
     }
 
     @Override
@@ -105,6 +105,8 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
         if (bean != null) {
             tvNickname.setText(bean.getName());
             tvPassword.setText(bean.getPassword());
+            params.deviceType = bean.getDeviceType();
+            params.index = bean.getIndex();
         }
     }
 
@@ -132,14 +134,14 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
                 showInputDialog();
                 break;
             case R.id.ll_video:
-                _mActivity.start(CameraFileRecordFragment.newInstance(bean.getNo(), bean.getPassword()));
+                _mActivity.start(CameraFileRecordFragment.newInstance(bean.getDeviceId(), bean.getPassword()));
                 break;
             default:
         }
     }
 
     private void showInputDialog() {
-         new BaseDialogFragment()
+        new BaseDialogFragment()
                 .setLayoutId(R.layout.dialog_add_authorization)
                 .setConvertListener((holder, dialog) -> {
                     EditText etInput = holder.getView(R.id.et_input_phone);
@@ -159,11 +161,9 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
                                     DialogHelper.warningSnackbar(getView(), "请输入内容");
                                 } else {
                                     showLoading();
-                                    params.fid = bean.getFid();
+//                                    params.fid = bean.getFid();
                                     if (isNickname) {
                                         params.deviceName = result;
-                                        params.deviceType = "name";
-                                        params.devicePassword = "";
                                         mPresenter.requestModCamera(params);
                                     } else {
                                         updatePassword(result);
@@ -180,11 +180,9 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
     }
 
     private void updatePassword(String pwd) {
-        params.deviceType = "password";
-        params.deviceName = "";
         params.devicePassword = pwd;
 
-        P2PHandler.getInstance().setDevicePassword(bean.getNo(),
+        P2PHandler.getInstance().setDevicePassword(bean.getDeviceId(),
                 P2PHandler.getInstance().EntryPassword(bean.getPassword()),
                 P2PHandler.getInstance().EntryPassword(pwd),
                 pwd, pwd);
