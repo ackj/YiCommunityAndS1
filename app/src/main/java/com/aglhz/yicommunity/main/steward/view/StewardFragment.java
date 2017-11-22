@@ -88,7 +88,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     private StewardRVAdapter smartDoorAdapter;
     private StewardRVAdapter smartParkAdapter;
     private StewardRVAdapter propertyServiceAdapter;
-    private List<IconBean> listIcons;
+    private List<IconBean> listIcons = new ArrayList<>();
     private Params params = Params.getInstance();
     private final static int SELECT_COMMUNIT = 100;   //选择社区
     private Unbinder unbinder;
@@ -134,7 +134,6 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             }
         });
         rvMyHouse.setAdapter(myHouseAdapter = new StewardRVAdapter());
-        listIcons = new ArrayList<>();
         listIcons.add(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
         myHouseAdapter.setNewData(listIcons);
         //智能家居卡片
