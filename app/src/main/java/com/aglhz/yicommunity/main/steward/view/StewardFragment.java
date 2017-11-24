@@ -220,10 +220,11 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
 
         //设置智能门禁卡片点击事件。
         smartDoorAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (position == 3) {
-                showLoading();
-                mPresenter.requestDoors(params);
-            } else if (position == 5) {
+//            if (position == 3) {
+//                showLoading();
+//                mPresenter.requestDoors(params);
+//            } else
+            if (position == 4) {
                 mPresenter.requestHouseInfoList(params);
                 showLoading();
             } else {

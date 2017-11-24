@@ -136,6 +136,7 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
             case R.id.ll_door_name_password_opendoor_fragment:
                 showSelector();
                 break;
+            default:
         }
     }
 
@@ -153,6 +154,7 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
                         case 1: //短信
                             sendSMS();
                             break;
+                        default:
                     }
                 }).show();
     }
@@ -190,7 +192,9 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
             return;
         }
         doors = data.getData();
-        tvDoorName.setText(doors.get(0).getName());
+        DoorListBean.DataBean dataBean = doors.get(0);
+        tvDoorName.setText(dataBean.getName());
+        params.dir = dataBean.getDir();
     }
 
     public String createMessage() {
