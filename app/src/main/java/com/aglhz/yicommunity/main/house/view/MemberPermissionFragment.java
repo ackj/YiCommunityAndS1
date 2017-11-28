@@ -251,11 +251,6 @@ public class MemberPermissionFragment extends BaseFragment<MemberPermissionContr
     }
 
     @Override
-    public void start(Object response) {
-
-    }
-
-    @Override
     public void error(String errorMessage) {
         dismissLoading();
         permissionAdapter.notifyDataSetChanged();
