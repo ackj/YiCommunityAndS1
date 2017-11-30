@@ -89,7 +89,7 @@ public class ParkPayResultFragment extends BaseFragment {
         tvPlate.setText(result.plate);
         tvOrder.setText(result.order);
         tvPayTime.setText(result.time);
-        tvCharge.setText(result.amount);
+        tvCharge.setText(result.amount + " 元");
     }
 
     @Override
