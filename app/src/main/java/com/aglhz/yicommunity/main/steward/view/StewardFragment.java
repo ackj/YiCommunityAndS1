@@ -331,33 +331,16 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onDestroy() {
         if (myHouseAdapter != null) {
             myHouseAdapter = null;
-        }
-        if (smartHomeAdapter != null) {
             smartHomeAdapter = null;
-        }
-
-        if (smartDoorAdapter != null) {
             smartDoorAdapter = null;
-        }
-
-        if (smartParkAdapter != null) {
             smartParkAdapter = null;
-        }
-
-        if (propertyServiceAdapter != null) {
             propertyServiceAdapter = null;
         }
-
+        super.onDestroyView();
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -368,7 +351,10 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             MyHousesBean.DataBean.AuthBuildingsBean bean = data.get(i);
             listIcons.add(new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid(), bean.getRoomDir()));
         }
-        myHouseAdapter.setNewData(listIcons);
+        if (myHouseAdapter != null) {
+            myHouseAdapter.setNewData(listIcons);
+            myHouseAdapter.addData(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
+        }
 
         ArrayList<IconBean> iconBeans = new ArrayList<>();
         for (int i = 0; i < listIcons.size(); i++) {
@@ -376,9 +362,11 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             iconBeans.add(new IconBean(R.drawable.ic_myhouse_blue_140px,
                     bean.title, bean.fid, bean.roomDir));
         }
-        smartHomeAdapter.setNewData(iconBeans);
-        myHouseAdapter.addData(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
-        smartHomeAdapter.addData(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
+
+        if (smartHomeAdapter != null) {
+            smartHomeAdapter.setNewData(iconBeans);
+            smartHomeAdapter.addData(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
+        }
     }
 
     @Override

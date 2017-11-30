@@ -17,7 +17,6 @@ public class StewardRVAdapter extends BaseRecyclerViewAdapter<IconBean, BaseView
         super(R.layout.item_rv_steward_fragment, null);
     }
 
-
     /**
      * Implement this method and use the helper to adapt the view to the given item.
      *
