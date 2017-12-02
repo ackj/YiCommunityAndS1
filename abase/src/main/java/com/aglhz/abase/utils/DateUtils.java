@@ -115,7 +115,7 @@ public class DateUtils {
 
         if (timeMillis > now.getTimeInMillis()) {
             ALog.d(TAG, "大于多少：" + (timeMillis - now.getTimeInMillis()));
-            return "正在发送...";
+            return "刚刚";
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -144,10 +144,10 @@ public class DateUtils {
     }
 
     public static long formatTime2Long(String dateString) {
-        return formatTime2Long("yyyy-MM-dd HH:mm:ss",dateString);
+        return formatTime2Long("yyyy-MM-dd HH:mm:ss", dateString);
     }
 
-    public static long formatTime2Long(String pattern,String dateString) {
+    public static long formatTime2Long(String pattern, String dateString) {
         Date date = null;
         SimpleDateFormat formatTiem2long = new SimpleDateFormat(pattern);
         try {

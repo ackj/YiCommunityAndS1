@@ -6,6 +6,8 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 
+import org.json.JSONObject;
+
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -24,7 +26,7 @@ public interface CarCardPayContract {
 
         void responseMonthlyPayRules(MonthlyPayRulesBean bean);
 
-        void responseALiPay(String bill);
+        void responseCarCardBill(JSONObject bill);
 
     }
 

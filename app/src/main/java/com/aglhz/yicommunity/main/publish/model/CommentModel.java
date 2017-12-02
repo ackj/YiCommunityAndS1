@@ -1,6 +1,5 @@
 package com.aglhz.yicommunity.main.publish.model;
 
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.common.ApiService;
@@ -19,15 +18,9 @@ import rx.schedulers.Schedulers;
  */
 
 public class CommentModel extends BaseModel implements CommentContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<CommentListBean> requestExchangeCommentList(Params params) {
-        ALog.e("page::" + params.page);
-
         return HttpHelper.getService(ApiService.class)
                 .getExchangeComments(ApiService.getExchangeComments, params.fid, params.page, params.pageSize)
                 .subscribeOn(Schedulers.io());
@@ -35,8 +28,6 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
 
     @Override
     public Observable<CommentListBean> requestCarpoolCommentList(Params params) {
-        ALog.e("page::" + params.page);
-
         return HttpHelper.getService(ApiService.class)
                 .requestCarpoolComments(ApiService.requestCarpoolComments, params.fid, params.page, params.pageSize)
                 .subscribeOn(Schedulers.io());
@@ -44,19 +35,16 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
 
     @Override
     public Observable<CommentListBean> requestNeighbourCommentList(Params params) {
-        ALog.e("page::" + params.page);
-
         return HttpHelper.getService(ApiService.class)
-                .requestNeighbourComments(ApiService.requestNeighbourComments, params.fid, params.page, params.pageSize)
+                .requestNeighbourComments(ApiService.requestNeighbourComments,
+                        params.fid,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<CommentListBean> requestRemarkReplyList(Params params) {
-        ALog.e("params.commentFid-->" + params.fid);
-        ALog.e("params.page-->" + params.page);
-        ALog.e("params.pageSize-->" + params.pageSize);
-
         return HttpHelper.getService(ApiService.class)
                 .requestRemarkReplyList(ApiService.requestRemarkReplyList,
                         params.fid,

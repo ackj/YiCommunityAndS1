@@ -160,9 +160,6 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
-
-    <!--shiyan -->
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -171,18 +168,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme,android:label">
-
-        <!-- 以下友盟推送 -->
-        <!--    <meta-data
-                android:name="UMENG_APPKEY"
-                android:value="58b917eaf5ade45a1f000489" />
-            <meta-data
-                android:name="UMENG_MESSAGE_SECRET"
-                android:value="9762ad27d9de2f4b06d393d156fd6968" />
-            <meta-data
-                android:name="UMENG_CHANNEL"
-                android:value="Umeng" />-->
-        <!-- 以上友盟推送 -->
 
         <activity
             android:name=".launch.LaunchActivity"

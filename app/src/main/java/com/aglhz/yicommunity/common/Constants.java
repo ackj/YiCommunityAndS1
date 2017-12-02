@@ -84,7 +84,7 @@ public class Constants extends BaseConstants {
     public static final int APPOINT_OPEN_DOOR = 1;
     public static final int PASSWORD_OPEN_DOOR = 2;
     public static final int CALL_DOOR = 3;
-    public static final int OPEN_RECORD = 4;
+    public static final int OPEN_RECORD = 3;
     public static final String DOOR_DIR = "door_dir";
 
     //房屋模块

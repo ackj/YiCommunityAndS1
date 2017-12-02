@@ -424,7 +424,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     public void responseHouseInfoList(List<HouseInfoBean.DataBean> datas) {
         dismissLoading();
         new SelectorDialogFragment()
-                .setTitle("请选择要切换的社区")
+                .setTitle("请选择社区")
                 .setItemLayoutId(R.layout.item_rv_simple_selector)
                 .setData(datas)
                 .setOnItemConvertListener((holder, position, dialog) -> {
