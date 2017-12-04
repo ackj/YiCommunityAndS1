@@ -4,6 +4,7 @@ package com.aglhz.s1.host.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.host.contract.AddHostContract;
@@ -27,6 +28,7 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestAddHost(ApiService.requestAddHost,
                         params.token,
+                        Constants.FC,
                         params.deviceSn,
                         params.name,
                         params.roomDir)
@@ -38,6 +40,7 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestModGateway(ApiService.requestAddHost,
                         params.token,
+                        Constants.FC,
                         params.deviceSn,
                         params.name)
                 .subscribeOn(Schedulers.io());

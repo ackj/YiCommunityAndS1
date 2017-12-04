@@ -4,6 +4,7 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.LinkageBean;
@@ -21,6 +22,7 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
         return HttpHelper.getService(ApiService.class)
                 .requestLinkageList(ApiService.requestLinkageList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.deviceSn)
@@ -46,6 +48,7 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
         return HttpHelper.getService(ApiService.class)
                 .requestModLinkage(ApiService.requestModLinkage,
                         params.token,
+                        Constants.FC,
                         params.index,
                         params.name,
                         params.triggerType,
@@ -67,7 +70,7 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
     @Override
     public Observable<BaseBean> requestDeleteLinkage(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDellinkage(ApiService.requestDellinkage, params.token, params.index,params.deviceSn)
+                .requestDellinkage(ApiService.requestDellinkage, params.token,Constants.FC, params.index,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 }

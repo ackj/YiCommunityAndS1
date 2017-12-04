@@ -4,6 +4,7 @@ package com.aglhz.s1.more.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.more.contract.MoreContract;
@@ -25,7 +26,7 @@ public class MoreModel extends BaseModel implements MoreContract.Model {
     @Override
     public Observable<BaseBean> requestLogout(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestLogout(ApiService.requestLogout, params.token)
+                .requestLogout(ApiService.requestLogout, Constants.FC, params.token)
                 .subscribeOn(Schedulers.io());
     }
 }

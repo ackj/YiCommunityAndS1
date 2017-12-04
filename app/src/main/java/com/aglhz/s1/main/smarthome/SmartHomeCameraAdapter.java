@@ -2,6 +2,7 @@ package com.aglhz.s1.main.smarthome;
 
 import android.widget.ImageView;
 
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.App;
 import com.aglhz.s1.entity.bean.CameraBean;
@@ -22,7 +23,6 @@ public class SmartHomeCameraAdapter  extends BaseRecyclerViewAdapter<CameraBean.
     @Override
     protected void convert(BaseViewHolder helper,CameraBean.DataBean item) {
         helper.setText(R.id.tv_name, item.getName());
-
         ImageView ivLogo = helper.getView(R.id.iv_logo);
         Glide.with(App.mContext)
                 .load(item.getName().equals("添加监控") ? R.drawable.ic_add_house_red_140px : R.drawable.ic_jiankong_220px)

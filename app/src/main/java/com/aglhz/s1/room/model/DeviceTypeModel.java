@@ -3,6 +3,7 @@ package com.aglhz.s1.room.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
@@ -20,21 +21,21 @@ public class DeviceTypeModel extends BaseModel implements DeviceTypeContract.Mod
 
     @Override
     public Observable<DevicesBean> requestDeviceType(Params params) {
-        return HttpHelper.getService(ApiService.class).requestCtrlSDeviceTypeList(ApiService.requestCtrlSDeviceTypeList)
+        return HttpHelper.getService(ApiService.class).requestCtrlSDeviceTypeList(ApiService.requestCtrlSDeviceTypeList,Constants.FC)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestAddDevice(Params params) {
         return HttpHelper.getService(ApiService.class).requestNewDevice(ApiService.requestNewDevice
-                , params.token,params.deviceType,params.name,params.roomFid,params.deviceSn)
+                , params.token, Constants.FC,params.deviceType,params.name,params.roomFid,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestAddCamera(Params params) {
         return HttpHelper.getService(ApiService.class).requestNewCamera(ApiService.requestNewDevice
-                , params.token, params.deviceType, params.name, params.roomFid, params.deviceId, params.devicePassword)
+                , params.token,Constants.FC, params.deviceType, params.name, params.roomFid, params.deviceId, params.devicePassword)
                 .subscribeOn(Schedulers.io());
     }
 }

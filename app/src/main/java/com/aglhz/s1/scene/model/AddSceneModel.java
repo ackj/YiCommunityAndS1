@@ -3,6 +3,7 @@ package com.aglhz.s1.scene.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.scene.contract.AddSceneContract;
@@ -19,6 +20,7 @@ public class AddSceneModel extends BaseModel implements AddSceneContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestAddScene(ApiService.requestAddScene,
                         params.token,
+                        Constants.FC,
                         params.name,
                         params.paramJson,
                         params.deviceSn)

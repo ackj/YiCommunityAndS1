@@ -108,6 +108,7 @@ public interface ApiService {
 
     @POST
     Observable<BaseBean> requestLogout(@Url String url,
+                                       @Query("fc") String fc,
                                        @Query("token") String token);
 
     //----------以上为Launch模块--------------
@@ -120,6 +121,7 @@ public interface ApiService {
     @POST
     Observable<GatewaysBean> requestGateways(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
             , @Field("deviceSn") String deviceSn
@@ -133,6 +135,7 @@ public interface ApiService {
     @POST
     Observable<DevicesBean> requestSensorTypeList(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
     );
@@ -151,6 +154,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> reqeuestCancellationOfSensorLearning(@Url String url
             , @Query("token") String token
+            , @Query("fc") String fc
             , @Query("gateway") String deviceSn
     );
 
@@ -161,6 +165,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("file") File file
             , @Field("index") int index
             , @Field("name") String name
@@ -181,6 +186,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDelsensor(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("index") int index,
                                           @Field("gateway") String deviceSn);
 
@@ -191,6 +197,7 @@ public interface ApiService {
     @POST
     Observable<SubDeviceDetBean> requestSubDeviceDet(@Url String url,
                                                      @Field("token") String token,
+                                                     @Field("fc") String fc,
                                                      @Field("category") String category,
                                                      @Field("index") int index,
                                                      @Field("gateway") String deviceSn);
@@ -203,6 +210,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewDevice(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("deviceType") String deviceType,
                                           @Field("name") String name,
                                           @Field("roomFid") String roomFid,
@@ -212,6 +220,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewCamera(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("deviceType") String deviceType,
                                           @Field("name") String name,
                                           @Field("roomFid") String roomFid,
@@ -233,6 +242,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDelDevice(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("index") int index
             , @Field("gateway") String deviceSn);
 
@@ -243,6 +253,7 @@ public interface ApiService {
     @POST
     Observable<DeviceListBean> requestSubDeviceList(@Url String url,
                                                     @Field("token") String token,
+                                                    @Field("fc") String fc,
                                                     @Field("page") int page,
                                                     @Field("pageSize") int pageSize,
                                                     @Field("roomId") int roomId,
@@ -254,6 +265,7 @@ public interface ApiService {
     @POST
     Observable<DeviceListBean> requestSubDeviceList(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
             , @Field("category") String category
@@ -267,6 +279,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDevicectrl(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("index") int index
             , @Field("nodeId") String nodeId
             , @Field("status") int status
@@ -279,6 +292,7 @@ public interface ApiService {
     @POST
     Observable<DeviceLogBean> requestDeviceLogs(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
             , @Field("gateway") String deviceSn
@@ -287,8 +301,10 @@ public interface ApiService {
     //设备类型
     String requestCtrlSDeviceTypeList = BASE_URL + "/client/info/ctrlSDeviceTypeList";
 
+    @FormUrlEncoded
     @POST
-    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
+    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url
+            , @Field("fc") String fc);
 
     //确认添加433控制类设备(非探测器类)，是否成功
     String requestNewDeviceConfirm = BASE_URL + "/ctrl/client/newDeviceConfirm";
@@ -297,19 +313,19 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewDeviceConfirm(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("status") int status
             , @Field("gateway") String deviceSn);
 
-    String requestNewDevice24 = BASE_URL+"/ctrl/client/newdevice24";
+    String requestNewDevice24 = BASE_URL + "/ctrl/client/newdevice24";
 
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestNewDevice24(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("rommId") int rommId
             , @Field("gateway") String deviceSn);
-
-
 
 
     //----------------------------- 房间相关 ---------------------------------
@@ -320,6 +336,7 @@ public interface ApiService {
     @POST
     Observable<RoomsBean> requestRoomList(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
             , @Field("gateway") String deviceSn
@@ -332,6 +349,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewroom(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("name") String roomName
             , @Field("roomTypeFid") String roomTypeFid
             , @Field("gateway") String deviceSn
@@ -340,8 +358,11 @@ public interface ApiService {
     //房间类型列表
     String requestRoomTypeList = BASE_URL + "/client/info/roomTypeList";
 
+    @FormUrlEncoded
     @POST
-    Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+    Observable<RoomTypesBean> requestRoomTypeList(@Url String url
+            , @Field("fc") String fc
+    );
 
     //删除房间
     String requestDelroom = BASE_URL + "/ctrl/client/delroom";
@@ -350,6 +371,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDelroom(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("fid") String fid
     );
 
@@ -361,6 +383,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewlinkage(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("name") String roomName
             , @Field("triggerType") String triggerType
             , @Field("cdt_sensorId") int cdt_sensorId
@@ -383,6 +406,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestModLinkage(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("index") int index
             , @Field("name") String name
             , @Field("triggerType") String triggerType
@@ -407,6 +431,7 @@ public interface ApiService {
     @POST
     Observable<LinkageBean> requestLinkageList(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("page") int page
             , @Field("pageSize") int pageSize
             , @Field("gateway") String deviceSn
@@ -419,6 +444,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDellinkage(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("index") int index
             , @Field("gateway") String deviceSn
     );
@@ -431,6 +457,7 @@ public interface ApiService {
     @POST
     Observable<AuthorizationBean> requestGatewayAuthList(@Url String url,
                                                          @Field("token") String token,
+                                                         @Field("fc") String fc,
                                                          @Field("gateway") String gateway,
                                                          @Field("page") int page,
                                                          @Field("pageSize") int pageSize);
@@ -442,6 +469,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestGatewayUnAuth(@Url String url,
                                               @Field("token") String token,
+                                              @Field("fc") String fc,
                                               @Field("gateway") String gateway,
                                               @Field("fid") String fid);
 
@@ -452,6 +480,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestGatewayAuth(@Url String url
             , @Field("token") String token
+            , @Field("fc") String fc
             , @Field("gateway") String gateway
             , @Field("mobile") String mobile);
 
@@ -471,6 +500,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestFeedback(@Url String url,
                                          @Field("token") String token,
+                                         @Field("fc") String fc,
                                          @Field("des") String des,
                                          @Field("contact") String contact
     );
@@ -482,6 +512,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestSwichGateway(@Url String url,
                                              @Query("token") String token,
+                                             @Query("fc") String fc,
                                              @Query("gateway") String gateway);
 
     //切换主机状态
@@ -490,6 +521,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestSwichState(@Url String url,
                                            @Query("token") String token,
+                                           @Query("fc") String fc,
                                            @Query("dstatus") String dstatus,
                                            @Query("gateway") String deviceSn);
 
@@ -499,6 +531,7 @@ public interface ApiService {
     @POST
     Observable<SecurityBean> requestSecurity(@Url String url,
                                              @Query("token") String token,
+                                             @Query("fc") String fc,
                                              @Query("gateway") String deviceSn);
 
     //添加主机
@@ -519,6 +552,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestAddHost(@Url String url,
                                         @Field("token") String token,
+                                        @Field("fc") String fc,
                                         @Field("gateway") String gateway,
                                         @Field("name") String name,
                                         @Field("roomDir") String roomDir);
@@ -545,6 +579,7 @@ public interface ApiService {
     Observable<BaseBean> requestHostConfig(@Url String url,
                                            @Field("gateway") String gateway,
                                            @Field("token") String token,
+                                           @Field("fc") String fc,
                                            @Field("type") String type,
                                            @Field("subType") String subType,
                                            @Field("val") String val);
@@ -558,6 +593,7 @@ public interface ApiService {
     Observable<HostSettingsBean> requestHostSettings(@Url String url,
                                                      @Field("gateway") String gateway,
                                                      @Field("token") String token,
+                                                     @Field("fc") String fc,
                                                      @Field("type") String type);
 
 
@@ -574,6 +610,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestLeaveMassge(@Url String url,
                                             @Query("token") String token,
+                                            @Query("fc") String fc,
                                             @Body MultipartBody file);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
@@ -589,6 +626,7 @@ public interface ApiService {
                                            @Field("pageSize") int pageSize,
                                            @Field("page") int page,
                                            @Field("token") String token,
+                                           @Field("fc") String fc,
                                            @Field("gateway") String deviceSn);
 
     //启动场景
@@ -597,6 +635,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestStartScene(@Url String url,
                                            @Query("token") String token,
+                                           @Query("fc") String fc,
                                            @Query("index") int index,
                                            @Query("gateway") String deviceSn);
 
@@ -606,6 +645,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDeleteScene(@Url String url,
                                             @Query("token") String token,
+                                            @Query("fc") String fc,
                                             @Query("index") int index,
                                             @Query("gateway") String deviceSn);
 
@@ -617,6 +657,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestAddScene(@Url String url,
                                          @Field("token") String token,
+                                         @Field("fc") String fc,
                                          @Field("name") String name,
                                          @Field("paramJson") String paramJson,
                                          @Field("gateway") String deviceSn);
@@ -639,6 +680,7 @@ public interface ApiService {
     @POST
     Observable<CameraBean> requestCameraList(@Url String url,
                                              @Field("token") String token,
+                                             @Field("fc") String fc,
                                              @Field("page") int page,
                                              @Field("pageSize") int pageSize);
 
@@ -649,6 +691,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestDelcamera(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("camera") String camera);
 
     //修改摄像头信息
@@ -658,6 +701,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestModCamera(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("camera") String camera,
                                           @Field("type") String type,
                                           @Field("name") String name,
@@ -670,6 +714,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestNewcamera(@Url String url,
                                           @Field("token") String token,
+                                          @Field("fc") String fc,
                                           @Field("deviceId") String deviceId,
                                           @Field("deviceName") String deviceName,
                                           @Field("devicePassword") String devicePassword);
@@ -682,6 +727,7 @@ public interface ApiService {
     @POST
     Observable<EquipmentBean> requestEquipmentInfoList(@Url String url,
                                                        @Field("token") String token,
+                                                       @Field("fc") String fc,
                                                        @Field("roomDir") String roomDir,
                                                        @Field("powerCode") String powerCode);
 
@@ -697,26 +743,30 @@ public interface ApiService {
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestDelGateway(@Url String url,
-                                                @Field("token") String token,
-                                                @Field("gateway") String deviceSn);
+                                           @Field("token") String token,
+                                           @Field("fc") String fc,
+                                           @Field("gateway") String deviceSn);
 
-    String requestModGateway = BASE_URL+"/ctrl/client/modgateway";
+    String requestModGateway = BASE_URL + "/ctrl/client/modgateway";
 
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModGateway(@Url String url,
-                                                @Field("token") String token,
-                                                @Field("gateway") String deviceSn,
-                                                @Field("name") String name);
+                                           @Field("token") String token,
+                                           @Field("fc") String fc,
+                                           @Field("gateway") String deviceSn,
+                                           @Field("name") String name);
 
-    String requestGatewayTest =BASE_URL+"/ctrl/client/gatewayTest";
+    String requestGatewayTest = BASE_URL + "/ctrl/client/gatewayTest";
 
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestGatewayTest(@Url String url,
-                                           @Field("token") String token,
-                                           @Field("gateway") String deviceSn,
-                                           @Field("status") int status);
+                                            @Field("token") String token,
+                                            @Field("fc") String fc,
+
+                                            @Field("gateway") String deviceSn,
+                                            @Field("status") int status);
 
 
 }

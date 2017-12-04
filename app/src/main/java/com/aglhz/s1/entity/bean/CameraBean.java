@@ -34,6 +34,7 @@ public class CameraBean extends BaseBean {
          * status : 0
          */
 
+        private String deviceId;
         private String defenseStatus;
         private String defenseStatusDes;
         private String fid;
@@ -43,6 +44,18 @@ public class CameraBean extends BaseBean {
         private String password;
         private ResidenceBean residence;
         private int status;
+        private String gateway;
+        private String icon;
+
+
+
+        public String getDeviceId() {
+            return deviceId;
+        }
+
+        public void setDeviceId(String deviceId) {
+            this.deviceId = deviceId;
+        }
 
         public String getDefenseStatus() {
             return defenseStatus;

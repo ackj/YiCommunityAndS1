@@ -66,6 +66,7 @@ public class Constants extends BaseConstants {
     public static final String ALARM_RED = "alarm_red";//红外报警
     public static final String ALARM_DOOR = "alarm_door";//门磁报警
 
+    public static final String FC = "FAglYsq";
 
     public static final int PAGE_SIZE = 20;
 

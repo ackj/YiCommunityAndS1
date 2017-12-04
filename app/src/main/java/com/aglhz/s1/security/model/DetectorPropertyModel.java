@@ -3,6 +3,7 @@ package com.aglhz.s1.security.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
@@ -26,6 +27,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
         return HttpHelper.getService(ApiService.class)
                 .requestModsensor(ApiService.requestModsensor,
                         params.token,
+                        Constants.FC,
                         params.file,
                         params.index,
                         params.name,
@@ -40,6 +42,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
         return HttpHelper.getService(ApiService.class)
                 .requestDelsensor(ApiService.requestDelsensor,
                         params.token,
+                        Constants.FC,
                         params.index,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
@@ -50,6 +53,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
         return HttpHelper.getService(ApiService.class)
                 .requestSubDeviceDet(ApiService.requestSubDeviceDet,
                         params.token,
+                        Constants.FC,
                         params.category,
                         params.index,
                         params.deviceSn)
@@ -65,6 +69,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
         }
         builder.addFormDataPart("index", params.index+"");
         builder.addFormDataPart("name", params.name);
+        builder.addFormDataPart("fc",Constants.FC);
         builder.addFormDataPart("defenseLevel", params.defenseLevel);
         builder.addFormDataPart("alarmDelay", params.alarmDelay+"");
         builder.addFormDataPart("gateway", params.deviceSn);

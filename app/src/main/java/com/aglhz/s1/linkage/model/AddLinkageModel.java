@@ -3,6 +3,7 @@ package com.aglhz.s1.linkage.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -27,6 +28,7 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
         return HttpHelper.getService(ApiService.class)
                 .requestNewlinkage(ApiService.requestNewlinkage,
                         params.token,
+                        Constants.FC,
                         params.name,
                         params.triggerType,
                         params.cdt_sensorId,
@@ -50,6 +52,7 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
                         params.pageSize,
                         params.page,
                         params.token,
+                        Constants.FC,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
@@ -57,7 +60,7 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
     @Override
     public Observable<DeviceListBean> requestDeviceList(Params params) {
         return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
-                , params.token,params.page,params.pageSize,params.category,params.deviceSn)
+                , params.token, Constants.FC,params.page,params.pageSize,params.category,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 }

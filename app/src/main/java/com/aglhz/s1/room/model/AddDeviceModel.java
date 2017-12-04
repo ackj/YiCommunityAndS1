@@ -4,6 +4,7 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
@@ -26,7 +27,7 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
 	@Override
     public Observable<BaseBean> requestnewDevice(Params params) {
         return HttpHelper.getService(ApiService.class).requestNewDevice(ApiService.requestNewDevice
-                , params.token,params.deviceType,params.name,params.roomFid,params.deviceSn)
+                , params.token, Constants.FC,params.deviceType,params.name,params.roomFid,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -39,6 +40,7 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
         }
         builder.addFormDataPart("index", params.index+"");
         builder.addFormDataPart("name", params.name);
+        builder.addFormDataPart("fc", Constants.FC);
         builder.addFormDataPart("roomFid", params.roomFid);
         builder.addFormDataPart("gateway", params.deviceSn);
         ALog.e(TAG,"index：：：：：：："+params.index);
@@ -54,7 +56,7 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
     @Override
     public Observable<BaseBean> requestDelDevice(Params params) {
         return HttpHelper.getService(ApiService.class).requestDelDevice(ApiService.requestDelDevice
-                , params.token,params.index,params.deviceSn)
+                , params.token, Constants.FC,params.index,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -63,6 +65,7 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
         return HttpHelper.getService(ApiService.class)
                 .requestRoomList(ApiService.requestRoomList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.deviceSn)

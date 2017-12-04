@@ -3,6 +3,7 @@ package com.aglhz.s1.more.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
@@ -24,6 +25,7 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
         return HttpHelper.getService(ApiService.class)
                 .requestRoomList(ApiService.requestRoomList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.deviceSn)
@@ -35,6 +37,7 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
         return HttpHelper.getService(ApiService.class)
                 .requestNewroom(ApiService.requestNewroom,
                         params.token,
+                        Constants.FC,
                         params.roomName,
                         params.roomTypeFid,
                         params.deviceSn)
@@ -46,6 +49,7 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
         return HttpHelper.getService(ApiService.class)
                 .requestDelroom(ApiService.requestDelroom,
                         params.token,
+                       Constants.FC,
                         params.fid)
                 .subscribeOn(Schedulers.io());
     }
@@ -53,7 +57,7 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
     @Override
     public Observable<RoomTypesBean> requestRoomTypeList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestRoomTypeList(ApiService.requestRoomTypeList)
+                .requestRoomTypeList(ApiService.requestRoomTypeList,Constants.FC)
                 .subscribeOn(Schedulers.io());
     }
 

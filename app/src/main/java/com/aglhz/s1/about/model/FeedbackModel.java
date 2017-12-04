@@ -5,6 +5,7 @@ import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.about.contract.FeedbackContract;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 
@@ -27,7 +28,7 @@ public class FeedbackModel extends BaseModel implements FeedbackContract.Model {
     public Observable<BaseBean> requestSubmitFeedback(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestFeedback(ApiService.requestFeedback,
-                        params.token, params.des, params.contact)
+                        params.token, Constants.FC, params.des, params.contact)
                 .subscribeOn(Schedulers.io());
     }
 

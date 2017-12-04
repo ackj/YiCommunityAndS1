@@ -114,6 +114,7 @@ public class DeviceListFragment extends BaseFragment {
         mRxManager.add(HttpHelper.getService(ApiService.class)
                 .requestSubDeviceList(ApiService.requestSubDeviceList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.roomId,

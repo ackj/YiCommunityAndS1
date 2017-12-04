@@ -161,7 +161,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         cameraUserId = sp.getString("userId", "");
         cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
-        cameraCallId = cameraBean.getNo();
+        cameraCallId = cameraBean.getDeviceId();
 
         ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接
@@ -472,6 +472,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
+        cameraPassword = P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();
     }
 

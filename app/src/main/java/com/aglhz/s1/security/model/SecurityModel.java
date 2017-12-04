@@ -3,6 +3,7 @@ package com.aglhz.s1.security.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
@@ -33,6 +34,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestSecurity(ApiService.requestSecurity,
                         params.token,
+                        Constants.FC,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
@@ -42,6 +44,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.deviceSn)
@@ -53,6 +56,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestSwichGateway(ApiService.requestSwichGateway,
                         params.token,
+                        Constants.FC,
                         params.gateway)
                 .subscribeOn(Schedulers.io());
     }
@@ -62,6 +66,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestSwichState(ApiService.requestSwichState,
                         params.token,
+                        Constants.FC,
                         params.dstatus,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
@@ -78,6 +83,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestLeaveMassge(ApiService.requestLeaveMassge,
                         params.token,
+                        Constants.FC,
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }

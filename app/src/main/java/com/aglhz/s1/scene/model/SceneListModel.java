@@ -3,6 +3,7 @@ package com.aglhz.s1.scene.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SceneBean;
@@ -21,6 +22,7 @@ public class SceneListModel extends BaseModel implements SceneListContract.Model
                         params.pageSize,
                         params.page,
                         params.token,
+                        Constants.FC,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
@@ -30,6 +32,7 @@ public class SceneListModel extends BaseModel implements SceneListContract.Model
         return HttpHelper.getService(ApiService.class)
                 .requestStartScene(ApiService.requestStartScene,
                         params.token,
+                        Constants.FC,
                         params.index,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
@@ -40,6 +43,7 @@ public class SceneListModel extends BaseModel implements SceneListContract.Model
         return HttpHelper.getService(ApiService.class)
                 .requestDeleteScene(ApiService.requestDeleteScene,
                         params.token,
+                        Constants.FC,
                         params.index,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());

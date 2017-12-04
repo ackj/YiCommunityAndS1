@@ -4,6 +4,7 @@ import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 
@@ -21,7 +22,7 @@ public class CameraSettingModel extends BaseModel implements CameraSettingContra
     public Observable<BaseBean> requestModCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestModCamera(ApiService.requestModCamera,
-                        params.token,params.fid,params.deviceType,params.deviceName,params.devicePassword)
+                        params.token, Constants.FC,params.fid,params.deviceType,params.deviceName,params.devicePassword)
                 .subscribeOn(Schedulers.io());
     }
 }

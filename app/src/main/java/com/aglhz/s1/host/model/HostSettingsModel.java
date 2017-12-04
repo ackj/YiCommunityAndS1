@@ -4,6 +4,7 @@ package com.aglhz.s1.host.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.HostSettingsBean;
@@ -29,6 +30,7 @@ public class HostSettingsModel extends BaseModel implements HostSettingsContract
                 .requestHostConfig(ApiService.requestHostConfig,
                         params.deviceSn,
                         params.token,
+                        Constants.FC,
                         params.type,
                         params.subType,
                         params.val)
@@ -41,6 +43,7 @@ public class HostSettingsModel extends BaseModel implements HostSettingsContract
                 .requestHostSettings(ApiService.requestHostSettings,
                         params.deviceSn,
                         params.token,
+                        Constants.FC,
                         params.type)
                 .subscribeOn(Schedulers.io());
     }
@@ -50,6 +53,7 @@ public class HostSettingsModel extends BaseModel implements HostSettingsContract
         return HttpHelper.getService(ApiService.class)
                 .requestGatewayTest(ApiService.requestGatewayTest,
                         params.token,
+                        Constants.FC,
                         params.deviceSn,
                         params.status)
                 .subscribeOn(Schedulers.io());

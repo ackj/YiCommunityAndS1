@@ -3,6 +3,7 @@ package com.aglhz.s1.room.model;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -25,6 +26,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
         return HttpHelper.getService(ApiService.class)
                 .requestSubDeviceList(ApiService.requestSubDeviceList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.roomId,
@@ -38,6 +40,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
         return HttpHelper.getService(ApiService.class)
                 .requestRoomList(ApiService.requestRoomList,
                         params.token,
+                        Constants.FC,
                         params.page,
                         params.pageSize,
                         params.deviceSn)
@@ -49,6 +52,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
         return HttpHelper.getService(ApiService.class)
                 .requestDevicectrl(ApiService.requestDevicectrl,
                         params.token,
+                        Constants.FC,
                         params.index,
                         params.nodeId,
                         params.status,
@@ -61,6 +65,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
         return HttpHelper.getService(ApiService.class)
                 .requestNewDeviceConfirm(ApiService.requestNewDeviceConfirm,
                         params.token,
+                        Constants.FC,
                         params.status,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
@@ -71,6 +76,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
         return HttpHelper.getService(ApiService.class)
                 .requestNewDevice24(ApiService.requestNewDevice24,
                         params.token,
+                        Constants.FC,
                         params.roomId,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
@@ -79,7 +85,7 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
     @Override
     public Observable<BaseBean> requestDelDevice(Params params) {
         return HttpHelper.getService(ApiService.class).requestDelDevice(ApiService.requestDelDevice
-                , params.token, params.index,params.deviceSn)
+                , params.token, Constants.FC, params.index,params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 }

@@ -2,6 +2,7 @@ package com.aglhz.s1.host.model;
 
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -19,6 +20,7 @@ public class AuthorizationModel extends BaseModel implements AuthorizationContra
         return HttpHelper.getService(ApiService.class)
                 .requestGatewayAuthList(ApiService.requestGatewayAuthList,
                         params.token,
+                        Constants.FC,
                         params.gateway,
                         params.page,
                         params.pageSize)
@@ -30,6 +32,7 @@ public class AuthorizationModel extends BaseModel implements AuthorizationContra
         return HttpHelper.getService(ApiService.class)
                 .requestGatewayAuth(ApiService.requestGatewayAuth,
                         params.token,
+                        Constants.FC,
                         params.gateway,
                         params.mobile)
                 .subscribeOn(Schedulers.io());
@@ -40,6 +43,7 @@ public class AuthorizationModel extends BaseModel implements AuthorizationContra
         return HttpHelper.getService(ApiService.class)
                 .requestGatewayUnAuth(ApiService.requestGatewayUnAuth,
                         params.token,
+                        Constants.FC,
                         params.gateway,
                         params.fid)
                 .subscribeOn(Schedulers.io());

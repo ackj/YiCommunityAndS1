@@ -107,6 +107,7 @@ public class EditHostFragment extends BaseFragment {
         rxManager.add(HttpHelper.getService(ApiService.class)
                 .requestModGateway(ApiService.requestModGateway,
                         params.token,
+                        Constants.FC,
                         params.deviceSn,
                         params.name)
                 .subscribeOn(Schedulers.io())

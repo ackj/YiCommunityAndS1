@@ -475,6 +475,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
+        cameraPassword = P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();
     }
 

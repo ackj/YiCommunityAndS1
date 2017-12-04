@@ -161,6 +161,7 @@ public class SplashFragment extends BaseFragment implements EasyPermissions.Perm
         editor.putString("sessionId", sessionId);
         editor.putString("sessionId2", sessionId2);
         editor.putString("userId", userId);
+        ALog.e(TAG,"userid:"+userId);
         editor.apply();
     }
 
