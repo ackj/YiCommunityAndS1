@@ -24,19 +24,17 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
     @Override
     protected void convert(BaseViewHolder helper, RoomsBean.DataBean.RoomListBean item) {
         ImageView ivIcon = helper.getView(R.id.iv_icon_item_room_type);
-
         helper.setText(R.id.tv_name_item_room_type, item.getName());
-
-        int ivRes = R.drawable.room_dating1_200px;
+        int ivRes = R.drawable.room_dating_1242px_745px;
         switch (item.getName()) {
             case "厨房":
-                ivRes = R.drawable.room_chufang1_200px;
+                ivRes = R.drawable.room_chufang_1242px_745px;
                 break;
             case "浴室":
-                ivRes = R.drawable.room_cesuo1_200px;
+                ivRes = R.drawable.room_cesuo_1242px_745px;
                 break;
             case "卧室":
-                ivRes = R.drawable.room_room1_200px;
+                ivRes = R.drawable.room_room_1242px_745px;
                 break;
             case "添加房间":
                 ivRes = R.drawable.ic_add_house_red_140px;
@@ -44,7 +42,7 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
         }
         Glide.with(BaseApplication.mContext)
                 .load(ivRes)
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivIcon);
     }
 }

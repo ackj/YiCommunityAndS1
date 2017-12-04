@@ -325,4 +325,10 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             }
         }
     }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        onRefresh();
+    }
 }
