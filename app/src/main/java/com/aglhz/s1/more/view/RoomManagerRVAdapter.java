@@ -24,9 +24,7 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
     @Override
     protected void convert(BaseViewHolder helper, RoomsBean.DataBean.RoomListBean item) {
         ImageView ivIcon = helper.getView(R.id.iv_icon_item_room_type);
-
         helper.setText(R.id.tv_name_item_room_type, item.getName());
-
         int ivRes = R.drawable.room_dating_1242px_745px;
         switch (item.getName()) {
             case "厨房":
