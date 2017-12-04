@@ -1,11 +1,11 @@
 package com.aglhz.s1.security.view;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.aglhz.abase.BaseApplication;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.common.Constants;
-import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.yicommunity.R;
 import com.bumptech.glide.Glide;
@@ -33,23 +33,29 @@ public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean.Data
 
     @Override
     protected void convert(BaseViewHolder helper, SecurityBean.DataBean.SubDevicesBean item) {
-        boolean isOpen = false;
-        if (DefenseLineLevel.DLL_24HOUR.equals(item.getDefenseLevel())) {
-            isOpen = true;
-        } else if (DefenseLineLevel.DLL_FIRST.equals(item.getDefenseLevel()) &&
-                !Constants.GATEWAY_STATE_CANCLE.equals(dstatus)) {
-            isOpen = true;
-        } else if (DefenseLineLevel.DLL_SECOND.equals(item.getDefenseLevel()) &&
-                Constants.GATEWAY_STATE_FARAWAY.equals(dstatus)) {
-            isOpen = true;
+        //默认防御状态
+        int pointState = R.drawable.ic_state_green_24px;
+        if(!TextUtils.isEmpty(item.getWorkStatus())){
+            switch (item.getWorkStatus()) {
+                case "defense_off":
+                    pointState = R.drawable.ic_state_orange_24px;
+                    break;
+                case "line_off":
+                    pointState = R.drawable.ic_state_red_24px;
+                    break;
+                case "not_found":
+                    pointState = R.drawable.ic_state_gray_24px;
+                    break;
+                default:
+            }
         }
+
         helper.setText(R.id.tv_name_item_security, item.getName())
                 .setVisible(R.id.iv_state, !"add_icon".equals(item.getIcon()))
-                .setImageResource(R.id.iv_state, isOpen ? R.drawable.ic_state_green_24px : R.drawable.ic_state_red_24px);
+                .setImageResource(R.id.iv_state, pointState);
         ImageView ivSecurity = helper.getView(R.id.iv_icon_item_security);
         Glide.with(BaseApplication.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_house_red_140px : item.getIcon())
-                .error(R.mipmap.ic_logo)
                 .into(ivSecurity);
     }
 }

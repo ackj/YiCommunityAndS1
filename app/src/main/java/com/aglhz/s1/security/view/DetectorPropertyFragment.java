@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
@@ -73,8 +74,10 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     SwitchButton sbDetectionDoorWindow;
     @BindView(R.id.sb_alarm_delay)
     SwitchButton sbAlarmDelay;
+    @BindView(R.id.ll_defenseLevel)
+    LinearLayout llDefenseLevel;
 
-    private String[] lineOfDefenseArr = {"在家开启", "离家开启", "24小时开启"};
+    private String[] lineOfDefenseArr = {"在家开启", "在家关闭"};
     private String defenseLevel = DefenseLineLevel.DLL_FIRST;
     private Params params = Params.getInstance();
     private Unbinder unbinder;
@@ -126,9 +129,17 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     private void initData() {
         if (deviceBean != null) {
-            params.category = deviceBean.getCategory();
-            params.index = deviceBean.getIndex();
-            mPresenter.requestSubDeviceDet(params);
+            tvLineOfDefense.setText(getLineOfDefenseStr(deviceBean.getDefenseLevel()));
+            defenseLevel = deviceBean.getDefenseLevel();
+            if (!TextUtils.isEmpty(deviceBean.getName())){
+                etName.setText(deviceBean.getName());
+            }
+            Glide.with(_mActivity)
+                    .load(deviceBean.getIcon())
+                    .into(ivIcon);
+            sbAlarmDelay.setChecked(deviceBean.getAlarmDelay() == 1);
+            params.alarmDelay = deviceBean.getAlarmDelay();
+            llDefenseLevel.setEnabled(!deviceBean.getDefenseLevel().equals(DefenseLineLevel.DLL_24HOUR));
         }
     }
 
@@ -213,9 +224,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                                 case 1:
                                     defenseLevel = DefenseLineLevel.DLL_SECOND;
                                     break;
-                                case 2:
-                                    defenseLevel = DefenseLineLevel.DLL_24HOUR;
-                                    break;
+                                default:
                             }
                             tvLineOfDefense.setText(getLineOfDefenseStr(defenseLevel));
                         }).show();
@@ -253,7 +262,9 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     public void responseSubDeviceDet(SubDeviceDetBean bean) {
         tvLineOfDefense.setText(getLineOfDefenseStr(bean.getData().getDefenseLevel()));
         defenseLevel = bean.getData().getDefenseLevel();
-        etName.setText(bean.getData().getName());
+        if (!TextUtils.isEmpty(bean.getData().getName())){
+            etName.setText(bean.getData().getName());
+        }
         Glide.with(_mActivity)
                 .load(bean.getData().getIcon())
                 .error(R.mipmap.ic_launcher)
@@ -271,10 +282,10 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     private String getLineOfDefenseStr(String english) {
         switch (english) {
-            case DefenseLineLevel.DLL_SECOND:
-                return "在家开启";
             case DefenseLineLevel.DLL_FIRST:
-                return "离家开启";
+                return "在家开启";
+            case DefenseLineLevel.DLL_SECOND:
+                return "在家关闭";
             case DefenseLineLevel.DLL_24HOUR:
                 return "24小时开启";
             default:

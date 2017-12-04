@@ -17,13 +17,13 @@
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
-            android:text="门磁"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:background="@null"
+            android:text="门磁"
             android:textColor="@color/base_black"
-            android:layout_height="wrap_content" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -60,17 +60,16 @@
         android:background="@color/light_gray" />
 
     <LinearLayout
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?android:attr/selectableItemBackground"
         android:id="@+id/ll_defenseLevel"
-        style="@style/LinearLayoutItemStyle">
+        style="@style/LinearLayoutItemStyle"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
         <TextView
             style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
             android:layout_marginLeft="10dp"
             android:text="防线" />
-
 
         <TextView
             android:id="@+id/tv_line_of_defense"
@@ -106,8 +105,8 @@
         android:background="@color/light_gray" />
 
     <LinearLayout
-        android:visibility="gone"
-        style="@style/LinearLayoutItemStyle">
+        style="@style/LinearLayoutItemStyle"
+        android:visibility="gone">
 
         <TextView
             style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
@@ -142,10 +141,64 @@
     </LinearLayout>-->
 
     <View
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/light_gray" />
+        android:background="@color/light_gray"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@drawable/ic_state_green_24px"
+            android:drawablePadding="5dp"
+            android:text="处于布防状态"
+            android:textColor="@color/base_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@drawable/ic_state_orange_24px"
+            android:drawablePadding="5dp"
+            android:text="处于撤防状态"
+            android:textColor="@color/base_black"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@drawable/ic_state_red_24px"
+            android:drawablePadding="5dp"
+            android:text="处于离线状态"
+            android:textColor="@color/base_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@drawable/ic_state_gray_24px"
+            android:drawablePadding="5dp"
+            android:text="未找到设备"
+            android:textColor="@color/base_black"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <com.dd.CircularProgressButton
         android:id="@+id/cpb_delete_fragment_detector_property"
@@ -155,9 +208,9 @@
         android:layout_marginTop="20dp"
         android:textColor="@color/white"
         app:cpb_cornerRadius="50dp"
-        app:cpb_textComplete="删除成功"
+        app:cpb_textComplete="保存成功"
         app:cpb_textError="出错了"
-        app:cpb_textIdle="删除探测器"
+        app:cpb_textIdle="保存修改"
         app:cpb_textProgress="加载中" />
 
 </LinearLayout>
