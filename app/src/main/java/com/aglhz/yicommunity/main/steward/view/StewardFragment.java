@@ -88,7 +88,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     private StewardRVAdapter smartDoorAdapter;
     private StewardRVAdapter smartParkAdapter;
     private StewardRVAdapter propertyServiceAdapter;
-    private List<IconBean> listIcons;
+    private List<IconBean> listIcons = new ArrayList<>();
     private Params params = Params.getInstance();
     private final static int SELECT_COMMUNIT = 100;   //选择社区
     private Unbinder unbinder;
@@ -134,7 +134,6 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             }
         });
         rvMyHouse.setAdapter(myHouseAdapter = new StewardRVAdapter());
-        listIcons = new ArrayList<>();
         listIcons.add(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
         myHouseAdapter.setNewData(listIcons);
         //智能家居卡片
@@ -221,10 +220,11 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
 
         //设置智能门禁卡片点击事件。
         smartDoorAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (position == 3) {
-                showLoading();
-                mPresenter.requestDoors(params);
-            } else if (position == 5) {
+//            if (position == 3) {
+//                showLoading();
+//                mPresenter.requestDoors(params);
+//            } else
+            if (position == 4) {
                 mPresenter.requestHouseInfoList(params);
                 showLoading();
             } else {
@@ -331,33 +331,16 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onDestroy() {
         if (myHouseAdapter != null) {
             myHouseAdapter = null;
-        }
-        if (smartHomeAdapter != null) {
             smartHomeAdapter = null;
-        }
-
-        if (smartDoorAdapter != null) {
             smartDoorAdapter = null;
-        }
-
-        if (smartParkAdapter != null) {
             smartParkAdapter = null;
-        }
-
-        if (propertyServiceAdapter != null) {
             propertyServiceAdapter = null;
         }
-
+        super.onDestroyView();
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -368,7 +351,10 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             MyHousesBean.DataBean.AuthBuildingsBean bean = data.get(i);
             listIcons.add(new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid(), bean.getRoomDir()));
         }
-        myHouseAdapter.setNewData(listIcons);
+        if (myHouseAdapter != null) {
+            myHouseAdapter.setNewData(listIcons);
+            myHouseAdapter.addData(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
+        }
 
         ArrayList<IconBean> iconBeans = new ArrayList<>();
         for (int i = 0; i < listIcons.size(); i++) {
@@ -376,9 +362,11 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
             iconBeans.add(new IconBean(R.drawable.ic_myhouse_blue_140px,
                     bean.title, bean.fid, bean.roomDir));
         }
-        smartHomeAdapter.setNewData(iconBeans);
-        myHouseAdapter.addData(new IconBean(R.drawable.ic_add_house_red_140px, "添加房屋", ""));
-        smartHomeAdapter.addData(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
+
+        if (smartHomeAdapter != null) {
+            smartHomeAdapter.setNewData(iconBeans);
+            smartHomeAdapter.addData(new IconBean(R.drawable.ic_smart_store_blue_140px, "智能设备商城", ""));
+        }
     }
 
     @Override
@@ -436,7 +424,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     public void responseHouseInfoList(List<HouseInfoBean.DataBean> datas) {
         dismissLoading();
         new SelectorDialogFragment()
-                .setTitle("请选择要切换的社区")
+                .setTitle("请选择房屋")
                 .setItemLayoutId(R.layout.item_rv_simple_selector)
                 .setData(datas)
                 .setOnItemConvertListener((holder, position, dialog) -> {

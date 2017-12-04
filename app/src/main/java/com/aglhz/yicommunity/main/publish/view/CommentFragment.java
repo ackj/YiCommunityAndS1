@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.KeyBoardUtils;
@@ -32,7 +33,6 @@ import com.aglhz.abase.utils.ScreenUtils;
 import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CommentBean;
@@ -208,6 +208,7 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
                         cm.setPrimaryClip(ClipData.newPlainText(null, bean.getContent()));
                         ToastUtils.showToast(_mActivity, "复制成功");
                         break;
+                    default:
                 }
             });
             builder.show();
@@ -226,7 +227,6 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
             viewBottomSpace.setLayoutParams(lp);
         }
-        ALog.d("onSoftKeyBoardVisible ---- visible:" + visible + " windowBottom:" + windowBottom);
     };
 
     interface IKeyBoardVisibleListener {
@@ -315,6 +315,7 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
             case Constants.TYPE_REMARK:
                 mPresenter.requestRemarkReplyList(commentListParams);//请求社区服务点评回复列表。
                 break;
+            default:
         }
     }
 
@@ -430,6 +431,7 @@ public class CommentFragment extends BaseFragment<CommentContract.Presenter> imp
             case Constants.TYPE_REMARK:
                 mPresenter.requestSubmitRemark(commentPostParams);//请求社区服务点评。
                 break;
+            default:
         }
     }
 

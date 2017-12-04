@@ -47,19 +47,6 @@ public class StewardModel extends BaseModel implements StewardContract.Model {
                 .requestMyhouses(ApiService.requestMyhouses, params.token, params.cmnt_c)
                 .subscribeOn(Schedulers.io());
     }
-//
-//    @Override
-//    public Single<List<IconBean>> requestHouses(Params params) {
-//        ALog.e("requestHouses::" + params.token);
-//        ALog.e("requestHouses::" + params.cmnt_c);
-//        return HttpHelper.getService(ApiService.class)
-//                .requestMyhouses(ApiService.requestMyhouses, params.token, params.cmnt_c)
-//                .map(myHousesBean -> myHousesBean.getData().getAuthBuildings())
-//                .flatMap(Flowable::fromIterable)
-//                .map(bean -> new IconBean(R.drawable.ic_my_house_red_140px, bean.getAddress(), bean.getFid(),bean.getRoomDir()))
-//                .toList()
-//                .subscribeOn(Schedulers.io());
-//    }
 
     @Override
     public Observable<DoorListBean> requestDoors(Params params) {

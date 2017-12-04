@@ -158,11 +158,23 @@ public interface ApiService {
             @Query("token") String token);
 
     //开门
-//    @POST("/sub_property_ysq/smartdoor/client/opendoor")
     String requestOpenDoor = BASE_PROPERTY + "/smartdoor/client/opendoor";
 
     @POST
-    Observable<BaseBean> requestOpenDoor(@Url String url, @Query("token") String token, @Query("dir") String dir);
+    Observable<BaseBean> requestOpenDoor(@Url String url,
+                                         @Query("token") String token,
+                                         @Query("dir") String dir);
+
+    //无人便利店二维码扫描开门。
+    String requestScanOpenDoor = BASE_PROPERTY + "/smartdoor/client/app-scan-qrcode-open-door";
+//    String requestScanOpenDoor = "http://192.168.7.115:8080/sub_property_ysq/smartdoor/client/app-scan-qrcode-open-door";//测试用的，后期随意删除。
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestScanOpenDoor(@Url String url,
+                                             @Field("token") String token,
+                                             @Field("acsStoreDeviceFid") String acsStoreDeviceFid,
+                                             @Field("accessKey") String accessKey);
 
     //消息中心
     String requestMessages = BASE_PROPERTY + "/client/info/msgList";

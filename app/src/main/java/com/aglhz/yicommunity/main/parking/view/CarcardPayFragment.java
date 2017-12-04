@@ -20,6 +20,7 @@ import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.ALiPayHelper;
+import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
@@ -31,6 +32,7 @@ import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -227,6 +229,8 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                 mPresenter.requestCarCardBill(params);
                 break;
             case R.id.tv_weixin_car_card_pay_fragment:
+                ALog.e("1111111");
+
                 params.payType = Constants.TYPE_WXPAY;
                 mPresenter.requestCarCardBill(params);
                 break;
@@ -279,8 +283,18 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     }
 
     @Override
-    public void responseALiPay(String bill) {
-        new ALiPayHelper().pay(_mActivity, bill);
+    public void responseCarCardBill(JSONObject jsonObject) {
+        switch (params.payType) {
+            case Constants.TYPE_ALIPAY:
+                //支付宝
+                new ALiPayHelper().pay(_mActivity, jsonObject.optString("body"));
+                break;
+            case Constants.TYPE_WXPAY:
+                //微信
+                WxPayHelper.pay(jsonObject.toString());
+                break;
+            default:
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

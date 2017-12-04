@@ -227,7 +227,9 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                             .setText(R.id.tv_in_time_parking_charge_dialog, data.getData().getInTime())
                             .setText(R.id.tv_pay_time_parking_charge_dialog, data.getData().getOutTime())
                             .setText(R.id.tv_duration_parking_charge_dialog, data.getData().getTotalCostTime())
-                            .setText(R.id.tv_charge_parking_charge_dialog, data.getData().getCostMoney() + "");
+                            .setText(R.id.tv_amount_parking_charge_dialog, data.getData().getAmount() + " 元")
+                            .setText(R.id.tv_paid_parking_charge_dialog, data.getData().getPaidMoney() + " 元")
+                            .setText(R.id.tv_charge_parking_charge_dialog, data.getData().getCostMoney() + " 元");
                 })
                 .setMargin(20)
                 .setDimAmount(0.3f)

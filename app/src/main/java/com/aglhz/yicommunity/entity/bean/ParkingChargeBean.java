@@ -9,9 +9,8 @@ import java.io.Serializable;
 
 public class ParkingChargeBean extends BaseBean implements Serializable {
 
-
     /**
-     * data : {"billCode":"201706010956315140178","carNo":"YK22222","costMoney":5,"createTime":"2017-06-01 09:56","inTime":"2017-06-01 07:24","outTime":"2017-06-01 09:24","parkPlaceFid":"2c4361a2-450c-4cc7-a268-b2762d6501be","parkPlaceName":"凯宾斯基停车场","totalCostTime":"2小时"}
+     * data : {"amount":0.3,"carNo":"京A88888","costMoney":0.3,"freeTime":30,"inTime":"2017-11-29 14:49","outTime":"2017-11-30 09:24","paidMoney":0,"parkPlaceFid":"f7a18873-88d8-4de4-ba55-daee01ce9d57","parkPlaceName":"东湖花园1期停车场","totalCostTime":"18小时34分"}
      */
 
     private DataBean data;
@@ -26,33 +25,35 @@ public class ParkingChargeBean extends BaseBean implements Serializable {
 
     public static class DataBean {
         /**
-         * billCode : 201706010956315140178
-         * carNo : YK22222
-         * costMoney : 5.0
-         * createTime : 2017-06-01 09:56
-         * inTime : 2017-06-01 07:24
-         * outTime : 2017-06-01 09:24
-         * parkPlaceFid : 2c4361a2-450c-4cc7-a268-b2762d6501be
-         * parkPlaceName : 凯宾斯基停车场
-         * totalCostTime : 2小时
+         * amount : 0.3
+         * carNo : 京A88888
+         * costMoney : 0.3
+         * freeTime : 30
+         * inTime : 2017-11-29 14:49
+         * outTime : 2017-11-30 09:24
+         * paidMoney : 0
+         * parkPlaceFid : f7a18873-88d8-4de4-ba55-daee01ce9d57
+         * parkPlaceName : 东湖花园1期停车场
+         * totalCostTime : 18小时34分
          */
 
-        private String billCode;
+        private double amount;
         private String carNo;
         private double costMoney;
-        private String createTime;
+        private double freeTime;
         private String inTime;
         private String outTime;
+        private double paidMoney;
         private String parkPlaceFid;
         private String parkPlaceName;
         private String totalCostTime;
 
-        public String getBillCode() {
-            return billCode;
+        public double getAmount() {
+            return amount;
         }
 
-        public void setBillCode(String billCode) {
-            this.billCode = billCode;
+        public void setAmount(double amount) {
+            this.amount = amount;
         }
 
         public String getCarNo() {
@@ -71,12 +72,12 @@ public class ParkingChargeBean extends BaseBean implements Serializable {
             this.costMoney = costMoney;
         }
 
-        public String getCreateTime() {
-            return createTime;
+        public double getFreeTime() {
+            return freeTime;
         }
 
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
+        public void setFreeTime(int freeTime) {
+            this.freeTime = freeTime;
         }
 
         public String getInTime() {
@@ -93,6 +94,14 @@ public class ParkingChargeBean extends BaseBean implements Serializable {
 
         public void setOutTime(String outTime) {
             this.outTime = outTime;
+        }
+
+        public double getPaidMoney() {
+            return paidMoney;
+        }
+
+        public void setPaidMoney(int paidMoney) {
+            this.paidMoney = paidMoney;
         }
 
         public String getParkPlaceFid() {

@@ -3,6 +3,7 @@ package com.aglhz.yicommunity.main.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
+import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.appupdate.UpdateAppHttpUtils;
 import com.aglhz.yicommunity.entity.bean.AppUpdateBean;
 import com.aglhz.yicommunity.main.guide.GuideHelper;
@@ -236,5 +238,12 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public void scanOpenDoor(Params params) {
+        Fragment fragment = getChildFragmentManager().findFragmentByTag(HomeFragment.class.getName());
+        if (fragment instanceof HomeFragment) {
+            ((HomeFragment) fragment).scanOpenDoor(params);
+        }
     }
 }

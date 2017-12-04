@@ -43,6 +43,8 @@ public interface HomeContract {
         void responseSubCategoryList(List<SubCategoryBean.DataBean> datas);
 
         void responseCommEquipmentList(List<CommEquipmentBean.DataBean.DataListBean> datas);
+
+        void responseScanOpenDoor(BaseBean baseBean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -63,6 +65,8 @@ public interface HomeContract {
         void requestSubCategoryList(Params params);
 
         void requestCommEquipmentList(Params params);
+
+        void requestScanOpenDoor(Params params);//无人便利店二维码扫描开门。
     }
 
     interface Model extends BaseContract.Model {
@@ -84,5 +88,6 @@ public interface HomeContract {
 
         Observable<CommEquipmentBean> requestCommEquipmentList(Params params);
 
+        Observable<BaseBean> requestScanOpenDoor(Params params);//无人便利店二维码扫描开门。
     }
 }

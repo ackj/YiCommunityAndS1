@@ -108,6 +108,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_pay_time" />
 
             <TextView
+                android:id="@+id/tv_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="停车费用"
+                android:textColor="@color/default_gray"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_duration"
+                app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+
+            <TextView
+                android:id="@+id/tv_paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="已缴费用"
+                android:textColor="@color/default_gray"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_amount"
+                app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
+
+            <TextView
                 android:id="@+id/tv_charge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,11 +143,11 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="支付费用"
+                android:text="需缴费用"
                 android:textColor="@color/default_gray"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_duration"
-                app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+                app:layout_constraintLeft_toLeftOf="@+id/tv_paid"
+                app:layout_constraintTop_toBottomOf="@+id/tv_paid" />
 
             <TextView
                 android:id="@+id/tv_in_time_parking_charge_dialog"
@@ -129,7 +157,6 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="13:02"
                 android:textColor="@color/base_black"
                 android:textSize="15sp"
                 app:layout_constraintRight_toRightOf="parent"
@@ -142,7 +169,6 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="13:02"
                 android:textColor="@color/base_black"
                 android:textSize="15sp"
                 app:layout_constraintRight_toRightOf="@+id/tv_in_time_parking_charge_dialog"
@@ -155,11 +181,34 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="13:02"
                 android:textColor="@color/base_black"
                 android:textSize="15sp"
                 app:layout_constraintRight_toRightOf="@+id/tv_pay_time_parking_charge_dialog"
                 app:layout_constraintTop_toTopOf="@+id/tv_duration" />
+
+            <TextView
+                android:id="@+id/tv_amount_parking_charge_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/base_black"
+                android:textSize="15sp"
+                app:layout_constraintRight_toRightOf="@+id/tv_duration_parking_charge_dialog"
+                app:layout_constraintTop_toTopOf="@+id/tv_amount" />
+
+            <TextView
+                android:id="@+id/tv_paid_parking_charge_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/base_black"
+                android:textSize="15sp"
+                app:layout_constraintRight_toRightOf="@+id/tv_duration_parking_charge_dialog"
+                app:layout_constraintTop_toTopOf="@+id/tv_paid" />
 
             <TextView
                 android:id="@+id/tv_charge_parking_charge_dialog"
@@ -168,7 +217,6 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="13:02"
                 android:textColor="@color/base_color"
                 android:textSize="20sp"
                 app:layout_constraintRight_toRightOf="@+id/tv_duration_parking_charge_dialog"
@@ -183,9 +231,10 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/parking_charge_hint"
                 android:textColor="@color/default_gray"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_charge_parking_charge_dialog" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_charge" />
 
             <View
                 android:id="@+id/view_line_0"
