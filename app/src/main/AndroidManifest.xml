@@ -234,7 +234,7 @@
             android:theme="@style/Transparent" />
         <activity
             android:name=".main.parking.TempParkActivity"
-            android:theme="@style/Transparent"></activity>
+            android:theme="@style/Transparent"/>
 
         <activity
             android:name=".main.publish.PropertyActivity"

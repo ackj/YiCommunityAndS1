@@ -76,4 +76,6 @@ dependencies {
     compile 'com.trycatch.android:mysnackbar:1.2.2'
     //一个扩展性很好的Dialog+DialogFragment工具。
     compile 'com.github.leguang:ADialog:+'
+    //新手引导工具，有带遮罩的和Popwindow两种。
+    compile 'com.github.leguang:AGuider:0.0.2'
 }

@@ -53,8 +53,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
     private void initActivity() {
         //把每一个Activity加入栈中
         ActivityHelper.getInstance().addActivity(this);
-        //一旦启动某个Activity就打印Log，方便找到该类
-        ALog.e(TAG);
     }
 
     @Override
