@@ -371,6 +371,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                 });
         setCommunity();
         Params.cmnt_c = UserHelper.communityCode;
+        recyclerView.scrollToPosition(0);
         ptrFrameLayout.autoRefresh();
     }
 
