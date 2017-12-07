@@ -32,7 +32,7 @@ public class AddDetectorRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.Da
 
         Glide.with(BaseApplication.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_house_red_140px : item.getIcon())
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivSecurity);
     }
 }

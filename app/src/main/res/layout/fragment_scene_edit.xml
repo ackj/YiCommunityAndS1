@@ -59,7 +59,7 @@
             android:layout_height="34dp"
             android:layout_marginRight="5dp"
             android:padding="10dp"
-            android:src="@mipmap/ic_logo" />
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
     <View
@@ -99,7 +99,7 @@
             android:layout_height="34dp"
             android:layout_marginRight="5dp"
             android:padding="10dp"
-            android:src="@mipmap/ic_logo" />
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
     <View

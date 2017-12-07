@@ -63,7 +63,6 @@ public class AboutUsFragment extends BaseFragment {
     @BindView(R.id.tv_check_update_about_us_fragment)
     TextView tvCheckUpdate;
     Unbinder unbinder;
-    private RxManager mRxManager = new RxManager();
 
     public static AboutUsFragment newInstance() {
         return new AboutUsFragment();
