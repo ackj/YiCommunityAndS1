@@ -46,7 +46,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
-import mlxy.utils.T;
 
 /**
  * Author: LiuJia on 2017/9/25 0025 09:35.
