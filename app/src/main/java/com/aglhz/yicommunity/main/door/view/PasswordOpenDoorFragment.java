@@ -199,7 +199,7 @@ public class PasswordOpenDoorFragment extends BaseFragment<PasswordOpenDoorContr
 
     public String createMessage() {
         StringBuffer sb = new StringBuffer()
-                .append("高诚科技很高兴为您服务^_^\r\n本次生成的")
+                .append("很高兴为您服务^_^\r\n本次生成的")
                 .append("<" + tvDoorName.getText().toString() + ">")
                 .append("临时密码为：")
                 .append(tvPassword.getText().toString())

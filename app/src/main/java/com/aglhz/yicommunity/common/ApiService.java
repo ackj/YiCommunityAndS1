@@ -144,10 +144,11 @@ public interface ApiService {
     String requestLogin = BASE_USER + "/client/login.do";
 
     @POST
-    Observable<UserBean> requestLogin(@Url String url
-            , @Query("sc") String sc
-            , @Query("user") String user
-            , @Query("pwd") String pwd);
+    Observable<UserBean> requestLogin(@Url String url,
+                                      @Query("sc") String sc,
+                                      @Query("fc") String fc,
+                                      @Query("user") String user,
+                                      @Query("pwd") String pwd);
 
     //登出
     String requestLogout = BASE_USER + "/client/logout.do";

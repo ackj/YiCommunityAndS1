@@ -14,6 +14,7 @@ public class Params {
     public static String token;
     public static String cmnt_c = "";
     public String sc = "AglhzYsq";
+    public String fc = "FAglYsq";
     public String dir = "";
     public String des = "";
     public String contact = "";

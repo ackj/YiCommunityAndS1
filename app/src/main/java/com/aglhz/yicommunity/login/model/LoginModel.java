@@ -27,7 +27,11 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     @Override
     public Observable<UserBean> requestLogin(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestLogin(ApiService.requestLogin, params.sc, params.user, params.pwd)
+                .requestLogin(ApiService.requestLogin,
+                        params.sc,
+                        params.fc,
+                        params.user,
+                        params.pwd)
                 .subscribeOn(Schedulers.io());
     }
 
