@@ -26,7 +26,6 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
-import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
@@ -46,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
+import cn.itsite.apush.event.EventRefreshSecurity;
 import cn.itsite.statemanager.StateLayout;
 
 

@@ -1,11 +1,11 @@
 package com.aglhz.yicommunity.main.propery.contract;
 
 import com.aglhz.abase.mvp.contract.base.BaseContract;
-import com.aglhz.yicommunity.entity.bean.ALiPayBean;
+import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
-import com.aglhz.yicommunity.entity.bean.WxPayBean;
-import com.aglhz.yicommunity.common.Params;
+
+import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -23,7 +23,8 @@ public interface PropertyPayContract {
 
         void responsePropertyPayDetail(PropertyPayDetailBean bean);
 
-        void responseALiPay(String order);
+        void responseBill(JSONObject jsonData);
+
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -33,7 +34,7 @@ public interface PropertyPayContract {
 
         void requestPropertyPayDetail(Params params);
 
-        void requestOrder(Params params);
+        void requestBill(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -43,7 +44,7 @@ public interface PropertyPayContract {
 
         Observable<PropertyPayDetailBean> requestPropertyPayDetail(Params params);
 
-        Observable<ResponseBody> requestOrder(Params params);
+        Observable<ResponseBody> requestBill(Params params);
 
     }
 }

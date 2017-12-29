@@ -24,8 +24,8 @@ android {
         applicationId "com.aglhz.yicommunity"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 221
-        versionName "2.2.1"
+        versionCode 222
+        versionName "2.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -70,13 +70,9 @@ dependencies {
     //谷歌官方依赖
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    //基础依赖Module
-    debugCompile project(path: ':abase', configuration: 'debug')
-    releaseCompile project(path: ':abase', configuration: 'release')
-    //友盟推送
-    //    compile project(':PushSDK')
     //阿里云推送
-    compile project(':apush')
+    debugCompile project(path: ':apush', configuration: 'debug')
+    releaseCompile project(path: ':apush', configuration: 'release')
     //黄油刀系列
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

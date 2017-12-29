@@ -7,9 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
 import com.aglhz.abase.common.ActivityHelper;
-import com.aglhz.abase.log.ALog;
+import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.mvp.contract.base.BaseContract;
-import com.aglhz.abase.network.http.LogInterceptor;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,7 +93,7 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginoutEvent(LogInterceptor event) {
+    public void onLoginoutEvent(EventLogout event) {
         Intent intent = new Intent("LoginActivity");
         startActivity(intent);
     }

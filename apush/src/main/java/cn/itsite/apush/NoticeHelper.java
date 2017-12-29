@@ -1,10 +1,11 @@
-package com.aglhz.yicommunity.common.Notification;
+package cn.itsite.apush;
 
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,23 +16,22 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
+import com.aglhz.abase.BaseApplication;
 import com.aglhz.abase.common.ActivityHelper;
+import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.log.ALog;
-import com.aglhz.s1.event.EventLearnSensor;
-import com.aglhz.s1.event.EventRefreshSecurity;
-import com.aglhz.yicommunity.App;
-import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.common.DoorManager;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 
+import cn.itsite.apush.event.EventLearnSensor;
+import cn.itsite.apush.event.EventRefreshSecurity;
 import rx.Observable;
+import rx.functions.Action1;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-import static android.media.RingtoneManager.getDefaultUri;
 
 /**
  * Created by leguang on 2017/9/18 0018.
@@ -66,8 +66,7 @@ public class NoticeHelper {
     public static final String ALARM_RED = "alarm_red";// 红外报警
     public static final String ALARM_DOOR = "alarm_door";// 门磁报警
 
-    public static void notification(Context mContext, String message) {
-        ALog.e("RingtoneManager-->" + getDefaultUri(RingtoneManager.TYPE_ALARM).toString());
+    public static void notification(Context mContext, final String message) {
         Notice notice = new Gson().fromJson(message, Notice.class);
         long when = TextUtils.isEmpty(notice.getWhen()) ? System.currentTimeMillis() : Long.parseLong(notice.getWhen());
         Uri uriSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -76,12 +75,12 @@ public class NoticeHelper {
         PendingIntent pendingIntent = contentIntent(mContext, notice.getType());
         handleMessage(notice.getType());
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(App.mContext)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(BaseApplication.mContext)
                 .setContentTitle(notice.getTitle())
                 .setContentText(notice.getContent())
                 .setWhen(when)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(BaseApplication.mContext.getResources(), R.mipmap.ic_launcher))
                 .setSound(uriSound)
                 .setVibrate(new long[]{0, 1000, 1000, 1000})
                 .setLights(Color.RED, 1000, 1000)
@@ -91,19 +90,21 @@ public class NoticeHelper {
 //                .setFullScreenIntent(pendingIntent, false)
                 .setContentIntent(pendingIntent);
 
-        Notification notification = builder.build();
+        final Notification notification = builder.build();
 
         if (notice.getType().equals(SMART_DOOR_CALL_PUSH)) {
             if (ActivityHelper.getInstance().isEmpty()) {
                 notification.flags |= Notification.FLAG_INSISTENT;
                 notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 Observable.timer(20, TimeUnit.SECONDS)
-                        .subscribe(aLong -> {
-                            NotificationManager manager = (NotificationManager) App.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//                        cancel(message.hashCode());
-                            notification.flags = Notification.DEFAULT_SOUND;
-                            notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                            manager.notify(message.hashCode(), notification);
+                        .subscribe(new Action1<Long>() {
+                            @Override
+                            public void call(Long aLong) {
+                                NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                                notification.flags = Notification.DEFAULT_SOUND;
+                                notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                manager.notify(message.hashCode(), notification);
+                            }
                         });
             } else {
                 notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -114,7 +115,7 @@ public class NoticeHelper {
     }
 
     public static void notify(String message, Notification notification) {
-        NotificationManager manager = (NotificationManager) App.mContext.getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(NOTIFICATION_SERVICE);
         manager.notify(message.hashCode(), notification);
     }
 
@@ -142,6 +143,8 @@ public class NoticeHelper {
                 break;
             case "4":
                 break;
+            default:
+                break;
         }
 
         Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
@@ -157,7 +160,7 @@ public class NoticeHelper {
      */
     private static void handleMessage(String type) {
 
-        PowerManager pm = (PowerManager) App.mContext.getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) BaseApplication.mContext.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "notice");
         wakeLock.acquire();
 //        wakeLock.release();
@@ -179,15 +182,21 @@ public class NoticeHelper {
             case NoticeHelper.ALARM_DOOR:
                 break;
             case NoticeHelper.LOGIN_DEVICE_CHG:
-                DoorManager.getInstance().exit();// 停止SipService，用户明确的退出。
-                Activity activity = ActivityHelper.getInstance().currentActivity();
+                EventBus.getDefault().post(new EventLogout());
+                final Activity activity = ActivityHelper.getInstance().currentActivity();
                 new AlertDialog.Builder(activity)
                         .setTitle("提醒")
                         .setMessage("当前账号已在其他设备上登录，是否重新登录？")
-                        .setPositiveButton("是", (dialog, which) ->
-                                activity.startActivity(new Intent("LoginActivity")))
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                activity.startActivity(new Intent("LoginActivity"));
+                            }
+                        })
                         .setNegativeButton("否", null)
                         .show();
+                break;
+            default:
                 break;
         }
     }
@@ -218,7 +227,7 @@ public class NoticeHelper {
     }
 
     public static void cancel(int id) {
-        NotificationManager manager = (NotificationManager) App.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(id);
     }
 }

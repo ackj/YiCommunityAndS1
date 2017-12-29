@@ -16,7 +16,8 @@ import me.yokeyword.fragmentation.Fragmentation;
 public class BaseApplication extends MultiDexApplication {
     private static final String TAG = BaseApplication.class.getSimpleName();
     public static Context mContext;
-//    private RefWatcher mRefWatcher;
+    //    private RefWatcher mRefWatcher;
+    public static String PUSH_TYPE = "";
 
     @Override
     public void onCreate() {

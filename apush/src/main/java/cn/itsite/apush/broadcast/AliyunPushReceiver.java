@@ -1,9 +1,9 @@
-package com.aglhz.yicommunity.broadcast;
+package cn.itsite.apush.broadcast;
 
 import android.content.Context;
 
 import com.aglhz.abase.log.ALog;
-import com.aglhz.yicommunity.common.Notification.NoticeHelper;
+import cn.itsite.apush.NoticeHelper;
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
 
@@ -14,8 +14,8 @@ import java.util.Map;
  * Email：langmanleguang@qq.com
  */
 
-public class NotificationReceiver extends MessageReceiver {
-    public static final String TAG = NotificationReceiver.class.getSimpleName();
+public class AliyunPushReceiver extends MessageReceiver {
+    public static final String TAG = AliyunPushReceiver.class.getSimpleName();
 
     @Override
     public void onNotification(Context context, final String title, final String summary, final Map<String, String> extraMap) {

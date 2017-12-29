@@ -55,7 +55,7 @@ public class UserHelper {
     public static String communityLongitude = "";//小区对应的经度。
     public static String communityLatitude = "";//小区对应的纬度。
     public static String sip = "";
-    public static String WXAPPID = "";
+    public static String WXAPPID = "wx160fff7b6ed86ef7";
     public static String locationAddress = "";//定位的位置地址。
     public static boolean isExchangeAgree = false;//闲置交换发布时是否同意过我们的协议。
     public static boolean isCarpoolAgree = false;//拼车服务发布时是否同意过我们的协议。

@@ -13,17 +13,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.Decoration;
 import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
-import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.payment.ALiPayHelper;
+import com.aglhz.yicommunity.common.payment.WxPayHelper;
+import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
+import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +37,6 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 /**
  * Created by leguang on 2017/4/29 0029.
  * Email：langmanleguang@qq.com
- * 
  */
 public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContract.Presenter> implements PropertyPayContract.View {
     public static final String TAG = PropertyNotPayDetailFragment.class.getSimpleName();
@@ -55,13 +57,11 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     private Unbinder unbinder;
     private Params params = Params.getInstance();
     private PropertyNotPayDetailRVAdapter mAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
-    private String[] arrPayType = {Constants.ALIPAY, Constants.WXPAY};
+    private String[] payTypes = {Constants.ALIPAY, Constants.WXPAY};
 
     public static PropertyNotPayDetailFragment newInstance(String fid) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_FID, fid);
-
         PropertyNotPayDetailFragment fragment = new PropertyNotPayDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -107,8 +107,7 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     }
 
     private void initData() {
-        mLinearLayoutManager = new LinearLayoutManager(_mActivity);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mAdapter = new PropertyNotPayDetailRVAdapter();
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
@@ -123,10 +122,6 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void start(Object response) {
     }
 
     @Override
@@ -148,31 +143,42 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     @Override
     public void responsePropertyPayDetail(PropertyPayDetailBean bean) {
         ptrFrameLayout.refreshComplete();
-        mAdapter.setNewData(bean.getData().getPptBillDets());
-        tvAddress.setText(bean.getData().getBuildingInfo().getAddress());
-        tvSum.setText("合计：" + bean.getData().getTotalAmt() + "元");
-        params.ofids = bean.getData().getFid();
+        mAdapter.setNewData(bean.getData().getItemList());
+        tvAddress.setText(bean.getData().getHouseInfo());
+        tvSum.setText("合计：" + bean.getData().getAmount() + "元");
+        params.billFids = bean.getData().getFid();
     }
 
     @Override
-    public void responseALiPay(String order) {
-        new ALiPayHelper().pay(_mActivity, order);
+    public void responseBill(JSONObject jsonData) {
+        switch (params.payMethod) {
+            case Constants.TYPE_ALIPAY:
+                //支付宝
+                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
+                break;
+            case Constants.TYPE_WXPAY:
+                //微信
+                WxPayHelper.pay(jsonData);
+                break;
+            default:
+        }
     }
 
     @OnClick(R.id.bt_pay_property_not_pay_detail_fragment)
     public void onViewClicked() {
         new AlertDialog.Builder(_mActivity).setTitle("请选择支付类型")
-                .setItems(arrPayType, (dialog, which) -> {
+                .setItems(payTypes, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            params.type = Constants.TYPE_ALIPAY;
+                            params.payMethod = Constants.TYPE_ALIPAY;
                             break;
                         case 1:
-                            params.type = Constants.TYPE_WXPAY;
+                            params.payMethod = Constants.TYPE_WXPAY;
+                            break;
+                        default:
                             break;
                     }
-                    params.otype = "pptbill";
-                    mPresenter.requestOrder(params);
+                    mPresenter.requestBill(params);
                 })
                 .setNegativeButton("取消", null)
                 .show();

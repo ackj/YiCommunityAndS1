@@ -9,15 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
+import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
-import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,12 +49,13 @@ public class PropertyPayedDetailFragment extends BaseFragment<PropertyPayContrac
     @BindView(R.id.tv_creat_time_property_payed_detail_fragment)
     TextView tvCreatTimeProperty;
     Unbinder unbinder;
+    @BindView(R.id.tv_payment_channel_property_payed_detail_fragment)
+    TextView tvPaymentChannel;
     private Params params = Params.getInstance();
 
     public static PropertyPayedDetailFragment newInstance(String fid) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_FID, fid);
-
         PropertyPayedDetailFragment fragment = new PropertyPayedDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -61,7 +64,6 @@ public class PropertyPayedDetailFragment extends BaseFragment<PropertyPayContrac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             params.fid = bundle.getString(Constants.KEY_FID);
@@ -101,10 +103,6 @@ public class PropertyPayedDetailFragment extends BaseFragment<PropertyPayContrac
     }
 
     @Override
-    public void start(Object response) {
-    }
-
-    @Override
     public void error(String errorMessage) {
         DialogHelper.warningSnackbar(getView(), errorMessage);
     }
@@ -120,21 +118,22 @@ public class PropertyPayedDetailFragment extends BaseFragment<PropertyPayContrac
     }
 
     @Override
+    public void responseBill(JSONObject jsonData) {
+        //无用方法,无需理会
+    }
+
+    @Override
     public void responsePropertyPayDetail(PropertyPayDetailBean bean) {
         if (bean == null) {
             return;
         }
-        tvAddress.setText(bean.getData().getBuildingInfo().getAddress());
-        tvSum.setText(bean.getData().getTotalAmt() + "元");
-        tvPaymentMethod.setText(bean.getData().getPayType() == 1 ? Constants.ALIPAY : Constants.WXPAY);
-        tvPaymentInstructions.setText(bean.getData().getBName());
-        tvPaymentNumber.setText(bean.getData().getBCode());
-        tvCreatTimeProperty.setText(bean.getData().getCtime());
-    }
-
-    @Override
-    public void responseALiPay(String order) {
-        //无用方法,无需理会
+        tvAddress.setText(bean.getData().getHouseInfo());
+        tvSum.setText(bean.getData().getAmount() + "元");
+        tvPaymentMethod.setText(bean.getData().getPayMethod());
+        tvPaymentChannel.setText(bean.getData().getPayChannel());
+        tvPaymentInstructions.setText(bean.getData().getBillName());
+        tvPaymentNumber.setText(bean.getData().getBillCode());
+        tvCreatTimeProperty.setText(bean.getData().getCreateTime());
     }
 
     @Override

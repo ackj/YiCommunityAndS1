@@ -8,8 +8,9 @@ import java.util.List;
  */
 
 public class PropertyPayBean extends BaseBean{
+
     /**
-     * data : {"totalAmt":"120.02","obpptBills":[{"fid":"6fef1eb8-966e-409e-a276-69c3d8e7e683","bCode":"201701251915539169187","bName":"物业账单11月","dtFrom":"2016-11-01","dtTo":"2016-11-30","totalAmt":"0.01","status":2,"payType":1,"no":"huangyk2017","ctime":"2017-01-25 19:15:54","pptBillDets":[{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.0"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.0"}],"buildingInfo":{"o_name":"黄远科","c_name":"东湖花园1期","c_code":"YSQ-DHHY-01-00002","b_name":"1单元1层1001","b_code":"YSQ-DHHY-01-001U-001-001-00001"}},{"fid":"77d8ba23-792e-4632-8f83-a08451c02e3d","bCode":"201701241758535405413","bName":"物业账单12月","dtFrom":"2016-12-01","dtTo":"2016-12-31","totalAmt":"0.01","status":2,"payType":1,"no":"wuweiyuan2017","ctime":"2017-01-24 17:58:54","pptBillDets":[{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.0"},{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.0"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"}],"buildingInfo":{"o_name":"吴伟沅","c_name":"水北新村1期","c_code":"YSQ-SBXC-01-00001","b_name":"1单元2层2012","b_code":"YSQ-SBXC-01-001U-002-012-00012"}},{"fid":"1","bCode":"SBXC-01-000000001","bName":"物业费8月到9月","dtFrom":"2017-01-01","dtTo":"2017-01-31","totalAmt":"120.00","status":2,"payType":0,"no":"wdj123","ctime":"2017-01-23 10:45:25","pptBillDets":[{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"20.0"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"20.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"30.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"25.0"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"25.0"}],"buildingInfo":{"o_name":"吴三","c_name":"水北新村1期","c_code":"YSQ-SBXC-01-00001","b_name":"1单元1层1001","b_code":"YSQ-SBXC-01-001U-001-1001-00001"}}]}
+     * data : {"billList":[{"fid":"6fde1aaf-d48a-4e0b-97ec-6e0040dad2bf","billCode":"201712280058182955648","billName":"老李11月份的账单","settlementStartDate":"2017-11-01","settlementEndDate":"2017-11-30","amount":0.1,"status":0,"remark":"","createTime":"2017-12-28 00:58:18","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]},{"fid":"ba346577-eee8-4dd9-916a-fbf3f9ceea19","billCode":"201712271359007701502","billName":"李勇11月份的物业账单","settlementStartDate":"2017-11-01","settlementEndDate":"2017-11-30","amount":0.1,"status":0,"remark":"","createTime":"2017-12-27 13:59:01","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]},{"fid":"ce7c868a-a40a-4c70-84b8-142a22b86eee","billCode":"201712271011025431479","billName":"我我我","settlementStartDate":"2017-12-27","settlementEndDate":"2017-12-28","amount":0.01,"status":0,"remark":"","createTime":"2017-12-27 10:11:03","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]}],"totalAmt":0.21000000000000002}
      */
 
     private DataBean data;
@@ -24,56 +25,55 @@ public class PropertyPayBean extends BaseBean{
 
     public static class DataBean {
         /**
-         * totalAmt : 120.02
-         * obpptBills : [{"fid":"6fef1eb8-966e-409e-a276-69c3d8e7e683","bCode":"201701251915539169187","bName":"物业账单11月","dtFrom":"2016-11-01","dtTo":"2016-11-30","totalAmt":"0.01","status":2,"payType":1,"no":"huangyk2017","ctime":"2017-01-25 19:15:54","pptBillDets":[{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.0"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.0"}],"buildingInfo":{"o_name":"黄远科","c_name":"东湖花园1期","c_code":"YSQ-DHHY-01-00002","b_name":"1单元1层1001","b_code":"YSQ-DHHY-01-001U-001-001-00001"}},{"fid":"77d8ba23-792e-4632-8f83-a08451c02e3d","bCode":"201701241758535405413","bName":"物业账单12月","dtFrom":"2016-12-01","dtTo":"2016-12-31","totalAmt":"0.01","status":2,"payType":1,"no":"wuweiyuan2017","ctime":"2017-01-24 17:58:54","pptBillDets":[{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.0"},{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.0"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"}],"buildingInfo":{"o_name":"吴伟沅","c_name":"水北新村1期","c_code":"YSQ-SBXC-01-00001","b_name":"1单元2层2012","b_code":"YSQ-SBXC-01-001U-002-012-00012"}},{"fid":"1","bCode":"SBXC-01-000000001","bName":"物业费8月到9月","dtFrom":"2017-01-01","dtTo":"2017-01-31","totalAmt":"120.00","status":2,"payType":0,"no":"wdj123","ctime":"2017-01-23 10:45:25","pptBillDets":[{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"20.0"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"20.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"30.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"25.0"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"25.0"}],"buildingInfo":{"o_name":"吴三","c_name":"水北新村1期","c_code":"YSQ-SBXC-01-00001","b_name":"1单元1层1001","b_code":"YSQ-SBXC-01-001U-001-1001-00001"}}]
+         * billList : [{"fid":"6fde1aaf-d48a-4e0b-97ec-6e0040dad2bf","billCode":"201712280058182955648","billName":"老李11月份的账单","settlementStartDate":"2017-11-01","settlementEndDate":"2017-11-30","amount":0.1,"status":0,"remark":"","createTime":"2017-12-28 00:58:18","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]},{"fid":"ba346577-eee8-4dd9-916a-fbf3f9ceea19","billCode":"201712271359007701502","billName":"李勇11月份的物业账单","settlementStartDate":"2017-11-01","settlementEndDate":"2017-11-30","amount":0.1,"status":0,"remark":"","createTime":"2017-12-27 13:59:01","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]},{"fid":"ce7c868a-a40a-4c70-84b8-142a22b86eee","billCode":"201712271011025431479","billName":"我我我","settlementStartDate":"2017-12-27","settlementEndDate":"2017-12-28","amount":0.01,"status":0,"remark":"","createTime":"2017-12-27 10:11:03","houseInfo":"凯宾斯基3栋1单元30层8房","itemList":[]}]
+         * totalAmt : 0.21000000000000002
          */
-        private String totalAmt;
-        private List<ObpptBillsBean> obpptBills;
 
-        public String getTotalAmt() {
+        private double totalAmt;
+        private List<BillListBean> billList;
+
+        public double getTotalAmt() {
             return totalAmt;
         }
 
-        public void setTotalAmt(String totalAmt) {
+        public void setTotalAmt(double totalAmt) {
             this.totalAmt = totalAmt;
         }
 
-        public List<ObpptBillsBean> getObpptBills() {
-            return obpptBills;
+        public List<BillListBean> getBillList() {
+            return billList;
         }
 
-        public void setObpptBills(List<ObpptBillsBean> obpptBills) {
-            this.obpptBills = obpptBills;
+        public void setBillList(List<BillListBean> billList) {
+            this.billList = billList;
         }
 
-        public static class ObpptBillsBean {
+        public static class BillListBean {
             /**
-             * fid : 6fef1eb8-966e-409e-a276-69c3d8e7e683
-             * bCode : 201701251915539169187
-             * bName : 物业账单11月
-             * dtFrom : 2016-11-01
-             * dtTo : 2016-11-30
-             * totalAmt : 0.01
-             * status : 2
-             * payType : 1
-             * no : huangyk2017
-             * ctime : 2017-01-25 19:15:54
-             * pptBillDets : [{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.0"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.0"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.0"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.0"}]
-             * buildingInfo : {"o_name":"黄远科","c_name":"东湖花园1期","c_code":"YSQ-DHHY-01-00002","b_name":"1单元1层1001","b_code":"YSQ-DHHY-01-001U-001-001-00001"}
+             * fid : 6fde1aaf-d48a-4e0b-97ec-6e0040dad2bf
+             * billCode : 201712280058182955648
+             * billName : 老李11月份的账单
+             * settlementStartDate : 2017-11-01
+             * settlementEndDate : 2017-11-30
+             * amount : 0.1
+             * status : 0
+             * remark :
+             * createTime : 2017-12-28 00:58:18
+             * houseInfo : 凯宾斯基3栋1单元30层8房
+             * itemList : []
              */
 
             private String fid;
-            private String bCode;
-            private String bName;
-            private String dtFrom;
-            private String dtTo;
-            private String totalAmt;
+            private String billCode;
+            private String billName;
+            private String settlementStartDate;
+            private String settlementEndDate;
+            private double amount;
             private int status;
-            private int payType;
-            private String no;
-            private String ctime;
-            private BuildingInfoBean buildingInfo;
-            private List<PptBillDetsBean> pptBillDets;
+            private String remark;
+            private String createTime;
+            private String houseInfo;
+            private List<?> itemList;
 
             public String getFid() {
                 return fid;
@@ -83,44 +83,44 @@ public class PropertyPayBean extends BaseBean{
                 this.fid = fid;
             }
 
-            public String getBCode() {
-                return bCode;
+            public String getBillCode() {
+                return billCode;
             }
 
-            public void setBCode(String bCode) {
-                this.bCode = bCode;
+            public void setBillCode(String billCode) {
+                this.billCode = billCode;
             }
 
-            public String getBName() {
-                return bName;
+            public String getBillName() {
+                return billName;
             }
 
-            public void setBName(String bName) {
-                this.bName = bName;
+            public void setBillName(String billName) {
+                this.billName = billName;
             }
 
-            public String getDtFrom() {
-                return dtFrom;
+            public String getSettlementStartDate() {
+                return settlementStartDate;
             }
 
-            public void setDtFrom(String dtFrom) {
-                this.dtFrom = dtFrom;
+            public void setSettlementStartDate(String settlementStartDate) {
+                this.settlementStartDate = settlementStartDate;
             }
 
-            public String getDtTo() {
-                return dtTo;
+            public String getSettlementEndDate() {
+                return settlementEndDate;
             }
 
-            public void setDtTo(String dtTo) {
-                this.dtTo = dtTo;
+            public void setSettlementEndDate(String settlementEndDate) {
+                this.settlementEndDate = settlementEndDate;
             }
 
-            public String getTotalAmt() {
-                return totalAmt;
+            public double getAmount() {
+                return amount;
             }
 
-            public void setTotalAmt(String totalAmt) {
-                this.totalAmt = totalAmt;
+            public void setAmount(double amount) {
+                this.amount = amount;
             }
 
             public int getStatus() {
@@ -131,146 +131,36 @@ public class PropertyPayBean extends BaseBean{
                 this.status = status;
             }
 
-            public int getPayType() {
-                return payType;
+            public String getRemark() {
+                return remark;
             }
 
-            public void setPayType(int payType) {
-                this.payType = payType;
+            public void setRemark(String remark) {
+                this.remark = remark;
             }
 
-            public String getNo() {
-                return no;
+            public String getCreateTime() {
+                return createTime;
             }
 
-            public void setNo(String no) {
-                this.no = no;
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
             }
 
-            public String getCtime() {
-                return ctime;
+            public String getHouseInfo() {
+                return houseInfo;
             }
 
-            public void setCtime(String ctime) {
-                this.ctime = ctime;
+            public void setHouseInfo(String houseInfo) {
+                this.houseInfo = houseInfo;
             }
 
-            public BuildingInfoBean getBuildingInfo() {
-                return buildingInfo;
+            public List<?> getItemList() {
+                return itemList;
             }
 
-            public void setBuildingInfo(BuildingInfoBean buildingInfo) {
-                this.buildingInfo = buildingInfo;
-            }
-
-            public List<PptBillDetsBean> getPptBillDets() {
-                return pptBillDets;
-            }
-
-            public void setPptBillDets(List<PptBillDetsBean> pptBillDets) {
-                this.pptBillDets = pptBillDets;
-            }
-
-            public static class BuildingInfoBean {
-                /**
-                 * o_name : 黄远科
-                 * c_name : 东湖花园1期
-                 * c_code : YSQ-DHHY-01-00002
-                 * b_name : 1单元1层1001
-                 * b_code : YSQ-DHHY-01-001U-001-001-00001
-                 */
-
-                private String o_name;
-                private String c_name;
-                private String c_code;
-                private String b_name;
-                private String b_code;
-
-                public String getO_name() {
-                    return o_name;
-                }
-
-                public void setO_name(String o_name) {
-                    this.o_name = o_name;
-                }
-
-                public String getC_name() {
-                    return c_name;
-                }
-
-                public void setC_name(String c_name) {
-                    this.c_name = c_name;
-                }
-
-                public String getC_code() {
-                    return c_code;
-                }
-
-                public void setC_code(String c_code) {
-                    this.c_code = c_code;
-                }
-
-                public String getB_name() {
-                    return b_name;
-                }
-
-                public void setB_name(String b_name) {
-                    this.b_name = b_name;
-                }
-
-                public String getB_code() {
-                    return b_code;
-                }
-
-                public void setB_code(String b_code) {
-                    this.b_code = b_code;
-                }
-            }
-
-            public static class PptBillDetsBean {
-                /**
-                 * iCode : WY-DT-002
-                 * iName : 电梯费用
-                 * des : 电梯费用
-                 * iTotalAmt : 0.0
-                 */
-
-                private String iCode;
-                private String iName;
-                private String des;
-                private String iTotalAmt;
-
-                public String getICode() {
-                    return iCode;
-                }
-
-                public void setICode(String iCode) {
-                    this.iCode = iCode;
-                }
-
-                public String getIName() {
-                    return iName;
-                }
-
-                public void setIName(String iName) {
-                    this.iName = iName;
-                }
-
-                public String getDes() {
-                    return des;
-                }
-
-                public void setDes(String des) {
-                    this.des = des;
-                }
-
-                public String getITotalAmt() {
-                    return iTotalAmt;
-                }
-
-                public void setITotalAmt(String iTotalAmt) {
-                    this.iTotalAmt = iTotalAmt;
-                }
+            public void setItemList(List<?> itemList) {
+                this.itemList = itemList;
             }
         }
     }

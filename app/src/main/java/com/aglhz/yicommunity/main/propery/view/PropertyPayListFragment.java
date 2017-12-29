@@ -13,13 +13,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.common.payment.ALiPayHelper;
+import com.aglhz.yicommunity.common.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.event.EventCommunity;
@@ -30,6 +31,7 @@ import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,10 +59,9 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     LinearLayout ll;
     private Unbinder unbinder;
     private int payState;
-    private LinearLayoutManager mLinearLayoutManager;
     private PropertyPayRVAdapter mAdapter;
     private Params params = Params.getInstance();
-    private String[] arrPayType = {Constants.ALIPAY, Constants.WXPAY};
+    private String[] payTypes = {Constants.ALIPAY, Constants.WXPAY};
     private StateManager mStateManager;
 
     public static PropertyPayListFragment newInstance(int position) {
@@ -105,15 +106,14 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     }
 
     private void initData() {
-        mLinearLayoutManager = new LinearLayoutManager(_mActivity);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mAdapter = new PropertyPayRVAdapter();
         recyclerView.setAdapter(mAdapter);
         ll.setVisibility(payState == 0 ? View.VISIBLE : View.GONE);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (getParentFragment() instanceof PropertyPayFragment) {
                 //2为未支付状态
-                if (mAdapter.getData().get(position).getStatus() == 2) {
+                if (mAdapter.getData().get(position).getStatus() == 0) {
                     ((PropertyPayFragment) getParentFragment())
                             .start(PropertyNotPayDetailFragment.newInstance(mAdapter.getData().get(position).getFid()));
                 } else {
@@ -167,17 +167,19 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     @OnClick(R.id.bt_pay_property_pay_list_fragment)
     public void onViewClicked() {
         new AlertDialog.Builder(_mActivity).setTitle("请选择支付类型")
-                .setItems(arrPayType, (dialog, which) -> {
+                .setItems(payTypes, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            params.type = Constants.TYPE_ALIPAY;
+                            params.payMethod = Constants.TYPE_ALIPAY;
                             break;
                         case 1:
-                            params.type = Constants.TYPE_WXPAY;
+                            params.payMethod = Constants.TYPE_WXPAY;
+                            break;
+                        default:
                             break;
                     }
                     params.otype = "pptbill";
-                    mPresenter.requestOrder(params);
+                    mPresenter.requestBill(params);
                 })
                 .setNegativeButton("取消", null)
                 .show();
@@ -202,22 +204,22 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     public void responsePropertyNotPay(PropertyPayBean bean) {
         ptrFrameLayout.refreshComplete();
         PropertyPayBean.DataBean data = bean.getData();
-        if (data.getObpptBills().isEmpty()) {
+        if (data.getBillList().isEmpty()) {
             mStateManager.showEmpty();
             btPay.setEnabled(false);
         } else {
             mStateManager.showContent();
-            mAdapter.setNewData(data.getObpptBills());
+            mAdapter.setNewData(data.getBillList());
             tvSum.setText("合计：" + data.getTotalAmt() + "元");
 
             //以下是为生成参数
             StringBuilder sb = new StringBuilder();
-            for (PropertyPayBean.DataBean.ObpptBillsBean obpptBillsBean : data.getObpptBills()) {
+            for (PropertyPayBean.DataBean.BillListBean obpptBillsBean : data.getBillList()) {
                 sb.append(obpptBillsBean.getFid()).append(",");
             }
-            params.ofids = sb.toString();
-            if (params.ofids.endsWith(",")) {
-                params.ofids = params.ofids.substring(0, params.ofids.length() - 1);
+            params.billFids = sb.toString();
+            if (params.billFids.endsWith(",")) {
+                params.billFids = params.billFids.substring(0, params.billFids.length() - 1);
             }
         }
     }
@@ -225,10 +227,10 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     @Override
     public void responsePropertyPayed(PropertyPayBean bean) {
         ptrFrameLayout.refreshComplete();
-        if (bean.getData().getObpptBills().isEmpty()) {
+        if (bean.getData().getBillList().isEmpty()) {
             mStateManager.showEmpty();
         } else {
-            mAdapter.setNewData(bean.getData().getObpptBills());
+            mAdapter.setNewData(bean.getData().getBillList());
         }
     }
 
@@ -238,7 +240,17 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     }
 
     @Override
-    public void responseALiPay(String order) {
-        new ALiPayHelper().pay(_mActivity, order);
+    public void responseBill(JSONObject jsonData) {
+        switch (params.payMethod) {
+            case Constants.TYPE_ALIPAY:
+                //支付宝
+                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
+                break;
+            case Constants.TYPE_WXPAY:
+                //微信
+                WxPayHelper.pay(jsonData);
+                break;
+            default:
+        }
     }
 }

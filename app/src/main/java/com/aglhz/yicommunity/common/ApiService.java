@@ -699,9 +699,8 @@ public interface ApiService {
 
     //******************************以下为物业部分****************************
     //待缴费账单
-    String requestPropertyNotPay = BASE_PROPERTY + "/client/info/pptBillsWait.do";
+    String requestPropertyNotPay = BASE_PROPERTY + "/property/bill/client/get-wait-pay-bill";
 
-    //物业缴费
     @POST
     Observable<PropertyPayBean> requestPropertyNotPay(@Url String url,
                                                       @Query("token") String token,
@@ -709,7 +708,7 @@ public interface ApiService {
                                                       @Query("page") int page);
 
     //已缴费账单
-    String requestPropertyPayed = BASE_PROPERTY + "/client/info/pptBillsFinished.do";
+    String requestPropertyPayed = BASE_PROPERTY + "/property/bill/client/get-has-paid-bill";
 
     @POST
     Observable<PropertyPayBean> requestPropertyPayed(@Url String url,
@@ -718,21 +717,21 @@ public interface ApiService {
                                                      @Query("page") int page);
 
     //物业账单详情
-    String requestPropertyPayDetail = BASE_PROPERTY + "/client/info/pptBillDet";
+    String requestPropertyPayDetail = BASE_PROPERTY + "/property/bill/client/property-bill-detail";
 
     @POST
     Observable<PropertyPayDetailBean> requestPropertyPayDetail(@Url String url,
                                                                @Query("token") String token,
-                                                               @Query("fid") String fid);
+                                                               @Query("billFid") String fid);
 
     //微信、支付宝等第三方支付物业缴费订单 type为1.支付宝;2.微信
-    String requestOrder = BASE_PROPERTY + "/pay/client/generatePayJSON";
+    String requestOrder = BASE_PROPERTY + "/property/bill/client/pay-bill";
 
     @POST
     Observable<ResponseBody> requestOrder(@Url String url,
-                                          @Query("otype") String otype,
-                                          @Query("type") int type,
-                                          @Query("ofids") String ofids);
+                                          @Query("token") String token,
+                                          @Query("billFids") String billFids,
+                                          @Query("payMethod") int payMethod);
 
     //阿里云deviceID登记接口
     String registerDevice = BASE_PROPERTY + "/other/client/logUMengParams";

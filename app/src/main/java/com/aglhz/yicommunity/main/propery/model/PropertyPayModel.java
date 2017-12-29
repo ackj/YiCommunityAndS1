@@ -1,17 +1,16 @@
 package com.aglhz.yicommunity.main.propery.model;
 
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
-import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
+import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 /**
  * Author: LiuJia on 2017/5/7 0007 21:41.
@@ -50,16 +49,12 @@ public class PropertyPayModel extends BaseModel implements PropertyPayContract.M
     }
 
     @Override
-    public Observable<ResponseBody> requestOrder(Params params) {
-        ALog.e(params.otype);
-        ALog.e(params.type);
-        ALog.e(params.ofids);
-
+    public Observable<ResponseBody> requestBill(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestOrder(ApiService.requestOrder,
-                        params.otype,
-                        params.type,
-                        params.ofids)
+                        params.token,
+                        params.billFids,
+                        params.payMethod)
                 .subscribeOn(Schedulers.io());
     }
 }

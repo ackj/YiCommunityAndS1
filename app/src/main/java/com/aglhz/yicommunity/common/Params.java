@@ -54,6 +54,7 @@ public class Params {
     public String outTime;
     public String currentPositionLat;
     public String billFids;     //多个时用“,”分隔。 现在已经改成ofids
+    public int payMethod;     //多个时用“,”分隔。
     public String currentPositionLng;
     public String positionAddress;
     public String secondCategoryId;//二级菜单的id

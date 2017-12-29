@@ -160,6 +160,13 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
+    <!--以下为小米推送所需权限-->
+    <permission
+        android:name="com.aglhz.s1.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.aglhz.s1.permission.MIPUSH_RECEIVE" />
+    <!--以上为小米推送所需权限-->
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -234,7 +241,7 @@
             android:theme="@style/Transparent" />
         <activity
             android:name=".main.parking.TempParkActivity"
-            android:theme="@style/Transparent"/>
+            android:theme="@style/Transparent" />
 
         <activity
             android:name=".main.publish.PropertyActivity"
@@ -373,20 +380,6 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity android:name="com.aglhz.s1.camera.PlayBackActivity" />
         <activity android:name="com.aglhz.s1.camera.CameraSettingActivity" />
-        <!-- 消息接收监听器 （用户可自主扩展） 2017.09.27添加-->
-        <receiver
-            android:name="com.aglhz.yicommunity.broadcast.NotificationReceiver"
-            android:exported="false"> <!-- 为保证receiver安全，建议设置不可导出，如需对其他应用开放可通过android：permission进行限制 -->
-            <intent-filter>
-                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.aglhz.abase.network.http;
 
+import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.log.ALog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,7 +53,7 @@ public class LogInterceptor implements Interceptor {
             
             String code = jsonOther.optString("code");
             if ("123".equals(code)) {
-                EventBus.getDefault().post(new LogInterceptor());
+                EventBus.getDefault().post(new EventLogout());
             }
 
         } catch (JSONException e) {

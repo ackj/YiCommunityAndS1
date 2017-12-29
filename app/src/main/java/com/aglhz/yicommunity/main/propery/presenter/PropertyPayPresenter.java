@@ -4,15 +4,16 @@ import android.support.annotation.NonNull;
 
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.common.payment.WxPayHelper;
-import com.aglhz.yicommunity.main.propery.model.PropertyPayModel;
+import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
+import com.aglhz.yicommunity.main.propery.model.PropertyPayModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -63,46 +64,73 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
     public void requestPropertyPayDetail(Params params) {
         mRxManager.add(mModel.requestPropertyPayDetail(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bean -> {
-                    if (bean.getOther().getCode() == 200) {
-                        getView().responsePropertyPayDetail(bean);
-                    } else {
-                        getView().error(bean.getOther().getMessage());
+                .subscribe(new RxSubscriber<PropertyPayDetailBean>() {
+                    @Override
+                    public void _onNext(PropertyPayDetailBean bean) {
+                        if (bean.getOther().getCode() == 200) {
+                            getView().responsePropertyPayDetail(bean);
+                        } else {
+                            getView().error(bean.getOther().getMessage());
+                        }
                     }
-                }, this::error));
+                }));
     }
 
     @Override
-    public void requestOrder(Params params) {
-        mRxManager.add(mModel.requestOrder(params)
+    public void requestBill(Params params) {
+//        mRxManager.add(mModel.requestBill(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(responseBody -> {
+//
+//                    JSONObject jsonObject;
+//                    try {
+//                        jsonObject = new JSONObject(responseBody.string());
+//                        JSONObject jsonOther = jsonObject.optJSONObject("other");
+//
+//                        String code = jsonOther.optString("code");
+//                        if ("200".equals(code)) {
+//                            if (params.payMethod == 102) {
+//                                //支付宝
+//
+//                                JSONObject jsonData = jsonObject.optJSONObject("data");
+//                                getView().responseBill(jsonData.optString("body"));
+//
+//                            } else if (params.payMethod == 202) {
+//                                //微信
+//                                WxPayHelper.pay(jsonObject.toString());
+//                            }
+//                        } else {
+//                            getView().error(jsonOther.optString("message"));
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }, this::error));
+
+
+        mRxManager.add(mModel.requestBill(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(responseBody -> {
-
-                    JSONObject jsonObject;
-                    try {
-                        jsonObject = new JSONObject(responseBody.string());
-                        JSONObject jsonOther = jsonObject.optJSONObject("other");
-
-                        String code = jsonOther.optString("code");
-                        if ("200".equals(code)) {
-                            if (params.type == 1) {
-                                //支付宝
-
+                .subscribe(new RxSubscriber<ResponseBody>() {
+                    @Override
+                    public void _onNext(ResponseBody body) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(body.string());
+                            JSONObject jsonOther = jsonObject.optJSONObject("other");
+                            String code = jsonOther.optString("code");
+                            if ("200".equals(code)) {
                                 JSONObject jsonData = jsonObject.optJSONObject("data");
-                                getView().responseALiPay(jsonData.optString("body"));
-
-                            } else if (params.type == 2) {
-                                //微信
-                                WxPayHelper.pay(jsonObject.toString());
+                                getView().responseBill(jsonData);
+                            } else {
+                                getView().error(jsonOther.optString("message"));
                             }
-                        } else {
-                            getView().error(jsonOther.optString("message"));
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                }, this::error));
+                }));
+
     }
 }
