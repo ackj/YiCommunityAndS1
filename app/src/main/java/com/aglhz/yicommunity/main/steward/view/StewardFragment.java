@@ -64,7 +64,9 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 由于切换小区，这个页面的EventBus会调用下拉刷新，导致再进入此页面后，下拉刷新无法归为，基本瘫痪。
  */
 public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter> implements StewardContract.View {
+
     private static final String TAG = StewardFragment.class.getSimpleName();
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -83,6 +85,7 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
     PtrFrameLayout ptrFrameLayout;
     @BindView(R.id.sv_steward_fragment)
     ScrollView svSteward;
+
     private StewardRVAdapter myHouseAdapter;
     private StewardRVAdapter smartHomeAdapter;
     private StewardRVAdapter smartDoorAdapter;
@@ -357,10 +360,9 @@ public class StewardFragment extends BaseLazyFragment<StewardContract.Presenter>
         }
 
         ArrayList<IconBean> iconBeans = new ArrayList<>();
-        for (int i = 0; i < listIcons.size(); i++) {
-            IconBean bean = listIcons.get(i);
-            iconBeans.add(new IconBean(R.drawable.ic_myhouse_blue_140px,
-                    bean.title, bean.fid, bean.roomDir));
+        for (int i = 0; i < data.size(); i++) {
+            MyHousesBean.DataBean.AuthBuildingsBean bean = data.get(i);
+            iconBeans.add(new IconBean(R.drawable.ic_myhouse_blue_140px, bean.getAddress(), bean.getFid(), bean.getRoomDir()));
         }
 
         if (smartHomeAdapter != null) {
