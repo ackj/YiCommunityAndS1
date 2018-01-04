@@ -9,8 +9,6 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.s1.common.BoxingGlideLoader;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.entity.bean.NotificationBean;
-import com.aglhz.s1.event.EventLearnSensor;
-import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
@@ -18,6 +16,9 @@ import com.google.gson.Gson;
 import com.p2p.core.P2PSpecial.P2PSpecial;
 
 import org.greenrobot.eventbus.EventBus;
+
+import cn.itsite.apush.event.EventLearnSensor;
+import cn.itsite.apush.event.EventRefreshSecurity;
 
 /**
  * Created by leguang on 2017/6/22 0022.
@@ -190,6 +191,8 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
             case Constants.ALARM_RED:
                 break;
             case Constants.ALARM_DOOR:
+                break;
+            default:
                 break;
         }
     }

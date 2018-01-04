@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 public class UserHelper {
     public static final String TAG = UserHelper.class.getSimpleName();
-    public static final String DEFAULT = "";
+    public static final String DEFAULT = "default";
     public static final String TOKEN = "token";
     public static final String COMMUNITY_NAME = "community_name";
     public static final String COMMUNITY_CODE = "community_code";
@@ -55,12 +55,13 @@ public class UserHelper {
     public static String communityLongitude = "";//小区对应的经度。
     public static String communityLatitude = "";//小区对应的纬度。
     public static String sip = "";
-    public static String WXAPPID = "";
+    public static String WXAPPID = "wx160fff7b6ed86ef7";
     public static String locationAddress = "";//定位的位置地址。
     public static boolean isExchangeAgree = false;//闲置交换发布时是否同意过我们的协议。
     public static boolean isCarpoolAgree = false;//拼车服务发布时是否同意过我们的协议。
     public static String deviceSn = "";
     public static String deviceName = "";//主机名称
+    public static final String DEVICE_ID = "device_id";
 
     public static UserBean.DataBean.MemberInfoBean userInfo;
 
@@ -135,6 +136,8 @@ public class UserHelper {
         UserHelper.token = token;
         SharedPreferences.Editor editor = getEditor();
         editor.putString(TOKEN, token);
+
+        getDefaultEditor().putString(TOKEN, token).commit();//临时为了应付注册deviceID能在apush中拿得到，所以保存在default sp文件中。
         return editor.commit();
     }
 
@@ -250,6 +253,10 @@ public class UserHelper {
         SharedPreferences.Editor editor = getEditor();
         editor.putString(DIR, dir);
         return editor.commit();
+    }
+
+    public static String getDeviceID() {
+        return getDefaultSp().getString(DEVICE_ID, "");
     }
 
     //更新省份名称。

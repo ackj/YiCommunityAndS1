@@ -215,11 +215,11 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                     holder.setOnClickListener(R.id.iv_cancel_parking_charge_dialog, v -> {
                         dialog.dismiss();
                     }).setOnClickListener(R.id.tv_alipay_parking_charge_dialog, v -> {
-                        params.payType = Constants.TYPE_ALIPAY;
+                        params.payMethod = Constants.TYPE_ALIPAY;
                         mPresenter.requestTempParkBill(params);
                         dialog.dismiss();
                     }).setOnClickListener(R.id.tv_weixin_parking_charge_dialog, v -> {
-                        params.payType = Constants.TYPE_WXPAY;
+                        params.payMethod = Constants.TYPE_WXPAY;
                         mPresenter.requestTempParkBill(params);
                         dialog.dismiss();
                     }).setText(R.id.tv_park_parking_charge_dialog, data.getData().getParkPlaceName())
@@ -240,7 +240,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
 
     @Override
     public void responseTempParkBill(JSONObject jsonData) {
-        switch (params.payType) {
+        switch (params.payMethod) {
             case Constants.TYPE_ALIPAY:
                 //支付宝
                 new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
@@ -250,6 +250,7 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                 WxPayHelper.pay(jsonData.toString());
                 break;
             default:
+                break;
         }
     }
 
@@ -261,10 +262,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        ALog.e("requestCode--" + requestCode);
-        ALog.e("resultCode--" + resultCode);
-        ALog.e("data--" + data);
-
         if (data == null) {
             _mActivity.onBackPressedSupport();
             return;

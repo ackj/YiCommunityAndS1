@@ -32,15 +32,15 @@ public class WxPayHelper {
 
             PayReq req = new PayReq();
             //{"data":{"appId":"wxe5dbac804d7bb267","timeStamp":"1488436959","noncestr":"cfb9296583e2461caeda09d0d3621f9a","sign":"BC569731EE8560316A719BC1F8EBCF0E","partnerid":"1335876101","prepayid":"wx20170302144239e711b2897c0269541507","package_":"Sign=WXPay","wxOrderSn":"20170302144238868719"},"other":{"code":200,"message":"","time":"","currpage":0,"next":"","forward":"","refresh":"","first":""}}
-            req.appId = payData.optString("appid");
+            req.appId = payData.optString("appId");
             ALog.e("appId", req.appId);
-            req.partnerId = payData.optString("partnerid");
+            req.partnerId = payData.optString("partnerId");
             ALog.e("partnerId", req.partnerId);
-            req.prepayId = payData.optString("prepayid");
+            req.prepayId = payData.optString("prePayId");
             ALog.e("prepayId", req.prepayId);
             req.packageValue = "Sign=WXPay";
             ALog.e("packageValue", req.packageValue);
-            req.nonceStr = payData.optString("noncestr");
+            req.nonceStr = payData.optString("nonceStr");
             ALog.e("nonceStr", req.nonceStr);
             req.timeStamp = payData.optString("timestamp");
             ALog.e("timeStamp", req.timeStamp);
@@ -57,6 +57,29 @@ public class WxPayHelper {
         }
     }
 
+    public static void pay(JSONObject payData) {
+        ALog.e("微信支付-->" + payData.toString());
+        PayReq req = new PayReq();
+        req.appId = payData.optString("appId");
+        ALog.e("appId", req.appId);
+        req.partnerId = payData.optString("partnerId");
+        ALog.e("partnerId", req.partnerId);
+        req.prepayId = payData.optString("prePayId");
+        ALog.e("prepayId", req.prepayId);
+        req.packageValue = "Sign=WXPay";
+        ALog.e("packageValue", req.packageValue);
+        req.nonceStr = payData.optString("nonceStr");
+        ALog.e("nonceStr", req.nonceStr);
+        req.timeStamp = payData.optString("timestamp");
+        ALog.e("timeStamp", req.timeStamp);
+        req.sign = payData.optString("sign");
+        ALog.e("sign", req.sign);
+        req.extData = payData.optString("outTradeNo");
+        ALog.e("extData", req.extData);
+        appId = req.appId;
+        IWXAPI api = WXAPIFactory.createWXAPI(App.mContext, req.appId);
+        api.sendReq(req);
+    }
 
     // 二次签名
     private static String genAppSign(List<NameValuePair> params, String key) {

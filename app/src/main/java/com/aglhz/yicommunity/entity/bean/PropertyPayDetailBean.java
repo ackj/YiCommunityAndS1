@@ -11,7 +11,7 @@ import java.util.List;
 public class PropertyPayDetailBean extends BaseBean{
 
     /**
-     * data : {"fid":"eb81b16e-4002-4006-b377-8aca57853f4a","bCode":"201705311156533953502","bName":"测试201705311153","dtFrom":"2017-04-01","dtTo":"2017-04-30","totalAmt":"0.07","status":2,"payType":2,"no":"","ctime":"2017-05-31 11:56:53","pptBillDets":[{"iCode":"GGWXF","iName":"公共维修费","des":"公共维修费","iTotalAmt":"0.01"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.01"},{"iCode":"WY-LJCL-006","iName":"垃圾处理费","des":"垃圾处理费","iTotalAmt":"0.01"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.01"},{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.01"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.01"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"}],"buildingInfo":{"fid":"eb81b16e-4002-4006-b377-8aca57853f4a","o_name":"李勇","c_name":"凯宾斯基","c_code":"KBSJ-agl-00005","b_name":"8房","b_code":"KBSJ-agl-00005-003-001-030-08","addressPre":"","address":"凯宾斯基3栋1单元30层8房","isOwner":0,"members":[]}}
+     * data : {"fid":"6fde1aaf-d48a-4e0b-97ec-6e0040dad2bf","billCode":"201712280058182955648","billName":"老李11月份的账单","settlementStartDate":"2017-11-01","settlementEndDate":"2017-11-30","amount":0.1,"status":0,"remark":"","createTime":"2017-12-28 00:58:18","houseInfo":"凯宾斯基3栋1单元30层8房","payChannel":"","payMethod":"","propertyBillBillCode":"","tradeBillNo":"","itemList":[{"itemName":"电梯公摊费","itemAmt":0.1,"itemRemark":"电梯公摊费"}]}
      */
 
     private DataBean data;
@@ -26,32 +26,38 @@ public class PropertyPayDetailBean extends BaseBean{
 
     public static class DataBean {
         /**
-         * fid : eb81b16e-4002-4006-b377-8aca57853f4a
-         * bCode : 201705311156533953502
-         * bName : 测试201705311153
-         * dtFrom : 2017-04-01
-         * dtTo : 2017-04-30
-         * totalAmt : 0.07
-         * status : 2
-         * payType : 2
-         * no :
-         * ctime : 2017-05-31 11:56:53
-         * pptBillDets : [{"iCode":"GGWXF","iName":"公共维修费","des":"公共维修费","iTotalAmt":"0.01"},{"iCode":"WY-BJ-004","iName":"保洁费","des":"保洁费","iTotalAmt":"0.01"},{"iCode":"WY-LJCL-006","iName":"垃圾处理费","des":"垃圾处理费","iTotalAmt":"0.01"},{"iCode":"WY-GTSD-005","iName":"公摊水电","des":"公摊水电","iTotalAmt":"0.01"},{"iCode":"WY-DT-002","iName":"电梯费用","des":"电梯费用","iTotalAmt":"0.01"},{"iCode":"WY-GGZM-003","iName":"公共照明","des":"公共照明","iTotalAmt":"0.01"},{"iCode":"WY-GL-001","iName":"物业管理费","des":"物业管理费","iTotalAmt":"0.01"}]
-         * buildingInfo : {"fid":"eb81b16e-4002-4006-b377-8aca57853f4a","o_name":"李勇","c_name":"凯宾斯基","c_code":"KBSJ-agl-00005","b_name":"8房","b_code":"KBSJ-agl-00005-003-001-030-08","addressPre":"","address":"凯宾斯基3栋1单元30层8房","isOwner":0,"members":[]}
+         * fid : 6fde1aaf-d48a-4e0b-97ec-6e0040dad2bf
+         * billCode : 201712280058182955648
+         * billName : 老李11月份的账单
+         * settlementStartDate : 2017-11-01
+         * settlementEndDate : 2017-11-30
+         * amount : 0.1
+         * status : 0
+         * remark :
+         * createTime : 2017-12-28 00:58:18
+         * houseInfo : 凯宾斯基3栋1单元30层8房
+         * payChannel :
+         * payMethod :
+         * propertyBillBillCode :
+         * tradeBillNo :
+         * itemList : [{"itemName":"电梯公摊费","itemAmt":0.1,"itemRemark":"电梯公摊费"}]
          */
 
         private String fid;
-        private String bCode;
-        private String bName;
-        private String dtFrom;
-        private String dtTo;
-        private String totalAmt;
+        private String billCode;
+        private String billName;
+        private String settlementStartDate;
+        private String settlementEndDate;
+        private double amount;
         private int status;
-        private int payType;
-        private String no;
-        private String ctime;
-        private BuildingInfoBean buildingInfo;
-        private List<PptBillDetsBean> pptBillDets;
+        private String remark;
+        private String createTime;
+        private String houseInfo;
+        private String payChannel;
+        private String payMethod;
+        private String propertyBillBillCode;
+        private String tradeBillNo;
+        private List<ItemListBean> itemList;
 
         public String getFid() {
             return fid;
@@ -61,44 +67,44 @@ public class PropertyPayDetailBean extends BaseBean{
             this.fid = fid;
         }
 
-        public String getBCode() {
-            return bCode;
+        public String getBillCode() {
+            return billCode;
         }
 
-        public void setBCode(String bCode) {
-            this.bCode = bCode;
+        public void setBillCode(String billCode) {
+            this.billCode = billCode;
         }
 
-        public String getBName() {
-            return bName;
+        public String getBillName() {
+            return billName;
         }
 
-        public void setBName(String bName) {
-            this.bName = bName;
+        public void setBillName(String billName) {
+            this.billName = billName;
         }
 
-        public String getDtFrom() {
-            return dtFrom;
+        public String getSettlementStartDate() {
+            return settlementStartDate;
         }
 
-        public void setDtFrom(String dtFrom) {
-            this.dtFrom = dtFrom;
+        public void setSettlementStartDate(String settlementStartDate) {
+            this.settlementStartDate = settlementStartDate;
         }
 
-        public String getDtTo() {
-            return dtTo;
+        public String getSettlementEndDate() {
+            return settlementEndDate;
         }
 
-        public void setDtTo(String dtTo) {
-            this.dtTo = dtTo;
+        public void setSettlementEndDate(String settlementEndDate) {
+            this.settlementEndDate = settlementEndDate;
         }
 
-        public String getTotalAmt() {
-            return totalAmt;
+        public double getAmount() {
+            return amount;
         }
 
-        public void setTotalAmt(String totalAmt) {
-            this.totalAmt = totalAmt;
+        public void setAmount(double amount) {
+            this.amount = amount;
         }
 
         public int getStatus() {
@@ -109,195 +115,103 @@ public class PropertyPayDetailBean extends BaseBean{
             this.status = status;
         }
 
-        public int getPayType() {
-            return payType;
+        public String getRemark() {
+            return remark;
         }
 
-        public void setPayType(int payType) {
-            this.payType = payType;
+        public void setRemark(String remark) {
+            this.remark = remark;
         }
 
-        public String getNo() {
-            return no;
+        public String getCreateTime() {
+            return createTime;
         }
 
-        public void setNo(String no) {
-            this.no = no;
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
         }
 
-        public String getCtime() {
-            return ctime;
+        public String getHouseInfo() {
+            return houseInfo;
         }
 
-        public void setCtime(String ctime) {
-            this.ctime = ctime;
+        public void setHouseInfo(String houseInfo) {
+            this.houseInfo = houseInfo;
         }
 
-        public BuildingInfoBean getBuildingInfo() {
-            return buildingInfo;
+        public String getPayChannel() {
+            return payChannel;
         }
 
-        public void setBuildingInfo(BuildingInfoBean buildingInfo) {
-            this.buildingInfo = buildingInfo;
+        public void setPayChannel(String payChannel) {
+            this.payChannel = payChannel;
         }
 
-        public List<PptBillDetsBean> getPptBillDets() {
-            return pptBillDets;
+        public String getPayMethod() {
+            return payMethod;
         }
 
-        public void setPptBillDets(List<PptBillDetsBean> pptBillDets) {
-            this.pptBillDets = pptBillDets;
+        public void setPayMethod(String payMethod) {
+            this.payMethod = payMethod;
         }
 
-        public static class BuildingInfoBean {
+        public String getPropertyBillBillCode() {
+            return propertyBillBillCode;
+        }
+
+        public void setPropertyBillBillCode(String propertyBillBillCode) {
+            this.propertyBillBillCode = propertyBillBillCode;
+        }
+
+        public String getTradeBillNo() {
+            return tradeBillNo;
+        }
+
+        public void setTradeBillNo(String tradeBillNo) {
+            this.tradeBillNo = tradeBillNo;
+        }
+
+        public List<ItemListBean> getItemList() {
+            return itemList;
+        }
+
+        public void setItemList(List<ItemListBean> itemList) {
+            this.itemList = itemList;
+        }
+
+        public static class ItemListBean {
             /**
-             * fid : eb81b16e-4002-4006-b377-8aca57853f4a
-             * o_name : 李勇
-             * c_name : 凯宾斯基
-             * c_code : KBSJ-agl-00005
-             * b_name : 8房
-             * b_code : KBSJ-agl-00005-003-001-030-08
-             * addressPre :
-             * address : 凯宾斯基3栋1单元30层8房
-             * isOwner : 0
-             * members : []
+             * itemName : 电梯公摊费
+             * itemAmt : 0.1
+             * itemRemark : 电梯公摊费
              */
 
-            private String fid;
-            private String o_name;
-            private String c_name;
-            private String c_code;
-            private String b_name;
-            private String b_code;
-            private String addressPre;
-            private String address;
-            private int isOwner;
-            private List<?> members;
+            private String itemName;
+            private double itemAmt;
+            private String itemRemark;
 
-            public String getFid() {
-                return fid;
+            public String getItemName() {
+                return itemName;
             }
 
-            public void setFid(String fid) {
-                this.fid = fid;
+            public void setItemName(String itemName) {
+                this.itemName = itemName;
             }
 
-            public String getO_name() {
-                return o_name;
+            public double getItemAmt() {
+                return itemAmt;
             }
 
-            public void setO_name(String o_name) {
-                this.o_name = o_name;
+            public void setItemAmt(double itemAmt) {
+                this.itemAmt = itemAmt;
             }
 
-            public String getC_name() {
-                return c_name;
+            public String getItemRemark() {
+                return itemRemark;
             }
 
-            public void setC_name(String c_name) {
-                this.c_name = c_name;
-            }
-
-            public String getC_code() {
-                return c_code;
-            }
-
-            public void setC_code(String c_code) {
-                this.c_code = c_code;
-            }
-
-            public String getB_name() {
-                return b_name;
-            }
-
-            public void setB_name(String b_name) {
-                this.b_name = b_name;
-            }
-
-            public String getB_code() {
-                return b_code;
-            }
-
-            public void setB_code(String b_code) {
-                this.b_code = b_code;
-            }
-
-            public String getAddressPre() {
-                return addressPre;
-            }
-
-            public void setAddressPre(String addressPre) {
-                this.addressPre = addressPre;
-            }
-
-            public String getAddress() {
-                return address;
-            }
-
-            public void setAddress(String address) {
-                this.address = address;
-            }
-
-            public int getIsOwner() {
-                return isOwner;
-            }
-
-            public void setIsOwner(int isOwner) {
-                this.isOwner = isOwner;
-            }
-
-            public List<?> getMembers() {
-                return members;
-            }
-
-            public void setMembers(List<?> members) {
-                this.members = members;
-            }
-        }
-
-        public static class PptBillDetsBean {
-            /**
-             * iCode : GGWXF
-             * iName : 公共维修费
-             * des : 公共维修费
-             * iTotalAmt : 0.01
-             */
-
-            private String iCode;
-            private String iName;
-            private String des;
-            private String iTotalAmt;
-
-            public String getICode() {
-                return iCode;
-            }
-
-            public void setICode(String iCode) {
-                this.iCode = iCode;
-            }
-
-            public String getIName() {
-                return iName;
-            }
-
-            public void setIName(String iName) {
-                this.iName = iName;
-            }
-
-            public String getDes() {
-                return des;
-            }
-
-            public void setDes(String des) {
-                this.des = des;
-            }
-
-            public String getITotalAmt() {
-                return iTotalAmt;
-            }
-
-            public void setITotalAmt(String iTotalAmt) {
-                this.iTotalAmt = iTotalAmt;
+            public void setItemRemark(String itemRemark) {
+                this.itemRemark = itemRemark;
             }
         }
     }

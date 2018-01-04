@@ -21,7 +21,6 @@ import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.common.ScrollingHelper;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
-import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.abase.utils.DensityUtils;
 import com.aglhz.s1.main.home.MainActivity;
 import com.aglhz.yicommunity.App;
@@ -52,7 +51,6 @@ import com.aglhz.yicommunity.main.propery.view.PropertyPayFragment;
 import com.aglhz.yicommunity.qrcode.QRCodeActivity;
 import com.aglhz.yicommunity.web.WebActivity;
 import com.aglhz.yicommunity.widget.OpenDoorDialog;
-import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,7 +90,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     private String normalNotice = "欢迎来到亿社区！";
     private Params params = Params.getInstance();
     private OpenDoorDialog openDoorialog;
-    private BaseRecyclerViewAdapter<OneKeyDoorBean.DataBean.ItemListBean, BaseViewHolder> selectorAdapter;
+    private int totalDy = 0;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -116,23 +114,10 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
         initData();
         initListener();
         initPtrFrameLayout();
     }
-
-    private void initView() {
-        selectorAdapter = new BaseRecyclerViewAdapter<OneKeyDoorBean.DataBean.ItemListBean, BaseViewHolder>(R.layout.item_rv_door_selector) {
-            @Override
-            protected void convert(BaseViewHolder helper, OneKeyDoorBean.DataBean.ItemListBean item) {
-                helper.setText(R.id.tv_name_item_rv_door_selector, item.getName())
-                        .setText(R.id.tv_community_item_rv_door_selector, UserHelper.communityName)
-                        .setText(R.id.tv_online_item_rv_door_selector, item.isOnline() ? "在线" : "离线");
-            }
-        };
-    }
-
 
     private void initData() {
         setCommunity();
@@ -275,7 +260,6 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int totalDy = 0;
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
@@ -371,6 +355,8 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
                 });
         setCommunity();
         Params.cmnt_c = UserHelper.communityCode;
+        recyclerView.scrollToPosition(0);
+        totalDy = 0;//让滑动标记置0，不然在切换社区时，由于通过代码滑动到顶部，这个状态字段就没有归0，会出现顶部栏颜色不变的Bug。
         ptrFrameLayout.autoRefresh();
     }
 

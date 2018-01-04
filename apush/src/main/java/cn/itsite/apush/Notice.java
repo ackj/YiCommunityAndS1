@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.common.Notification;
+package cn.itsite.apush;
 
 /**
  * Created by leguang on 2017/9/27 0027.

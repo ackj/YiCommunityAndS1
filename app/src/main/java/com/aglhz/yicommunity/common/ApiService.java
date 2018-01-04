@@ -82,9 +82,9 @@ public interface ApiService {
 
 
     //********************以下为Web*******************************
-    String PRODUCT_INTRODUCTION = "http://www.aglhz.com/sub_property_ysq/m/html/introduction.html";
+    String PRODUCT_INTRODUCTION = "http://www.aglhz.com/sub_property_ysq/m/html/meilun/meilunIntroduction.html";
 
-    String SERVICE_TERMS = "http://www.aglhz.com/sub_property_ysq/m/html/userAgreement.html";
+    String SERVICE_TERMS = "http://www.aglhz.com/sub_property_ysq/m/html/meilun/meilunUserAgreement.html";
 
     String INDENT_CENTER = "http://www.aglhz.com/sub_property_ysq/m/mall_zyg/html/newPersonCenter/newOrderCenter.html?appType=2&token=";
 
@@ -144,10 +144,12 @@ public interface ApiService {
     String requestLogin = BASE_USER + "/client/login.do";
 
     @POST
-    Observable<UserBean> requestLogin(@Url String url
-            , @Query("sc") String sc
-            , @Query("user") String user
-            , @Query("pwd") String pwd);
+    Observable<UserBean> requestLogin(@Url String url,
+                                      @Query("sc") String sc,
+                                      @Query("fc") String fc,
+                                      @Query("deviceBrank") String deviceBrank,
+                                      @Query("user") String user,
+                                      @Query("pwd") String pwd);
 
     //登出
     String requestLogout = BASE_USER + "/client/logout.do";
@@ -698,9 +700,8 @@ public interface ApiService {
 
     //******************************以下为物业部分****************************
     //待缴费账单
-    String requestPropertyNotPay = BASE_PROPERTY + "/client/info/pptBillsWait.do";
+    String requestPropertyNotPay = BASE_PROPERTY + "/property/bill/client/get-wait-pay-bill";
 
-    //物业缴费
     @POST
     Observable<PropertyPayBean> requestPropertyNotPay(@Url String url,
                                                       @Query("token") String token,
@@ -708,7 +709,7 @@ public interface ApiService {
                                                       @Query("page") int page);
 
     //已缴费账单
-    String requestPropertyPayed = BASE_PROPERTY + "/client/info/pptBillsFinished.do";
+    String requestPropertyPayed = BASE_PROPERTY + "/property/bill/client/get-has-paid-bill";
 
     @POST
     Observable<PropertyPayBean> requestPropertyPayed(@Url String url,
@@ -717,21 +718,21 @@ public interface ApiService {
                                                      @Query("page") int page);
 
     //物业账单详情
-    String requestPropertyPayDetail = BASE_PROPERTY + "/client/info/pptBillDet";
+    String requestPropertyPayDetail = BASE_PROPERTY + "/property/bill/client/property-bill-detail";
 
     @POST
     Observable<PropertyPayDetailBean> requestPropertyPayDetail(@Url String url,
                                                                @Query("token") String token,
-                                                               @Query("fid") String fid);
+                                                               @Query("billFid") String fid);
 
     //微信、支付宝等第三方支付物业缴费订单 type为1.支付宝;2.微信
-    String requestOrder = BASE_PROPERTY + "/pay/client/generatePayJSON";
+    String requestOrder = BASE_PROPERTY + "/property/bill/client/pay-bill";
 
     @POST
     Observable<ResponseBody> requestOrder(@Url String url,
-                                          @Query("otype") String otype,
-                                          @Query("type") int type,
-                                          @Query("ofids") String ofids);
+                                          @Query("token") String token,
+                                          @Query("billFids") String billFids,
+                                          @Query("payMethod") int payMethod);
 
     //阿里云deviceID登记接口
     String registerDevice = BASE_PROPERTY + "/other/client/logUMengParams";
@@ -867,14 +868,14 @@ public interface ApiService {
                                                        @Field("carNo") String carNo);
 
     //临时停车支付
-    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/temporary-pay";
+    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/pay-bill";
 
     @FormUrlEncoded
     @POST
     Observable<ResponseBody> requestTempParkBill(@Url String url,
                                                  @Field("parkPlaceFid") String parkPlaceFid,
                                                  @Field("carNo") String carNo,
-                                                 @Field("payType") Integer payType);
+                                                 @Field("payMethod") Integer payMethod);
 
     //车卡管理里某免费卡的修改页
     String requestModifyOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-modify";
@@ -908,7 +909,7 @@ public interface ApiService {
                                                          @Query("token") String token,
                                                          @Query("complaintFid") String String);
 
-    String requestCarCardBill = BASE_PROPERTY + "/park/card/from-client/month-card-bill-pay";
+    String requestCarCardBill = BASE_PROPERTY + "/park/card/from-client/pay-bill";
 
     @FormUrlEncoded
     @POST
@@ -917,7 +918,7 @@ public interface ApiService {
                                                 @Field("parkCardFid") String parkCardFid,
                                                 @Field("monthName") String monthName,//预缴月数名称（例如：一个月、半年、一年等）
                                                 @Field("monthCount") int monthCount,//预缴月数值（例如：1、6、12等）
-                                                @Field("payType") int payType);//支付类型（1=支付宝支付、2=微信支付）
+                                                @Field("payMethod") int payMethod);//支付类型（101=支付宝支付、202=微信支付）
 
 
     //-------------------------------以下为2017.06.30添加的社区服务接口--------------------------------------------

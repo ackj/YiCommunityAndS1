@@ -7,9 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
 import com.aglhz.abase.common.ActivityHelper;
-import com.aglhz.abase.log.ALog;
+import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.mvp.contract.base.BaseContract;
-import com.aglhz.abase.network.http.LogInterceptor;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,8 +52,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
     private void initActivity() {
         //把每一个Activity加入栈中
         ActivityHelper.getInstance().addActivity(this);
-        //一旦启动某个Activity就打印Log，方便找到该类
-        ALog.e(TAG);
     }
 
     @Override
@@ -96,7 +93,7 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginoutEvent(LogInterceptor event) {
+    public void onLoginoutEvent(EventLogout event) {
         Intent intent = new Intent("LoginActivity");
         startActivity(intent);
     }

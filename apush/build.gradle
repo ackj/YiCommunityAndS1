@@ -23,6 +23,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    publishNonDefault true  //用于解决依赖Module无法区分debug个版本的。
 }
 
 dependencies {
@@ -31,11 +33,17 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
+    //基础依赖Module
+    debugCompile project(path: ':abase', configuration: 'debug')
+    releaseCompile project(path: ':abase', configuration: 'release')
     //阿里云推送。
     compile 'com.aliyun.ams:alicloud-android-push:3.0.11@aar'
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
     //集成阿里云的辅助通道，对接小米/华为推送。
-    compile 'com.aliyun.ams:alicloud-android-third-push:3.0.5@aar'
+    //在集成了自己的小米推送了，这个就不能再引用了，否则会因为重复引用而冲突。
+//    compile 'com.aliyun.ams:alicloud-android-third-push:3.0.5@aar'
+
+    //集成华为推送。
+    compile 'com.huawei.android.hms:push:2.5.2.300'
 }

@@ -25,7 +25,6 @@ import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
-import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
 import com.aglhz.yicommunity.R;
@@ -46,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.apush.event.EventRefreshSecurity;
 
 
 /**

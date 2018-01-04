@@ -225,13 +225,11 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                 }
                 break;
             case R.id.tv_alipay_car_card_pay_fragment:
-                params.payType = Constants.TYPE_ALIPAY;
+                params.payMethod = Constants.TYPE_ALIPAY;
                 mPresenter.requestCarCardBill(params);
                 break;
             case R.id.tv_weixin_car_card_pay_fragment:
-                ALog.e("1111111");
-
-                params.payType = Constants.TYPE_WXPAY;
+                params.payMethod = Constants.TYPE_WXPAY;
                 mPresenter.requestCarCardBill(params);
                 break;
             default:
@@ -284,7 +282,7 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
 
     @Override
     public void responseCarCardBill(JSONObject jsonObject) {
-        switch (params.payType) {
+        switch (params.payMethod) {
             case Constants.TYPE_ALIPAY:
                 //支付宝
                 new ALiPayHelper().pay(_mActivity, jsonObject.optString("body"));

@@ -541,12 +541,13 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestAddHost(@Url String url,
                                         @Field("token") String token,
-                                        @Field("no") String no,
+                                        @Field("gateway") String gateway,
                                         @Field("name") String name,
+                                        @Field("roomDir") String roomDir,
                                         @Field("addr") String addr,
+                                        @Field("addrDet") String addrDet,
                                         @Field("lng") String lng,
-                                        @Field("lat") String lat,
-                                        @Field("gateway") String deviceSn);
+                                        @Field("lat") String lat);
 
     @FormUrlEncoded
     @POST
@@ -764,7 +765,6 @@ public interface ApiService {
     Observable<BaseBean> requestGatewayTest(@Url String url,
                                             @Field("token") String token,
                                             @Field("fc") String fc,
-
                                             @Field("gateway") String deviceSn,
                                             @Field("status") int status);
 

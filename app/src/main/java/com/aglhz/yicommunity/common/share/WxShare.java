@@ -2,6 +2,7 @@ package com.aglhz.yicommunity.common.share;
 
 import android.text.TextUtils;
 
+import com.aglhz.abase.log.ALog;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.common.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -30,7 +31,7 @@ public class WxShare {
 
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = textObj;
-        msg.title = "亿社区临时密码分享";
+        msg.title = "临时密码分享";
         msg.description = text;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -39,7 +40,8 @@ public class WxShare {
         req.scene = SendMessageToWX.Req.WXSceneSession;
 
         IWXAPI api = WXAPIFactory.createWXAPI(App.mContext, Constants.WX_APP_ID);
-        api.sendReq(req);
+        boolean b = api.sendReq(req);
+        ALog.e("b-->" + b);
     }
 
     private static String buildTransaction(final String type) {

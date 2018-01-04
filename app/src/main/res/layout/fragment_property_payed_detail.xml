@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="20dp"
-        android:text="凯宾斯基3栋"
         android:textSize="18sp" />
 
     <TextView
@@ -22,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="22dp"
-        android:text="0.01元"
         android:textColor="@color/base_black"
         android:textSize="25sp" />
 
@@ -47,13 +45,33 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/payment_channel" />
+
+        <TextView
+            android:id="@+id/tv_payment_channel_property_payed_detail_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/payment_method" />
 
         <TextView
             android:id="@+id/tv_payment_method_property_payed_detail_fragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信支付" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -74,8 +92,7 @@
         <TextView
             android:id="@+id/tv_payment_instructions_property_payed_detail_fragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信支付" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -96,8 +113,7 @@
         <TextView
             android:id="@+id/tv_payment_number_property_payed_detail_fragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信支付" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -118,8 +134,7 @@
         <TextView
             android:id="@+id/tv_creat_time_property_payed_detail_fragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信支付" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

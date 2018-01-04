@@ -1,9 +1,9 @@
 package com.aglhz.yicommunity.login.model;
 
+import com.aglhz.abase.BaseApplication;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
-import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
@@ -27,7 +27,12 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     @Override
     public Observable<UserBean> requestLogin(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestLogin(ApiService.requestLogin, params.sc, params.user, params.pwd)
+                .requestLogin(ApiService.requestLogin,
+                        params.sc,
+                        params.fc,
+                        BaseApplication.PUSH_TYPE,
+                        params.user,
+                        params.pwd)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -41,7 +46,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     @Override
     public void registerPush() {
         HttpHelper.getService(ApiService.class)
-                .registerDevice(ApiService.registerDevice, UserHelper.token, App.deviceID, UserHelper.account, "userType")
+                .registerDevice(ApiService.registerDevice, UserHelper.token, UserHelper.getDeviceID(), UserHelper.account, "userType")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));

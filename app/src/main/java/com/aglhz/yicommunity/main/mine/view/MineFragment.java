@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.network.http.LogInterceptor;
@@ -316,7 +317,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLogoutEvent(LogInterceptor event) {
+    public void onLogoutEvent(EventLogout event) {
         tvName.setText("访客");
         tvPhoneNumber.setText("");
         ivHeaderBackground.setImageResource(R.drawable.bg_mine_1920px_1080px);
