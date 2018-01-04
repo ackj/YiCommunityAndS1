@@ -42,8 +42,8 @@ public class HuaweiPushRevicer extends PushReceiver {
         intent.putExtra("token", token);
         context.sendBroadcast(intent);
 
-        String deviceID = "and_" + token;
-        SPCache.put(context, "DEVICE_ID", deviceID);
+        String deviceID = PushHelper.PREFIX + token;
+        SPCache.put(context, PushHelper.DEVICE_ID, deviceID);
         PushHelper.register(context, deviceID);
     }
 

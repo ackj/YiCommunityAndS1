@@ -2,7 +2,6 @@ package com.aglhz.yicommunity.main.parking.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
@@ -99,8 +98,7 @@ public class TempParkPresenter extends BasePresenter<TempParkContract.View, Temp
 
     @Override
     public void cachePlateHistory(PlateHistoryData plate) {
-        int i = DataSupport.deleteAll(PlateHistoryData.class, "plate = ?", plate.getPlate());
-        ALog.e("delete--" + i);
+        DataSupport.deleteAll(PlateHistoryData.class, "plate = ?", plate.getPlate());
         if (DataSupport.count(PlateHistoryData.class) >= Constants.HISTORY_SIZE) {
             PlateHistoryData first = DataSupport.findFirst(PlateHistoryData.class);
             first.delete();

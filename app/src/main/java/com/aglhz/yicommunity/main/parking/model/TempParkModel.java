@@ -42,7 +42,7 @@ public class TempParkModel extends BaseModel implements TempParkContract.Model {
                 .requestTempParkBill(ApiService.requestTempParkBill,
                         params.parkPlaceFid,
                         params.carNo,
-                        params.payType)
+                        params.payMethod)
                 .subscribeOn(Schedulers.io());
     }
 

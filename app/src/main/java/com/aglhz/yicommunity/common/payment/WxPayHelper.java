@@ -40,7 +40,7 @@ public class WxPayHelper {
             ALog.e("prepayId", req.prepayId);
             req.packageValue = "Sign=WXPay";
             ALog.e("packageValue", req.packageValue);
-            req.nonceStr = payData.optString("noncestr");
+            req.nonceStr = payData.optString("nonceStr");
             ALog.e("nonceStr", req.nonceStr);
             req.timeStamp = payData.optString("timestamp");
             ALog.e("timeStamp", req.timeStamp);
@@ -68,7 +68,7 @@ public class WxPayHelper {
         ALog.e("prepayId", req.prepayId);
         req.packageValue = "Sign=WXPay";
         ALog.e("packageValue", req.packageValue);
-        req.nonceStr = payData.optString("noncestr");
+        req.nonceStr = payData.optString("nonceStr");
         ALog.e("nonceStr", req.nonceStr);
         req.timeStamp = payData.optString("timestamp");
         ALog.e("timeStamp", req.timeStamp);

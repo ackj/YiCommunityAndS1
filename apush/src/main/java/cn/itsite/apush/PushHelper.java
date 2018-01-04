@@ -46,15 +46,14 @@ public class PushHelper {
     public static final String OPPO = "oppo";
     public static final String VIVO = "vivo";
     public static final String ALIYUN = "";
+    public static final String PREFIX = "and_";
+    public static final String DEVICE_ID = "device_id";
 
     private static final String XIAOMI_APP_ID = "2882303761517621288";
     private static final String XIAOMI_APP_KEY = "5861762181288";
     private static HuaweiApiClient client;
 
     public static void init(Context mContext) {
-        ALog.e(TAG, "Build.MANUFACTURER:" + Build.MANUFACTURER);
-        ALog.e(TAG, "Build.MODEL:" + Build.MODEL);
-        ALog.e(TAG, "Build.BRAND:" + Build.BRAND);
         switch (Build.MANUFACTURER.toLowerCase()) {
             case XIAOMI:
                 PushHelper.initXiaoMiPush(mContext);
@@ -82,9 +81,9 @@ public class PushHelper {
             @Override
             public void onSuccess(String response) {
                 ALog.e(TAG, "init cloudchannel success+-->" + response);
-                ALog.e(TAG, "getDeviceId-->" + pushService.getDeviceId());
-                String deviceID = "and_" + pushService.getDeviceId();
-                SPCache.put(mContext, "DEVICE_ID", deviceID);
+                String deviceID = PushHelper.PREFIX + pushService.getDeviceId();
+                SPCache.put(mContext, PushHelper.DEVICE_ID, deviceID);
+                ALog.e(TAG, "deviceID-->" + deviceID);
 
                 PushHelper.register(mContext, deviceID);
             }
@@ -188,6 +187,18 @@ public class PushHelper {
 
     /**
      * 注册设备唯一码deviceID到后台。
+     * <p>
+     * 其实这个在获取到deviceID的时候去注册是没有意义的，只需要在登录的时候注册过了就OK了
+     * 为什么？无非两种情况
+     * 1.未登录状态（不论是第一次安装，还是未登录状态，还是退出登录状态，还是token失效状态），代码走到这里，你注册是不会成功的，因为没有账户和密码。所以无需注册。
+     * 2.登录状态（指针对登录成功，且token未失效），代码走这里是重复注册了，因为deviceID没变就没必要注册了。
+     * 虽然deviceID会变，比如把App删掉在安装，阿里云获取的deviceID是会变的，但是这又回到了情况1，所以没有必要注册。
+     * 在光能安防之所以要这么做是因为当时这些推送是后面添加的，然后法亮测试的时候，是已经登陆的，sp里是有存账户和token的，
+     * 然后安装覆盖后，是不需要重新登录，所以没走注册流程，所以收不到推送，要退出登录再登录才有效。
+     * 同时还有一个原因是因为安装App一进去就会有登录提示，然后那个时候可能由于网络问题，deviceID可能还没有返回，所以也是注册不成功的，
+     * 所以也是收不到通知的。
+     * <p>
+     * 后期重构的时候还是要取消掉这里的注册。
      *
      * @param mContext
      * @param deviceID
@@ -196,30 +207,30 @@ public class PushHelper {
         String account = (String) SPCache.get(mContext, "account", "");
         String token = (String) SPCache.get(mContext, "token", "");
 
-//        HttpHelper.getService(ApiService.class)
-//                .registerDevice(ApiService.registerDevice, token, deviceID, account, "userType")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Action1<ResponseBody>() {
-//                    @Override
-//                    public void call(ResponseBody responseBody) {
-//                        try {
-//                            ALog.e(TAG, responseBody.string());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
+        HttpHelper.getService(ApiService.class)
+                .registerDevice(ApiService.registerDevice, token, deviceID, account, "userType")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        try {
+                            ALog.e(TAG, responseBody.string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
-//    public interface ApiService {
-//        String registerDevice = "http://120.77.83.45:8076/gasMember/client/logUMengParams.do";
-//
-//        @POST
-//        Observable<ResponseBody> registerDevice(@Url String url,
-//                                                @Query("token") String token,
-//                                                @Query("deviceToken") String deviceToken,
-//                                                @Query("alias") String alias,
-//                                                @Query("aliasType") String aliasType);
-//    }
+    public interface ApiService {
+        String registerDevice = "http://www.aglhz.com:8090/sub_property_ysq" + "/other/client/logUMengParams";
+
+        @POST
+        Observable<ResponseBody> registerDevice(@Url String url,
+                                                @Query("token") String token,
+                                                @Query("deviceToken") String deviceToken,
+                                                @Query("alias") String alias,
+                                                @Query("aliasType") String aliasType);
+    }
 }

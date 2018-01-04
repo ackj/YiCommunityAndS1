@@ -108,8 +108,8 @@ public class MiPushReceiver extends PushMessageReceiver {
         if (MiPushClient.COMMAND_REGISTER.equals(command)) {
             if (message.getResultCode() == ErrorCode.SUCCESS) {
                 ALog.e("argument0-->" + argument0);
-                String deviceID = "and_" + argument0;
-                SPCache.put(context, "DEVICE_ID", deviceID);
+                String deviceID = PushHelper.PREFIX + argument0;
+                SPCache.put(context, PushHelper.DEVICE_ID, deviceID);
                 PushHelper.register(context, deviceID);
             } else {
                 PushHelper.initAliPush(context);

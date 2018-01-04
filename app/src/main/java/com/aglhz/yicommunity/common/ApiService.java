@@ -147,6 +147,7 @@ public interface ApiService {
     Observable<UserBean> requestLogin(@Url String url,
                                       @Query("sc") String sc,
                                       @Query("fc") String fc,
+                                      @Query("deviceBrank") String deviceBrank,
                                       @Query("user") String user,
                                       @Query("pwd") String pwd);
 
@@ -867,14 +868,14 @@ public interface ApiService {
                                                        @Field("carNo") String carNo);
 
     //临时停车支付
-    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/temporary-pay";
+    String requestTempParkBill = BASE_PROPERTY + "/park/temporary/from-client/pay-bill";
 
     @FormUrlEncoded
     @POST
     Observable<ResponseBody> requestTempParkBill(@Url String url,
                                                  @Field("parkPlaceFid") String parkPlaceFid,
                                                  @Field("carNo") String carNo,
-                                                 @Field("payType") Integer payType);
+                                                 @Field("payMethod") Integer payMethod);
 
     //车卡管理里某免费卡的修改页
     String requestModifyOwnerCard = BASE_PROPERTY + "/park/card/from-client/owner-card-modify";
@@ -908,7 +909,7 @@ public interface ApiService {
                                                          @Query("token") String token,
                                                          @Query("complaintFid") String String);
 
-    String requestCarCardBill = BASE_PROPERTY + "/park/card/from-client/month-card-bill-pay";
+    String requestCarCardBill = BASE_PROPERTY + "/park/card/from-client/pay-bill";
 
     @FormUrlEncoded
     @POST
@@ -917,7 +918,7 @@ public interface ApiService {
                                                 @Field("parkCardFid") String parkCardFid,
                                                 @Field("monthName") String monthName,//预缴月数名称（例如：一个月、半年、一年等）
                                                 @Field("monthCount") int monthCount,//预缴月数值（例如：1、6、12等）
-                                                @Field("payType") int payType);//支付类型（1=支付宝支付、2=微信支付）
+                                                @Field("payMethod") int payMethod);//支付类型（101=支付宝支付、202=微信支付）
 
 
     //-------------------------------以下为2017.06.30添加的社区服务接口--------------------------------------------

@@ -49,7 +49,7 @@ public class CarCardPayModel extends BaseModel implements CarCardPayContract.Mod
                         params.parkCardFid,
                         params.monthName,
                         params.monthCount,
-                        params.payType)
+                        params.payMethod)
                 .subscribeOn(Schedulers.io());
     }
 }
