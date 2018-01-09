@@ -70,7 +70,7 @@ dependencies {
     //谷歌官方依赖
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    //阿里云推送
+    //华为、小米、阿里云推送
     debugCompile project(path: ':apush', configuration: 'debug')
     releaseCompile project(path: ':apush', configuration: 'release')
     //黄油刀系列
