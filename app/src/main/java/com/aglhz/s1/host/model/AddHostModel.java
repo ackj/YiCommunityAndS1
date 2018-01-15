@@ -21,17 +21,19 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddHostModel extends BaseModel implements AddHostContract.Model {
+
     private final String TAG = AddHostModel.class.getSimpleName();
 
     @Override
     public Observable<BaseBean> requestAddHost(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestAddHost(ApiService.requestAddHost,
+                .requestNewMainDevice(ApiService.requestNewMainDevice,
                         params.token,
-                        Constants.FC,
+                        Constants.SMART_GATEWAY,
                         params.deviceSn,
                         params.name,
-                        params.roomDir)
+                        params.roomDir,
+                        "")
                 .subscribeOn(Schedulers.io());
     }
 

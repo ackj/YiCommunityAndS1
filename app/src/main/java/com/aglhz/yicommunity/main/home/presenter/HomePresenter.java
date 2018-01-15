@@ -129,11 +129,11 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
     public void requestCommEquipmentList(Params params) {
         mRxManager.add(mModel.requestCommEquipmentList(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(equipmentBean -> {
-                    if (equipmentBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseCommEquipmentList(equipmentBean.getData().getDataList());
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseCommEquipmentList(bean);
                     } else {
-                        getView().error(equipmentBean.getOther().getMessage());
+                        getView().error(bean.getOther().getMessage());
                     }
                 }, this::error));
     }

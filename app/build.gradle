@@ -7,13 +7,13 @@ android {
         debug {
             keyAlias 'agl'
             keyPassword 'aglandroid'
-            storeFile file('E:/Gaocheng/亿社区/agl.keystore')
+            storeFile file('F:/gaocheng/agl.keystore')
             storePassword 'aglandroid'
         }
         release {
             keyAlias 'agl'
             keyPassword 'aglandroid'
-            storeFile file('E:/Gaocheng/亿社区/agl.keystore')
+            storeFile file('F:/gaocheng/agl.keystore')
             storePassword 'aglandroid'
         }
     }
@@ -112,6 +112,7 @@ dependencies {
     //配合更新库使用，后期要内化掉。
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //todo(高亮)ssssssssssssssssssssss 以下为s1相关 sssssssssssssssssssssssssssss
+
     //progress-button
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     //页面状态管理

@@ -5,8 +5,8 @@ import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
@@ -42,7 +42,7 @@ public interface HomeContract {
         //智慧商城二级列表
         void responseSubCategoryList(List<SubCategoryBean.DataBean> datas);
 
-        void responseCommEquipmentList(List<CommEquipmentBean.DataBean.DataListBean> datas);
+        void responseCommEquipmentList(MainDeviceListBean datas);
 
         void responseScanOpenDoor(BaseBean baseBean);
     }
@@ -86,7 +86,7 @@ public interface HomeContract {
         //智慧商城二级列表
         Observable<SubCategoryBean> requestSubCategoryList(Params params);
 
-        Observable<CommEquipmentBean> requestCommEquipmentList(Params params);
+        Observable<MainDeviceListBean> requestCommEquipmentList(Params params);
 
         Observable<BaseBean> requestScanOpenDoor(Params params);//无人便利店二维码扫描开门。
     }

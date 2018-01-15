@@ -17,6 +17,7 @@ import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 import com.aglhz.s1.entity.bean.UserBean;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 
 import java.io.File;
 
@@ -768,5 +769,30 @@ public interface ApiService {
                                             @Field("gateway") String deviceSn,
                                             @Field("status") int status);
 
+    //(todo)------------------------------- 2018.1.5增加 ---------------------------------
+
+    String requestMainDeviceList = BASE_URL + "/client/info/mainDeviceList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<MainDeviceListBean> requestMainDeviceList(@Url String url,
+                                                         @Field("token") String token,
+                                                         @Field("type") String type,
+                                                         @Field("cmntDir") String cmntDir,
+                                                         @Field("roomDir") String roomDir,
+                                                         @Field("page") int page,
+                                                         @Field("pageSize") int pageSize);
+
+    String requestNewMainDevice = BASE_URL + "/ctrl/client/newMainDevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewMainDevice(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("type") String type,
+                                              @Field("serialNO") String serialNO,
+                                              @Field("name") String name,
+                                              @Field("roomDir") String roomDir,
+                                              @Field("houseInfo") String houseInfo);
 
 }

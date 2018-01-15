@@ -39,7 +39,7 @@ public class SmartHomePresenter extends BasePresenter<SmartHomeContract.View,Sma
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseEquipmentInfoList(bean.getData().getDataList());
+                        getView().responseEquipmentInfoList(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
@@ -65,7 +65,7 @@ public class SmartHomePresenter extends BasePresenter<SmartHomeContract.View,Sma
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseCameraList(bean.getData());
+                        getView().responseCameraList(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }

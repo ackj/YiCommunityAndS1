@@ -139,14 +139,14 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="主机解绑"
-        android:textSize="15sp" />
+        android:textSize="15sp" />-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/base_line" />-->
+        android:background="@color/base_line" />
 
-   <!-- <TextView
+    <TextView
         android:id="@+id/tv_accredit_host_setting_fragment"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -156,6 +156,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="主机授权"
-        android:textSize="15sp" />-->
+        android:textSize="15sp" />
+
 
 </LinearLayout>
