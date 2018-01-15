@@ -82,9 +82,9 @@ public interface ApiService {
 
 
     //********************以下为Web*******************************
-    String PRODUCT_INTRODUCTION = "http://www.aglhz.com/sub_property_ysq/m/html/meilun/meilunIntroduction.html";
+    String PRODUCT_INTRODUCTION = "http://www.aglhz.com/sub_property_ysq/m/html/introduction.html";
 
-    String SERVICE_TERMS = "http://www.aglhz.com/sub_property_ysq/m/html/meilun/meilunUserAgreement.html";
+    String SERVICE_TERMS = "http://www.aglhz.com/sub_property_ysq/m/html/userAgreement.html";
 
     String INDENT_CENTER = "http://www.aglhz.com/sub_property_ysq/m/mall_zyg/html/newPersonCenter/newOrderCenter.html?appType=2&token=";
 
