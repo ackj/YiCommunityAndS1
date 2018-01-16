@@ -317,6 +317,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
 //                                    params.deviceName = cameraBean.getName();
                                     params.deviceType = cameraBean.getDeviceType();
                                     params.devicePassword = result;
+                                    params.deviceId = cameraBean.getDeviceId();
                                     presenter.requestModCamera(params);
                                     dialog.dismiss();
                                 }
@@ -474,6 +475,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @Override
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
+        cameraBean.setPassword(params.devicePassword);
         EventBus.getDefault().post(new EventCameraListRefresh());
         cameraPassword = P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();

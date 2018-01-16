@@ -40,11 +40,12 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
     @Override
     public Observable<BaseBean> requestModGateway(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestModGateway(ApiService.requestAddHost,
+                .requestModMainDevice(ApiService.requestAddHost,
                         params.token,
-                        Constants.FC,
+                        Constants.SMART_GATEWAY,
                         params.deviceSn,
-                        params.name)
+                        params.name,
+                        "")
                 .subscribeOn(Schedulers.io());
     }
 

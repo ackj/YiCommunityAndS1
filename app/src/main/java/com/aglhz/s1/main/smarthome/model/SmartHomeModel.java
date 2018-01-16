@@ -24,15 +24,17 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
     public Observable<MainDeviceListBean> requestEquipmentInfoList(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestMainDeviceList(ApiService.requestMainDeviceList,
-                        params.token,Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),params.roomDir,params.page,params.pageSize)
+                        params.token,Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),"",params.roomDir,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestDelGateway(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelGateway(ApiService.requestDelGateway,
-                        params.token,Constants.FC,params.deviceSn)
+                .requestDelMainDevice(ApiService.requestDelMainDevice,
+                        params.token,
+                        Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),
+                        params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -54,7 +56,7 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
     @Override
     public Observable<BaseBean> requestDelCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelcamera(ApiService.requestDelcamera,params.token,Constants.FC,params.fid)
+                .requestDelMainDevice(ApiService.requestDelMainDevice,params.token,Constants.SMART_CAMERA,params.deviceId)
                 .subscribeOn(Schedulers.io());
     }
 

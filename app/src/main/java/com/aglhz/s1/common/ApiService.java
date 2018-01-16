@@ -697,7 +697,7 @@ public interface ApiService {
                                              @Field("pageSize") int pageSize);
 
     //删除摄像头
-    String requestDelcamera = BASE_URL + "/ctrl/client/delcamera";
+//    String requestDelcamera = BASE_URL + "/ctrl/client/delcamera";
 
     @FormUrlEncoded
     @POST
@@ -793,14 +793,14 @@ public interface ApiService {
                                                          @Field("page") int page,
                                                          @Field("pageSize") int pageSize);
 
-    @FormUrlEncoded
-    @POST
-    Observable<MainDeviceListBean> requestMainDeviceList(@Url String url,
-                                                         @Field("token") String token,
-                                                         @Field("type") String type,
-                                                         @Field("roomDir") String roomDir,
-                                                         @Field("page") int page,
-                                                         @Field("pageSize") int pageSize);
+//    @FormUrlEncoded
+//    @POST
+//    Observable<MainDeviceListBean> delcamera (@Url String url,
+//                                                         @Field("token") String token,
+//                                                         @Field("type") String type,
+//                                                         @Field("roomDir") String roomDir,
+//                                                         @Field("page") int page,
+//                                                         @Field("pageSize") int pageSize);
 
     String requestNewMainDevice = BASE_URL + "/ctrl/client/newMainDevice";
 
@@ -823,7 +823,15 @@ public interface ApiService {
                                               @Field("type") String type,
                                               @Field("serialNO") String serialNO,
                                               @Field("name") String name,
-                                              @Field("password") String password
-                                              );
+                                              @Field("password") String password);
+
+    String requestDelMainDevice = BASE_URL +"/ctrl/client/delMainDevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelMainDevice(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("type") String type,
+                                              @Field("serialNO") String serialNO);
 
 }

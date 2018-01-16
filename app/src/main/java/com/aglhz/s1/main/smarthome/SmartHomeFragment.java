@@ -239,6 +239,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         params.fid = item.getFid();
+                        params.deviceId = item.getNo();
                         mPresenter.requestDelCamera(params);
                     }
                 })
