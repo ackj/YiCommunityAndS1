@@ -21,8 +21,8 @@ public class CameraSettingModel extends BaseModel implements CameraSettingContra
     @Override
     public Observable<BaseBean> requestModCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestModCamera(ApiService.requestModCamera,
-                        params.token, Constants.FC,params.fid,params.deviceType,params.deviceName,params.devicePassword)
+                .requestModMainDevice(ApiService.requestModMainDevice,
+                        params.token, Constants.SMART_CAMERA,params.deviceId,params.deviceName,params.devicePassword)
                 .subscribeOn(Schedulers.io());
     }
 }

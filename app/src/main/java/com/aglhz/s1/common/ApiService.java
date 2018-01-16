@@ -228,6 +228,16 @@ public interface ApiService {
                                           @Field("deviceId") String deviceId,
                                           @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewCamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("type") String type,
+                                          @Field("serialNO") String serialNO,
+                                          @Field("name") String name,
+                                          @Field("password") String password,
+                                          @Field("roomDir") String roomDir);
+
     //修改设备
     String requestModDevice = BASE_URL + "/ctrl/client/moddevice";
 
@@ -783,6 +793,15 @@ public interface ApiService {
                                                          @Field("page") int page,
                                                          @Field("pageSize") int pageSize);
 
+    @FormUrlEncoded
+    @POST
+    Observable<MainDeviceListBean> requestMainDeviceList(@Url String url,
+                                                         @Field("token") String token,
+                                                         @Field("type") String type,
+                                                         @Field("roomDir") String roomDir,
+                                                         @Field("page") int page,
+                                                         @Field("pageSize") int pageSize);
+
     String requestNewMainDevice = BASE_URL + "/ctrl/client/newMainDevice";
 
     @FormUrlEncoded
@@ -794,5 +813,17 @@ public interface ApiService {
                                               @Field("name") String name,
                                               @Field("roomDir") String roomDir,
                                               @Field("houseInfo") String houseInfo);
+
+    String requestModMainDevice = BASE_URL+"/ctrl/client/modMainDevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModMainDevice(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("type") String type,
+                                              @Field("serialNO") String serialNO,
+                                              @Field("name") String name,
+                                              @Field("password") String password
+                                              );
 
 }

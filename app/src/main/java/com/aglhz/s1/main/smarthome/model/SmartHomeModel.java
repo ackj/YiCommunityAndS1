@@ -24,7 +24,7 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
     public Observable<MainDeviceListBean> requestEquipmentInfoList(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestMainDeviceList(ApiService.requestMainDeviceList,
-                        params.token,Constants.SMART_GATEWAY,"",params.roomDir,params.page,params.pageSize)
+                        params.token,Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),params.roomDir,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -47,7 +47,7 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
     @Override
     public Observable<BaseBean> requestNewCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestNewcamera(ApiService.requestNewcamera,params.token,Constants.FC,params.deviceId,params.deviceName,params.devicePassword)
+                .requestNewCamera(ApiService.requestNewMainDevice,params.token, Constants.SMART_CAMERA,params.deviceId,params.deviceName,params.devicePassword,params.roomDir)
                 .subscribeOn(Schedulers.io());
     }
 

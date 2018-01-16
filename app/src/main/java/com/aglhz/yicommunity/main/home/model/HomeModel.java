@@ -3,6 +3,7 @@ package com.aglhz.yicommunity.main.home.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
@@ -97,7 +98,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
                 .requestMainDeviceList(
                         com.aglhz.s1.common.ApiService.requestMainDeviceList,
                         params.token,
-                        params.deviceType,
+                        Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),
                         params.cmnt_dir,
                         params.roomDir,
                         params.page,
