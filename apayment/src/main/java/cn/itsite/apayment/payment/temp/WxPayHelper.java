@@ -1,15 +1,6 @@
-package cn.itsite.apayment.payment;
+package cn.itsite.apayment.payment.temp;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.log.ALog;
@@ -19,9 +10,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author leguang

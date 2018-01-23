@@ -14,7 +14,6 @@ import cn.itsite.apayment.payment.PayFragment;
 import cn.itsite.apayment.payment.PayParams;
 import cn.itsite.apayment.payment.Payment;
 import cn.itsite.apayment.payment.PaymentListener;
-import cn.itsite.apayment.payment.enums.PayType;
 import cn.itsite.apayment.payment.pay.IPayable;
 
 /**
@@ -51,7 +50,7 @@ public class WeChatH5xPay implements IPayable {
     public void pay(@NonNull Activity activity, @NonNull PayParams params, PaymentListener.OnPayListener onPayListener) {
         this.onPayListener = onPayListener;
         if (onPayListener != null) {
-            onPayListener.onStart(PayType.WechatPay);
+            onPayListener.onStart(Payment.PAYTYPE_WECHAT_H5X);
         }
         h5xPay(activity, params);
     }

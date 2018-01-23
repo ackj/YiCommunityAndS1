@@ -34,16 +34,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.itsite.apayment.payment.ALiPayHelper;
 import cn.itsite.apayment.payment.PayParams;
 import cn.itsite.apayment.payment.Payment;
 import cn.itsite.apayment.payment.PaymentListener;
-import cn.itsite.apayment.payment.WxPayHelper;
-import cn.itsite.apayment.payment.enums.HttpType;
-import cn.itsite.apayment.payment.enums.PayType;
 import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.network.PayService;
 import cn.itsite.apayment.payment.pay.Pay;
+import cn.itsite.apayment.payment.temp.ALiPayHelper;
+import cn.itsite.apayment.payment.temp.WxPayHelper;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -215,7 +213,7 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
 
         payment = Payment.builder()
                 .setParams(payParams)
-                .setHttpType(HttpType.Post)
+                .setHttpType(Payment.HTTP_POST)
                 .setUrl(PayService.requestOrder)
                 .setActivity(_mActivity)
                 .setClient(NetworkClient.httpUrlConnection())
@@ -265,21 +263,21 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                 })
                 .setOnPayListener(new PaymentListener.OnPayListener() {
                     @Override
-                    public void onStart(PayType payType) {
+                    public void onStart(@Payment.PayType int payType) {
                         ALog.e("3.支付 开始-------->" + payType);
                         showLoading("正在支付");
-
                     }
 
                     @Override
-                    public void onSuccess(PayType payType) {
+                    public void onSuccess(@Payment.PayType int payType) {
                         ALog.e("3.支付 成功-------->" + payType);
                         dismissLoading();
                         DialogHelper.successSnackbar(getView(), "支付成功");
+                        ptrFrameLayout.autoRefresh();
                     }
 
                     @Override
-                    public void onFailure(PayType payType, int errorCode) {
+                    public void onFailure(@Payment.PayType int payType, int errorCode) {
                         ALog.e("3.支付 失败-------->" + payType + "errorCode-->" + errorCode);
                         dismissLoading();
                         DialogHelper.errorSnackbar(getView(), "支付失败，请重试");
@@ -304,6 +302,7 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                         ALog.e("4.检验 失败--------" + "errorCode-->" + errorCode);
                         dismissLoading();
                         DialogHelper.errorSnackbar(getView(), "确认失败，请稍后再查看");
+                        ptrFrameLayout.autoRefresh();
                     }
                 })
                 .build()

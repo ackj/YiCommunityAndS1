@@ -1,9 +1,5 @@
 package cn.itsite.apayment.payment;
 
-import android.content.Context;
-
-import cn.itsite.apayment.payment.enums.PayType;
-
 
 /**
  * @version v0.0.0
@@ -15,13 +11,10 @@ import cn.itsite.apayment.payment.enums.PayType;
  */
 
 public class PayParams {
-    private Context context;
     private String appID;
-    private PayType payType;
     private String url;
     private String token;
     private String billFids;
-    private Integer payMethod;
     private String jumpUrl;
     private String quitUrl;
     private String payUrl;
@@ -36,28 +29,12 @@ public class PayParams {
     private String orderInfo;
     private String webUrl;
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public String getAppID() {
         return appID;
     }
 
     public void setAppID(String appID) {
         this.appID = appID;
-    }
-
-    public PayType getPayType() {
-        return payType;
-    }
-
-    public void setPayType(PayType payType) {
-        this.payType = payType;
     }
 
     public String getUrl() {
@@ -82,14 +59,6 @@ public class PayParams {
 
     public void setBillFids(String billFids) {
         this.billFids = billFids;
-    }
-
-    public Integer getPayMethod() {
-        return payMethod;
-    }
-
-    public void setPayMethod(Integer payMethod) {
-        this.payMethod = payMethod;
     }
 
     public String getJumpUrl() {
@@ -197,13 +166,10 @@ public class PayParams {
     }
 
     public static class Builder {
-        Context context;
         String appID;
-        PayType payType;
         String url;
         String token;
         String billFids;
-        Integer payMethod;
         String jumpUrl;
         String quitUrl;
         String payUrl;
@@ -218,18 +184,8 @@ public class PayParams {
         String orderInfo;
         String webUrl;
 
-        public Builder context(Context context) {
-            this.context = context;
-            return this;
-        }
-
         public Builder appID(String appid) {
             this.appID = appid;
-            return this;
-        }
-
-        public Builder payType(PayType way) {
-            this.payType = way;
             return this;
         }
 
@@ -245,11 +201,6 @@ public class PayParams {
 
         public Builder billFids(String billFids) {
             this.billFids = billFids;
-            return this;
-        }
-
-        public Builder payMethod(Integer payMethod) {
-            this.payMethod = payMethod;
             return this;
         }
 
@@ -320,13 +271,10 @@ public class PayParams {
 
         public PayParams build() {
             PayParams params = new PayParams();
-            params.setContext(context);
             params.setAppID(appID);
-            params.setPayType(payType);
             params.setUrl(url);
             params.setToken(token);
             params.setBillFids(billFids);
-            params.setPayMethod(payMethod);
             params.setJumpUrl(jumpUrl);
             params.setQuitUrl(quitUrl);
             params.setPayUrl(payUrl);

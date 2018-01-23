@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import cn.itsite.apayment.payment.WxPayHelper;
+import cn.itsite.apayment.payment.temp.WxPayHelper;
 import com.aglhz.yicommunity.main.park.contract.PublishMonthCardContract;
 import com.aglhz.yicommunity.main.park.model.PublishMonthCardModel;
 

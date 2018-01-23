@@ -1,4 +1,4 @@
-package cn.itsite.apayment.payment;
+package cn.itsite.apayment.payment.temp;
 
 import android.app.Activity;
 import android.os.Vibrator;

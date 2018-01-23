@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.itsite.apayment.payment.enums.PayType;
 import cn.itsite.apayment.payment.network.INetworkClient;
 import cn.itsite.apayment.payment.network.PayService;
 
@@ -171,9 +170,9 @@ public class PayFragment extends Fragment {
                 }
                 onVerifyListener.onSuccess();
                 if (isPayed) {
-                    onPayListener.onSuccess(PayType.WechatH5xPay);
+                    onPayListener.onSuccess(Payment.PAYTYPE_WECHAT_H5X);
                 } else {
-                    onPayListener.onFailure(PayType.WechatH5xPay, Payment.VERIFY_ERROR);
+                    onPayListener.onFailure(Payment.PAYTYPE_WECHAT_H5X, Payment.VERIFY_ERROR);
                 }
             }
 

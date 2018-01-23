@@ -18,13 +18,13 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import cn.itsite.apayment.payment.ALiPayHelper;
-import cn.itsite.apayment.payment.WxPayHelper;
+import cn.itsite.apayment.payment.temp.ALiPayHelper;
+import cn.itsite.apayment.payment.temp.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
-import cn.itsite.apayment.payment.EventPay;
+import cn.itsite.apayment.payment.temp.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
 

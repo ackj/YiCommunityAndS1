@@ -1,6 +1,5 @@
 package cn.itsite.apayment.payment;
 
-import cn.itsite.apayment.payment.enums.PayType;
 
 /**
  * @author leguang
@@ -26,11 +25,11 @@ public interface PaymentListener {
     }
 
     interface OnPayListener {
-        void onStart(PayType payType);
+        void onStart(@Payment.PayType int payType);
 
-        void onSuccess(PayType payType);
+        void onSuccess(@Payment.PayType int payType);
 
-        void onFailure(PayType payType, int errorCode);
+        void onFailure(@Payment.PayType int payType, int errorCode);
     }
 
     interface OnVerifyListener {

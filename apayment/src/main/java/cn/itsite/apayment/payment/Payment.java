@@ -1,6 +1,7 @@
 package cn.itsite.apayment.payment;
 
 import android.app.Activity;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +11,10 @@ import com.aglhz.abase.log.ALog;
 
 import org.json.JSONException;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
-import cn.itsite.apayment.payment.enums.HttpType;
-import cn.itsite.apayment.payment.enums.PayType;
 import cn.itsite.apayment.payment.network.INetworkClient;
 import cn.itsite.apayment.payment.pay.IPayable;
 
@@ -28,6 +29,16 @@ import cn.itsite.apayment.payment.pay.IPayable;
 
 public final class Payment {
     public static final String TAG = Payment.class.getSimpleName();
+    //支付方式
+    public static final int PAYTYPE_WECHAT_APP = 1;
+    public static final int PAYTYPE_WECHAT_H5X = 2;
+    public static final int PAYTYPE_ALI_APP = 3;
+    public static final int PAYTYPE_ALI_H5 = 4;
+    public static final int PAYTYPE_UNI = 5;
+    //请求方式
+    public static final int HTTP_GET = 1;
+    public static final int HTTP_POST = 2;
+
     //请求错误
     public static final int REQUEST_ERROR = -100;
     //解析错误
@@ -59,9 +70,20 @@ public final class Payment {
     private Map<String, String> params;
     private IPayable pay;
     private INetworkClient client;
-    private HttpType httpType;
+    @HttpType
+    private int httpType;
     private String url;
     private Activity activity;
+
+    @IntDef({PAYTYPE_WECHAT_APP, PAYTYPE_WECHAT_H5X, PAYTYPE_ALI_APP, PAYTYPE_ALI_H5, PAYTYPE_UNI})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PayType {
+    }
+
+    @IntDef({HTTP_GET, HTTP_POST})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface HttpType {
+    }
 
     public Map<String, String> getParams() {
         return params;
@@ -90,11 +112,12 @@ public final class Payment {
         return this;
     }
 
-    public HttpType getHttpType() {
+    @HttpType
+    public int getHttpType() {
         return httpType;
     }
 
-    public Payment setHttpType(HttpType httpType) {
+    public Payment setHttpType(@HttpType int httpType) {
         this.httpType = httpType;
         return this;
     }
@@ -201,10 +224,10 @@ public final class Payment {
 
         if (client != null) {
             switch (httpType) {
-                case Get:
+                case HTTP_GET:
                     client.get(url, params, callBack);
                     break;
-                case Post:
+                case HTTP_POST:
                 default:
                     client.post(url, params, callBack);
                     break;
@@ -251,14 +274,14 @@ public final class Payment {
         if (pay != null) {
             pay.pay(activity, payParams, new PaymentListener.OnPayListener() {
                 @Override
-                public void onStart(PayType payType) {
+                public void onStart(@Payment.PayType int payType) {
                     if (onPayListener != null) {
                         onPayListener.onStart(payType);
                     }
                 }
 
                 @Override
-                public void onSuccess(PayType payType) {
+                public void onSuccess(@Payment.PayType int payType) {
                     if (onPayListener != null) {
                         onPayListener.onSuccess(payType);
                     }
@@ -266,7 +289,7 @@ public final class Payment {
                 }
 
                 @Override
-                public void onFailure(PayType payType, int errorCode) {
+                public void onFailure(@Payment.PayType int payType, int errorCode) {
                     if (onPayListener != null) {
                         onPayListener.onFailure(payType, errorCode);
                     }
@@ -316,12 +339,12 @@ public final class Payment {
         params = null;
     }
 
-
     public static class Builder {
         Map<String, String> params;
         IPayable pay;
         INetworkClient client;
-        HttpType httpType;
+        @HttpType
+        int httpType;
         String url;
         Activity activity;
         PaymentListener.OnRequestListener onRequestListener;
@@ -354,7 +377,7 @@ public final class Payment {
             return this;
         }
 
-        public Builder setHttpType(@NonNull HttpType httpType) {
+        public Builder setHttpType(@NonNull @HttpType int httpType) {
             this.httpType = httpType;
             return this;
         }

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.webkit.JavascriptInterface;
 
 import com.aglhz.abase.log.ALog;
-import cn.itsite.apayment.payment.ALiPayHelper;
-import cn.itsite.apayment.payment.WxPayHelper;
+import cn.itsite.apayment.payment.temp.ALiPayHelper;
+import cn.itsite.apayment.payment.temp.WxPayHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;

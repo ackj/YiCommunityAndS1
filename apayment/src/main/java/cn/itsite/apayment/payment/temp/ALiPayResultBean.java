@@ -1,4 +1,4 @@
-package cn.itsite.apayment.payment;
+package cn.itsite.apayment.payment.temp;
 
 /**
  * @author leguang
