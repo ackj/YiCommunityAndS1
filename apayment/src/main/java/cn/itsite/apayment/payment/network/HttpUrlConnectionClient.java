@@ -115,20 +115,6 @@ public class HttpUrlConnectionClient implements INetworkClient {
                     outputStream = connection.getOutputStream();
                     StringBuffer sbUrl = new StringBuffer();
 
-//                    sbUrl.append("token=").append(payParams.getToken())
-//                            .append("&")
-//                            .append("billFids=").append(payParams.getBillFids())
-//                            .append("&")
-//                            .append("payMethod=").append(payParams.getPayMethod())
-//                            .append("&")
-//                            .append("jumpUrl=").append(payParams.getJumpUrl())
-//                            .append("&")
-//                            .append("quitUrl=").append(payParams.getQuitUrl())
-//                            .append("&")
-//                            .append("payUrl=").append(payParams.getPayMethod())
-//                            .append("&")
-//                            .append("code=").append(payParams.getCode());
-
                     for (Map.Entry<String, String> entry : params.entrySet()) {
                         sbUrl.append(entry.getKey())
                                 .append("=")

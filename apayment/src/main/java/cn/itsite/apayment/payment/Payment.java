@@ -34,7 +34,7 @@ public final class Payment {
     //支付方式
     public static final int PAYTYPE_WECHAT_APP = 202;
     public static final int PAYTYPE_WECHAT_H5 = 203;
-    public static final int PAYTYPE_WECHAT_H5X = 207;
+    public static final int PAYTYPE_WECHAT_H5X = 203;//本来是207的，后台暂时未更改，跟H5支付一样。
     public static final int PAYTYPE_ALI_APP = 102;
     public static final int PAYTYPE_ALI_H5 = 103;
     public static final int PAYTYPE_UNI = 5;
@@ -199,7 +199,6 @@ public final class Payment {
         INetworkClient.CallBack callBack = new INetworkClient.CallBack<String>() {
             @Override
             public void onSuccess(final String result) {
-                ALog.e(Thread.currentThread().getName());
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

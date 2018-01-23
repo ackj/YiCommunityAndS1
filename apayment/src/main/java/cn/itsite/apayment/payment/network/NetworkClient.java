@@ -21,10 +21,10 @@ public class NetworkClient {
     }
 
     public static INetworkClient retrofit() {
-        return null;
+        return new RetrofitClient();
     }
 
     public static INetworkClient okhttp() {
-        return null;
+        return new OkHttpClient();
     }
 }

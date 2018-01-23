@@ -199,17 +199,19 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     }
 
     private void pay(IPayable iPayable) {
+        //拼参数。
         Map<String, String> payParams = new HashMap<>();
         payParams.put("token", params.token);
         payParams.put("billFids", params.billFids);
         payParams.put("payMethod", params.payMethod + "");
 
+        //构建支付入口对象。
         payment = Payment.builder()
                 .setParams(payParams)
                 .setHttpType(Payment.HTTP_POST)
                 .setUrl(PayService.requestOrder)
                 .setActivity(_mActivity)
-                .setClient(NetworkClient.httpUrlConnection())
+                .setClient(NetworkClient.okhttp())
                 .setPay(iPayable)
                 .setOnRequestListener(new PaymentListener.OnRequestListener() {
                     @Override
@@ -297,7 +299,6 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                         ptrFrameLayout.autoRefresh();
                     }
                 })
-                .build()
                 .start();
     }
 }
