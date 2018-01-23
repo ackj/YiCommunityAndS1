@@ -325,18 +325,16 @@ public final class Payment {
     }
 
     public void clear() {
-        if (params == null) {
-            return;
-        }
-
-        //还要记得remove掉这个fragment
-        FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .remove(findPayFragment(activity))
-                .commitAllowingStateLoss();
+        if (params != null && activity != null && !activity.isDestroyed()) {
+            //还要记得remove掉这个fragment
+            FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .remove(findPayFragment(activity))
+                    .commitAllowingStateLoss();
 //        fragmentManager.executePendingTransactions();
-        activity = null;
-        params = null;
+            activity = null;
+            params = null;
+        }
     }
 
     public static class Builder {

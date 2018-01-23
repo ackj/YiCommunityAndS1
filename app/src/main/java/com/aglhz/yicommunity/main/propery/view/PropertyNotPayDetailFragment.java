@@ -39,6 +39,7 @@ import cn.itsite.apayment.payment.Payment;
 import cn.itsite.apayment.payment.PaymentListener;
 import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.network.PayService;
+import cn.itsite.apayment.payment.pay.IPayable;
 import cn.itsite.apayment.payment.pay.Pay;
 import cn.itsite.apayment.payment.temp.ALiPayHelper;
 import cn.itsite.apayment.payment.temp.WxPayHelper;
@@ -182,21 +183,22 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                     switch (which) {
                         case 0:
                             params.payMethod = Constants.TYPE_ALIPAY;
+                            pay(Pay.aliAppPay());
                             break;
                         case 1:
                             params.payMethod = Constants.TYPE_WXPAY;
+                            pay(Pay.weChatH5xPay());
                             break;
                         default:
                             break;
                     }
-                    pay();
 //                    mPresenter.requestBill(params);
                 })
                 .setNegativeButton("取消", null)
                 .show();
     }
 
-    private void pay() {
+    private void pay(IPayable iPayable) {
 //        PayParams payParams = new PayParams.Builder()
 //                .context(_mActivity)
 //                .url(PayService.requestOrder)
@@ -217,7 +219,7 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                 .setUrl(PayService.requestOrder)
                 .setActivity(_mActivity)
                 .setClient(NetworkClient.httpUrlConnection())
-                .setPay(Pay.weChatH5xPay())
+                .setPay(iPayable)
                 .setOnRequestListener(new PaymentListener.OnRequestListener() {
                     @Override
                     public void onStart() {
