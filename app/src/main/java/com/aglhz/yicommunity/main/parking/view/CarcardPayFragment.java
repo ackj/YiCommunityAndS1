@@ -14,18 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.common.payment.ALiPayHelper;
-import com.aglhz.yicommunity.common.payment.WxPayHelper;
+import cn.itsite.apayment.payment.ALiPayHelper;
+import cn.itsite.apayment.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
-import com.aglhz.yicommunity.event.EventPay;
+import cn.itsite.apayment.payment.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
 

@@ -19,12 +19,12 @@ import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
-import com.aglhz.yicommunity.common.payment.ALiPayHelper;
-import com.aglhz.yicommunity.common.payment.WxPayHelper;
+import cn.itsite.apayment.payment.ALiPayHelper;
+import cn.itsite.apayment.payment.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.event.EventCommunity;
-import com.aglhz.yicommunity.event.EventPay;
+import cn.itsite.apayment.payment.EventPay;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
 

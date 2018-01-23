@@ -2,7 +2,7 @@ package com.aglhz.s1.room.view;
 
 import android.widget.ImageView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.yicommunity.R;
@@ -27,7 +27,7 @@ public class DeviceGridRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.
                 .setText(R.id.tv_name_item_security,item.getName());
 
         ImageView ivIcon = helper.getView(R.id.iv_icon_item_security);
-        Glide.with(BaseApplication.mContext)
+        Glide.with(BaseApp.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_house_red_140px : item.getIcon())
                 .into(ivIcon);
     }

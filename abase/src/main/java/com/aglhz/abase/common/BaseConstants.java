@@ -1,7 +1,7 @@
 package com.aglhz.abase.common;
 
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.utils.DirectoryUtils;
 
 import java.io.File;
@@ -22,7 +22,7 @@ public class BaseConstants {
     }
 
     //SD卡路径
-    public static final String PATH_DATA = DirectoryUtils.getDiskCacheDirectory(BaseApplication.mContext, "data").getAbsolutePath();
+    public static final String PATH_DATA = DirectoryUtils.getDiskCacheDirectory(BaseApp.mContext, "data").getAbsolutePath();
     public static final String PATH_NET_CACHE = PATH_DATA + File.separator + "NetCache";
     public static final String PATH_APK_CACHE = PATH_DATA + File.separator + "ApkCache";
 }

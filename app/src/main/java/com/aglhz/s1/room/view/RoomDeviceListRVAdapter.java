@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.s1.App;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceOnOffBean;
@@ -69,7 +69,7 @@ public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 LinearLayout llContainer = helper.getView(R.id.ll_container);
                 llContainer.removeAllViews();
                 for (int i = 0; i < onOff.node; i++) {
-                    View view = LayoutInflater.from(BaseApplication.mContext).inflate(R.layout.item_device_on_off, null);
+                    View view = LayoutInflater.from(BaseApp.mContext).inflate(R.layout.item_device_on_off, null);
                     view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
                     llContainer.addView(view);
                     int finalI = i;

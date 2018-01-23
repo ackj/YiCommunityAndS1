@@ -107,7 +107,7 @@ public class Constants extends BaseConstants {
 
     //********************以下为物业缴费模块************************
     public static final int TYPE_ALIPAY = 102;
-    public static final int TYPE_WXPAY = 202;
+    public static final int TYPE_WXPAY = 203;
     public static final String ALIPAY = "支付宝支付";
     public static final String WXPAY = "微信支付";
 

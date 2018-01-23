@@ -3,23 +3,18 @@ package com.aglhz.yicommunity.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Vibrator;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.aglhz.abase.log.ALog;
-import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.UserHelper;
-import com.aglhz.yicommunity.event.EventPay;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * @author leguang
@@ -61,19 +56,39 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp response) {
-        String extData = "";
-        if (response instanceof PayResp) {
-            extData = ((PayResp) response).extData;
-        }
-        ALog.e(TAG, "response-->" + response.errStr);
-        ALog.e(TAG, "response-->" + response.openId);
-        ALog.e(TAG, "response-->" + response.transaction);
-        ALog.e(TAG, "response-->" + response.getType());
-        ALog.e(TAG, "response-->" + response.checkArgs());
-        ((Vibrator) App.mContext.getSystemService(VIBRATOR_SERVICE)).vibrate(500);
-        if (response.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            EventBus.getDefault().post(new EventPay(response.errCode, "", extData));
-            finish();
-        }
+        sendPayResultBroadcast(response.errCode);
+
+//        String extData = "";
+//        if (response instanceof PayResp) {
+//            extData = ((PayResp) response).extData;
+//        }
+//        ALog.e(TAG, "response-->" + response.errStr);
+//        ALog.e(TAG, "response-->" + response.openId);
+//        ALog.e(TAG, "response-->" + response.transaction);
+//        ALog.e(TAG, "response-->" + response.getType());
+//        ALog.e(TAG, "response-->" + response.checkArgs());
+//        ((Vibrator) App.mContext.getSystemService(VIBRATOR_SERVICE)).vibrate(500);
+//        if (response.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+//            EventBus.getDefault().post(new EventPay(response.errCode, "", extData));
+//            finish();
+//        }
+    }
+
+    /**
+     * 发送微信支付结果的本地广播
+     * 本地广播比全局广播效率高，更安全
+     * <p>
+     * 接收者请参考：
+     * http://www.cnblogs.com/trinea/archive/2012/11/09/2763182.html
+     *
+     * @param resultCode
+     */
+    private void sendPayResultBroadcast(int resultCode) {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
+        Intent payResult = new Intent();
+//        payResult.setAction(WECHAT_PAY_RESULT_ACTION);
+//        payResult.putExtra(WECHAT_PAY_RESULT_EXTRA, resultCode);
+        broadcastManager.sendBroadcast(payResult);
+        finish();
     }
 }

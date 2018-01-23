@@ -2,7 +2,7 @@ package com.aglhz.s1.more.view;
 
 import android.widget.ImageView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.yicommunity.R;
@@ -40,7 +40,7 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
                 ivRes = R.drawable.ic_add_house_red_140px;
                 break;
         }
-        Glide.with(BaseApplication.mContext)
+        Glide.with(BaseApp.mContext)
                 .load(ivRes)
                 .error(R.mipmap.ic_launcher)
                 .into(ivIcon);

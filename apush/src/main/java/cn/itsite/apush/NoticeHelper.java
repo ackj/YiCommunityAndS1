@@ -16,7 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.common.ActivityHelper;
 import com.aglhz.abase.event.EventLogout;
 import com.aglhz.abase.log.ALog;
@@ -75,12 +75,12 @@ public class NoticeHelper {
         PendingIntent pendingIntent = contentIntent(mContext, notice.getType());
         handleMessage(notice.getType());
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(BaseApplication.mContext)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(BaseApp.mContext)
                 .setContentTitle(notice.getTitle())
                 .setContentText(notice.getContent())
                 .setWhen(when)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(BaseApplication.mContext.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(BaseApp.mContext.getResources(), R.mipmap.ic_launcher))
                 .setSound(uriSound)
                 .setVibrate(new long[]{0, 1000, 1000, 1000})
                 .setLights(Color.RED, 1000, 1000)
@@ -100,7 +100,7 @@ public class NoticeHelper {
                         .subscribe(new Action1<Long>() {
                             @Override
                             public void call(Long aLong) {
-                                NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                                NotificationManager manager = (NotificationManager) BaseApp.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                                 notification.flags = Notification.DEFAULT_SOUND;
                                 notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                                 manager.notify(message.hashCode(), notification);
@@ -115,7 +115,7 @@ public class NoticeHelper {
     }
 
     public static void notify(String message, Notification notification) {
-        NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) BaseApp.mContext.getSystemService(NOTIFICATION_SERVICE);
         manager.notify(message.hashCode(), notification);
     }
 
@@ -160,7 +160,7 @@ public class NoticeHelper {
      */
     private static void handleMessage(String type) {
 
-        PowerManager pm = (PowerManager) BaseApplication.mContext.getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) BaseApp.mContext.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "notice");
         wakeLock.acquire();
 //        wakeLock.release();
@@ -227,7 +227,7 @@ public class NoticeHelper {
     }
 
     public static void cancel(int id) {
-        NotificationManager manager = (NotificationManager) BaseApplication.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) BaseApp.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(id);
     }
 }

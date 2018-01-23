@@ -73,6 +73,9 @@ dependencies {
     //华为、小米、阿里云推送
     debugCompile project(path: ':apush', configuration: 'debug')
     releaseCompile project(path: ':apush', configuration: 'release')
+    //支付
+    debugCompile project(path: ':apayment', configuration: 'debug')
+    releaseCompile project(path: ':apayment', configuration: 'release')
     //黄油刀系列
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -98,8 +101,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     //监控卡顿
     debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
-    //微信SDK
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.1.6'
     //swipelayout
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     //Gif图加载框架

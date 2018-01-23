@@ -2,7 +2,7 @@ package com.aglhz.s1.room.view;
 
 import android.widget.ImageView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.yicommunity.R;
@@ -28,7 +28,7 @@ public class RoomDeviceList2RVAdapter extends BaseRecyclerViewAdapter<DeviceList
                 .addOnClickListener(R.id.ll_container);
 
         ImageView ivIcon = helper.getView(R.id.iv_icon);
-        Glide.with(BaseApplication.mContext)
+        Glide.with(BaseApp.mContext)
                 .load(item.getIcon())
                 .into(ivIcon);
     }

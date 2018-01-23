@@ -3,7 +3,7 @@ package com.aglhz.s1.security.view;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.entity.bean.SecurityBean;
@@ -54,7 +54,7 @@ public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean.Data
                 .setVisible(R.id.iv_state, !"add_icon".equals(item.getIcon()))
                 .setImageResource(R.id.iv_state, pointState);
         ImageView ivSecurity = helper.getView(R.id.iv_icon_item_security);
-        Glide.with(BaseApplication.mContext)
+        Glide.with(BaseApp.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_house_red_140px : item.getIcon())
                 .into(ivSecurity);
     }

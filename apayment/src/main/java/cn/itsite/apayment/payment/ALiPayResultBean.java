@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.common.payment;
+package cn.itsite.apayment.payment;
 
 /**
  * @author leguang

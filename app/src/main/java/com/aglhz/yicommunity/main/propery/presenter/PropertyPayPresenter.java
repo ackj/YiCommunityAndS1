@@ -78,38 +78,6 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
 
     @Override
     public void requestBill(Params params) {
-//        mRxManager.add(mModel.requestBill(params)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(responseBody -> {
-//
-//                    JSONObject jsonObject;
-//                    try {
-//                        jsonObject = new JSONObject(responseBody.string());
-//                        JSONObject jsonOther = jsonObject.optJSONObject("other");
-//
-//                        String code = jsonOther.optString("code");
-//                        if ("200".equals(code)) {
-//                            if (params.payMethod == 102) {
-//                                //支付宝
-//
-//                                JSONObject jsonData = jsonObject.optJSONObject("data");
-//                                getView().responseBill(jsonData.optString("body"));
-//
-//                            } else if (params.payMethod == 202) {
-//                                //微信
-//                                WxPayHelper.pay(jsonObject.toString());
-//                            }
-//                        } else {
-//                            getView().error(jsonOther.optString("message"));
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }, this::error));
-
-
         mRxManager.add(mModel.requestBill(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<ResponseBody>() {

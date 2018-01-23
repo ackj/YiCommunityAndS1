@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.cache.SPCache;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.network.http.HttpHelper;
@@ -73,7 +73,7 @@ public class PushHelper {
     }
 
     public static void initAliPush(final Context mContext) {
-        BaseApplication.PUSH_TYPE = ALIYUN;
+        BaseApp.PUSH_TYPE = ALIYUN;
 
         PushServiceFactory.init(mContext);
         final CloudPushService pushService = PushServiceFactory.getCloudPushService();
@@ -102,7 +102,7 @@ public class PushHelper {
     }
 
     public static void initXiaoMiPush(Context mContext) {
-        BaseApplication.PUSH_TYPE = XIAOMI;
+        BaseApp.PUSH_TYPE = XIAOMI;
 
         MiPushClient.registerPush(mContext, XIAOMI_APP_ID, XIAOMI_APP_KEY);
         LoggerInterface newLogger = new LoggerInterface() {
@@ -125,7 +125,7 @@ public class PushHelper {
     }
 
     public static void initHuaWeiPush(final Context mContext) {
-        BaseApplication.PUSH_TYPE = HUAWEI;
+        BaseApp.PUSH_TYPE = HUAWEI;
 
         //创建华为移动服务client实例用以使用华为push服务
         //需要指定api为HuaweiPush.PUSH_API
@@ -137,7 +137,7 @@ public class PushHelper {
                     public void onConnected() {
                         //华为移动服务client连接成功，在这边处理业务自己的事件
                         ALog.e("HuaweiApiClient 连接成功");
-//                        ToastUtils.showToast(BaseApplication.mContext, "HuaweiApiClient 连接成功");
+//                        ToastUtils.showToast(BaseApp.mContext, "HuaweiApiClient 连接成功");
 
                         getTokenAsyn(client);
                     }
@@ -145,14 +145,14 @@ public class PushHelper {
                     @Override
                     public void onConnectionSuspended(int i) {
                         ALog.e("onConnectionSuspended");
-//                        ToastUtils.showToast(BaseApplication.mContext, "连接终止-->" + i);
+//                        ToastUtils.showToast(BaseApp.mContext, "连接终止-->" + i);
                     }
                 })
                 .addOnConnectionFailedListener(new HuaweiApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(ConnectionResult connectionResult) {
                         ALog.e("onConnectionFailed-->" + connectionResult.getErrorCode());
-//                        ToastUtils.showToast(BaseApplication.mContext, "连接失败-->" + connectionResult.getErrorCode());
+//                        ToastUtils.showToast(BaseApp.mContext, "连接失败-->" + connectionResult.getErrorCode());
                         PushHelper.initAliPush(mContext);
                     }
                 }).build();

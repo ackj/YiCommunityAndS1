@@ -3,7 +3,7 @@ package com.aglhz.s1.security.view;
 
 import android.widget.ImageView;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.yicommunity.R;
@@ -30,7 +30,7 @@ public class AddDetectorRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.Da
 
         ImageView ivSecurity = helper.getView(R.id.iv_icon_item_security);
 
-        Glide.with(BaseApplication.mContext)
+        Glide.with(BaseApp.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_house_red_140px : item.getIcon())
                 .error(R.mipmap.ic_launcher)
                 .into(ivSecurity);

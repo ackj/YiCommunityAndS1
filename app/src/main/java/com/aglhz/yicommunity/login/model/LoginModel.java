@@ -1,6 +1,6 @@
 package com.aglhz.yicommunity.login.model;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
@@ -30,7 +30,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .requestLogin(ApiService.requestLogin,
                         params.sc,
                         params.fc,
-                        BaseApplication.PUSH_TYPE,
+                        BaseApp.PUSH_TYPE,
                         params.user,
                         params.pwd)
                 .subscribeOn(Schedulers.io());

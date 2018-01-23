@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.aglhz.abase.BaseApplication;
+import com.aglhz.abase.BaseApp;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.s1.common.BoxingGlideLoader;
 import com.aglhz.s1.common.Constants;
@@ -24,7 +24,7 @@ import cn.itsite.apush.event.EventRefreshSecurity;
  * Created by leguang on 2017/6/22 0022.
  * Email：langmanleguang@qq.com
  */
-public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
+public class App extends BaseApp implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
     public Gson gson = new Gson();
     //    public final static String APPID="1e9a2c3ead108413e8218a639c540e44";
