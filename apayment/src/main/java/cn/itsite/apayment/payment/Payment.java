@@ -311,7 +311,7 @@ public final class Payment {
         fragmentManager.beginTransaction()
                 .remove(findPayFragment(activity))
                 .commitAllowingStateLoss();
-        fragmentManager.executePendingTransactions();
+//        fragmentManager.executePendingTransactions();
         activity = null;
         params = null;
     }
