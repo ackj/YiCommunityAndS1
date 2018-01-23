@@ -182,11 +182,11 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                 .setItems(payTypes, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            params.payMethod = Constants.TYPE_ALIPAY;
+                            params.payMethod = Payment.PAYTYPE_ALI_APP;
                             pay(Pay.aliAppPay());
                             break;
                         case 1:
-                            params.payMethod = Constants.TYPE_WXPAY;
+                            params.payMethod = Payment.PAYTYPE_WECHAT_H5X;
                             pay(Pay.weChatH5xPay());
                             break;
                         default:
@@ -199,15 +199,6 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     }
 
     private void pay(IPayable iPayable) {
-//        PayParams payParams = new PayParams.Builder()
-//                .context(_mActivity)
-//                .url(PayService.requestOrder)
-//                .token(params.token)
-//                .billFids(params.billFids)
-//                .payMethod(params.payMethod)
-//                .build();
-
-
         Map<String, String> payParams = new HashMap<>();
         payParams.put("token", params.token);
         payParams.put("billFids", params.billFids);

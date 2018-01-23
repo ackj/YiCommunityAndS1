@@ -29,11 +29,14 @@ import cn.itsite.apayment.payment.pay.IPayable;
 
 public final class Payment {
     public static final String TAG = Payment.class.getSimpleName();
+    public static final String ALIPAY = "支付宝支付";
+    public static final String WXPAY = "微信支付";
     //支付方式
-    public static final int PAYTYPE_WECHAT_APP = 1;
-    public static final int PAYTYPE_WECHAT_H5X = 2;
-    public static final int PAYTYPE_ALI_APP = 3;
-    public static final int PAYTYPE_ALI_H5 = 4;
+    public static final int PAYTYPE_WECHAT_APP = 202;
+    public static final int PAYTYPE_WECHAT_H5 = 203;
+    public static final int PAYTYPE_WECHAT_H5X = 207;
+    public static final int PAYTYPE_ALI_APP = 102;
+    public static final int PAYTYPE_ALI_H5 = 103;
     public static final int PAYTYPE_UNI = 5;
     //请求方式
     public static final int HTTP_GET = 1;
@@ -75,7 +78,7 @@ public final class Payment {
     private String url;
     private Activity activity;
 
-    @IntDef({PAYTYPE_WECHAT_APP, PAYTYPE_WECHAT_H5X, PAYTYPE_ALI_APP, PAYTYPE_ALI_H5, PAYTYPE_UNI})
+    @IntDef({PAYTYPE_WECHAT_APP, PAYTYPE_WECHAT_H5, PAYTYPE_WECHAT_H5X, PAYTYPE_ALI_APP, PAYTYPE_ALI_H5, PAYTYPE_UNI})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PayType {
     }
