@@ -234,7 +234,6 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                     @Override
                     public void onError(int errorCode) {
                         ALog.e("1.请求 失败-------->" + errorCode);
-//                        showLoading("订单请求失败");
                         dismissLoading();
                         DialogHelper.errorSnackbar(getView(), "订单请求失败");
 
