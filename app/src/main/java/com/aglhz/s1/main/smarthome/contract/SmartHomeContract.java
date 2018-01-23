@@ -3,10 +3,7 @@ package com.aglhz.s1.main.smarthome.contract;
 import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
-import com.aglhz.s1.entity.bean.EquipmentBean;
-
-import java.util.List;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 
 import rx.Observable;
 
@@ -19,11 +16,11 @@ import rx.Observable;
 public interface SmartHomeContract {
 
     interface View extends BaseContract.View {
-        void responseEquipmentInfoList(List<EquipmentBean.DataBean.DataListBean> data);
+        void responseEquipmentInfoList(MainDeviceListBean bean);
 
         void responseDelGatewaySuccess(BaseBean baseBean);
 
-        void responseCameraList(List<CameraBean.DataBean> data);
+        void responseCameraList(MainDeviceListBean bean);
 
         void responseAddAndDelCameraSuccess(BaseBean baseBean);
     }
@@ -42,11 +39,11 @@ public interface SmartHomeContract {
     }
 
     interface Model extends BaseContract.Model {
-        Observable<EquipmentBean> requestEquipmentInfoList(Params params);
+        Observable<MainDeviceListBean> requestEquipmentInfoList(Params params);
 
         Observable<BaseBean> requestDelGateway(Params params);
 
-        Observable<CameraBean> requestCameraList(Params params);
+        Observable<MainDeviceListBean> requestCameraList(Params params);
 
         Observable<BaseBean> requestNewCamera(Params params);
 

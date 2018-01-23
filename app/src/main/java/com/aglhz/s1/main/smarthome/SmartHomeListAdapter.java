@@ -4,11 +4,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
-import com.aglhz.s1.entity.bean.CameraBean;
-import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.s1.entity.bean.SmartHomeBean;
 import com.aglhz.yicommunity.App;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 
@@ -72,14 +71,14 @@ public class SmartHomeListAdapter extends BaseRecyclerViewAdapter<SmartHomeBean,
     }
 
     public interface OnItemEquipmentClickListener {
-        void click(BaseRecyclerViewAdapter adapter, EquipmentBean.DataBean.DataListBean item, int position);
+        void click(BaseRecyclerViewAdapter adapter, MainDeviceListBean.DataBean item, int position);
 
-        void longClick(BaseRecyclerViewAdapter adapter, EquipmentBean.DataBean.DataListBean item, int position);
+        void longClick(BaseRecyclerViewAdapter adapter,MainDeviceListBean.DataBean item, int position);
     }
 
     public interface OnItemCameraClickListener {
-        void click(BaseRecyclerViewAdapter adapter, CameraBean.DataBean item, int position);
+        void click(BaseRecyclerViewAdapter adapter, MainDeviceListBean.DataBean item, int position);
 
-        void longClick(BaseRecyclerViewAdapter adapter, CameraBean.DataBean item, int position);
+        void longClick(BaseRecyclerViewAdapter adapter, MainDeviceListBean.DataBean item, int position);
     }
 }

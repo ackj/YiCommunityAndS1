@@ -57,6 +57,11 @@ public class Constants extends BaseConstants {
 //    public static final int TYPE_ADD_HOST = 0;//0是添加。
 //    public static final int TYPE_EDIT_HOST = 1;//1是编辑。
 
+    public static String SMART_GATEWAY = "smart_gateway";//S1网关
+    public static String SMART_GATEWAY_GSW3 = "smart_gateway_gsw3";//安全小卫士
+    public static String SMART_CAMERA = "smart_camera";//摄像头
+    public static String SMART_CATEYE = "smart_cateye";//猫眼
+
     //友盟推送extra字段类型。
     public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
     public static final String DEVICE_LEARN = "device_learn";//设备学习
@@ -108,6 +113,5 @@ public class Constants extends BaseConstants {
     public static final String PS_SMS_TOPHONE = "p_sms_tophone";///** 网关开启指定手机短信的推送 */
     public static final String PS_WIFI_CONNECT = "p_wifi_connect";///** 网关开启WiFi连接的推送 */
     public static final String PS_WIFI_DISCONNECT = "p_wifi_disconnect";///** 网关开启WiFi断开的推送 */
-
 
 }

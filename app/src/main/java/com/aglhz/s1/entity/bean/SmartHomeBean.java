@@ -1,5 +1,7 @@
 package com.aglhz.s1.entity.bean;
 
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
+
 import java.util.List;
 
 /**
@@ -12,13 +14,13 @@ public class SmartHomeBean {
 
     public static final int TYPE_CAMERA = 2;
 
-    public List<EquipmentBean.DataBean.DataListBean> equipmentList;
+    public List<MainDeviceListBean.DataBean> equipmentList;
 
-    public List<CameraBean.DataBean> cameraList;
+    public List<MainDeviceListBean.DataBean> cameraList;
 
     public int type;
 
-    public SmartHomeBean(int type,List<EquipmentBean.DataBean.DataListBean> equipmentList,List<CameraBean.DataBean> cameraList){
+    public SmartHomeBean(int type,List<MainDeviceListBean.DataBean> equipmentList,List<MainDeviceListBean.DataBean> cameraList){
         this.type = type;
         this.equipmentList = equipmentList;
         this.cameraList = cameraList;

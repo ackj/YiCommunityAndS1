@@ -4,8 +4,8 @@ import android.widget.ImageView;
 
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.App;
-import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -14,19 +14,19 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * Email: liujia95me@126.com
  */
 
-public class SmartHomeEquipementAdapter extends BaseRecyclerViewAdapter<EquipmentBean.DataBean.DataListBean, BaseViewHolder> {
+public class SmartHomeEquipementAdapter extends BaseRecyclerViewAdapter<MainDeviceListBean.DataBean, BaseViewHolder> {
 
     public SmartHomeEquipementAdapter() {
         super(R.layout.s1_item_smart_home_grid_item);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, EquipmentBean.DataBean.DataListBean item) {
-        helper.setText(R.id.tv_name, item.getDeviceName());
+    protected void convert(BaseViewHolder helper,MainDeviceListBean.DataBean item) {
+        helper.setText(R.id.tv_name, item.getName());
 
         ImageView ivLogo = helper.getView(R.id.iv_logo);
         Glide.with(App.mContext)
-                .load(item.getDeviceName().equals("添加中控") ? R.drawable.ic_add_house_red_140px : R.drawable.ic_zhuji_220px)
+                .load(item.getName().equals("添加中控") ? R.drawable.ic_add_house_red_140px : R.drawable.ic_zhuji_220px)
                 .into(ivLogo);
     }
 }

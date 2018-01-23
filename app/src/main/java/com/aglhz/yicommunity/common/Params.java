@@ -110,7 +110,8 @@ public class Params {
     public String roomDir; //6-31-1-1
     public String acsStoreDeviceFid; //无人便利店设备登记表的Fid。
     public String accessKey; //当前二维码的访问密匙。
-
+    public String deviceType;
+    public String cmnt_dir;
 
     private Params() {
     }

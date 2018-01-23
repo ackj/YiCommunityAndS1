@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
+import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 import com.aglhz.yicommunity.main.smarthome.contract.GoodsCategoryContract;
 import com.aglhz.yicommunity.main.smarthome.presenter.GoodsCategoryPresenter;
 
@@ -105,7 +107,13 @@ public class GoodsCategoryFragment extends BaseFragment<GoodsCategoryContract.Pr
      */
     @Override
     public void responseFirstLevel(List<FirstLevelBean.DataBean> datas) {
-        startForResult(SmartHomeMallFragment.newInstance(datas.get(datas.size() - 1).getId()), 100);
+        for (FirstLevelBean.DataBean bean:datas){
+            if("智能家居".equals(bean.getName())){
+//                params.id = bean.getId();
+                startForResult(SmartHomeMallFragment.newInstance(bean.getId()), 100);
+                break;
+            }
+        }
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.aglhz.abase.cache.SPCache;
 import com.aglhz.abase.log.ALog;
-import com.xiaomi.mipush.sdk.ErrorCode;
+import com.taobao.accs.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;

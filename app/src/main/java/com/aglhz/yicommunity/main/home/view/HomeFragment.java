@@ -32,9 +32,9 @@ import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.HomeBean;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.ServiceBean;
@@ -313,6 +313,7 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
 
     @Override
     public void error(String errorMessage) {
+        super.error(errorMessage);
         ALog.e(TAG, "error:" + errorMessage);
         if (openDoorialog != null) {
             openDoorialog.setError();
@@ -410,7 +411,13 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     @Override
     public void responseFirstLevel(List<FirstLevelBean.DataBean> datas) {
         if (datas.size() > 0) {
-            params.id = datas.get(datas.size() - 1).getId();
+            for (FirstLevelBean.DataBean bean:datas){
+                if("智能家居".equals(bean.getName())){
+                    params.id = bean.getId();
+                    break;
+                }
+                ALog.e(TAG,"id:"+bean.getId());
+            }
             mPresenter.requestSubCategoryList(params);
         }
     }
@@ -425,9 +432,9 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
     }
 
     @Override
-    public void responseCommEquipmentList(List<CommEquipmentBean.DataBean.DataListBean> datas) {
+    public void responseCommEquipmentList(MainDeviceListBean bean) {
         dismissLoading();
-        if (datas.size() == 0) {
+        if (bean.getData().size() == 0) {
             new AlertDialog.Builder(_mActivity)
                     .setTitle("温馨提示")
                     .setMessage("您当前暂无添加任何智能设备，可在【管家】的【智能家居】中添加。")
@@ -437,15 +444,15 @@ public class HomeFragment extends BaseFragment<HomeContract.Presenter> implement
             new SelectorDialogFragment()
                     .setTitle("请选择智能控制")
                     .setItemLayoutId(R.layout.item_comm_equipment)
-                    .setData(datas)
+                    .setData(bean.getData())
                     .setOnItemConvertListener((holder, position, dialog) -> {
-                        holder.setText(R.id.tv_device_name, datas.get(position).getDeviceName())
-                                .setText(R.id.tv_address, datas.get(position).getHouseInfoDetails());
+                        holder.setText(R.id.tv_device_name, bean.getData().get(position).getName())
+                                .setText(R.id.tv_address, bean.getData().get(position).getResidence().getAddr());
                     })
                     .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                         dialog.dismiss();
-                        UserHelper.deviceSn = datas.get(position).getDeviceSn();
-                        UserHelper.deviceName = datas.get(position).getDeviceName();
+                        UserHelper.deviceSn = bean.getData().get(position).getNo();
+                        UserHelper.deviceName = bean.getData().get(position).getName();
                         Intent intent = new Intent(App.mContext, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         App.mContext.startActivity(intent);

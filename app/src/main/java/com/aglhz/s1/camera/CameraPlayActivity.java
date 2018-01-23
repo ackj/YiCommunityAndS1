@@ -29,9 +29,9 @@ import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.camera.presenter.CameraSettingPresenter;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.p2p.core.BaseMonitorActivity;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.P2PValue;
@@ -92,7 +92,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     @BindView(R.id.viewblack)
     View viewBlack;
 
-    private CameraBean.DataBean cameraBean;
+    private MainDeviceListBean.DataBean cameraBean;
     private String cameraUserId;
     private String cameraPassword;
     private String cameraCallId;
@@ -157,11 +157,11 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         registerReceiver(mReceiver, filter);
 
         //获取数据
-        cameraBean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
+        cameraBean = (MainDeviceListBean.DataBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         cameraUserId = sp.getString("userId", "");
         cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
-        cameraCallId = cameraBean.getDeviceId();
+        cameraCallId = cameraBean.getNo();
 
         ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接

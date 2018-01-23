@@ -51,6 +51,10 @@ public class HostSettingsFragment extends BaseFragment<HostSettingsContract.Pres
     TextView tvVolume;
     @BindView(R.id.ll_host_name_host_setting_fragment)
     LinearLayout llHostName;
+    @BindView(R.id.tv_accredit_host_setting_fragment)
+    TextView tvAccredit;
+
+
     private Unbinder unbinder;
     private RxManager mRxManager = new RxManager();
 
@@ -88,6 +92,7 @@ public class HostSettingsFragment extends BaseFragment<HostSettingsContract.Pres
 
     private void initData() {
         tvHostName.setText(UserHelper.deviceName);
+        tvAccredit.setVisibility(UserHelper.deviceIsManager == 0 ? View.GONE : View.VISIBLE);
     }
 
     private void initToolbar() {
@@ -108,6 +113,7 @@ public class HostSettingsFragment extends BaseFragment<HostSettingsContract.Pres
             R.id.tv_alert_sms_host_setting_fragment,
             R.id.tv_push_host_setting_fragment,
             R.id.tv_volume_host_setting_fragment,
+            R.id.tv_accredit_host_setting_fragment,
             R.id.tv_goto_test_schema})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -140,6 +146,10 @@ public class HostSettingsFragment extends BaseFragment<HostSettingsContract.Pres
                         .setNegativeButton("取消", null)
                         .show();
                 break;
+            case R.id.tv_accredit_host_setting_fragment:
+                start(AuthorizationFragment.newInstance());
+                break;
+            default:
         }
     }
 

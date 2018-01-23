@@ -3,12 +3,13 @@ package com.aglhz.yicommunity.main.home.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.BannerBean;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
-import com.aglhz.yicommunity.entity.bean.CommEquipmentBean;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 import com.aglhz.yicommunity.entity.bean.NoticeBean;
 import com.aglhz.yicommunity.entity.bean.OneKeyDoorBean;
 import com.aglhz.yicommunity.entity.bean.ServicesTypesBean;
@@ -92,13 +93,16 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     }
 
     @Override
-    public Observable<CommEquipmentBean> requestCommEquipmentList(Params params) {
-        return HttpHelper.getService(ApiService.class)
-                .requestCommEquipmentList(
-                        ApiService.requestCommEquipmentList,
+    public Observable<MainDeviceListBean> requestCommEquipmentList(Params params) {
+        return HttpHelper.getService(com.aglhz.s1.common.ApiService.class)
+                .requestMainDeviceList(
+                        com.aglhz.s1.common.ApiService.requestMainDeviceList,
                         params.token,
-                        Params.cmnt_c,
-                        params.powerCode)
+                        Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),
+                        params.cmnt_dir,
+                        params.roomDir,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

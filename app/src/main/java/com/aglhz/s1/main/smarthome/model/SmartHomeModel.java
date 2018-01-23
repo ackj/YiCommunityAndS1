@@ -6,9 +6,8 @@ import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
-import com.aglhz.s1.entity.bean.EquipmentBean;
 import com.aglhz.s1.main.smarthome.contract.SmartHomeContract;
+import com.aglhz.yicommunity.entity.bean.MainDeviceListBean;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -22,39 +21,42 @@ import rx.schedulers.Schedulers;
 public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model {
 
     @Override
-    public Observable<EquipmentBean> requestEquipmentInfoList(Params params) {
+    public Observable<MainDeviceListBean> requestEquipmentInfoList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestEquipmentInfoList(ApiService.requestEquipmentInfoList,
-                        params.token,Constants.FC,params.roomDir,params.powerCode)
+                .requestMainDeviceList(ApiService.requestMainDeviceList,
+                        params.token,Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),"",params.roomDir,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestDelGateway(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelGateway(ApiService.requestDelGateway,
-                        params.token,Constants.FC,params.deviceSn)
+                .requestDelMainDevice(ApiService.requestDelMainDevice,
+                        params.token,
+                        Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),
+                        params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<CameraBean> requestCameraList(Params params) {
+    public Observable<MainDeviceListBean> requestCameraList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestCameraList(ApiService.requestCameraList,params.token, Constants.FC,params.page,params.pageSize)
+                .requestMainDeviceList(ApiService.requestMainDeviceList,
+                        params.token, Constants.SMART_CAMERA,"",params.roomDir,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestNewCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestNewcamera(ApiService.requestNewcamera,params.token,Constants.FC,params.deviceId,params.deviceName,params.devicePassword)
+                .requestNewCamera(ApiService.requestNewMainDevice,params.token, Constants.SMART_CAMERA,params.deviceId,params.deviceName,params.devicePassword,params.roomDir)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestDelCamera(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelcamera(ApiService.requestDelcamera,params.token,Constants.FC,params.fid)
+                .requestDelMainDevice(ApiService.requestDelMainDevice,params.token,Constants.SMART_CAMERA,params.deviceId)
                 .subscribeOn(Schedulers.io());
     }
 

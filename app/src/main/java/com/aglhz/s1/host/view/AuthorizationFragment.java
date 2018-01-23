@@ -21,11 +21,11 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.AuthorizationContract;
 import com.aglhz.s1.host.presenter.AuthorizationPresenter;
 import com.aglhz.s1.qrcode.ScanQRCodeFragment;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.UserHelper;
 import com.aglhz.yicommunity.widget.PtrHTFrameLayout;
 
 import java.util.ArrayList;
@@ -59,15 +59,15 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     private Unbinder unbinder;
     private AuthorizationRVAdapter adapter;
     private Params params = Params.getInstance();
-    private GatewaysBean.DataBean hostBean;
+//    private GatewaysBean.DataBean hostBean;
     private StateManager mStateManager;
     private List<String> addHostTypes;
 
-    public static AuthorizationFragment newInstance(GatewaysBean.DataBean hostBean) {
+    public static AuthorizationFragment newInstance() {
         AuthorizationFragment fragment = new AuthorizationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("bean", hostBean);
-        fragment.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("bean", hostBean);
+//        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -82,7 +82,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        hostBean = getArguments().getParcelable("bean");
+//        hostBean = getArguments().getParcelable("bean");
         return attachToSwipeBack(view);
     }
 
@@ -98,18 +98,18 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
 
     private void initToolbar() {
         initStateBar(toolbar);
-        if (hostBean == null) {
-            DialogHelper.warningSnackbar(getView(), "主机为空");
-            return;
-        }
-        toolbarTitle.setText(hostBean.getName());
+//        if (hostBean == null) {xxxx
+//            DialogHelper.warningSnackbar(getView(), "主机为空");
+//            return;`````````````
+//        }
+        toolbarTitle.setText(UserHelper.deviceName);
         toolbarMenu.setText("授权");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = UserHelper.deviceSn;
         adapter = new AuthorizationRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter.setEnableLoadMore(true);
@@ -209,7 +209,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                             DialogHelper.warningSnackbar(getView(), "请输入电话号码");
                             return;
                         }
-                        params.gateway = hostBean.getFid();
+                        params.gateway = UserHelper.deviceSn;
                         params.mobile = etInputPhone.getText().toString();
                         mPresenter.requestGatewayAuth(params);
                         //确定

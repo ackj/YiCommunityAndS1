@@ -59,8 +59,9 @@ public class UserHelper {
     public static String locationAddress = "";//定位的位置地址。
     public static boolean isExchangeAgree = false;//闲置交换发布时是否同意过我们的协议。
     public static boolean isCarpoolAgree = false;//拼车服务发布时是否同意过我们的协议。
-    public static String deviceSn = "";
+    public static String deviceSn = "";//主机编号
     public static String deviceName = "";//主机名称
+    public static int deviceIsManager;//是不是主机管理员0否1是
     public static final String DEVICE_ID = "device_id";
 
     public static UserBean.DataBean.MemberInfoBean userInfo;
