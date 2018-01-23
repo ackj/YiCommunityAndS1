@@ -241,8 +241,6 @@ public final class Payment {
      * @param result
      */
     private void parse(String result) {
-        ALog.e(Thread.currentThread().getName());
-
         if (onParseListener != null) {
             onParseListener.onStart(result);
             if (TextUtils.isEmpty(result)) {

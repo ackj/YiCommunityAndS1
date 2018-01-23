@@ -1,5 +1,8 @@
 package cn.itsite.apayment.payment.pay;
 
+import cn.itsite.apayment.payment.pay.alipay.ALiAppPay;
+import cn.itsite.apayment.payment.pay.union.UpiAppPay;
+import cn.itsite.apayment.payment.pay.wechat.WeChatAppPay;
 import cn.itsite.apayment.payment.pay.wechat.WeChatH5xPay;
 
 /**
@@ -14,14 +17,14 @@ public class Pay {
 
     /******************以下为支付宝支付***********************/
     public static IPayable aliAppPay() {
-        return null;
+        return new ALiAppPay();
     }
     /******************以上为支付宝支付***********************/
 
 
     /******************以下为微信支付***********************/
     public static IPayable weChatAppPay() {
-        return null;
+        return new WeChatAppPay();
 
     }
 
@@ -33,7 +36,7 @@ public class Pay {
 
     /******************以下为银联支付***********************/
     public static IPayable upiAppPay() {
-        return null;
+        return new UpiAppPay();
 
     }
     /******************以上为银联支付*************************/

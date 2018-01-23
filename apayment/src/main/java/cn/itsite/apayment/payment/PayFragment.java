@@ -125,10 +125,6 @@ public class PayFragment extends Fragment {
 
     }
 
-    private void verify() {
-
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -178,6 +174,8 @@ public class PayFragment extends Fragment {
 
             @Override
             public void onFailure() {
+                ALog.e("确认失败-->");
+
                 onVerifyListener.onFailure(Payment.VERIFY_ERROR);
             }
         });

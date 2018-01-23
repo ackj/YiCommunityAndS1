@@ -45,8 +45,6 @@ public class ALiAppPay implements IPayable {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ALog.e("支付宝支付返回在--》" + Thread.currentThread());
-
             if (msg.what != PAY_RESULT) {
                 return;
             }

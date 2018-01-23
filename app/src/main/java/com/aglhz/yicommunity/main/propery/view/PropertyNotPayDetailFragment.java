@@ -279,7 +279,7 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
 
                     @Override
                     public void onFailure(@Payment.PayType int payType, int errorCode) {
-                        ALog.e("3.支付 失败-------->" + payType + "errorCode-->" + errorCode);
+                        ALog.e("3.支付 失败-------->" + payType + "----------errorCode-->" + errorCode);
                         dismissLoading();
                         DialogHelper.errorSnackbar(getView(), "支付失败，请重试");
                     }
