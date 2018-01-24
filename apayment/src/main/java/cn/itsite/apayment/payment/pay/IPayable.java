@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import org.json.JSONException;
 
 import cn.itsite.apayment.payment.PayParams;
+import cn.itsite.apayment.payment.Payment;
 import cn.itsite.apayment.payment.PaymentListener;
 
 /**
@@ -22,4 +23,7 @@ public interface IPayable {
     PayParams parse(@NonNull String result) throws JSONException;
 
     void pay(@NonNull Activity activity, @NonNull PayParams params, PaymentListener.OnPayListener onPayListener);
+
+    @Payment.PayType
+    int getPayType();
 }

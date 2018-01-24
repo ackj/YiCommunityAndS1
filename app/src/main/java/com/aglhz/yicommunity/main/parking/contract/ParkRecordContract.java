@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.park.contract;
+package com.aglhz.yicommunity.main.parking.contract;
 
 import com.aglhz.abase.mvp.contract.base.BaseContract;
 import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
@@ -26,5 +26,4 @@ public interface ParkRecordContract {
     interface Model extends BaseContract.Model {
         Observable<ParkRecordListBean> requestParkRecord(Params params);
     }
-
 }

@@ -62,17 +62,15 @@ public class PushHelper {
                 PushHelper.initHuaWeiPush(mContext);
                 break;
             case OPPO:
-                break;
             case VIVO:
-                break;
             default:
                 PushHelper.initAliPush(mContext);
                 break;
         }
-
     }
 
     public static void initAliPush(final Context mContext) {
+        ALog.e("initAliPush");
         BaseApp.PUSH_TYPE = ALIYUN;
 
         PushServiceFactory.init(mContext);
@@ -80,7 +78,7 @@ public class PushHelper {
         pushService.register(mContext, new CommonCallback() {
             @Override
             public void onSuccess(String response) {
-                ALog.e(TAG, "init cloudchannel success+-->" + response);
+                ALog.e(TAG, "init cloudchannel success-->" + response);
                 String deviceID = PushHelper.PREFIX + pushService.getDeviceId();
                 SPCache.put(mContext, PushHelper.DEVICE_ID, deviceID);
                 ALog.e(TAG, "deviceID-->" + deviceID);

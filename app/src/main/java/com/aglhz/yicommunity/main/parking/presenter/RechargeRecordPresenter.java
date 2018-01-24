@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.park.presenter;
+package com.aglhz.yicommunity.main.parking.presenter;
 
 import android.support.annotation.NonNull;
 
@@ -31,11 +31,6 @@ public class RechargeRecordPresenter extends BasePresenter<RechargeRecordContrac
     @Override
     protected RechargeRecordContract.Model createModel() {
         return new RechargeRecordModel();
-    }
-
-    @Override
-    public void start(Object request) {
-
     }
 
     @Override
