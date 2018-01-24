@@ -23,7 +23,6 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.ToastUtils;
 import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.camera.CameraPlay2Activity;
-import com.aglhz.s1.camera.CameraSettingFragment;
 import com.aglhz.s1.camera.P2PListener;
 import com.aglhz.s1.camera.SettingListener;
 import com.aglhz.s1.common.Constants;
@@ -254,7 +253,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (which == 0) {
-                                        _mActivity.start(CameraSettingFragment.newInstance(bean));
+//                                        _mActivity.start(CameraSettingFragment.newInstance(bean));
                                     } else {
 
                                         showDeleteCameraDialog(bean);

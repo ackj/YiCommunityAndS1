@@ -159,6 +159,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
         cameraUserId = sp.getString("userId", "");
         cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
         cameraCallId = cameraBean.getDeviceId();
+        params.deviceId = cameraBean.getDeviceId();
 
         ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接
@@ -319,6 +320,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                                     params.devicePassword = result;
                                     params.deviceId = cameraBean.getDeviceId();
                                     presenter.requestModCamera(params);
+
                                     dialog.dismiss();
                                 }
                             });

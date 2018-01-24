@@ -86,6 +86,7 @@
         android:background="@color/base_line" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_video"
         android:clickable="true"
         android:focusable="true"

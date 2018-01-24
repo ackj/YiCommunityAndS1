@@ -23,6 +23,7 @@ import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import com.aglhz.s1.camera.CameraPlayActivity;
+import com.aglhz.s1.camera.CameraSettingFragment;
 import com.aglhz.s1.camera.CameraWifiInputFragment;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -225,7 +226,7 @@ public class SmartHomeFragment extends BaseFragment<SmartHomeContract.Presenter>
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
-//                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)

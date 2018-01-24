@@ -311,6 +311,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                                     DialogHelper.warningSnackbar(toolbar, "请输入内容");
                                 } else {
                                     params.fid = cameraBean.getFid();
+                                    params.deviceId = cameraBean.getNo();
                                     params.deviceName = cameraBean.getName();
                                     params.deviceType = "password";
                                     params.devicePassword = result;

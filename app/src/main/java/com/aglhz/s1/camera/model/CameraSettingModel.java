@@ -1,5 +1,6 @@
 package com.aglhz.s1.camera.model;
 
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.s1.camera.contract.CameraSettingContract;
@@ -18,8 +19,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class CameraSettingModel extends BaseModel implements CameraSettingContract.Model{
+
+    private static final String TAG = "CameraSettingModel";
+
     @Override
     public Observable<BaseBean> requestModCamera(Params params) {
+        ALog.e(TAG,"params no:"+params.deviceId);
         return HttpHelper.getService(ApiService.class)
                 .requestModMainDevice(ApiService.requestModMainDevice,
                         params.token, Constants.SMART_CAMERA,params.deviceId,params.deviceName,params.devicePassword)

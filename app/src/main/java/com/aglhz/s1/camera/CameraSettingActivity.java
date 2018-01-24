@@ -14,7 +14,7 @@ public class CameraSettingActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) getIntent().getSerializableExtra("bean");
-            loadRootFragment(R.id.fl_main_activity, CameraSettingFragment.newInstance(bean));
+//            loadRootFragment(R.id.fl_main_activity, CameraSettingFragment.newInstance(bean));
         }
     }
 }
