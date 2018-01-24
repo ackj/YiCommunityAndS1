@@ -14,26 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
-import cn.itsite.apayment.payment.temp.ALiPayHelper;
-import cn.itsite.apayment.payment.temp.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.BaseBean;
 import com.aglhz.yicommunity.entity.bean.CarCardListBean.DataBean.CardListBean;
 import com.aglhz.yicommunity.entity.bean.MonthlyPayRulesBean;
 import com.aglhz.yicommunity.entity.bean.ParkPayResultBean;
-import cn.itsite.apayment.payment.temp.EventPay;
 import com.aglhz.yicommunity.main.parking.contract.CarCardPayContract;
 import com.aglhz.yicommunity.main.parking.presenter.CarCardPayPresenter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +36,13 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
+import cn.itsite.apayment.payment.PayParams;
+import cn.itsite.apayment.payment.Payment;
+import cn.itsite.apayment.payment.PaymentListener;
+import cn.itsite.apayment.payment.network.NetworkClient;
+import cn.itsite.apayment.payment.network.PayService;
+import cn.itsite.apayment.payment.pay.IPayable;
+import cn.itsite.apayment.payment.pay.Pay;
 
 import static com.aglhz.yicommunity.common.Constants.CARD_TYPE_MONTHLY;
 
@@ -131,7 +133,6 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_card_pay, container, false);
-        EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -146,7 +147,6 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -224,12 +224,14 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                 }
                 break;
             case R.id.tv_alipay_car_card_pay_fragment:
-                params.payMethod = Constants.TYPE_ALIPAY;
-                mPresenter.requestCarCardBill(params);
+                params.payMethod = Payment.PAYTYPE_ALI_APP;
+                pay(Pay.aliAppPay());
+
                 break;
             case R.id.tv_weixin_car_card_pay_fragment:
-                params.payMethod = Constants.TYPE_WXPAY;
-                mPresenter.requestCarCardBill(params);
+                params.payMethod = Payment.PAYTYPE_WECHAT_H5X;
+                pay(Pay.weChatH5xPay());
+
                 break;
             default:
         }
@@ -279,35 +281,151 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
         params.monthCount = firstRule.getMonthCount();
     }
 
-    @Override
-    public void responseCarCardBill(JSONObject jsonObject) {
-        switch (params.payMethod) {
-            case Constants.TYPE_ALIPAY:
-                //支付宝
-                new ALiPayHelper().pay(_mActivity, jsonObject.optString("body"));
-                break;
-            case Constants.TYPE_WXPAY:
-                //微信
-                WxPayHelper.pay(jsonObject.toString());
-                break;
-            default:
-        }
-    }
+//    @Override
+//    public void responseCarCardBill(JSONObject jsonObject) {
+//        switch (params.payMethod) {
+//            case Constants.TYPE_ALIPAY:
+//                //支付宝
+//                new ALiPayHelper().pay(_mActivity, jsonObject.optString("body"));
+//                break;
+//            case Constants.TYPE_WXPAY:
+//                //微信
+//                WxPayHelper.pay(jsonObject.toString());
+//                break;
+//            default:
+//        }
+//    }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventPay event) {
-        if (event.code == 0) {
-            Bundle bundle = new Bundle();
-            ParkPayResultBean result = new ParkPayResultBean();
-            result.order = event.extra;
-            result.park = carCard.getParkPlace().getName();
-            result.plate = carCard.getCarNo();
-            result.time = carCard.getCreateTime();
-            result.amount = tvAmount.getText().toString();
-            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
-            start(ParkPayResultFragment.newInstance(bundle));
-        } else {
-            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
-        }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEvent(EventPay event) {
+//        if (event.code == 0) {
+//            Bundle bundle = new Bundle();
+//            ParkPayResultBean result = new ParkPayResultBean();
+//            result.order = event.extra;
+//            result.park = carCard.getParkPlace().getName();
+//            result.plate = carCard.getCarNo();
+//            result.time = carCard.getCreateTime();
+//            result.amount = tvAmount.getText().toString();
+//            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
+//            start(ParkPayResultFragment.newInstance(bundle));
+//        } else {
+//            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
+//        }
+//    }
+
+    private void pay(IPayable iPayable) {
+        //拼参数。
+        Map<String, String> params = new HashMap<>();
+        params.put("token", this.params.token);
+        params.put("parkCardFid", this.params.parkCardFid);
+        params.put("monthName", this.params.monthName);
+        params.put("monthCount", this.params.monthCount + "");
+        params.put("payMethod", this.params.payMethod + "");
+
+        final PayParams[] payParams = new PayParams[1];
+        //构建支付入口对象。
+        Payment.builder()
+                .setParams(params)
+                .setHttpType(Payment.HTTP_POST)
+                .setUrl(PayService.requestCarCardOrder)
+                .setActivity(_mActivity)
+                .setClient(NetworkClient.okhttp())
+                .setPay(iPayable)
+                .setOnRequestListener(new PaymentListener.OnRequestListener() {
+                    @Override
+                    public void onStart() {
+                        ALog.e("1.请求 开始-------->");
+                        showLoading("请求订单中");
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        ALog.e("1.请求 成功-------->" + result);
+                        showLoading("订单请求成功，等待解析");
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ALog.e("1.请求 失败-------->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "订单请求失败");
+
+                    }
+                })
+                .setOnParseListener(new PaymentListener.OnParseListener() {
+                    @Override
+                    public void onStart(String result) {
+                        ALog.e("2.解析 开始-------->" + result);
+                        showLoading("正在解析");
+                    }
+
+                    @Override
+                    public void onSuccess(PayParams params) {
+                        payParams[0] = params;
+                        ALog.e("2.解析 成功-------->");
+                        showLoading("解析成功");
+
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ALog.e("2.解析 失败------->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "解析异常");
+                    }
+                })
+                .setOnPayListener(new PaymentListener.OnPayListener() {
+                    @Override
+                    public void onStart(@Payment.PayType int payType) {
+                        ALog.e("3.支付 开始-------->" + payType);
+                        showLoading("正在支付");
+                    }
+
+                    @Override
+                    public void onSuccess(@Payment.PayType int payType) {
+                        ALog.e("3.支付 成功-------->" + payType);
+                        dismissLoading();
+//                        DialogHelper.successSnackbar(getView(), "支付成功");
+
+                        Bundle bundle = new Bundle();
+                        ParkPayResultBean result = new ParkPayResultBean();
+                        result.order = payParams[0].getOutTradeNo();
+                        result.park = carCard.getParkPlace().getName();
+                        result.plate = carCard.getCarNo();
+                        result.time = carCard.getCreateTime();
+                        result.amount = tvAmount.getText().toString();
+                        bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
+                        start(ParkPayResultFragment.newInstance(bundle));
+                    }
+
+                    @Override
+                    public void onFailure(@Payment.PayType int payType, int errorCode) {
+                        ALog.e("3.支付 失败-------->" + payType + "----------errorCode-->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "支付失败，请重试");
+                    }
+                })
+                .setOnVerifyListener(new PaymentListener.OnVerifyListener() {
+
+                    @Override
+                    public void onStart() {
+                        ALog.e("4.检验 开始--------");
+                        showLoading("正在确认");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        ALog.e("4.检验 成功--------");
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode) {
+                        ALog.e("4.检验 失败--------" + "errorCode-->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "确认失败，请稍后再查看");
+                    }
+                })
+                .start();
     }
 }

@@ -26,7 +26,7 @@ public interface CarCardPayContract {
 
         void responseMonthlyPayRules(MonthlyPayRulesBean bean);
 
-        void responseCarCardBill(JSONObject bill);
+//        void responseCarCardBill(JSONObject bill);
 
     }
 
@@ -36,7 +36,7 @@ public interface CarCardPayContract {
 
         void requestMonthlyPayRules(Params params);
 
-        void requestCarCardBill(Params params);
+//        void requestCarCardBill(Params params);
 
     }
 
@@ -46,7 +46,7 @@ public interface CarCardPayContract {
 
         Observable<MonthlyPayRulesBean> requestMonthlyPayRules(Params params);
 
-        Observable<ResponseBody> requestCarCardBill(Params params);
+//        Observable<ResponseBody> requestCarCardBill(Params params);
 
     }
 }

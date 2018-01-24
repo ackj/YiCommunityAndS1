@@ -36,15 +36,15 @@ public class TempParkModel extends BaseModel implements TempParkContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override
-    public Observable<ResponseBody> requestTempParkBill(Params params) {
-        return HttpHelper.getService(ApiService.class)
-                .requestTempParkBill(ApiService.requestTempParkBill,
-                        params.parkPlaceFid,
-                        params.carNo,
-                        params.payMethod)
-                .subscribeOn(Schedulers.io());
-    }
+//    @Override
+//    public Observable<ResponseBody> requestTempParkBill(Params params) {
+//        return HttpHelper.getService(ApiService.class)
+//                .requestTempParkBill(ApiService.requestTempParkBill,
+//                        params.parkPlaceFid,
+//                        params.carNo,
+//                        params.payMethod)
+//                .subscribeOn(Schedulers.io());
+//    }
 
     @Override
     public Observable<List<PlateHistoryData>> requestPlateHistory() {

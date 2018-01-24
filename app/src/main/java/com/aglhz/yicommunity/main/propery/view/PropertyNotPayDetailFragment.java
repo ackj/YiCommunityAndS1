@@ -25,8 +25,6 @@ import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +39,6 @@ import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.network.PayService;
 import cn.itsite.apayment.payment.pay.IPayable;
 import cn.itsite.apayment.payment.pay.Pay;
-import cn.itsite.apayment.payment.temp.ALiPayHelper;
-import cn.itsite.apayment.payment.temp.WxPayHelper;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -132,8 +128,12 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        payment.clear();
-        unbinder.unbind();
+        if (payment != null) {
+            payment.clear();
+        }
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     @Override
@@ -161,20 +161,20 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
         params.billFids = bean.getData().getFid();
     }
 
-    @Override
-    public void responseBill(JSONObject jsonData) {
-        switch (params.payMethod) {
-            case Constants.TYPE_ALIPAY:
-                //支付宝
-                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
-                break;
-            case Constants.TYPE_WXPAY:
-                //微信
-                WxPayHelper.h5x(_mActivity, jsonData);
-                break;
-            default:
-        }
-    }
+//    @Override
+//    public void responseBill(JSONObject jsonData) {
+//        switch (params.payMethod) {
+//            case Constants.TYPE_ALIPAY:
+//                //支付宝
+//                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
+//                break;
+//            case Constants.TYPE_WXPAY:
+//                //微信
+//                WxPayHelper.h5x(_mActivity, jsonData);
+//                break;
+//            default:
+//        }
+//    }
 
     @OnClick(R.id.bt_pay_property_not_pay_detail_fragment)
     public void onViewClicked() {
@@ -192,7 +192,6 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
                         default:
                             break;
                     }
-//                    mPresenter.requestBill(params);
                 })
                 .setNegativeButton("取消", null)
                 .show();
@@ -200,16 +199,16 @@ public class PropertyNotPayDetailFragment extends BaseFragment<PropertyPayContra
 
     private void pay(IPayable iPayable) {
         //拼参数。
-        Map<String, String> payParams = new HashMap<>();
-        payParams.put("token", params.token);
-        payParams.put("billFids", params.billFids);
-        payParams.put("payMethod", params.payMethod + "");
+        Map<String, String> params = new HashMap<>();
+        params.put("token", this.params.token);
+        params.put("billFids", this.params.billFids);
+        params.put("payMethod", this.params.payMethod + "");
 
         //构建支付入口对象。
         payment = Payment.builder()
-                .setParams(payParams)
+                .setParams(params)
                 .setHttpType(Payment.HTTP_POST)
-                .setUrl(PayService.requestOrder)
+                .setUrl(PayService.requestPropertyOrder)
                 .setActivity(_mActivity)
                 .setClient(NetworkClient.okhttp())
                 .setPay(iPayable)

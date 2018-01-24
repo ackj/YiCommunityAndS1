@@ -118,11 +118,6 @@ public class PropertyPayedDetailFragment extends BaseFragment<PropertyPayContrac
     }
 
     @Override
-    public void responseBill(JSONObject jsonData) {
-        //无用方法,无需理会
-    }
-
-    @Override
     public void responsePropertyPayDetail(PropertyPayDetailBean bean) {
         if (bean == null) {
             return;

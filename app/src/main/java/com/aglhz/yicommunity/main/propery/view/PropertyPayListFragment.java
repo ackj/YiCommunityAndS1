@@ -14,29 +14,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
+import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.common.UserHelper;
-import cn.itsite.apayment.payment.temp.ALiPayHelper;
-import cn.itsite.apayment.payment.temp.WxPayHelper;
 import com.aglhz.yicommunity.entity.bean.PropertyPayBean;
 import com.aglhz.yicommunity.entity.bean.PropertyPayDetailBean;
 import com.aglhz.yicommunity.event.EventCommunity;
-import cn.itsite.apayment.payment.temp.EventPay;
 import com.aglhz.yicommunity.main.propery.contract.PropertyPayContract;
 import com.aglhz.yicommunity.main.propery.presenter.PropertyPayPresenter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.apayment.payment.PayParams;
+import cn.itsite.apayment.payment.Payment;
+import cn.itsite.apayment.payment.PaymentListener;
+import cn.itsite.apayment.payment.network.NetworkClient;
+import cn.itsite.apayment.payment.network.PayService;
+import cn.itsite.apayment.payment.pay.IPayable;
+import cn.itsite.apayment.payment.pay.Pay;
 import cn.itsite.statemanager.StateManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -63,6 +70,7 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     private Params params = Params.getInstance();
     private String[] payTypes = {Constants.ALIPAY, Constants.WXPAY};
     private StateManager mStateManager;
+    private Payment payment;
 
     public static PropertyPayListFragment newInstance(int position) {
         Bundle bundle = new Bundle();
@@ -148,20 +156,20 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+        if (payment != null) {
+            payment.clear();
+        }
         EventBus.getDefault().unregister(this);
     }
 
     @Override
-    public void start(Object response) {
-        //无用方法,无需理会
-    }
-
-    @Override
     public void error(String errorMessage) {
+        super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
         mStateManager.showError();
-        DialogHelper.warningSnackbar(getView(), errorMessage);
     }
 
     @OnClick(R.id.bt_pay_property_pay_list_fragment)
@@ -170,16 +178,16 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
                 .setItems(payTypes, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            params.payMethod = Constants.TYPE_ALIPAY;
+                            params.payMethod = Payment.PAYTYPE_ALI_APP;
+                            pay(Pay.aliAppPay());
                             break;
                         case 1:
-                            params.payMethod = Constants.TYPE_WXPAY;
+                            params.payMethod = Payment.PAYTYPE_WECHAT_H5X;
+                            pay(Pay.weChatH5xPay());
                             break;
                         default:
                             break;
                     }
-                    params.otype = "pptbill";
-                    mPresenter.requestBill(params);
                 })
                 .setNegativeButton("取消", null)
                 .show();
@@ -190,15 +198,15 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
         ptrFrameLayout.autoRefresh();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventPay event) {
-        ptrFrameLayout.autoRefresh();
-        if (event.code == 0) {
-            DialogHelper.successSnackbar(getView(), "恭喜！支付成功");
-        } else {
-            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEvent(EventPay event) {
+//        ptrFrameLayout.autoRefresh();
+//        if (event.code == 0) {
+//            DialogHelper.successSnackbar(getView(), "恭喜！支付成功");
+//        } else {
+//            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
+//        }
+//    }
 
     @Override
     public void responsePropertyNotPay(PropertyPayBean bean) {
@@ -239,18 +247,122 @@ public class PropertyPayListFragment extends BaseFragment<PropertyPayContract.Pr
         //无用方法,无需理会
     }
 
-    @Override
-    public void responseBill(JSONObject jsonData) {
-        switch (params.payMethod) {
-            case Constants.TYPE_ALIPAY:
-                //支付宝
-                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
-                break;
-            case Constants.TYPE_WXPAY:
-                //微信
-                WxPayHelper.pay(jsonData);
-                break;
-            default:
-        }
+//    @Override
+//    public void responseBill(JSONObject jsonData) {
+//        switch (params.payMethod) {
+//            case Constants.TYPE_ALIPAY:
+//                //支付宝
+//                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
+//                break;
+//            case Constants.TYPE_WXPAY:
+//                //微信
+//                WxPayHelper.pay(jsonData);
+//                break;
+//            default:
+//        }
+//    }
+
+    private void pay(IPayable iPayable) {
+        //拼参数。
+        Map<String, String> params = new HashMap<>();
+        params.put("token", this.params.token);
+        params.put("billFids", this.params.billFids);
+        params.put("payMethod", this.params.payMethod + "");
+
+        //构建支付入口对象。
+        payment = Payment.builder()
+                .setParams(params)
+                .setHttpType(Payment.HTTP_POST)
+                .setUrl(PayService.requestPropertyOrder)
+                .setActivity(_mActivity)
+                .setClient(NetworkClient.okhttp())
+                .setPay(iPayable)
+                .setOnRequestListener(new PaymentListener.OnRequestListener() {
+                    @Override
+                    public void onStart() {
+                        ALog.e("1.请求 开始-------->");
+                        showLoading("请求订单中");
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        ALog.e("1.请求 成功-------->" + result);
+                        showLoading("订单请求成功，等待解析");
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ALog.e("1.请求 失败-------->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "订单请求失败");
+
+                    }
+                })
+                .setOnParseListener(new PaymentListener.OnParseListener() {
+                    @Override
+                    public void onStart(String result) {
+                        ALog.e("2.解析 开始-------->" + result);
+                        showLoading("正在解析");
+                    }
+
+                    @Override
+                    public void onSuccess(PayParams params) {
+                        ALog.e("2.解析 成功-------->");
+                        showLoading("解析成功");
+
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ALog.e("2.解析 失败------->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "解析异常");
+                    }
+                })
+                .setOnPayListener(new PaymentListener.OnPayListener() {
+                    @Override
+                    public void onStart(@Payment.PayType int payType) {
+                        ALog.e("3.支付 开始-------->" + payType);
+                        showLoading("正在支付");
+                    }
+
+                    @Override
+                    public void onSuccess(@Payment.PayType int payType) {
+                        ALog.e("3.支付 成功-------->" + payType);
+                        dismissLoading();
+                        DialogHelper.successSnackbar(getView(), "支付成功");
+                        ptrFrameLayout.autoRefresh();
+                    }
+
+                    @Override
+                    public void onFailure(@Payment.PayType int payType, int errorCode) {
+                        ALog.e("3.支付 失败-------->" + payType + "----------errorCode-->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "支付失败，请重试");
+                    }
+                })
+                .setOnVerifyListener(new PaymentListener.OnVerifyListener() {
+
+                    @Override
+                    public void onStart() {
+                        ALog.e("4.检验 开始--------");
+                        showLoading("正在确认");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        ALog.e("4.检验 成功--------");
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode) {
+                        ALog.e("4.检验 失败--------" + "errorCode-->" + errorCode);
+                        dismissLoading();
+                        DialogHelper.errorSnackbar(getView(), "确认失败，请稍后再查看");
+                        ptrFrameLayout.autoRefresh();
+                    }
+                })
+                .start();
     }
 }

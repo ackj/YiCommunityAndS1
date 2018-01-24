@@ -23,8 +23,7 @@ public interface PropertyPayContract {
 
         void responsePropertyPayDetail(PropertyPayDetailBean bean);
 
-        void responseBill(JSONObject jsonData);
-
+//        void responseBill(JSONObject jsonData);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -34,7 +33,7 @@ public interface PropertyPayContract {
 
         void requestPropertyPayDetail(Params params);
 
-        void requestBill(Params params);
+//        void requestBill(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -44,7 +43,6 @@ public interface PropertyPayContract {
 
         Observable<PropertyPayDetailBean> requestPropertyPayDetail(Params params);
 
-        Observable<ResponseBody> requestBill(Params params);
-
+//        Observable<ResponseBody> requestBill(Params params);
     }
 }

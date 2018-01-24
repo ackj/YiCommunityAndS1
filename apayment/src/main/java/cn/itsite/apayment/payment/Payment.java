@@ -10,12 +10,14 @@ import android.text.TextUtils;
 import com.aglhz.abase.log.ALog;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
 import cn.itsite.apayment.payment.network.INetworkClient;
+import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.pay.IPayable;
 
 /**
@@ -72,7 +74,7 @@ public final class Payment {
     private PaymentListener.OnVerifyListener onVerifyListener;
     private Map<String, String> params;
     private IPayable pay;
-    private INetworkClient client;
+    private INetworkClient client = NetworkClient.httpUrlConnection();
     @HttpType
     private int httpType;
     private String url;
@@ -187,6 +189,98 @@ public final class Payment {
     public Payment start() {
         requestPayParams();
         return this;
+    }
+
+    /**
+     * 从这个函数开始的支付是已经从后台获取统一订单的。
+     *
+     * @param result
+     * @return
+     */
+    public Payment pay(final String result) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //        parse(result);
+                parse4JiGe(result);//临时方案。
+            }
+        });
+        return this;
+    }
+
+    /**
+     * 临时方法：对请求返回的统一订单进行解析，由于基哥返回的json中的部分字段的key与大叔返回的不一样，所以另立一套解析方案。
+     *
+     * @param result
+     */
+    private void parse4JiGe(String result) {
+        if (onParseListener != null) {
+            onParseListener.onStart(result);
+            if (TextUtils.isEmpty(result)) {
+                onParseListener.onError(PARSE_ERROR);
+                clear();
+                return;
+            }
+        }
+
+        PayParams payParams = null;
+        try {
+
+            JSONObject resultObject = new JSONObject(result);
+            JSONObject jsonData = resultObject.optJSONObject("data");
+            payParams = new PayParams.Builder()
+                    .appID(jsonData.optString("appid"))
+                    .partnerId(jsonData.optString("partnerid"))
+                    .prePayId(jsonData.optString("prepayid"))
+                    .packageValue("Sign=WXPay")
+                    .nonceStr(jsonData.optString("noncestr"))
+                    .timeStamp(jsonData.optString("timestamp"))
+                    .sign(jsonData.optString("sign"))
+                    .outTradeNo(jsonData.optString("out_trade_no"))
+                    .build();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (onParseListener != null) {
+                onParseListener.onError(PARSE_ERROR);
+                clear();
+            }
+        }
+
+        if (onParseListener != null) {
+            onParseListener.onSuccess(payParams);
+        }
+
+        ALog.e("--->" + Thread.currentThread().getName());
+
+        getFragment(activity).setPayment(this);
+
+        if (pay != null) {
+            pay.pay(activity, payParams, new PaymentListener.OnPayListener() {
+                @Override
+                public void onStart(@Payment.PayType int payType) {
+                    if (onPayListener != null) {
+                        onPayListener.onStart(payType);
+                    }
+                }
+
+                @Override
+                public void onSuccess(@Payment.PayType int payType) {
+                    if (onPayListener != null) {
+                        onPayListener.onSuccess(payType);
+                    }
+                    clear();
+                }
+
+                @Override
+                public void onFailure(@Payment.PayType int payType, int errorCode) {
+                    if (onPayListener != null) {
+                        onPayListener.onFailure(payType, errorCode);
+                    }
+                    clear();
+                }
+            });
+        }
     }
 
     /**
@@ -416,6 +510,10 @@ public final class Payment {
 
         public Payment start() {
             return build().start();
+        }
+
+        public Payment pay(String result) {
+            return build().pay(result);
         }
     }
 

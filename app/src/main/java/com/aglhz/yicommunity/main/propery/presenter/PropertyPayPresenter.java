@@ -76,29 +76,28 @@ public class PropertyPayPresenter extends BasePresenter<PropertyPayContract.View
                 }));
     }
 
-    @Override
-    public void requestBill(Params params) {
-        mRxManager.add(mModel.requestBill(params)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<ResponseBody>() {
-                    @Override
-                    public void _onNext(ResponseBody body) {
-                        JSONObject jsonObject;
-                        try {
-                            jsonObject = new JSONObject(body.string());
-                            JSONObject jsonOther = jsonObject.optJSONObject("other");
-                            String code = jsonOther.optString("code");
-                            if ("200".equals(code)) {
-                                JSONObject jsonData = jsonObject.optJSONObject("data");
-                                getView().responseBill(jsonData);
-                            } else {
-                                getView().error(jsonOther.optString("message"));
-                            }
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }));
-
-    }
+//    @Override
+//    public void requestBill(Params params) {
+//        mRxManager.add(mModel.requestBill(params)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new RxSubscriber<ResponseBody>() {
+//                    @Override
+//                    public void _onNext(ResponseBody body) {
+//                        JSONObject jsonObject;
+//                        try {
+//                            jsonObject = new JSONObject(body.string());
+//                            JSONObject jsonOther = jsonObject.optJSONObject("other");
+//                            String code = jsonOther.optString("code");
+//                            if ("200".equals(code)) {
+//                                JSONObject jsonData = jsonObject.optJSONObject("data");
+//                                getView().responseBill(jsonData);
+//                            } else {
+//                                getView().error(jsonOther.optString("message"));
+//                            }
+//                        } catch (JSONException | IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }));
+//    }
 }

@@ -28,7 +28,7 @@ public interface TempParkContract {
 
         void responseParkingCharge(ParkingChargeBean data);
 
-        void responseTempParkBill(JSONObject bill);
+//        void responseTempParkBill(JSONObject bill);
 
         void responsePlateHistory(List<PlateHistoryData> plates);
     }
@@ -37,7 +37,7 @@ public interface TempParkContract {
 
         void requestParkingCharge(Params params);
 
-        void requestTempParkBill(Params params);
+//        void requestTempParkBill(Params params);
 
         void requestPlateHistory();
 
@@ -49,7 +49,7 @@ public interface TempParkContract {
 
         Observable<ParkingChargeBean> requestParkingCharge(Params params);
 
-        Observable<ResponseBody> requestTempParkBill(Params params);
+//        Observable<ResponseBody> requestTempParkBill(Params params);
 
         Observable<List<PlateHistoryData>> requestPlateHistory();
     }

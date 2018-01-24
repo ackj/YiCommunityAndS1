@@ -41,15 +41,15 @@ public class CarCardPayModel extends BaseModel implements CarCardPayContract.Mod
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override
-    public Observable<ResponseBody> requestCarCardBill(Params params) {
-        return HttpHelper.getService(ApiService.class)
-                .requestCarCardBill(ApiService.requestCarCardBill,
-                        params.token,
-                        params.parkCardFid,
-                        params.monthName,
-                        params.monthCount,
-                        params.payMethod)
-                .subscribeOn(Schedulers.io());
-    }
+//    @Override
+//    public Observable<ResponseBody> requestCarCardBill(Params params) {
+//        return HttpHelper.getService(ApiService.class)
+//                .requestCarCardBill(ApiService.requestCarCardBill,
+//                        params.token,
+//                        params.parkCardFid,
+//                        params.monthName,
+//                        params.monthCount,
+//                        params.payMethod)
+//                .subscribeOn(Schedulers.io());
+//    }
 }

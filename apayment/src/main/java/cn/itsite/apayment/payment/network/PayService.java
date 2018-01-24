@@ -21,7 +21,12 @@ public interface PayService {
     /**
      * 微信、支付宝等第三方支付物业缴费订单.
      */
-    String requestOrder = "http://www.aglhz.com:8090/sub_property_ysq" + "/property/bill/client/pay-bill";
+    String requestPropertyOrder = "http://www.aglhz.com:8090/sub_property_ysq" + "/property/bill/client/pay-bill";
+
+    String requestTempParkOrder = "http://www.aglhz.com:8090/sub_property_ysq" + "/park/temporary/from-client/pay-bill";
+
+    String requestCarCardOrder = "http://www.aglhz.com:8090/sub_property_ysq" + "/park/card/from-client/pay-bill";
+
 
     @GET
     Call<ResponseBody> getOrder(@Url String url,
@@ -36,5 +41,6 @@ public interface PayService {
                                  @Query("payMethod") int payMethod);
 
     String requestPayResult = "http://www.aglhz.com:8090/sub_property_ysq" + "/trade/wxpay/order-query-url";
+
 
 }

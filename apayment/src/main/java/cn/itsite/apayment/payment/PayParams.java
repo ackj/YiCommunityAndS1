@@ -12,13 +12,6 @@ package cn.itsite.apayment.payment;
 
 public class PayParams {
     private String appID;
-    private String url;
-    private String token;
-    private String billFids;
-    private String jumpUrl;
-    private String quitUrl;
-    private String payUrl;
-    private String code;
     private String partnerId;
     private String prePayId;
     private String packageValue;
@@ -35,62 +28,6 @@ public class PayParams {
 
     public void setAppID(String appID) {
         this.appID = appID;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getBillFids() {
-        return billFids;
-    }
-
-    public void setBillFids(String billFids) {
-        this.billFids = billFids;
-    }
-
-    public String getJumpUrl() {
-        return jumpUrl;
-    }
-
-    public void setJumpUrl(String jumpUrl) {
-        this.jumpUrl = jumpUrl;
-    }
-
-    public String getQuitUrl() {
-        return quitUrl;
-    }
-
-    public void setQuitUrl(String quitUrl) {
-        this.quitUrl = quitUrl;
-    }
-
-    public String getPayUrl() {
-        return payUrl;
-    }
-
-    public void setPayUrl(String payUrl) {
-        this.payUrl = payUrl;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getPartnerId() {
@@ -165,15 +102,24 @@ public class PayParams {
         this.webUrl = webUrl;
     }
 
+    @Override
+    public String toString() {
+        return "PayParams{" +
+                "appID='" + appID + '\'' +
+                ", partnerId='" + partnerId + '\'' +
+                ", prePayId='" + prePayId + '\'' +
+                ", packageValue='" + packageValue + '\'' +
+                ", nonceStr='" + nonceStr + '\'' +
+                ", timeStamp='" + timeStamp + '\'' +
+                ", sign='" + sign + '\'' +
+                ", outTradeNo='" + outTradeNo + '\'' +
+                ", orderInfo='" + orderInfo + '\'' +
+                ", webUrl='" + webUrl + '\'' +
+                '}';
+    }
+
     public static class Builder {
         String appID;
-        String url;
-        String token;
-        String billFids;
-        String jumpUrl;
-        String quitUrl;
-        String payUrl;
-        String code;
         String partnerId;
         String prePayId;
         String packageValue;
@@ -186,41 +132,6 @@ public class PayParams {
 
         public Builder appID(String appid) {
             this.appID = appid;
-            return this;
-        }
-
-        public Builder url(String url) {
-            this.url = url;
-            return this;
-        }
-
-        public Builder token(String token) {
-            this.token = token;
-            return this;
-        }
-
-        public Builder billFids(String billFids) {
-            this.billFids = billFids;
-            return this;
-        }
-
-        public Builder jumpUrl(String jumpUrl) {
-            this.jumpUrl = jumpUrl;
-            return this;
-        }
-
-        public Builder quitUrl(String quitUrl) {
-            this.quitUrl = quitUrl;
-            return this;
-        }
-
-        public Builder payUrl(String payUrl) {
-            this.payUrl = payUrl;
-            return this;
-        }
-
-        public Builder code(String code) {
-            this.code = code;
             return this;
         }
 
@@ -272,13 +183,6 @@ public class PayParams {
         public PayParams build() {
             PayParams params = new PayParams();
             params.setAppID(appID);
-            params.setUrl(url);
-            params.setToken(token);
-            params.setBillFids(billFids);
-            params.setJumpUrl(jumpUrl);
-            params.setQuitUrl(quitUrl);
-            params.setPayUrl(payUrl);
-            params.setCode(code);
             params.setPartnerId(partnerId);
             params.setPrePayId(prePayId);
             params.setPackageValue(packageValue);

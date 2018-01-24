@@ -15,6 +15,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import static cn.itsite.apayment.payment.pay.wechat.WeChatAppPay.WECHAT_PAY_RESULT_ACTION;
+import static cn.itsite.apayment.payment.pay.wechat.WeChatAppPay.WECHAT_PAY_RESULT_EXTRA;
+
 
 /**
  * @author leguang
@@ -62,11 +65,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 //        if (response instanceof PayResp) {
 //            extData = ((PayResp) response).extData;
 //        }
-//        ALog.e(TAG, "response-->" + response.errStr);
-//        ALog.e(TAG, "response-->" + response.openId);
-//        ALog.e(TAG, "response-->" + response.transaction);
-//        ALog.e(TAG, "response-->" + response.getType());
-//        ALog.e(TAG, "response-->" + response.checkArgs());
+        ALog.e(TAG, "response-->" + response.errStr);
+        ALog.e(TAG, "response-->" + response.openId);
+        ALog.e(TAG, "response-->" + response.transaction);
+        ALog.e(TAG, "response-->" + response.getType());
+        ALog.e(TAG, "response-->" + response.checkArgs());
 //        ((Vibrator) App.mContext.getSystemService(VIBRATOR_SERVICE)).vibrate(500);
 //        if (response.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 //            EventBus.getDefault().post(new EventPay(response.errCode, "", extData));
@@ -86,8 +89,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private void sendPayResultBroadcast(int resultCode) {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
         Intent payResult = new Intent();
-//        payResult.setAction(WECHAT_PAY_RESULT_ACTION);
-//        payResult.putExtra(WECHAT_PAY_RESULT_EXTRA, resultCode);
+        payResult.setAction(WECHAT_PAY_RESULT_ACTION);
+        payResult.putExtra(WECHAT_PAY_RESULT_EXTRA, resultCode);
         broadcastManager.sendBroadcast(payResult);
         finish();
     }

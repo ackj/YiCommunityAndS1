@@ -154,7 +154,6 @@ public class PayFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 ALog.e("result-->" + result);
-
                 JSONObject jsonObject;
                 boolean isPayed = false;
                 try {
@@ -175,7 +174,6 @@ public class PayFragment extends Fragment {
             @Override
             public void onFailure() {
                 ALog.e("确认失败-->");
-
                 onVerifyListener.onFailure(Payment.VERIFY_ERROR);
             }
         });
