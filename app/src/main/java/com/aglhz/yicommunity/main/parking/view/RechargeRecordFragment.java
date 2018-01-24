@@ -15,7 +15,7 @@ import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.MonthCardBillListBean;
-import com.aglhz.yicommunity.main.park.presenter.RechargeRecordPresenter;
+import com.aglhz.yicommunity.main.parking.presenter.RechargeRecordPresenter;
 import com.aglhz.yicommunity.main.parking.contract.RechargeRecordContract;
 
 import java.util.List;

@@ -42,9 +42,9 @@ public class WeChatAppPay implements IPayable {
 
             if (onPayListener != null) {
                 if (resultCode == 0) {
-                    onPayListener.onSuccess(Payment.PAYTYPE_WECHAT_APP);
+                    onPayListener.onSuccess(getPayType());
                 } else {
-                    onPayListener.onFailure(Payment.PAYTYPE_WECHAT_APP, resultCode);
+                    onPayListener.onFailure(getPayType(), resultCode);
                 }
             }
             unRegistPayResultBroadcast(context);
@@ -73,9 +73,14 @@ public class WeChatAppPay implements IPayable {
     public void pay(@NonNull Activity activity, @NonNull PayParams params, PaymentListener.OnPayListener onPayListener) {
         this.onPayListener = onPayListener;
         if (onPayListener != null) {
-            onPayListener.onStart(Payment.PAYTYPE_WECHAT_APP);
+            onPayListener.onStart(getPayType());
         }
         appPay(activity, params);
+    }
+
+    @Override
+    public int getPayType() {
+        return Payment.PAYTYPE_WECHAT_APP;
     }
 
     private void registPayResultBroadcast(Context mContext) {
@@ -97,14 +102,14 @@ public class WeChatAppPay implements IPayable {
 
         if (!wxapi.isWXAppInstalled()) {
             if (onPayListener != null) {
-                onPayListener.onFailure(Payment.PAYTYPE_WECHAT_APP, Payment.WECHAT_NOT_INSTALLED_ERROR);
+                onPayListener.onFailure(getPayType(), Payment.WECHAT_NOT_INSTALLED_ERROR);
             }
             return;
         }
 
         if (!wxapi.isWXAppSupportAPI()) {
             if (onPayListener != null) {
-                onPayListener.onFailure(Payment.PAYTYPE_WECHAT_APP, Payment.WECHAT_UNSUPPORT_ERROR);
+                onPayListener.onFailure(getPayType(), Payment.WECHAT_UNSUPPORT_ERROR);
             }
             return;
         }

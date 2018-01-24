@@ -1,11 +1,11 @@
-package com.aglhz.yicommunity.main.park.model;
+package com.aglhz.yicommunity.main.parking.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
 import com.aglhz.yicommunity.entity.bean.ParkRecordListBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
-import com.aglhz.yicommunity.main.park.contract.ParkRecordContract;
+import com.aglhz.yicommunity.main.parking.contract.ParkRecordContract;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;

@@ -53,6 +53,8 @@ public final class Payment {
     public static final int PAY_CACELED = 0;
     public static final int PAY_ERROR = -1;
     public static final int VERIFY_ERROR = -2;
+    public static final int PAY_REPAY = -3;
+
     // 微信结果码
     public static final int WECHAT_SENT_FAILED_ERROR = -3;
     public static final int WECHAT_AUTH_DENIED_ERROR = -4;
@@ -214,19 +216,45 @@ public final class Payment {
      * @param result
      */
     private void parse4JiGe(String result) {
+        getFragment(activity).setPayment(this);
+
         if (onParseListener != null) {
             onParseListener.onStart(result);
-            if (TextUtils.isEmpty(result)) {
+        }
+
+        if (TextUtils.isEmpty(result)) {
+            if (onParseListener != null) {
                 onParseListener.onError(PARSE_ERROR);
-                clear();
-                return;
             }
+            clear();
+            return;
+        }
+
+        JSONObject resultObject = null;
+        try {
+            resultObject = new JSONObject(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (onParseListener != null) {
+                onParseListener.onError(PARSE_ERROR);
+            }
+            clear();
+            return;
+        }
+
+        JSONObject jsonOther = resultObject.optJSONObject("other");
+        int code = jsonOther.optInt("code");
+        if (code == 500) {
+            if (onPayListener != null) {
+                onPayListener.onFailure(pay.getPayType(), PAY_REPAY);
+            }
+            clear();
+            return;
         }
 
         PayParams payParams = null;
         try {
-
-            JSONObject resultObject = new JSONObject(result);
+            resultObject = new JSONObject(result);
             JSONObject jsonData = resultObject.optJSONObject("data");
             payParams = new PayParams.Builder()
                     .appID(jsonData.optString("appid"))
@@ -250,10 +278,6 @@ public final class Payment {
         if (onParseListener != null) {
             onParseListener.onSuccess(payParams);
         }
-
-        ALog.e("--->" + Thread.currentThread().getName());
-
-        getFragment(activity).setPayment(this);
 
         if (pay != null) {
             pay.pay(activity, payParams, new PaymentListener.OnPayListener() {
@@ -337,13 +361,40 @@ public final class Payment {
      * @param result
      */
     private void parse(String result) {
+        getFragment(activity).setPayment(this);
+
         if (onParseListener != null) {
             onParseListener.onStart(result);
-            if (TextUtils.isEmpty(result)) {
+        }
+
+        if (TextUtils.isEmpty(result)) {
+            if (onParseListener != null) {
                 onParseListener.onError(PARSE_ERROR);
-                clear();
-                return;
             }
+            clear();
+            return;
+        }
+
+        JSONObject resultObject = null;
+        try {
+            resultObject = new JSONObject(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (onParseListener != null) {
+                onParseListener.onError(PARSE_ERROR);
+            }
+            clear();
+            return;
+
+        }
+        JSONObject jsonOther = resultObject.optJSONObject("other");
+        int code = jsonOther.optInt("code");
+        if (code == 500) {
+            if (onPayListener != null) {
+                onPayListener.onFailure(pay.getPayType(), PAY_REPAY);
+            }
+            clear();
+            return;
         }
 
         PayParams payParams = null;
@@ -351,19 +402,18 @@ public final class Payment {
             if (pay != null) {
                 payParams = pay.parse(result);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             if (onParseListener != null) {
                 onParseListener.onError(PARSE_ERROR);
                 clear();
+                return;
             }
         }
 
         if (onParseListener != null) {
             onParseListener.onSuccess(payParams);
         }
-
-        getFragment(activity).setPayment(this);
 
         if (pay != null) {
             pay.pay(activity, payParams, new PaymentListener.OnPayListener() {
@@ -394,9 +444,6 @@ public final class Payment {
     }
 
     private PayFragment getFragment(Activity activity) {
-        if (activity == null) {
-            return null;
-        }
         PayFragment payFragment = findPayFragment(activity);
         if (payFragment == null) {
             payFragment = new PayFragment();
@@ -411,9 +458,6 @@ public final class Payment {
     }
 
     private PayFragment findPayFragment(Activity activity) {
-        if (activity == null) {
-            return null;
-        }
         return (PayFragment) ((FragmentActivity) activity)
                 .getSupportFragmentManager().findFragmentByTag(PayFragment.TAG);
     }
@@ -421,11 +465,12 @@ public final class Payment {
     public void clear() {
         if (params != null && activity != null && !activity.isDestroyed()) {
             //还要记得remove掉这个fragment
-            FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .remove(findPayFragment(activity))
-                    .commitAllowingStateLoss();
-//        fragmentManager.executePendingTransactions();
+            if (findPayFragment(activity) != null) {
+                FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .remove(findPayFragment(activity))
+                        .commitAllowingStateLoss();
+            }
             activity = null;
             params = null;
         }

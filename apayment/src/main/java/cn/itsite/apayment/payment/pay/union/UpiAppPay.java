@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import org.json.JSONException;
 
 import cn.itsite.apayment.payment.PayParams;
+import cn.itsite.apayment.payment.Payment;
 import cn.itsite.apayment.payment.PaymentListener;
 import cn.itsite.apayment.payment.pay.IPayable;
 
@@ -57,5 +58,10 @@ public class UpiAppPay implements IPayable {
 //        } else {
 //            mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_ERR);
 //        }
+    }
+
+    @Override
+    public int getPayType() {
+        return Payment.PAYTYPE_UNI;
     }
 }

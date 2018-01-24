@@ -54,7 +54,6 @@ import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.network.PayService;
 import cn.itsite.apayment.payment.pay.IPayable;
 import cn.itsite.apayment.payment.pay.Pay;
-import cn.itsite.apayment.payment.temp.EventPay;
 
 /**
  * @author leguang
@@ -116,7 +115,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parking_charge, container, false);
         unbinder = ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
         return attachToSwipeBack(view);
     }
 
@@ -130,7 +128,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -244,22 +241,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
                 .setCancelable(false);
     }
 
-//    @Override
-//    public void responseTempParkBill(JSONObject jsonData) {
-//        switch (params.payMethod) {
-//            case Constants.TYPE_ALIPAY:
-//                //支付宝
-//                new ALiPayHelper().pay(_mActivity, jsonData.optString("body"));
-//                break;
-//            case Constants.TYPE_WXPAY:
-//                //微信
-//                WxPayHelper.pay(jsonData.toString());
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     @Override
     public void responsePlateHistory(List<PlateHistoryData> plates) {
         adapter.setNewData(plates);
@@ -286,23 +267,6 @@ public class ParkChargeFragment extends BaseFragment<TempParkContract.Presenter>
         if (TextUtils.isEmpty(params.parkPlaceFid)
                 || TextUtils.isEmpty(params.name)) {
             _mActivity.onBackPressedSupport();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventPay event) {
-        if (event.code == 0) {
-            Bundle bundle = new Bundle();
-            ParkPayResultBean result = new ParkPayResultBean();
-            result.order = event.extra;
-            result.park = parkCharge.getData().getParkPlaceName();
-            result.plate = parkCharge.getData().getCarNo();
-            result.time = parkCharge.getData().getOutTime();
-            result.amount = parkCharge.getData().getCostMoney() + "";
-            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
-            start(ParkPayResultFragment.newInstance(bundle));
-        } else {
-            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
         }
     }
 

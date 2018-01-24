@@ -50,9 +50,14 @@ public class WeChatH5xPay implements IPayable {
     public void pay(@NonNull Activity activity, @NonNull PayParams params, PaymentListener.OnPayListener onPayListener) {
         this.onPayListener = onPayListener;
         if (onPayListener != null) {
-            onPayListener.onStart(Payment.PAYTYPE_WECHAT_H5X);
+            onPayListener.onStart(getPayType());
         }
         h5xPay(activity, params);
+    }
+
+    @Override
+    public int getPayType() {
+        return Payment.PAYTYPE_WECHAT_H5X;
     }
 
     private void h5xPay(@NonNull Activity activity, @NonNull PayParams params) {

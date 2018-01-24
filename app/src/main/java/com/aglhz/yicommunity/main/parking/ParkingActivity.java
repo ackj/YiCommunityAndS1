@@ -8,7 +8,6 @@ import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.main.parking.view.ApplyCardFragment;
 import com.aglhz.yicommunity.main.parking.view.CarCardFragment;
-import com.aglhz.yicommunity.main.park.view.CarCardTransactFragment;
 import com.aglhz.yicommunity.main.parking.view.CarportFragment;
 
 /**

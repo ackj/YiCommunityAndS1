@@ -165,9 +165,9 @@ public class PayFragment extends Fragment {
                 }
                 onVerifyListener.onSuccess();
                 if (isPayed) {
-                    onPayListener.onSuccess(Payment.PAYTYPE_WECHAT_H5X);
+                    onPayListener.onSuccess(payment.getPay().getPayType());
                 } else {
-                    onPayListener.onFailure(Payment.PAYTYPE_WECHAT_H5X, Payment.VERIFY_ERROR);
+                    onPayListener.onFailure(payment.getPay().getPayType(), Payment.VERIFY_ERROR);
                 }
             }
 

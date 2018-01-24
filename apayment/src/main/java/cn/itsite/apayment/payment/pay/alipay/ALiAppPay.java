@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.aglhz.abase.log.ALog;
 import com.alipay.sdk.app.PayTask;
 
 import org.json.JSONException;
@@ -52,11 +51,11 @@ public class ALiAppPay implements IPayable {
             Map<String, String> result = (Map<String, String>) msg.obj;
             if (TextUtils.equals(PAY_OK_STATUS, result.get("resultStatus"))) {
                 if (onPayListener != null) {
-                    onPayListener.onSuccess(Payment.PAYTYPE_ALI_APP);
+                    onPayListener.onSuccess(getPayType());
                 }
             } else {
                 if (onPayListener != null) {
-                    onPayListener.onFailure(Payment.PAYTYPE_ALI_APP, Integer.parseInt(result.get("resultStatus")));
+                    onPayListener.onFailure(getPayType(), Integer.parseInt(result.get("resultStatus")));
                 }
             }
             mHandler.removeCallbacksAndMessages(null);
@@ -78,7 +77,7 @@ public class ALiAppPay implements IPayable {
     public void pay(@NonNull final Activity activity, @NonNull final PayParams params, PaymentListener.OnPayListener onPayListener) {
         this.onPayListener = onPayListener;
         if (onPayListener != null) {
-            onPayListener.onStart(Payment.PAYTYPE_ALI_APP);
+            onPayListener.onStart(getPayType());
         }
 
         Runnable payRun = new Runnable() {
@@ -94,5 +93,10 @@ public class ALiAppPay implements IPayable {
             }
         };
         ThreadManager.execute(payRun);
+    }
+
+    @Override
+    public int getPayType() {
+        return Payment.PAYTYPE_ALI_APP;
     }
 }
