@@ -78,7 +78,8 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     public Observable<FirstLevelBean> requestFirstLevel(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestFirstLevel(ApiService.requestFirstLevel,
-                        params.keywords)
+                        params.keywords,
+                        Constants.payFrom)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -16,6 +16,7 @@ public class Constants extends BaseConstants {
 
     public static String BASE_USER = "";//用户系统
     public static String BASE_URL = "";
+    public static String payFrom = "YsqApp";
 
     static {
         if (BuildConfig.DEBUG) {

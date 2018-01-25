@@ -749,7 +749,7 @@ public interface ApiService {
     String requestFirstLevel = "http://www.aglhz.com/mall/member/goodscategory/firstLevelList.do";
 
     @POST
-    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords);
+    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords,@Query("payFrom")String payFrom);
 
     //二级列表
     String requestSubCategoryLevel = "http://www.aglhz.com/mall/member/goodscategory/subCategoryLevelList.do";

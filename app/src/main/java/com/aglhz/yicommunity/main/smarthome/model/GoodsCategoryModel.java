@@ -2,6 +2,7 @@ package com.aglhz.yicommunity.main.smarthome.model;
 
 import com.aglhz.abase.mvp.model.base.BaseModel;
 import com.aglhz.abase.network.http.HttpHelper;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.common.ApiService;
 import com.aglhz.yicommunity.common.Params;
@@ -25,7 +26,7 @@ public class GoodsCategoryModel extends BaseModel implements GoodsCategoryContra
 
     @Override
     public Observable<FirstLevelBean> requestFirstLevel(Params params) {
-        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords)
+        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords, Constants.payFrom)
                 .subscribeOn(Schedulers.io());
     }
 }
