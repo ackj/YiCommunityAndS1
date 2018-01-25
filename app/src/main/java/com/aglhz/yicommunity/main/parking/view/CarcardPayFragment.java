@@ -281,51 +281,19 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
         params.monthCount = firstRule.getMonthCount();
     }
 
-//    @Override
-//    public void responseCarCardBill(JSONObject jsonObject) {
-//        switch (params.payMethod) {
-//            case Constants.TYPE_ALIPAY:
-//                //支付宝
-//                new ALiPayHelper().pay(_mActivity, jsonObject.optString("body"));
-//                break;
-//            case Constants.TYPE_WXPAY:
-//                //微信
-//                WxPayHelper.pay(jsonObject.toString());
-//                break;
-//            default:
-//        }
-//    }
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onEvent(EventPay event) {
-//        if (event.code == 0) {
-//            Bundle bundle = new Bundle();
-//            ParkPayResultBean result = new ParkPayResultBean();
-//            result.order = event.extra;
-//            result.park = carCard.getParkPlace().getName();
-//            result.plate = carCard.getCarNo();
-//            result.time = carCard.getCreateTime();
-//            result.amount = tvAmount.getText().toString();
-//            bundle.putSerializable(Constants.KEY_PAR_KPAY_RESULT, result);
-//            start(ParkPayResultFragment.newInstance(bundle));
-//        } else {
-//            DialogHelper.warningSnackbar(getView(), "很遗憾，支付失败,请重试");
-//        }
-//    }
-
     private void pay(IPayable iPayable) {
         //拼参数。
-        Map<String, String> params = new HashMap<>();
-        params.put("token", this.params.token);
-        params.put("parkCardFid", this.params.parkCardFid);
-        params.put("monthName", this.params.monthName);
-        params.put("monthCount", this.params.monthCount + "");
-        params.put("payMethod", this.params.payMethod + "");
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put("token", this.params.token);
+        requestParams.put("parkCardFid", this.params.parkCardFid);
+        requestParams.put("monthName", this.params.monthName);
+        requestParams.put("monthCount", this.params.monthCount + "");
+        requestParams.put("payMethod", this.params.payMethod + "");
 
         final PayParams[] payParams = new PayParams[1];
         //构建支付入口对象。
         Payment.builder()
-                .setParams(params)
+                .setParams(requestParams)
                 .setHttpType(Payment.HTTP_POST)
                 .setUrl(PayService.requestCarCardOrder)
                 .setActivity(_mActivity)
@@ -384,8 +352,9 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                     @Override
                     public void onSuccess(@Payment.PayType int payType) {
                         ALog.e("3.支付 成功-------->" + payType);
+                        mPresenter.requestMonthlyPayRules(params);//刷新界面。
+
                         dismissLoading();
-//                        DialogHelper.successSnackbar(getView(), "支付成功");
 
                         Bundle bundle = new Bundle();
                         ParkPayResultBean result = new ParkPayResultBean();
@@ -402,7 +371,12 @@ public class CarcardPayFragment extends BaseFragment<CarCardPayContract.Presente
                     public void onFailure(@Payment.PayType int payType, int errorCode) {
                         ALog.e("3.支付 失败-------->" + payType + "----------errorCode-->" + errorCode);
                         dismissLoading();
-                        DialogHelper.errorSnackbar(getView(), "支付失败，请重试");
+
+                        if (errorCode == Payment.PAY_REPAY) {
+                            DialogHelper.errorSnackbar(getView(), "您已支付，无需重复支付！");
+                        } else {
+                            DialogHelper.errorSnackbar(getView(), "支付失败，请重试！");
+                        }
                     }
                 })
                 .setOnVerifyListener(new PaymentListener.OnVerifyListener() {
