@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 
-import com.aglhz.abase.log.ALog;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +17,7 @@ import java.util.Map;
 import cn.itsite.apayment.payment.network.INetworkClient;
 import cn.itsite.apayment.payment.network.NetworkClient;
 import cn.itsite.apayment.payment.pay.IPayable;
+import cn.itsite.apayment.payment.pay.alipay.ALiAppPay;
 
 /**
  * @version v0.0.0
@@ -243,8 +242,7 @@ public final class Payment {
         }
 
         JSONObject jsonOther = resultObject.optJSONObject("other");
-        int code = jsonOther.optInt("code");
-        if (code == 500) {
+        if (jsonOther != null && jsonOther.optInt("code") == 500) {
             if (onPayListener != null) {
                 onPayListener.onFailure(pay.getPayType(), PAY_REPAY);
             }
@@ -254,24 +252,32 @@ public final class Payment {
 
         PayParams payParams = null;
         try {
-            resultObject = new JSONObject(result);
-            JSONObject jsonData = resultObject.optJSONObject("data");
-            payParams = new PayParams.Builder()
-                    .appID(jsonData.optString("appid"))
-                    .partnerId(jsonData.optString("partnerid"))
-                    .prePayId(jsonData.optString("prepayid"))
-                    .packageValue("Sign=WXPay")
-                    .nonceStr(jsonData.optString("noncestr"))
-                    .timeStamp(jsonData.optString("timestamp"))
-                    .sign(jsonData.optString("sign"))
-                    .outTradeNo(jsonData.optString("out_trade_no"))
-                    .build();
-
+            if (pay instanceof ALiAppPay) {
+                resultObject = new JSONObject(result);
+                JSONObject jsonData = resultObject.optJSONObject("data");
+                payParams = new PayParams.Builder()
+                        .orderInfo(jsonData.optString("body"))
+                        .build();
+            } else {
+                resultObject = new JSONObject(result);
+                JSONObject jsonData = resultObject.optJSONObject("data");
+                payParams = new PayParams.Builder()
+                        .appID(jsonData.optString("appid"))
+                        .partnerId(jsonData.optString("partnerid"))
+                        .prePayId(jsonData.optString("prepayid"))
+                        .packageValue("Sign=WXPay")
+                        .nonceStr(jsonData.optString("noncestr"))
+                        .timeStamp(jsonData.optString("timestamp"))
+                        .sign(jsonData.optString("sign"))
+                        .outTradeNo(jsonData.optString("out_trade_no"))
+                        .build();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             if (onParseListener != null) {
                 onParseListener.onError(PARSE_ERROR);
                 clear();
+                return;
             }
         }
 
@@ -388,8 +394,7 @@ public final class Payment {
 
         }
         JSONObject jsonOther = resultObject.optJSONObject("other");
-        int code = jsonOther.optInt("code");
-        if (code == 500) {
+        if (jsonOther != null && jsonOther.optInt("code") == 500) {
             if (onPayListener != null) {
                 onPayListener.onFailure(pay.getPayType(), PAY_REPAY);
             }
