@@ -70,6 +70,7 @@ public class ALiAppPay implements IPayable {
         JSONObject jsonData = resultObject.optJSONObject("data");
         return new PayParams.Builder()
                 .orderInfo(jsonData.optString("body"))
+                .outTradeNo(jsonData.optString("outTradeNo"))
                 .build();
     }
 
