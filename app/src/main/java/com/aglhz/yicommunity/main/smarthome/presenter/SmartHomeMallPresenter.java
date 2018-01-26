@@ -3,6 +3,7 @@ package com.aglhz.yicommunity.main.smarthome.presenter;
 import android.support.annotation.NonNull;
 
 import com.aglhz.abase.mvp.presenter.base.BasePresenter;
+import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.main.smarthome.contract.SmartHomeMallContract;
 import com.aglhz.yicommunity.main.smarthome.model.SmartHomeMallModel;
@@ -63,5 +64,17 @@ public class SmartHomeMallPresenter extends BasePresenter<SmartHomeMallContract.
                 }, this::error));
     }
 
+    @Override
+    public void requestFirstLevel(Params params) {
+        mRxManager.add(mModel.requestFirstLevel(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(firstLevelBean -> {
+                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseFirstLevel(firstLevelBean.getData());
+                    } else {
+                        getView().error(firstLevelBean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 
 }

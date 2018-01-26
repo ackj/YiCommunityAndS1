@@ -14,11 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
-import com.aglhz.abase.common.DialogHelper;
 import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.GoodsBean;
 import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
 import com.aglhz.yicommunity.main.smarthome.contract.SmartHomeMallContract;
@@ -38,7 +39,6 @@ import butterknife.Unbinder;
  * [智能家居商城]的View层
  * 打开方式：StartApp-->管家-->智能家居商城
  */
-
 public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Presenter> implements SmartHomeMallContract.View {
     public static final String TAG = SmartHomeMallFragment.class.getSimpleName();
 
@@ -62,7 +62,7 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
         SmartHomeMallFragment fragment = new SmartHomeMallFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("data", (ArrayList<? extends Parcelable>) data);
-        bundle.putInt("position",position);
+        bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -132,8 +132,8 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
 
         if (data != null && data.size() > 0) {
             responseSubCategoryList(data);
-        }else{
-            mPresenter.requestSubCategoryList(params);
+        } else {
+            mPresenter.requestFirstLevel(params);
         }
     }
 
@@ -152,6 +152,19 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
             intent.putExtra(Constants.KEY_LINK, bean.getLink());
             _mActivity.startActivity(intent);//点击一个商品跳WEB
         });
+    }
+
+    @Override
+    public void responseFirstLevel(List<FirstLevelBean.DataBean> datas) {
+        if (datas.size() > 0) {
+            for (FirstLevelBean.DataBean bean : datas){
+                if("智能家居".equals(bean.getName())){
+                    params.id =  bean.getId();
+                    mPresenter.requestSubCategoryList(params);
+                    break;
+                }
+            }
+        }
     }
 
     /**

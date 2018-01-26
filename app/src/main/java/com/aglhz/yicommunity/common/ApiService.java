@@ -749,7 +749,7 @@ public interface ApiService {
     String requestFirstLevel = "http://www.aglhz.com/mall/member/goodscategory/firstLevelList.do";
 
     @POST
-    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords,@Query("payFrom")String payFrom);
+    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords,@Query("payFrom")int payFrom,@Query("fromPoint")String fromPoint);
 
     //二级列表
     String requestSubCategoryLevel = "http://www.aglhz.com/mall/member/goodscategory/subCategoryLevelList.do";
@@ -761,7 +761,7 @@ public interface ApiService {
     String requestGoodsList = "http://www.aglhz.com/mall/member/goodscategory/findGoodsListByCategoryId.do";
 
     @POST
-    Observable<GoodsBean> requestGoodsList(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("secondCategoryId") String id);
+    Observable<GoodsBean> requestGoodsList(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("secondCategoryId") String id,@Query("payFrom")int payFrom,@Query("fromPoint")String fromPoint);
 
     //************************ 停车记录 *************************
 
