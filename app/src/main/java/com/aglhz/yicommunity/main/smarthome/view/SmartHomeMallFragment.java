@@ -149,7 +149,7 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
             GoodsBean.DataBean bean = (GoodsBean.DataBean) adapter.getData().get(position);
             Intent intent = new Intent(_mActivity, WebActivity.class);
             intent.putExtra(Constants.KEY_TITLE, bean.getName());
-            intent.putExtra(Constants.KEY_LINK, bean.getLink());
+            intent.putExtra(Constants.KEY_LINK, bean.getLink()+"&appType=2&token="+Params.token);
             _mActivity.startActivity(intent);//点击一个商品跳WEB
         });
     }
