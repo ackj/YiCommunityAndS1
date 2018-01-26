@@ -1,9 +1,10 @@
 package com.aglhz.yicommunity.main.smarthome.contract;
 
 import com.aglhz.abase.mvp.contract.base.BaseContract;
+import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.entity.bean.FirstLevelBean;
 import com.aglhz.yicommunity.entity.bean.GoodsBean;
 import com.aglhz.yicommunity.entity.bean.SubCategoryBean;
-import com.aglhz.yicommunity.common.Params;
 
 import java.util.List;
 
@@ -20,17 +21,25 @@ public interface SmartHomeMallContract {
         void responseSubCategoryList(List<SubCategoryBean.DataBean> datas);
 
         void responseGoodsList(List<GoodsBean.DataBean> datas);
+
+        void responseFirstLevel(List<FirstLevelBean.DataBean> datas);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestSubCategoryList(Params params);
 
         void requestGoodsList(Params params);
+
+        //智慧商城一级列表
+        void requestFirstLevel(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<SubCategoryBean> requestSubCategoryList(Params params);
 
         Observable<GoodsBean> requestGoodsList(Params params);
+
+        //智慧商城一级列表
+        Observable<FirstLevelBean> requestFirstLevel(Params params);
     }
 }
