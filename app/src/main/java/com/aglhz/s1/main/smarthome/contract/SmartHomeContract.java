@@ -23,6 +23,7 @@ public interface SmartHomeContract {
         void responseCameraList(MainDeviceListBean bean);
 
         void responseAddAndDelCameraSuccess(BaseBean baseBean);
+
     }
 
     interface Presenter extends BaseContract.Presenter {
