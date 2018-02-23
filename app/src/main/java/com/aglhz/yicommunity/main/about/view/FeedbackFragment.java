@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.about;
+package com.aglhz.yicommunity.main.about.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

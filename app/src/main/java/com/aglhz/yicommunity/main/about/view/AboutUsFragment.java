@@ -1,4 +1,4 @@
-package com.aglhz.yicommunity.main.about;
+package com.aglhz.yicommunity.main.about.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.abase.common.DialogHelper;
-import com.aglhz.abase.common.RxManager;
 import com.aglhz.abase.log.ALog;
 import com.aglhz.abase.mvp.view.base.BaseFragment;
 import com.aglhz.abase.utils.AppUtils;

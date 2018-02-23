@@ -1,8 +1,8 @@
 package com.aglhz.yicommunity.main.about;
 
-import org.junit.Test;
+import com.aglhz.yicommunity.main.about.view.AboutUsFragment;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * @author leguang

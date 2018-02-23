@@ -107,16 +107,6 @@ public class JavaScriptObject {
     public void appAliPay(String result) {
         ALog.e("JS--appAliPay-->" + result);
 
-//        JSONObject jsonObject;
-//        try {
-//            jsonObject = new JSONObject(result);
-//
-//            JSONObject jsonData = jsonObject.optJSONObject("data");
-//            new ALiPayHelper().pay(mActivity, jsonData.optString("body"));
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         View decorView = mActivity.getWindow().getDecorView();
 
         Payment.builder()

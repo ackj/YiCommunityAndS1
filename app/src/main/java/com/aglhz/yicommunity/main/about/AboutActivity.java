@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.aglhz.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.main.about.view.AboutUsFragment;
 
 /**
  * [关于我们]的父容器。
