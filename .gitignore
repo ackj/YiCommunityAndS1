@@ -48,3 +48,4 @@ captures/
 *.jks
 /.idea
 /apush/.idea
+/*.keystore
