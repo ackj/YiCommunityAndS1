@@ -44,7 +44,7 @@ captures/
 # Intellij
 .idea/workspace.xml
 
-# Keystore filesas
+# Keystore files
 *.jks
 /.idea
 /apush/.idea
