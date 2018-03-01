@@ -33,7 +33,7 @@ public class SmartHomeModel extends BaseModel implements SmartHomeContract.Model
         return HttpHelper.getService(ApiService.class)
                 .requestDelMainDevice(ApiService.requestDelMainDevice,
                         params.token,
-                        Constants.SMART_GATEWAY.concat(",").concat(Constants.SMART_GATEWAY_GSW3),
+                        Constants.SMART_GATEWAY,
                         params.deviceSn)
                 .subscribeOn(Schedulers.io());
     }
