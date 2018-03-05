@@ -35,7 +35,7 @@ public class JavaScriptObject {
 
         Payment.builder()
                 .setActivity(mActivity)
-                .setPay(Pay.weChatAppPay())
+                .setPay(Pay.weChatH5xPay())
                 .setOnParseListener(new PaymentListener.OnParseListener() {
                     @Override
                     public void onStart(String result) {
