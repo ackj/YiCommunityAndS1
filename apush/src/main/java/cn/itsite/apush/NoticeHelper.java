@@ -16,10 +16,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.aglhz.abase.BaseApp;
-import com.aglhz.abase.common.ActivityHelper;
-import com.aglhz.abase.event.EventLogout;
-import com.aglhz.abase.log.ALog;
+import cn.itsite.abase.BaseApp;
+import cn.itsite.abase.common.ActivityHelper;
+import cn.itsite.abase.event.EventLogout;
+import cn.itsite.abase.log.ALog;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;

@@ -12,7 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.aglhz.abase.log.ALog;
+import cn.itsite.abase.log.ALog;
 
 import org.json.JSONObject;
 

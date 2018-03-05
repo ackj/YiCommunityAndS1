@@ -8,8 +8,8 @@
 
     <list>
         <!--停车场历史记录-->
-        <mapping class="com.aglhz.yicommunity.entity.db.ParkHistoryData" />
+        <mapping class="com.itsite.yicommunity.entity.db.ParkHistoryData" />
         <!--临时停车的车牌历史记录-->
-        <mapping class="com.aglhz.yicommunity.entity.db.PlateHistoryData" />
+        <mapping class="com.itsite.yicommunity.entity.db.PlateHistoryData" />
     </list>
 </litepal>

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.aglhz.abase.log.ALog;
+import cn.itsite.abase.log.ALog;
 
 import org.json.JSONException;
 import org.json.JSONObject;

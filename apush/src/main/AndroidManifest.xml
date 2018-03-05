@@ -132,7 +132,7 @@
 
         <provider
             android:name="com.huawei.hms.update.provider.UpdateProvider"
-            android:authorities="com.aglhz.s1.hms.update.provider"
+            android:authorities="com.itsite.s1.hms.update.provider"
             android:exported="false"
             android:grantUriPermissions="true" />
 

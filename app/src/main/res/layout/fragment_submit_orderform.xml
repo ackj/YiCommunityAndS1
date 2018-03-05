@@ -7,7 +7,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.aglhz.yicommunity.widget.PtrHTFrameLayout
+    <com.itsite.yicommunity.widget.PtrHTFrameLayout
         android:id="@+id/ptrFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -36,7 +36,7 @@
                 android:layoutAnimation="@anim/layout_dock_left_enter" />
         </cn.itsite.statemanager.StateLayout>
 
-    </com.aglhz.yicommunity.widget.PtrHTFrameLayout>
+    </com.itsite.yicommunity.widget.PtrHTFrameLayout>
 
     <View style="@style/CLineStyle" />
 

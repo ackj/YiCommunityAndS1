@@ -262,13 +262,7 @@ public final class Payment {
                 resultObject = new JSONObject(result);
                 JSONObject jsonData = resultObject.optJSONObject("data");
                 payParams = new PayParams.Builder()
-                        .appID(jsonData.optString("appid"))
-                        .partnerId(jsonData.optString("partnerid"))
-                        .prePayId(jsonData.optString("prepayid"))
-                        .packageValue("Sign=WXPay")
-                        .nonceStr(jsonData.optString("noncestr"))
-                        .timeStamp(jsonData.optString("timestamp"))
-                        .sign(jsonData.optString("sign"))
+                        .webUrl(jsonData.optString("mweb_url"))
                         .outTradeNo(jsonData.optString("out_trade_no"))
                         .build();
             }

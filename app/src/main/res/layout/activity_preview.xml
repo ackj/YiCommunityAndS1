@@ -7,7 +7,7 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <com.aglhz.yicommunity.preview.HackyViewPager
+    <com.itsite.yicommunity.preview.HackyViewPager
         android:id="@+id/viewpager_activity_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

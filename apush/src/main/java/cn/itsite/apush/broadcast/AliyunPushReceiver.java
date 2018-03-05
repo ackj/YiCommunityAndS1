@@ -2,7 +2,7 @@ package cn.itsite.apush.broadcast;
 
 import android.content.Context;
 
-import com.aglhz.abase.log.ALog;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.apush.NoticeHelper;
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;

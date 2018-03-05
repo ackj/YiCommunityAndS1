@@ -1,6 +1,6 @@
 package cn.itsite.apayment.payment.network;
 
-import com.aglhz.abase.log.ALog;
+import cn.itsite.abase.log.ALog;
 
 import java.io.IOException;
 import java.io.InputStream;
