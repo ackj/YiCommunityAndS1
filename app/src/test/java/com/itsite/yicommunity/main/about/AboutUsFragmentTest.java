@@ -1,6 +1,6 @@
 package com.itsite.yicommunity.main.about;
 
-import com.itsite.yicommunity.main.about.view.AboutUsFragment;
+import com.aglhz.yicommunity.main.about.view.AboutUsFragment;
 
 import org.junit.Test;
 

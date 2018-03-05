@@ -1,6 +1,7 @@
 package com.itsite.yicommunity.login.presenter;
 
-import com.itsite.yicommunity.common.Params;
+import com.aglhz.yicommunity.common.Params;
+import com.aglhz.yicommunity.login.presenter.LoginPresenter;
 
 import org.junit.Test;
 

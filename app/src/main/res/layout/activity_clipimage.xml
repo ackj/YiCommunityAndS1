@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.itsite.s1.widget.ClipImageLayout
+    <com.aglhz.s1.widget.ClipImageLayout
         android:id="@+id/id_clipImageLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

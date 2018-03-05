@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.itsite.yicommunity">
+    package="com.aglhz.yicommunity">
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -162,13 +162,13 @@
 
     <!--以下为小米推送所需权限-->
     <permission
-        android:name="com.itsite.yicommunity.permission.MIPUSH_RECEIVE"
+        android:name="com.aglhz.yicommunity.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
     <uses-permission android:name="com.aglhz.yicommunity.permission.MIPUSH_RECEIVE" />
     <!--以上为小米推送所需权限-->
 
     <application
-        android:name="com.itsite.yicommunity.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -177,7 +177,7 @@
         tools:replace="android:icon, android:theme,android:label">
 
         <activity
-            android:name="com.itsite.yicommunity.launch.LaunchActivity"
+            android:name=".launch.LaunchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme">
@@ -188,19 +188,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.itsite.yicommunity.main.MainActivity"
+            android:name=".main.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Transparent"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.itsite.yicommunity.main.publish.CommentActivity"
+            android:name=".main.publish.CommentActivity"
             android:launchMode="singleTop"
             android:theme="@style/Transparent" />
 
         <activity
-            android:name="com.itsite.yicommunity.login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:launchMode="singleInstance"
             android:theme="@style/Transparent">
             <intent-filter>
@@ -211,18 +211,18 @@
         </activity>
 
         <activity
-            android:name="com.itsite.yicommunity.main.picker.PickerActivity"
+            android:name=".main.picker.PickerActivity"
             android:launchMode="singleTop"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.web.WebActivity"
+            android:name=".web.WebActivity"
             android:launchMode="singleTop"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.qrcode.QRCodeActivity"
+            android:name=".qrcode.QRCodeActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.launch.WelcomeActivity"
+            android:name=".launch.WelcomeActivity"
             android:theme="@style/Transparent" />
 
         <service
@@ -231,38 +231,38 @@
             android:stopWithTask="false" />
 
         <activity
-            android:name="com.itsite.yicommunity.main.house.HouseActivity"
+            android:name=".main.house.HouseActivity"
             android:theme="@style/Transparent" />
         <activity
             android:name=".main.park.ParkActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.main.parking.ParkingActivity"
+            android:name=".main.parking.ParkingActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.main.parking.TempParkActivity"
+            android:name=".main.parking.TempParkActivity"
             android:theme="@style/Transparent" />
 
         <activity
-            android:name="com.itsite.yicommunity.main.publish.PropertyActivity"
+            android:name=".main.publish.PropertyActivity"
             android:theme="@style/Transparent"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.itsite.yicommunity.main.door.DoorActivity"
+            android:name=".main.door.DoorActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.main.about.AboutActivity"
+            android:name=".main.about.AboutActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.main.mypublish.MyPublishActivity"
+            android:name=".main.mypublish.MyPublishActivity"
             android:theme="@style/Transparent" />
         <activity
-            android:name="com.itsite.yicommunity.preview.PreviewActivity"
+            android:name=".preview.PreviewActivity"
             android:theme="@style/Transparent" />
 
         <!--快捷方式Activity，启动模式必须设置成singleInstance，否则主Activity存在的时候，点击快捷方式会把主Activity也带起来。-->
         <activity
-            android:name="com.itsite.yicommunity.main.mine.QuickOpenActivity"
+            android:name=".main.mine.QuickOpenActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleInstance"
@@ -287,7 +287,7 @@
             android:stopWithTask="false" />
 
         <activity
-            android:name="com.itsite.yicommunity.main.door.call.CallActivity"
+            android:name=".main.door.call.CallActivity"
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -297,7 +297,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.itsite.yicommunity.main.door.call.CallIncomingActivity"
+            android:name=".main.door.call.CallIncomingActivity"
             android:launchMode="singleTop"
             android:noHistory="true"
             android:screenOrientation="portrait">
@@ -308,7 +308,7 @@
 
         <!-- 微信支付回调页面 -->
         <activity
-            android:name="com.itsite.yicommunity.wxapi.WXPayEntryActivity"
+            android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
@@ -324,44 +324,44 @@
         </provider>
 
         <activity
-            android:name="com.itsite.yicommunity.main.message.MessageActivity"
+            android:name=".main.message.MessageActivity"
             android:exported="true"
             android:theme="@style/Transparent" />
 
         <activity
-            android:name="com.itsite.yicommunity.main.guide.GuideActivity"
+            android:name=".main.guide.GuideActivity"
             android:theme="@style/Transparent" />
 
         <!--社区服务-->
         <activity
-            android:name="com.itsite.yicommunity.main.services.ServicesActivity"
+            android:name=".main.services.ServicesActivity"
             android:launchMode="singleTop"
             android:theme="@style/Transparent" />
 
 
         <!--todo(高亮) ssssssssssssssssssssssss 以下是S1的内容 sssssssssssssssssssssssssssss-->
         <activity
-            android:name="com.itsite.s1.main.home.MainActivity"
+            android:name="com.aglhz.s1.main.home.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name="com.itsite.s1.common.clip.ClipActivity"
+            android:name="com.aglhz.s1.common.clip.ClipActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name="com.itsite.s1.net.NetActivity"
+            android:name="com.aglhz.s1.net.NetActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.itsite.s1.qrcode.ScanQRCodeActivity"
+            android:name="com.aglhz.s1.qrcode.ScanQRCodeActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name="com.itsite.s1.about.AboutActivity"
+            android:name="com.aglhz.s1.about.AboutActivity"
             android:theme="@style/AppTheme.Transparent" />
 
-        <receiver android:name="com.itsite.s1.broadcast.NetworkConnectReceiver">
+        <receiver android:name="com.aglhz.s1.broadcast.NetworkConnectReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -371,15 +371,15 @@
 
         <!--todo(高亮)ssssssssssssssssssssss 摄像头 ssssssssssssssssssssssss-->
         <activity
-            android:name="com.itsite.s1.camera.CameraPlayActivity"
+            android:name="com.aglhz.s1.camera.CameraPlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name="com.itsite.s1.camera.CameraPlay2Activity"
+            android:name="com.aglhz.s1.camera.CameraPlay2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
-        <activity android:name="com.itsite.s1.camera.PlayBackActivity" />
-        <activity android:name="com.itsite.s1.camera.CameraSettingActivity" />
+        <activity android:name="com.aglhz.s1.camera.PlayBackActivity" />
+        <activity android:name="com.aglhz.s1.camera.CameraSettingActivity" />
     </application>
 
 </manifest>
