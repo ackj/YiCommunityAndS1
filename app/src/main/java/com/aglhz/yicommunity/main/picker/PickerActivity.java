@@ -2,18 +2,19 @@ package com.aglhz.yicommunity.main.picker;
 
 import android.os.Bundle;
 
-import cn.itsite.abase.mvp.view.base.BaseActivity;
 import com.aglhz.yicommunity.R;
 import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.main.picker.view.CommunityPickerFragment;
 import com.aglhz.yicommunity.main.picker.view.ParkPickerFragment;
 
+import cn.itsite.abase.mvp.view.base.BaseActivity;
 
 /**
  * Created by Administrator on 2017/4/29 0029.
  * 选择器的父容器
  */
 public class PickerActivity extends BaseActivity {
+    public static final String TAG = PickerActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

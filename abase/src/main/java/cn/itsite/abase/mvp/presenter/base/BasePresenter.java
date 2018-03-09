@@ -3,10 +3,6 @@ package cn.itsite.abase.mvp.presenter.base;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 
-import cn.itsite.abase.common.RxManager;
-import cn.itsite.abase.log.ALog;
-import cn.itsite.abase.mvp.contract.base.BaseContract;
-
 import org.json.JSONException;
 
 import java.lang.ref.Reference;
@@ -26,7 +22,7 @@ import rx.Subscriber;
  * <p>
  * 所有Presenter类的基类，负责调度View层和Model层的交互。
  */
-public abstract class BasePresenter<V extends BaseContract.View, M extends BaseContract.Model> implements BaseContract.Presenter {
+public class BasePresenter<V extends BaseContract.View, M extends BaseContract.Model> implements BaseContract.Presenter {
     private final String TAG = BasePresenter.class.getSimpleName();
     public Reference<V> mViewReference;
     public M mModel;

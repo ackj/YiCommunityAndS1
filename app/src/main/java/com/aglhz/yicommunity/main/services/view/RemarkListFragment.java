@@ -14,19 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import cn.itsite.abase.mvp.view.base.BaseFragment;
-
+import com.aglhz.yicommunity.R;
+import com.aglhz.yicommunity.common.Constants;
 import com.aglhz.yicommunity.common.Params;
 import com.aglhz.yicommunity.entity.bean.RemarkListBean;
 import com.aglhz.yicommunity.event.EventCommunity;
-import com.aglhz.yicommunity.main.publish.CommentActivity;
-import com.aglhz.yicommunity.main.services.presenter.RemarkPresenter;
-import com.aglhz.yicommunity.R;
-import com.aglhz.yicommunity.common.Constants;
-import cn.itsite.abase.common.DialogHelper;
-
 import com.aglhz.yicommunity.event.EventRefreshRemarkList;
+import com.aglhz.yicommunity.main.publish.CommentActivity;
 import com.aglhz.yicommunity.main.services.contract.RemarkContract;
+import com.aglhz.yicommunity.main.services.presenter.RemarkPresenter;
 import com.aglhz.yicommunity.preview.PreviewActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -40,6 +36,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -95,8 +93,7 @@ public class RemarkListFragment extends BaseFragment<RemarkContract.Presenter> i
     @NonNull
     @Override
     protected RemarkContract.Presenter createPresenter() {
-        return new RemarkPresenter(this) {
-        };
+        return new RemarkPresenter(this);
     }
 
     @Nullable
